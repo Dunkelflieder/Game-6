@@ -1,8 +1,8 @@
 package client.world;
 
 import de.nerogar.engine.entity.BaseEntity;
-import de.nerogar.impact.BoundingAABB;
-import de.nerogar.spark.RenderProperties;
+import de.nerogar.physics.BoundingAABB;
+import de.nerogar.render.RenderProperties;
 import de.nerogar.util.Vector3f;
 
 public class TerrainEntity extends BaseEntity {

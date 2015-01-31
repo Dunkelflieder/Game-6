@@ -3,10 +3,10 @@ package client.world;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import client.main.MathHelper;
 import de.nerogar.engine.BaseController;
 import de.nerogar.engine.BaseWorld;
-import de.nerogar.spark.Camera;
+import de.nerogar.render.Camera;
+import de.nerogar.util.MathHelper;
 
 public class Controller extends BaseController {
 

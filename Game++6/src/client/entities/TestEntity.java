@@ -1,13 +1,9 @@
 package client.entities;
 
 import de.nerogar.engine.entity.BaseEntity;
-import de.nerogar.impact.BoundingAABB;
-import de.nerogar.spark.RenderProperties;
-import de.nerogar.spark.Texture2D;
-import de.nerogar.spark.Texture2D.InterpolationType;
-import de.nerogar.spark.TextureLoader;
-import de.nerogar.spark.WavefrontLoader;
-import de.nerogar.spark.WavefrontMesh;
+import de.nerogar.physics.BoundingAABB;
+import de.nerogar.render.*;
+import de.nerogar.render.Texture2D.InterpolationType;
 import de.nerogar.util.Vector3f;
 
 public class TestEntity extends BaseEntity {

@@ -3,8 +3,8 @@ import client.entities.TestEntity;
 import client.world.Controller;
 import client.world.World;
 import de.nerogar.engine.BaseGame;
-import de.nerogar.spark.Camera;
-import de.nerogar.spark.ScreenProperties;
+import de.nerogar.render.Camera;
+import de.nerogar.render.ScreenProperties;
 import de.nerogar.util.Vector3f;
 
 public class Game extends BaseGame {
@@ -22,7 +22,7 @@ public class Game extends BaseGame {
 		world = new World();
 		camera = new Camera();
 		controller = new Controller(world, camera);
-		properties.camera = camera;
+		properties.setCamera(camera);
 
 		display.setScreenProperties(properties, true);
 		setTargetFPS(60);

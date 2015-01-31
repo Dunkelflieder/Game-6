@@ -1,9 +1,6 @@
 package client.world;
 
-import de.nerogar.spark.RenderProperties;
-import de.nerogar.spark.Renderable;
-import de.nerogar.spark.Texture2D;
-import de.nerogar.spark.TextureLoader;
+import de.nerogar.render.*;
 
 public class Terrain extends Renderable {
 
