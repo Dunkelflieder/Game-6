@@ -11,7 +11,7 @@ public class TerrainEntity extends BaseEntity {
 	private RenderProperties renderProperties;
 	
 	public TerrainEntity(Terrain terrain) {
-		super(new BoundingAABB(new Vector3f(-terrain.getSizeX() / 2, 0, -terrain.getSizeY() / 2), new Vector3f(terrain.getSizeX() / 2, 0, terrain.getSizeY() / 2)), new Vector3f());
+		super(new BoundingAABB(new Vector3f(0, -10, 0), new Vector3f(terrain.getSizeX(), 0, terrain.getSizeY())), new Vector3f());
 		this.terrain = terrain;
 		renderProperties = new RenderProperties();
 	}

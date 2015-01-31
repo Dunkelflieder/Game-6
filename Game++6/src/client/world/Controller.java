@@ -6,15 +6,18 @@ import org.lwjgl.opengl.Display;
 import de.nerogar.engine.BaseController;
 import de.nerogar.engine.BaseWorld;
 import de.nerogar.render.Camera;
-import de.nerogar.util.MathHelper;
+import de.nerogar.util.*;
 
 public class Controller extends BaseController {
 
 	// 0 = not grabbed, 1 = grabbed for movement, 2 = grabbed for rotation
 	private byte grabbed = 0;
 
+	private InputHandler inputHandler;
+
 	public Controller(BaseWorld world, Camera camera) {
 		super(world, camera);
+		inputHandler = new InputHandler();
 	}
 
 	@Override
@@ -28,6 +31,11 @@ public class Controller extends BaseController {
 
 	@Override
 	public void update(float timeDelta) {
+		//TODO don't hardcode fov
+		inputHandler.updateMousePositions(camera, 90);
+		RayIntersection intersection = world.getPhysicsSpace().getIntersecting(inputHandler.getMouseRay());
+
+		if (intersection != null) System.out.println(intersection.intersectionPoint + " : " + intersection.intersectingBody);
 
 		if (Mouse.isButtonDown(2)) {
 

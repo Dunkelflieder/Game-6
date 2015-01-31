@@ -17,9 +17,7 @@ public class Terrain extends Renderable {
 	}
 
 	public int getSizeY() {
-		if (tiles.length == 0) {
-			return 0;
-		}
+		if (tiles.length == 0) { return 0; }
 		return tiles[0].length;
 	}
 
@@ -40,35 +38,38 @@ public class Terrain extends Renderable {
 		// Fill vertices
 		for (int x = 0; x < tiles.length; x++) {
 			for (int y = 0; y < tiles[x].length; y++) {
-				// xyz xyz xyz xyz xyz xyz
-				int i = 0;
-				float error = 0f;
-				int pos = (x * tiles.length + y) * 6 * 3;
-				vertices[pos + i++] = x + error;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + error;
 
-				vertices[pos + i++] = x + error;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + 1;
+				if (tiles[x][x] == Tile.CHROME) {
+					// xyz xyz xyz xyz xyz xyz
+					int i = 0;
+					float error = 0f;
+					int pos = (x * tiles.length + y) * 6 * 3;
+					vertices[pos + i++] = x + error;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y + error;
 
-				vertices[pos + i++] = x + 1;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + error;
+					vertices[pos + i++] = x + error;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y + 1;
 
-				vertices[pos + i++] = x + 1;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + error;
+					vertices[pos + i++] = x + 1;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y + error;
 
-				vertices[pos + i++] = x + error;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + 1;
+					vertices[pos + i++] = x + 1;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y + error;
 
-				vertices[pos + i++] = x + 1;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + 1;
-				System.out.println(vertices.length);
-				System.out.println(x * tiles.length + y + i);
+					vertices[pos + i++] = x + error;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y + 1;
+
+					vertices[pos + i++] = x + 1;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y + 1;
+					System.out.println(vertices.length);
+					System.out.println(x * tiles.length + y + i);
+				}
 			}
 		}
 

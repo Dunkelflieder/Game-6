@@ -2,6 +2,8 @@ package client.world;
 
 public enum Tile {
 
-	CHROME;
+	CHROME(),
+	REACTOR();
+	
 	
 }
