@@ -31,6 +31,7 @@ public class SenderThread extends Thread {
 				synchronized (packets) {
 
 					if (packets.isEmpty()) {
+						stream.flush();
 						packets.wait();
 					}
 					for (Packet packet : packets) {
@@ -40,12 +41,13 @@ public class SenderThread extends Thread {
 							stream.writeInt(node.length());
 							stream.write(node.toBuffer().array());
 						} catch (IOException e) {
-							System.err.println("Could not handle packet " + packet.toString());
+							System.err.println("Could not send packet " + packet.toString());
 							// e.printStackTrace();
 						}
 
 					}
 					packets.clear();
+					
 				}
 			}
 		} catch (InterruptedException e) {
@@ -55,7 +57,6 @@ public class SenderThread extends Thread {
 		} catch (IOException e) {
 			//System.err.println("DataOutputStream is unavailable in SenderThread.");
 			//e.printStackTrace();
-
 		}
 
 		stopThread();
@@ -67,7 +68,6 @@ public class SenderThread extends Thread {
 			packets.add(packet);
 			packets.notify();
 		}
-		System.out.println("Sent packet " + packet.toString());
 	}
 
 	public void stopThread() {

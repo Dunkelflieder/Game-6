@@ -3,12 +3,15 @@ package game6.networking.packets;
 import de.felk.NodeFile.NodeFile;
 
 public enum Packets {
-	CONN_INFO(1, PacketChannel.SETUP_INFO, PacketConnectionInfo.class);
+	// The first packet, ConnectionInfo, must always have ID 1 and it's own PacketChannel!
+	CONNECTION_INFO(1, PacketChannel.CONNECTION_INFO, PacketConnectionInfo.class);
 
 	private Class<? extends Packet> clazz;
 	private int id;
 	private PacketChannel channel;
 
+	public static final int NETWORKING_VERSION = 1000;
+	
 	Packets(int id, PacketChannel channel, Class<? extends Packet> clazz) {
 		this.id = id;
 		this.channel = channel;

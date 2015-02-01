@@ -32,8 +32,6 @@ public class Connection {
 		ArrayList<Packet> packets = new ArrayList<Packet>();
 		ArrayList<Packet> availablePackets = recv.getPackets();
 		synchronized (availablePackets) {
-			for (Packet a : packets)
-				System.out.println("AAA " + a.toString());
 			for (Iterator<Packet> iter = availablePackets.iterator(); iter.hasNext();) {
 				Packet p = iter.next();
 				if (Packets.byClass(p.getClass()).getChannel() == channel) {
@@ -45,7 +43,7 @@ public class Connection {
 		return packets;
 	}
 
-	public void close() {
+	public synchronized void close() {
 		recv.stopThread();
 		send.stopThread();
 		try {
@@ -57,11 +55,11 @@ public class Connection {
 		System.out.println("SHUTDOWN: Connection - " + socket.toString());
 	}
 
-	public boolean isReady() {
+	public boolean isClosed() {
 		if (socket == null) {
-			return false;
+			return true;
 		}
-		return !socket.isClosed();
+		return socket.isClosed();
 	}
 
 }
