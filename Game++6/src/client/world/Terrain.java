@@ -9,7 +9,7 @@ public class Terrain extends Renderable {
 
 	public Terrain(Tile[][] tiles) {
 		this.tiles = tiles;
-		this.texture = TextureLoader.loadTexture("res/grass.png");
+		this.texture = TextureLoader.loadTexture("res/terrain/grass.png");
 	}
 
 	public int getSizeX() {

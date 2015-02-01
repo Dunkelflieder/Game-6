@@ -4,7 +4,7 @@ import de.nerogar.render.*;
 
 public enum Tile {
 	CHROME(null, null),
-	REACTOR(WavefrontLoader.loadObject("res/entities/mesh.obj"), TextureLoader.loadTexture("res/entities/color.png"));
+	REACTOR(WavefrontLoader.loadObject("res/entities/reactor/mesh.obj"), TextureLoader.loadTexture("res/entities/reactor/color.png"));
 
 	private Renderable renderable;
 	private Texture2D texture;
