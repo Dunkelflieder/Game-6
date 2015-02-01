@@ -128,5 +128,9 @@ public class ServerThread extends Thread {
 		newConnections = new ArrayList<>();
 		return connections;
 	}
+	
+	public int getPort() {
+		return socket.getLocalPort();
+	}
 
 }
