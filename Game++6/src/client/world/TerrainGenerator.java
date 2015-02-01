@@ -1,5 +1,7 @@
 package client.world;
 
+import client.world.buildings.BuildingReactor;
+
 public class TerrainGenerator {
 
 	public static Terrain getTerrain(int sizeX, int sizeY) {
@@ -8,11 +10,20 @@ public class TerrainGenerator {
 
 		for (int x = 0; x < tiles.length; x++) {
 			for (int y = 0; y < tiles[x].length; y++) {
-				if (Math.random() > 0.01) tiles[x][y] = Tile.CHROME;
-				else tiles[x][y] = Tile.REACTOR;
+				tiles[x][y] = Tile.CHROME;
 			}
 		}
-		return new Terrain(tiles);
+
+		Terrain terrain = new Terrain(tiles);
+		for (int x = 0; x < tiles.length-1; x++) {
+			for (int y = 0; y < tiles[x].length-1; y++) {
+				if (Math.random() < 0.01) {
+					terrain.addBuilding(x, y, new BuildingReactor());
+				}
+			}
+		}
+		
+		return terrain;
 
 	}
 

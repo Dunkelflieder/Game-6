@@ -26,27 +26,26 @@ public class Controller extends BaseController {
 		camera.y = 15;
 		camera.x = 15;
 		camera.z = 15;
-		camera.pitch = 70;
+		camera.pitch = 60;
 		camera.yaw = 0;
 
 		terrain = TerrainGenerator.getTerrain(50, 50);
-		terrain.initTerrain();
-		world.spawnEntity(new TerrainEntity(terrain), new Vector3f());
+		world.spawnEntity(terrain, new Vector3f());
 	}
 
 	@Override
 	public void update(float timeDelta) {
 		//TODO don't hardcode fov
 		inputHandler.updateMousePositions(camera, 90);
-		RayIntersection intersection = world.getPhysicsSpace().getIntersecting(inputHandler.getMouseRay());
-
-		if (intersection != null && intersection.intersectionPoint.getX() < terrain.getSizeX() && intersection.intersectionPoint.getZ() < terrain.getSizeY()) {
-			System.out.print((int) intersection.intersectionPoint.getX() + " : " + (int) intersection.intersectionPoint.getZ());
-
-			Tile tile = terrain.getTile((int) intersection.intersectionPoint.getX(), (int) intersection.intersectionPoint.getZ());
-
-			System.out.println(tile);
-		}
+//		RayIntersection intersection = world.getPhysicsSpace().getIntersecting(inputHandler.getMouseRay());
+//		
+//		if (intersection != null && intersection.intersectionPoint.getX() < terrain.getSizeX() && intersection.intersectionPoint.getZ() < terrain.getSizeY()) {
+//			System.out.print((int) intersection.intersectionPoint.getX() + " : " + (int) intersection.intersectionPoint.getZ());
+//
+//			Tile tile = terrain.getTile((int) intersection.intersectionPoint.getX(), (int) intersection.intersectionPoint.getZ());
+//
+//			System.out.println(tile);
+//		}
 
 		if (Mouse.isButtonDown(2)) {
 

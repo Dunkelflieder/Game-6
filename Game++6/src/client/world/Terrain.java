@@ -1,15 +1,35 @@
 package client.world;
 
-import de.nerogar.render.*;
+import java.util.HashSet;
 
-public class Terrain extends Renderable {
+import client.world.buildings.BaseBuilding;
+import de.nerogar.engine.entity.BaseEntity;
+import de.nerogar.physics.BoundingAABB;
+import de.nerogar.render.RenderProperties;
+import de.nerogar.util.Vector3f;
+
+public class Terrain extends BaseEntity {
 
 	private Tile[][] tiles;
-	private Texture2D texture;
+	private BaseBuilding[][] buildings;
+	private TerrainMesh terrainMesh;
+	private RenderProperties renderProperties;
 
 	public Terrain(Tile[][] tiles) {
+		super(new BoundingAABB(new Vector3f(0, -10, 0), new Vector3f(tiles.length, 0, tiles.length == 0 ? 0 : tiles[0].length)), new Vector3f());
 		this.tiles = tiles;
-		this.texture = TextureLoader.loadTexture("res/terrain/grass.png");
+		this.buildings = new BaseBuilding[getSizeX()][getSizeY()];
+		this.terrainMesh = new TerrainMesh(tiles, buildings);
+		renderProperties = new RenderProperties();
+	}
+
+	public void addBuilding(int posX, int posY, BaseBuilding building) {
+		for (int x = posX; x < posX + building.getSizeX(); x++) {
+			for (int y = posY; y < posY + building.getSizeY(); y++) {
+				buildings[x][y] = building;
+			}
+		}
+		terrainMesh.reload();
 	}
 
 	public int getSizeX() {
@@ -17,8 +37,7 @@ public class Terrain extends Renderable {
 	}
 
 	public int getSizeY() {
-		if (tiles.length == 0) { return 0; }
-		return tiles[0].length;
+		return tiles.length == 0 ? 0 : tiles[0].length;
 	}
 
 	public Tile getTile(int x, int y) {
@@ -29,94 +48,30 @@ public class Terrain extends Renderable {
 		tiles[x][y] = tile;
 	}
 
-	public void initTerrain() {
+	@Override
+	public void update(float timeDelta) {
+	}
 
-		int tilesCount = getSizeX() * getSizeY();
+	@Override
+	public void render() {
+		Vector3f renderPosition = new Vector3f();
+		RenderProperties buildingRenderProperties = new RenderProperties(renderPosition, new Vector3f(), null);
 
-		// each tile is a quad with 4 vertices.
-		// But we need 2 triangles each. So 6 vertices * 3 components
-		float[] vertices = new float[tilesCount * 6 * 3];
-
-		// 1 texture coord per vertex. Only 2 components
-		float[] textures = new float[tilesCount * 6 * 2];
-
-		// 1 normal per vertex
-		float[] normals = new float[vertices.length];
-
-		// Fill vertices
-		for (int x = 0; x < tiles.length; x++) {
-			for (int y = 0; y < tiles[x].length; y++) {
-
-				if (tiles[x][y] == Tile.CHROME) {
-					// xyz xyz xyz xyz xyz xyz
-					int i = 0;
-					float error = 0f;
-					int pos = (x * tiles.length + y) * 6 * 3;
-					vertices[pos + i++] = x + error;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + error;
-
-					vertices[pos + i++] = x + error;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
-
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + error;
-
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + error;
-
-					vertices[pos + i++] = x + error;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
-
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
-					System.out.println(vertices.length);
-					System.out.println(x * tiles.length + y + i);
+		HashSet<BaseBuilding> renderedBuildings = new HashSet<>();
+		for (int x = 0; x < buildings.length; x++) {
+			for (int y = 0; y < buildings[x].length; y++) {
+				BaseBuilding building = buildings[x][y];
+				if (building != null) {
+					if (!renderedBuildings.contains(building)) {
+						renderPosition.setX(x);
+						renderPosition.setZ(y);
+						building.render(buildingRenderProperties);
+						renderedBuildings.add(building);
+					}
 				}
 			}
 		}
 
-		// Fill texture coords. Full texture for now
-		for (int i = 0; i < textures.length; i += 6 * 2) {
-			// xy xy
-			textures[i + 0] = 0;
-			textures[i + 1] = 0;
-			textures[i + 2] = 0;
-			textures[i + 3] = 1;
-			textures[i + 4] = 1;
-			textures[i + 5] = 0;
-
-			textures[i + 6] = 1;
-			textures[i + 7] = 0;
-			textures[i + 8] = 0;
-			textures[i + 9] = 1;
-			textures[i + 10] = 1;
-			textures[i + 11] = 1;
-		}
-
-		// Fill normals. Always upwards for now
-		for (int i = 0; i < normals.length; i += 3) {
-			normals[i + 0] = 0;
-			normals[i + 1] = 1;
-			normals[i + 2] = 0;
-		}
-
-		setVertexData(vertices, 3);
-		setTextureData(textures, 2);
-		setNormalData(normals, 3);
-		initVBO();
-
+		terrainMesh.render(renderProperties);
 	}
-
-	@Override
-	public void render(RenderProperties renderProperties) {
-		texture.bind();
-		super.render(renderProperties);
-	}
-
 }
