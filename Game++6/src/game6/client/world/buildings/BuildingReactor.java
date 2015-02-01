@@ -1,4 +1,4 @@
-package client.world.buildings;
+package game6.client.world.buildings;
 
 import de.nerogar.render.TextureLoader;
 import de.nerogar.render.WavefrontLoader;

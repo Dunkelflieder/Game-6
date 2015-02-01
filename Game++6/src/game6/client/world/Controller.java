@@ -1,4 +1,4 @@
-package client.world;
+package game6.client.world;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;

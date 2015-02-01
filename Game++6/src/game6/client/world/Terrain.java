@@ -1,8 +1,9 @@
-package client.world;
+package game6.client.world;
+
+import game6.client.world.buildings.BaseBuilding;
 
 import java.util.HashSet;
 
-import client.world.buildings.BaseBuilding;
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.physics.BoundingAABB;
 import de.nerogar.render.RenderProperties;

@@ -1,4 +1,6 @@
-package networking;
+package game6.networking;
+
+import game6.networking.packets.Packet;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -7,8 +9,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
-
-import networking.packets.Packet;
 
 public class ServerThread extends Thread {
 

@@ -1,4 +1,4 @@
-package client.world.buildings;
+package game6.client.world.buildings;
 
 import de.nerogar.render.RenderProperties;
 import de.nerogar.render.Renderable;

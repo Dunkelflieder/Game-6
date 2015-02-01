@@ -1,4 +1,7 @@
-package networking;
+package game6.networking;
+
+import game6.networking.packets.Packet;
+import game6.networking.packets.Packets;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -7,8 +10,6 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import networking.packets.Packet;
-import networking.packets.Packets;
 import de.felk.NodeFile.NoSuchNodeException;
 import de.felk.NodeFile.NodeFile;
 

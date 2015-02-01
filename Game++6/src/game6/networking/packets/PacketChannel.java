@@ -1,4 +1,4 @@
-package networking.packets;
+package game6.networking.packets;
 
 public enum PacketChannel {
 	SETUP_INFO(0), MAP(1), GAME(2);

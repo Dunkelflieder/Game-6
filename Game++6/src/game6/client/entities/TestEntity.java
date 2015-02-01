@@ -1,4 +1,4 @@
-package client.entities;
+package game6.client.entities;
 
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.physics.BoundingAABB;

@@ -1,4 +1,4 @@
-package client.world;
+package game6.client.world;
 import de.nerogar.engine.BaseWorld;
 import de.nerogar.util.Vector3f;
 

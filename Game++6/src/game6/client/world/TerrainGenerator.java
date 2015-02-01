@@ -1,6 +1,6 @@
-package client.world;
+package game6.client.world;
 
-import client.world.buildings.BuildingReactor;
+import game6.client.world.buildings.BuildingReactor;
 
 public class TerrainGenerator {
 

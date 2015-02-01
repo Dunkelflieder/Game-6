@@ -1,6 +1,6 @@
-package client.world;
+package game6.client.world;
 
-import client.world.buildings.BaseBuilding;
+import game6.client.world.buildings.BaseBuilding;
 import de.nerogar.render.*;
 
 public class TerrainMesh extends Renderable {

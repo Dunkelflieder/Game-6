@@ -1,4 +1,4 @@
-package networking.packets;
+package game6.networking.packets;
 
 import de.felk.NodeFile.NodeFile;
 

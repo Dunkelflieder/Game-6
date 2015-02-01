@@ -1,8 +1,8 @@
-package client.main;
+package game6.client.main;
 
-import client.entities.TestEntity;
-import client.world.Controller;
-import client.world.World;
+import game6.client.entities.TestEntity;
+import game6.client.world.Controller;
+import game6.client.world.World;
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.Camera;
 import de.nerogar.render.ScreenProperties;

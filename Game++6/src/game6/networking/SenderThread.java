@@ -1,12 +1,13 @@
-package networking;
+package game6.networking;
+
+import game6.networking.packets.Packet;
+import game6.networking.packets.Packets;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import networking.packets.Packet;
-import networking.packets.Packets;
 import de.felk.NodeFile.NodeFile;
 
 public class SenderThread extends Thread {

@@ -1,4 +1,4 @@
-package client.main;
+package game6.client.main;
 
 public class Main {
 

@@ -1,6 +1,6 @@
-package networking.packets;
+package game6.networking.packets;
 
-import networking.Loadable;
+import game6.networking.Loadable;
 import de.felk.NodeFile.NodeFile;
 
 public abstract class Packet implements Loadable {
