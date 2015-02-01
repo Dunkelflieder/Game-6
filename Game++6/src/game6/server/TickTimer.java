@@ -3,11 +3,13 @@ package game6.server;
 public class TickTimer {
 
 	public final int TICKRATE;
+	private final double tickTime;
 	private long ticks;
 	private long lastMillis;
 
 	public TickTimer(int tickrate) {
 		this.TICKRATE = tickrate;
+		this.tickTime = 1000d / TICKRATE;
 	}
 
 	/**
@@ -15,7 +17,7 @@ public class TickTimer {
 	 */
 	public void start() {
 		this.ticks = 0;
-		this.lastMillis = System.currentTimeMillis();
+		this.lastMillis = now();
 	}
 
 	/**
@@ -27,14 +29,16 @@ public class TickTimer {
 		doDelay();
 	}
 
+	private long now() {
+		return System.nanoTime() / 1_000_000;
+	}
+
 	private void doDelay() {
 
-		long elapsed = System.currentTimeMillis() - lastMillis;
+		long elapsed = now() - lastMillis;
 
-		double tickLength = 1000d / TICKRATE;
+		double tickLength = 1_000d / TICKRATE;
 		int waitFor = (int) (tickLength - elapsed);
-
-		System.out.println("Waiting " + waitFor + " ms");
 
 		if (waitFor < 0) {
 			System.out.println("Can't keep up! Did the system time change, or is the server overloaded? Running " + (-waitFor) + "ms behind. Server logic is slowed down.");
@@ -46,7 +50,7 @@ public class TickTimer {
 			e.printStackTrace();
 		}
 
-		lastMillis = System.currentTimeMillis();
+		lastMillis = now();
 
 	}
 
