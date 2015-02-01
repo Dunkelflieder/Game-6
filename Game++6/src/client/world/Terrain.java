@@ -21,6 +21,14 @@ public class Terrain extends Renderable {
 		return tiles[0].length;
 	}
 
+	public Tile getTile(int x, int y) {
+		return tiles[x][y];
+	}
+
+	public void setTile(int x, int y, Tile tile) {
+		tiles[x][y] = tile;
+	}
+
 	public void initTerrain() {
 
 		int tilesCount = getSizeX() * getSizeY();
@@ -39,7 +47,7 @@ public class Terrain extends Renderable {
 		for (int x = 0; x < tiles.length; x++) {
 			for (int y = 0; y < tiles[x].length; y++) {
 
-				if (tiles[x][x] == Tile.CHROME) {
+				if (tiles[x][y] == Tile.CHROME) {
 					// xyz xyz xyz xyz xyz xyz
 					int i = 0;
 					float error = 0f;

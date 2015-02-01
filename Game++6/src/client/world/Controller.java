@@ -14,6 +14,7 @@ public class Controller extends BaseController {
 	private byte grabbed = 0;
 
 	private InputHandler inputHandler;
+	private Terrain terrain;
 
 	public Controller(BaseWorld world, Camera camera) {
 		super(world, camera);
@@ -27,6 +28,10 @@ public class Controller extends BaseController {
 		camera.z = 15;
 		camera.pitch = 70;
 		camera.yaw = 0;
+
+		terrain = TerrainGenerator.getTerrain(50, 50);
+		terrain.initTerrain();
+		world.spawnEntity(new TerrainEntity(terrain), new Vector3f());
 	}
 
 	@Override
@@ -35,7 +40,13 @@ public class Controller extends BaseController {
 		inputHandler.updateMousePositions(camera, 90);
 		RayIntersection intersection = world.getPhysicsSpace().getIntersecting(inputHandler.getMouseRay());
 
-		if (intersection != null) System.out.println(intersection.intersectionPoint + " : " + intersection.intersectingBody);
+		if (intersection != null && intersection.intersectionPoint.getX() < terrain.getSizeX() && intersection.intersectionPoint.getZ() < terrain.getSizeY()) {
+			System.out.print((int) intersection.intersectionPoint.getX() + " : " + (int) intersection.intersectionPoint.getZ());
+
+			Tile tile = terrain.getTile((int) intersection.intersectionPoint.getX(), (int) intersection.intersectionPoint.getZ());
+
+			System.out.println(tile);
+		}
 
 		if (Mouse.isButtonDown(2)) {
 

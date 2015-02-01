@@ -1,4 +1,5 @@
 package client.main;
+
 import client.entities.TestEntity;
 import client.world.Controller;
 import client.world.World;
@@ -16,7 +17,6 @@ public class Game extends BaseGame {
 
 	@Override
 	public void startup() {
-
 		properties = new ScreenProperties(90, false);
 
 		world = new World();
