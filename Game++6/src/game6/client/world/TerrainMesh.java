@@ -42,7 +42,7 @@ public class TerrainMesh extends Renderable {
 				if (buildings[x][y] == null) {
 					// xyz xyz xyz xyz xyz xyz
 					int i = 0;
-					float error = 0.05f;
+					float error = 0.0f;
 					int pos = (x * tiles.length + y) * 6 * 3;
 					vertices[pos + i++] = x + error;
 					vertices[pos + i++] = 0;

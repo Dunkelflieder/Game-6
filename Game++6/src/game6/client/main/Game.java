@@ -1,6 +1,7 @@
 package game6.client.main;
 
 import game6.client.entities.TestEntity;
+import game6.client.gui.components.Button;
 import game6.client.world.Controller;
 import game6.client.world.World;
 import de.nerogar.engine.BaseGame;
@@ -13,18 +14,26 @@ public class Game extends BaseGame {
 	private Controller controller;
 	private World world = new World();
 	private Camera camera;
-	private ScreenProperties properties;
+	private ScreenProperties worldProperties;
+	private ScreenProperties guiProperties;
+
+	private Button button = new Button("Hallo");
 
 	@Override
 	public void startup() {
-		properties = new ScreenProperties(90, false);
+		worldProperties = new ScreenProperties(90, false);
+		guiProperties = new ScreenProperties(90, true);
+
+		button.setSize(300, 100);
+		button.addButtonClickedListener(b -> System.out.println("Button clicked. Mouse button: " + b));
 
 		world = new World();
 		camera = new Camera();
 		controller = new Controller(world, camera);
-		properties.setCamera(camera);
+		worldProperties.setCamera(camera);
+		guiProperties.setCamera(new Camera());
 
-		display.setScreenProperties(properties, true);
+		display.setScreenProperties(worldProperties, true);
 		setTargetFPS(60);
 
 		world.spawnEntity(new TestEntity(), new Vector3f(0));
@@ -34,12 +43,15 @@ public class Game extends BaseGame {
 	protected void update(float timeDelta) {
 		controller.update(timeDelta);
 		world.update(timeDelta);
+		button.update();
 	}
 
 	@Override
 	protected void render() {
-		display.setScreenProperties(properties, true);
+		display.setScreenProperties(worldProperties, true);
 		world.render();
+		display.setScreenProperties(guiProperties, false);
+		button.render();
 	}
 
 	@Override
