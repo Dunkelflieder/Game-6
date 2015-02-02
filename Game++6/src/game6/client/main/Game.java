@@ -17,14 +17,14 @@ public class Game extends BaseGame {
 	private ScreenProperties worldProperties;
 	private ScreenProperties guiProperties;
 
-	private Button button = new Button("Hallo");
+	private Button button = new Button("Hallo Welt TT ASDWREZfshg");
 
 	@Override
 	public void startup() {
 		worldProperties = new ScreenProperties(90, false);
 		guiProperties = new ScreenProperties(90, true);
 
-		button.setSize(300, 100);
+		button.setSize(550, 100);
 		button.addButtonClickedListener(b -> System.out.println("Button clicked. Mouse button: " + b));
 
 		world = new World();
