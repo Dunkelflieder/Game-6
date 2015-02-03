@@ -24,6 +24,15 @@ public class Terrain extends BaseEntity {
 		renderProperties = new RenderProperties();
 	}
 
+	public boolean canAddBuilding(int posX, int posY, BaseBuilding building) {
+		for (int x = posX; x < posX + building.getSizeX(); x++) {
+			for (int y = posY; y < posY + building.getSizeY(); y++) {
+				if (buildings[x][y] != null) return false;
+			}
+		}
+		return true;
+	}
+
 	public void addBuilding(int posX, int posY, BaseBuilding building) {
 		for (int x = posX; x < posX + building.getSizeX(); x++) {
 			for (int y = posY; y < posY + building.getSizeY(); y++) {

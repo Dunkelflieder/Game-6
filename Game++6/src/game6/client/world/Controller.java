@@ -1,5 +1,12 @@
 package game6.client.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import game6.client.entities.EntityFighting;
+import game6.client.world.buildings.BaseBuilding;
+import game6.client.world.buildings.BuildingReactor;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
@@ -16,9 +23,13 @@ public class Controller extends BaseController {
 	private InputHandler inputHandler;
 	private Terrain terrain;
 
+	private List<EntityFighting> ownEntities;
+
 	public Controller(BaseWorld world, Camera camera) {
 		super(world, camera);
 		inputHandler = new InputHandler();
+
+		ownEntities = new ArrayList<EntityFighting>();
 	}
 
 	@Override
@@ -36,16 +47,19 @@ public class Controller extends BaseController {
 	@Override
 	public void update(float timeDelta) {
 		//TODO don't hardcode fov
+		
 		inputHandler.updateMousePositions(camera, 90);
-//		RayIntersection intersection = world.getPhysicsSpace().getIntersecting(inputHandler.getMouseRay());
-//		
-//		if (intersection != null && intersection.intersectionPoint.getX() < terrain.getSizeX() && intersection.intersectionPoint.getZ() < terrain.getSizeY()) {
-//			System.out.print((int) intersection.intersectionPoint.getX() + " : " + (int) intersection.intersectionPoint.getZ());
-//
-//			Tile tile = terrain.getTile((int) intersection.intersectionPoint.getX(), (int) intersection.intersectionPoint.getZ());
-//
-//			System.out.println(tile);
-//		}
+		RayIntersection intersection = world.getPhysicsSpace().getIntersecting(inputHandler.getMouseRay());
+
+		if (intersection != null && intersection.intersectionPoint.getX() < terrain.getSizeX() && intersection.intersectionPoint.getZ() < terrain.getSizeY()) {
+			int clickX = (int) intersection.intersectionPoint.getX();
+			int clickY = (int) intersection.intersectionPoint.getZ();
+
+			//Tile tile = terrain.getTile((int) intersection.intersectionPoint.getX(), (int) intersection.intersectionPoint.getZ());
+
+			BaseBuilding reactor = new BuildingReactor();
+			if (Mouse.isButtonDown(0) && terrain.canAddBuilding(clickX, clickY, reactor)) terrain.addBuilding(clickX, clickY, reactor);
+		}
 
 		if (Mouse.isButtonDown(2)) {
 
