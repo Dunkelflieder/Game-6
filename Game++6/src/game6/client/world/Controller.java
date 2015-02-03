@@ -21,7 +21,6 @@ public class Controller extends BaseController {
 	private byte grabbed = 0;
 
 	private InputHandler inputHandler;
-	private Terrain terrain;
 
 	private List<EntityFighting> ownEntities;
 
@@ -39,9 +38,6 @@ public class Controller extends BaseController {
 		camera.z = 15;
 		camera.pitch = 60;
 		camera.yaw = 0;
-
-		terrain = TerrainGenerator.getTerrain(50, 50);
-		world.spawnEntity(terrain, new Vector3f());
 	}
 
 	@Override
@@ -51,15 +47,17 @@ public class Controller extends BaseController {
 		inputHandler.updateMousePositions(camera, 90);
 		RayIntersection intersection = world.getPhysicsSpace().getIntersecting(inputHandler.getMouseRay());
 
-		if (intersection != null && intersection.intersectionPoint.getX() < terrain.getSizeX() && intersection.intersectionPoint.getZ() < terrain.getSizeY()) {
+		/*if (intersection != null && intersection.intersectionPoint.getX() < terrain.getSizeX() && intersection.intersectionPoint.getZ() < terrain.getSizeY()) {
 			int clickX = (int) intersection.intersectionPoint.getX();
 			int clickY = (int) intersection.intersectionPoint.getZ();
 
 			//Tile tile = terrain.getTile((int) intersection.intersectionPoint.getX(), (int) intersection.intersectionPoint.getZ());
 
 			BaseBuilding reactor = new BuildingReactor();
-			if (Mouse.isButtonDown(0) && terrain.canAddBuilding(clickX, clickY, reactor)) terrain.addBuilding(clickX, clickY, reactor);
-		}
+
+			
+			if (Mouse.isButtonDown(0) && world.canAddBuilding(clickX, clickY, reactor)) world.addBuilding(clickX, clickY, reactor);
+		}*/
 
 		if (Mouse.isButtonDown(2)) {
 

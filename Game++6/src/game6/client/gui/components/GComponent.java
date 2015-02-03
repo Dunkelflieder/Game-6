@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
-public abstract class Component {
+import de.nerogar.render.RenderProperties;
+
+public abstract class GComponent {
 
 	private int posX, posY, sizeX, sizeY;
 	private boolean consumesInput;
@@ -17,7 +19,7 @@ public abstract class Component {
 
 	private List<MouseListener> mouseListener = new ArrayList<>();
 
-	public Component() {
+	public GComponent() {
 		setPos(0, 0);
 		setSize(0, 0);
 		setConsumesInput(false);
@@ -106,7 +108,7 @@ public abstract class Component {
 
 	}
 	
-	public abstract void render();
+	public abstract void render(int offsetX, int offsetY);
 
 	// //////////
 
