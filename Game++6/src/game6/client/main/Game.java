@@ -22,7 +22,9 @@ public class Game extends BaseGame {
 	@Override
 	public void startup() {
 		worldProperties = new ScreenProperties(90, false);
+		worldProperties.setDepthTest(true);
 		guiProperties = new ScreenProperties(90, true);
+		guiProperties.setDepthTest(false);
 
 		button.setSize(550, 100);
 		button.addButtonClickedListener(b -> System.out.println("Button clicked. Mouse button: " + b));
@@ -31,7 +33,6 @@ public class Game extends BaseGame {
 		camera = new Camera();
 		controller = new Controller(world, camera);
 		worldProperties.setCamera(camera);
-		guiProperties.setCamera(new Camera());
 
 		display.setScreenProperties(worldProperties, true);
 		setTargetFPS(60);

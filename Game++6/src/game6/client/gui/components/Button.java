@@ -70,9 +70,8 @@ public class Button extends Component implements MouseListener {
 
 		glEnd();
 
-		glDisable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		font.render(getPosX(), getPosY(), getText());
 	}
 
