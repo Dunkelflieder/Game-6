@@ -1,6 +1,8 @@
 package game6.client.world;
 
 import game6.client.world.buildings.BaseBuilding;
+import game6.core.CoreMap;
+import game6.core.Tile;
 
 import java.util.HashSet;
 
@@ -9,53 +11,42 @@ import de.nerogar.physics.BoundingAABB;
 import de.nerogar.render.RenderProperties;
 import de.nerogar.util.Vector3f;
 
-public class Terrain extends BaseEntity {
+public class Map extends BaseEntity {
 
-	private Tile[][] tiles;
-	private BaseBuilding[][] buildings;
-	private TerrainMesh terrainMesh;
+	private CoreMap core;
+	private MapMesh terrainMesh;
 	private RenderProperties renderProperties;
 
-	public Terrain(Tile[][] tiles) {
-		super(new BoundingAABB(new Vector3f(0, -10, 0), new Vector3f(tiles.length, 0, tiles.length == 0 ? 0 : tiles[0].length)), new Vector3f());
-		this.tiles = tiles;
-		this.buildings = new BaseBuilding[getSizeX()][getSizeY()];
-		this.terrainMesh = new TerrainMesh(tiles, buildings);
+	public Map(CoreMap core) {
+		super(new BoundingAABB(new Vector3f(0, -10, 0), new Vector3f(core.getSizeX(), 0, core.getSizeY())), new Vector3f());
+		this.core = core;
+		this.terrainMesh = new MapMesh(core);
 		renderProperties = new RenderProperties();
 	}
 
 	public boolean canAddBuilding(int posX, int posY, BaseBuilding building) {
-		for (int x = posX; x < posX + building.getSizeX(); x++) {
-			for (int y = posY; y < posY + building.getSizeY(); y++) {
-				if (buildings[x][y] != null) return false;
-			}
-		}
-		return true;
+		return core.canAddBuilding(posX, posY, building);
 	}
 
 	public void addBuilding(int posX, int posY, BaseBuilding building) {
-		for (int x = posX; x < posX + building.getSizeX(); x++) {
-			for (int y = posY; y < posY + building.getSizeY(); y++) {
-				buildings[x][y] = building;
-			}
-		}
+		core.addBuilding(posX, posY, building);
 		terrainMesh.reload();
 	}
 
 	public int getSizeX() {
-		return tiles.length;
+		return core.getSizeX();
 	}
 
 	public int getSizeY() {
-		return tiles.length == 0 ? 0 : tiles[0].length;
+		return core.getSizeY();
 	}
 
 	public Tile getTile(int x, int y) {
-		return tiles[x][y];
+		return core.getTile(x, y);
 	}
 
 	public void setTile(int x, int y, Tile tile) {
-		tiles[x][y] = tile;
+		core.setTile(x, y, tile);
 	}
 
 	@Override
@@ -68,9 +59,9 @@ public class Terrain extends BaseEntity {
 		RenderProperties buildingRenderProperties = new RenderProperties(renderPosition, new Vector3f(), null);
 
 		HashSet<BaseBuilding> renderedBuildings = new HashSet<>();
-		for (int x = 0; x < buildings.length; x++) {
-			for (int y = 0; y < buildings[x].length; y++) {
-				BaseBuilding building = buildings[x][y];
+		for (int x = 0; x < core.getBuildings().length; x++) {
+			for (int y = 0; y < core.getBuildings()[x].length; y++) {
+				BaseBuilding building = (BaseBuilding) core.getBuildings()[x][y];
 				if (building != null) {
 					if (!renderedBuildings.contains(building)) {
 						renderPosition.setX(x);

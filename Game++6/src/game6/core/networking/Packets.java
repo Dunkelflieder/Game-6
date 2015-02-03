@@ -1,10 +1,14 @@
-package game6.networking.packets;
+package game6.core.networking;
 
+import game6.core.networking.packets.Packet;
+import game6.core.networking.packets.PacketConnectionInfo;
+import game6.core.networking.packets.PacketMap;
 import de.felk.NodeFile.NodeFile;
 
 public enum Packets {
 	// The first packet, ConnectionInfo, must always have ID 1 and it's own PacketChannel!
-	CONNECTION_INFO(1, PacketChannel.CONNECTION_INFO, PacketConnectionInfo.class);
+	CONNECTION_INFO(1, PacketChannel.CONNECTION_INFO, PacketConnectionInfo.class),
+	MAP(2, PacketChannel.MAP, PacketMap.class);
 
 	private Class<? extends Packet> clazz;
 	private int id;

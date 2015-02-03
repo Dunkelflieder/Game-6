@@ -1,4 +1,4 @@
-package game6.networking.packets;
+package game6.core.networking;
 
 public enum PacketChannel {
 	// Don't use CONNECTION_INFO for anything except ConnectionInfo!

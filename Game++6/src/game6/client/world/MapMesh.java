@@ -1,19 +1,20 @@
 package game6.client.world;
 
-import game6.client.world.buildings.BaseBuilding;
-import de.nerogar.render.*;
+import game6.core.CoreMap;
+import de.nerogar.render.RenderProperties;
+import de.nerogar.render.Renderable;
+import de.nerogar.render.Texture2D;
+import de.nerogar.render.TextureLoader;
 
-public class TerrainMesh extends Renderable {
+public class MapMesh extends Renderable {
 
 	private Texture2D texture;
-	private Tile[][] tiles;
-	private BaseBuilding[][] buildings;
+	private CoreMap map;
 	private boolean vboDirty = true;
 
-	public TerrainMesh(Tile[][] tiles, BaseBuilding[][] buildings) {
+	public MapMesh(CoreMap map) {
 		this.texture = TextureLoader.loadTexture("res/terrain/chrome.png");
-		this.tiles = tiles;
-		this.buildings = buildings;
+		this.map = map;
 		reload();
 	}
 
@@ -23,7 +24,7 @@ public class TerrainMesh extends Renderable {
 
 	public void reloadVBO() {
 
-		int tilesCount = tiles.length * (tiles.length == 0 ? 0 : tiles[0].length);
+		int tilesCount = map.getSizeX() * map.getSizeY();
 
 		// each tile is a quad with 4 vertices.
 		// But we need 2 triangles each. So 6 vertices * 3 components
@@ -36,14 +37,14 @@ public class TerrainMesh extends Renderable {
 		float[] normals = new float[vertices.length];
 
 		// Fill vertices
-		for (int x = 0; x < tiles.length; x++) {
-			for (int y = 0; y < tiles[x].length; y++) {
+		for (int x = 0; x < map.getSizeX(); x++) {
+			for (int y = 0; y < map.getSizeY(); y++) {
 
-				if (buildings[x][y] == null) {
+				if (map.getBuildings()[x][y] == null) {
 					// xyz xyz xyz xyz xyz xyz
 					int i = 0;
 					float error = 0.0f;
-					int pos = (x * tiles.length + y) * 6 * 3;
+					int pos = (x * map.getSizeX() + y) * 6 * 3;
 					vertices[pos + i++] = x + error;
 					vertices[pos + i++] = 0;
 					vertices[pos + i++] = y + error;

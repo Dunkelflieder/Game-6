@@ -7,8 +7,6 @@ import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
-import de.nerogar.render.RenderProperties;
-
 public abstract class GComponent {
 
 	private int posX, posY, sizeX, sizeY;

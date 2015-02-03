@@ -3,7 +3,7 @@ package game6.client.world;
 import java.util.ArrayList;
 import java.util.List;
 
-import game6.client.entities.EntityFighting;
+//import game6.client.entities.EntityFighting;
 import game6.client.world.buildings.BaseBuilding;
 import game6.client.world.buildings.BuildingReactor;
 
@@ -22,13 +22,13 @@ public class Controller extends BaseController {
 
 	private InputHandler inputHandler;
 
-	private List<EntityFighting> ownEntities;
+	//private List<EntityFighting> ownEntities;
 
 	public Controller(BaseWorld world, Camera camera) {
 		super(world, camera);
 		inputHandler = new InputHandler();
 
-		ownEntities = new ArrayList<EntityFighting>();
+		//ownEntities = new ArrayList<EntityFighting>();
 	}
 
 	@Override

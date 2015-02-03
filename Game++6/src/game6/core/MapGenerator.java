@@ -1,10 +1,10 @@
-package game6.client.world;
+package game6.core;
 
 import game6.client.world.buildings.BuildingReactor;
 
-public class TerrainGenerator {
+public class MapGenerator {
 
-	public static Terrain getTerrain(int sizeX, int sizeY) {
+	public static CoreMap getMap(int sizeX, int sizeY) {
 
 		Tile[][] tiles = new Tile[sizeX][sizeY];
 
@@ -14,16 +14,18 @@ public class TerrainGenerator {
 			}
 		}
 
-		Terrain terrain = new Terrain(tiles);
+		CoreMap map = new CoreMap(tiles);
 		for (int x = 0; x < tiles.length-1; x++) {
 			for (int y = 0; y < tiles[x].length-1; y++) {
 				if (Math.random() < 0.01) {
-					terrain.addBuilding(x, y, new BuildingReactor());
+					// TODO remove any references to non-core classes! Use core Classes.
+					// The following line causes the server to crash, because it causes OpenGL stuff.
+					//map.addBuilding(x, y, new BuildingReactor());
 				}
 			}
 		}
 		
-		return terrain;
+		return map;
 
 	}
 

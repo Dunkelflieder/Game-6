@@ -1,9 +1,7 @@
-package game6.networking;
+package game6.core.networking;
 
-import game6.networking.packets.Packet;
-import game6.networking.packets.PacketChannel;
-import game6.networking.packets.PacketConnectionInfo;
-import game6.networking.packets.Packets;
+import game6.core.networking.packets.Packet;
+import game6.core.networking.packets.PacketConnectionInfo;
 
 import java.io.IOException;
 import java.net.BindException;

@@ -1,7 +1,6 @@
-package game6.networking;
+package game6.core.networking;
 
-import game6.networking.packets.Packet;
-import game6.networking.packets.Packets;
+import game6.core.networking.packets.Packet;
 
 import java.io.DataInputStream;
 import java.io.IOException;
