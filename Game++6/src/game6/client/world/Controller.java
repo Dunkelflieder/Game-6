@@ -14,7 +14,6 @@ public class Controller extends BaseController {
 	private byte grabbed = 0;
 
 	private InputHandler inputHandler;
-	private Terrain terrain;
 
 	public Controller(BaseWorld world, Camera camera) {
 		super(world, camera);
@@ -28,9 +27,6 @@ public class Controller extends BaseController {
 		camera.z = 15;
 		camera.pitch = 60;
 		camera.yaw = 0;
-
-		terrain = TerrainGenerator.getTerrain(50, 50);
-		world.spawnEntity(terrain, new Vector3f());
 	}
 
 	@Override

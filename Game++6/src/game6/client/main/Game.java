@@ -1,7 +1,9 @@
 package game6.client.main;
 
+import java.awt.Color;
+
 import game6.client.entities.TestEntity;
-import game6.client.gui.components.Button;
+import game6.client.gui.components.GButton;
 import game6.client.world.Controller;
 import game6.client.world.World;
 import de.nerogar.engine.BaseGame;
@@ -13,11 +15,10 @@ public class Game extends BaseGame {
 
 	private Controller controller;
 	private World world = new World();
-	private Camera camera;
 	private ScreenProperties worldProperties;
 	private ScreenProperties guiProperties;
 
-	private Button button = new Button("Hallo Welt TT ASDWREZfshg");
+	private GButton button = new GButton("Hallo Welt TT ASDWREZfshg");
 
 	@Override
 	public void startup() {
@@ -28,9 +29,10 @@ public class Game extends BaseGame {
 
 		button.setSize(550, 100);
 		button.addButtonClickedListener(b -> System.out.println("Button clicked. Mouse button: " + b));
+		button.text.setColor(Color.RED);
 
 		world = new World();
-		camera = new Camera();
+		Camera camera = new Camera();
 		controller = new Controller(world, camera);
 		worldProperties.setCamera(camera);
 
@@ -52,7 +54,7 @@ public class Game extends BaseGame {
 		display.setScreenProperties(worldProperties, true);
 		world.render();
 		display.setScreenProperties(guiProperties, false);
-		button.render();
+		button.render(0, 0);
 	}
 
 	@Override
