@@ -29,6 +29,7 @@ public class Controller {
 			PacketMap packet = new PacketMap(world.getMap().getCore());
 			for (Connection conn : conns) {
 				conn.send(packet);
+				world.addPlayer(conn);
 			}
 		}
 

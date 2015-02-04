@@ -1,10 +1,11 @@
 package game6.client.world;
 
-import game6.client.world.buildings.BaseBuilding;
+import game6.client.buildings.BaseBuilding;
 import game6.core.CoreMap;
 import game6.core.Tile;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.physics.BoundingAABB;
@@ -16,20 +17,25 @@ public class Map extends BaseEntity {
 	private CoreMap core;
 	private MapMesh terrainMesh;
 	private RenderProperties renderProperties;
+	private List<BaseBuilding> buildings;
 
 	public Map(CoreMap core) {
 		super(new BoundingAABB(new Vector3f(0, -10, 0), new Vector3f(core.getSizeX(), 0, core.getSizeY())), new Vector3f());
 		this.core = core;
 		this.terrainMesh = new MapMesh(core);
+		buildings = new ArrayList<>();
 		renderProperties = new RenderProperties();
 	}
 
 	public boolean canAddBuilding(int posX, int posY, BaseBuilding building) {
-		return core.canAddBuilding(posX, posY, building);
+		return core.canAddBuilding(posX, posY, building.getCore());
 	}
 
 	public void addBuilding(int posX, int posY, BaseBuilding building) {
-		core.addBuilding(posX, posY, building);
+		building.setPosX(posX);
+		building.setPosY(posY);
+		buildings.add(building);
+		core.addBuilding(posX, posY, building.getCore());
 		terrainMesh.reload();
 	}
 
@@ -55,25 +61,10 @@ public class Map extends BaseEntity {
 
 	@Override
 	public void render() {
-		Vector3f renderPosition = new Vector3f();
-		RenderProperties buildingRenderProperties = new RenderProperties(renderPosition, new Vector3f(), null);
-
-		HashSet<BaseBuilding> renderedBuildings = new HashSet<>();
-		for (int x = 0; x < core.getBuildings().length; x++) {
-			for (int y = 0; y < core.getBuildings()[x].length; y++) {
-				BaseBuilding building = (BaseBuilding) core.getBuildings()[x][y];
-				if (building != null) {
-					if (!renderedBuildings.contains(building)) {
-						renderPosition.setX(x);
-						renderPosition.setZ(y);
-						building.render(buildingRenderProperties);
-						renderedBuildings.add(building);
-					}
-				}
-			}
-		}
-
 		terrainMesh.render(renderProperties);
+		for (BaseBuilding building : buildings) {
+			building.render();
+		}
 	}
 
 }

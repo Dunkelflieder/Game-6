@@ -1,5 +1,7 @@
 package game6.core;
 
+import game6.core.buildings.CoreBuilding;
+
 public class CoreMap {
 
 	private Tile[][] tiles;

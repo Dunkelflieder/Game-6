@@ -19,7 +19,7 @@ public class Game extends BaseGame {
 
 	private GButton button = new GButton("Connect to local server.");
 	private GButton button2 = new GButton("Place building");
-	
+
 	@Override
 	public void startup() {
 		worldProperties = new ScreenProperties(90, false);
