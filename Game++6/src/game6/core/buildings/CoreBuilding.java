@@ -7,8 +7,8 @@ public abstract class CoreBuilding {
 	public CoreBuilding(int sizeX, int sizeY) {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
-		this.posX = -1;
-		this.posY = -1;
+		this.posX = 0;
+		this.posY = 0;
 	}
 
 	public int getSizeX() {

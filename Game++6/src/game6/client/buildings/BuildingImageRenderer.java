@@ -8,11 +8,11 @@ public class BuildingImageRenderer {
 	private static ScreenProperties screenProperties;
 	private static Camera guiTextureCam;
 
-	public static Texture2D renderBuildingImage(GameDisplay display, BaseBuilding building) {
+	public static Texture2D render(GameDisplay display, BaseBuilding building) {
 		guiTextureCam = new Camera();
-		guiTextureCam.x = 1;
-		guiTextureCam.y = 2;
-		guiTextureCam.z = 3;
+		guiTextureCam.x = building.getSizeX() / 2f;
+		guiTextureCam.y = 1.0f;
+		guiTextureCam.z = building.getSizeY() + 0.5f;
 		guiTextureCam.pitch = 30;
 
 		renderTarget = new RenderTarget(new Texture2D("color", 0, 0));
@@ -27,6 +27,8 @@ public class BuildingImageRenderer {
 		display.setScreenProperties(screenProperties, true);
 
 		building.render();
+
+		System.out.println("abc: " + building.getPosX());
 
 		Texture2D buildingImage = renderTarget.getTexture("color");
 		renderTarget.removeTexture("color");
