@@ -3,6 +3,7 @@ package game6.client.main;
 import org.lwjgl.opengl.Display;
 
 import game6.client.entities.TestEntity;
+import game6.client.gui.GuiStart;
 import game6.client.gui.Guis;
 import game6.client.world.Controller;
 import game6.client.world.World;
@@ -33,6 +34,7 @@ public class Game extends BaseGame {
 		controller = new Controller(world, camera);
 		worldProperties.setCamera(camera);
 		
+		GuiStart.instance.useThisDisplay(display);
 		Guis.resize(Display.getWidth(), Display.getHeight());
 		display.addDisplayResizeListener((width, height) -> {
 			Guis.resize(width, height);

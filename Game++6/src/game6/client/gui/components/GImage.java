@@ -15,6 +15,10 @@ public class GImage extends GComponent {
 	public GImage(String filename) {
 		texture = TextureLoader.loadTexture(filename);
 	}
+	
+	public GImage(Texture2D texture) {
+		this.texture = texture;
+	}
 
 	@Override
 	public void render(int offsetX, int offsetY) {

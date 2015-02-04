@@ -1,16 +1,23 @@
 package game6.client.gui;
 
+import game6.client.buildings.BuildingImageRenderer;
+import game6.client.buildings.BuildingReactor;
 import game6.client.gui.components.GButton;
+import game6.client.gui.components.GImage;
 import game6.client.gui.components.GLabel;
 import game6.client.gui.components.listener.ButtonClickedListener;
 
 import java.awt.Color;
+
+import de.nerogar.render.GameDisplay;
 
 public class GuiStart extends Gui {
 
 	public static GuiStart instance = new GuiStart();
 	private GLabel title;
 	private GButton buttonConnect, buttonBuilding;
+	
+	private GImage buildingReactor;
 
 	@Override
 	public void init() {
@@ -25,6 +32,12 @@ public class GuiStart extends Gui {
 		add(title);
 		add(buttonConnect);
 		add(buttonBuilding);
+	}
+	
+	// TODO remove this method. It sucks.
+	public void useThisDisplay(GameDisplay display) {
+		buildingReactor = new GImage(BuildingImageRenderer.renderBuildingImage(display, new BuildingReactor()));
+		add(buildingReactor);
 	}
 	
 	public boolean addConnectionClickedListener(ButtonClickedListener listener) {
@@ -61,6 +74,9 @@ public class GuiStart extends Gui {
 		
 		buttonBuilding.setSize(310, 40);
 		buttonBuilding.setPos(20, 70);
+		
+		buildingReactor.setSize(400, 400);
+		buildingReactor.setPos(200, 200);
 	}
 
 }
