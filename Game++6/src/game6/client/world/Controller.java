@@ -80,7 +80,8 @@ public class Controller extends BaseController {
 		// TODO temporary debug stuff
 		GuiStart.instance.addBuildingClickedListener(() -> {
 			if (isConnected()) {
-				connection.send(new PacketPlaceBuilding(BuildingType.REACTOR, (int) (Math.random() * 20), (int) (Math.random() * 20)));
+				World worldWorld = (World) world;
+				connection.send(new PacketPlaceBuilding(BuildingType.REACTOR, (int) (Math.random() * worldWorld.getMap().getSizeX()), (int) (Math.random() * worldWorld.getMap().getSizeY())));
 			}
 		});
 	}
@@ -154,6 +155,6 @@ public class Controller extends BaseController {
 
 		}
 
-		camera.y = MathHelper.clamp(camera.y - 0.01f * (Mouse.getDWheel()), 2f, 10f);
+		camera.y = MathHelper.clamp(camera.y - 0.01f * (Mouse.getDWheel()), 2f, 15f);
 	}
 }
