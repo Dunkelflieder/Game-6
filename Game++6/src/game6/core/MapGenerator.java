@@ -1,6 +1,6 @@
 package game6.core;
 
-import game6.client.world.buildings.BuildingReactor;
+import game6.client.buildings.BuildingReactor;
 
 public class MapGenerator {
 

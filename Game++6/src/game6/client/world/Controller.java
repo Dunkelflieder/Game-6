@@ -1,12 +1,14 @@
 package game6.client.world;
 
 //import game6.client.entities.EntityFighting;
+import game6.core.buildings.BuildingType;
 import game6.core.networking.Connection;
 import game6.core.networking.PacketChannel;
 import game6.core.networking.Packets;
 import game6.core.networking.packets.Packet;
 import game6.core.networking.packets.PacketConnectionInfo;
 import game6.core.networking.packets.PacketMap;
+import game6.core.networking.packets.PacketPlaceBuilding;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -38,7 +40,7 @@ public class Controller extends BaseController {
 
 		// ownEntities = new ArrayList<EntityFighting>();
 	}
-	
+
 	public void cleanup() {
 		if (isConnected()) {
 			connection.close();
@@ -71,6 +73,13 @@ public class Controller extends BaseController {
 		camera.yaw = 0;
 	}
 
+	// TODO remove this method
+	public void addBuildingDebug() {
+		if (isConnected()) {
+			connection.send(new PacketPlaceBuilding(BuildingType.REACTOR, (int) (Math.random() * 20), (int) (Math.random() * 20)));
+		}
+	}
+
 	@Override
 	public void update(float timeDelta) {
 
@@ -78,8 +87,17 @@ public class Controller extends BaseController {
 			List<Packet> packets = connection.get(PacketChannel.MAP);
 			for (Packet packet : packets) {
 				PacketMap packetMap = (PacketMap) packet;
-				// FIXME Can only access BaseWorld's methods without casting
+				// FIXME Can only World's methods with casting
 				((World) world).setMap(new Map(packetMap.map));
+			}
+
+			if (((World) world).isReady()) {
+
+			}
+			packets = connection.get(PacketChannel.BUILDINGS);
+			for (Packet packet : packets) {
+				PacketPlaceBuilding packetBuilding = (PacketPlaceBuilding) packet;
+				((World) world).getMap().addBuilding(packetBuilding.posX, packetBuilding.posY, packetBuilding.building.getClientBuilding());
 			}
 		}
 
