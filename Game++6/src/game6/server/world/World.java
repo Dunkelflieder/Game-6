@@ -20,7 +20,6 @@ public class World {
 	}
 
 	public void update() {
-		System.out.println("World update.");
 	}
 
 	public Map getMap() {
