@@ -18,6 +18,7 @@ public abstract class GComponent {
 	private List<MouseListener> mouseListener = new ArrayList<>();
 
 	public GComponent() {
+		init();
 		setPos(0, 0);
 		setSize(0, 0);
 		setConsumesInput(false);
@@ -26,6 +27,9 @@ public abstract class GComponent {
 		mouseButtonDown[0] = false;
 		mouseButtonDown[1] = false;
 		mouseButtonDown[2] = false;
+	}
+	
+	public void init() {
 	}
 
 	public void setPosX(int posX) {

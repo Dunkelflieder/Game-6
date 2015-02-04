@@ -10,6 +10,7 @@ public class Main {
 		Thread t = new Thread(() -> {
 			new Server(34543);
 		});
+		t.setName("Serverthread");
 		t.setDaemon(true);
 		t.start();
 

@@ -1,11 +1,12 @@
 package game6.client.main;
 
-import java.awt.Color;
-
 import game6.client.entities.TestEntity;
 import game6.client.gui.components.GButton;
 import game6.client.world.Controller;
 import game6.client.world.World;
+
+import java.awt.Color;
+
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.Camera;
 import de.nerogar.render.ScreenProperties;
@@ -18,7 +19,7 @@ public class Game extends BaseGame {
 	private ScreenProperties worldProperties;
 	private ScreenProperties guiProperties;
 
-	private GButton button = new GButton("Hallo Welt TT ASDWREZfshg");
+	private GButton button = new GButton("Connect to local server.");
 
 	@Override
 	public void startup() {
@@ -26,10 +27,6 @@ public class Game extends BaseGame {
 		worldProperties.setDepthTest(true);
 		guiProperties = new ScreenProperties(90, true);
 		guiProperties.setDepthTest(false);
-
-		button.setSize(550, 100);
-		button.addButtonClickedListener(b -> System.out.println("Button clicked. Mouse button: " + b));
-		button.text.setColor(Color.RED);
 
 		world = new World();
 		Camera camera = new Camera();
@@ -40,6 +37,14 @@ public class Game extends BaseGame {
 		setTargetFPS(60);
 
 		world.spawnEntity(new TestEntity(), new Vector3f(0));
+
+		button.setPos(50, 50);
+		button.setSize(500, 60);
+		button.addButtonClickedListener(b -> {
+			System.out.println("Button clicked.");
+			controller.connect("localhost", 34543);
+		});
+		button.text.setColor(Color.RED);
 	}
 
 	@Override
@@ -59,7 +64,7 @@ public class Game extends BaseGame {
 
 	@Override
 	protected void cleanup() {
-
+		controller.cleanup();
 	}
 
 }

@@ -1,6 +1,5 @@
 package game6.client.world;
 import game6.client.world.buildings.BaseBuilding;
-import game6.core.MapGenerator;
 import de.nerogar.engine.BaseWorld;
 import de.nerogar.util.Vector3f;
 
@@ -11,9 +10,6 @@ public class World extends BaseWorld {
 	public World() {
 		super(new Vector3f());
 		isStatic = true;
-		// TODO retrieve map from server
-		map = new Map(MapGenerator.getMap(50, 50));
-		spawnEntity(map, new Vector3f());
 	}
 	
 	public boolean canAddBuilding(int posX, int posY, BaseBuilding building){
@@ -24,6 +20,11 @@ public class World extends BaseWorld {
 		map.addBuilding(posX, posY, building);
 	}
 
+	public void setMap(Map map) {
+		this.map = map;
+		spawnEntity(map, new Vector3f());
+	}
+	
 	@Override
 	public void load() {
 		
@@ -32,6 +33,10 @@ public class World extends BaseWorld {
 	@Override
 	public void save() {
 		
+	}
+	
+	public boolean isReady() {
+		return map != null;
 	}
 
 }

@@ -1,11 +1,16 @@
 package game6.client.world;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //import game6.client.entities.EntityFighting;
-import game6.client.world.buildings.BaseBuilding;
-import game6.client.world.buildings.BuildingReactor;
+import game6.core.networking.Connection;
+import game6.core.networking.PacketChannel;
+import game6.core.networking.Packets;
+import game6.core.networking.packets.Packet;
+import game6.core.networking.packets.PacketConnectionInfo;
+import game6.core.networking.packets.PacketMap;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.util.List;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -13,7 +18,9 @@ import org.lwjgl.opengl.Display;
 import de.nerogar.engine.BaseController;
 import de.nerogar.engine.BaseWorld;
 import de.nerogar.render.Camera;
-import de.nerogar.util.*;
+import de.nerogar.util.InputHandler;
+import de.nerogar.util.MathHelper;
+import de.nerogar.util.RayIntersection;
 
 public class Controller extends BaseController {
 
@@ -21,14 +28,38 @@ public class Controller extends BaseController {
 	private byte grabbed = 0;
 
 	private InputHandler inputHandler;
+	private Connection connection;
 
-	//private List<EntityFighting> ownEntities;
+	// private List<EntityFighting> ownEntities;
 
 	public Controller(BaseWorld world, Camera camera) {
 		super(world, camera);
 		inputHandler = new InputHandler();
 
-		//ownEntities = new ArrayList<EntityFighting>();
+		// ownEntities = new ArrayList<EntityFighting>();
+	}
+	
+	public void cleanup() {
+		if (isConnected()) {
+			connection.close();
+		}
+	}
+
+	public void connect(String host, int port) {
+		if (isConnected()) {
+			connection.close();
+		}
+		try {
+			connection = new Connection(new Socket(host, port));
+			connection.send(new PacketConnectionInfo(Packets.NETWORKING_VERSION));
+		} catch (IOException e) {
+			System.err.println("Could not establish connection");
+			e.printStackTrace();
+		}
+	}
+
+	public boolean isConnected() {
+		return connection != null && !connection.isClosed();
 	}
 
 	@Override
@@ -42,8 +73,18 @@ public class Controller extends BaseController {
 
 	@Override
 	public void update(float timeDelta) {
-		//TODO don't hardcode fov
-		
+
+		if (isConnected()) {
+			List<Packet> packets = connection.get(PacketChannel.MAP);
+			for (Packet packet : packets) {
+				PacketMap packetMap = (PacketMap) packet;
+				// FIXME Can only access BaseWorld's methods without casting
+				((World) world).setMap(new Map(packetMap.map));
+			}
+		}
+
+		// TODO don't hardcode fov
+
 		inputHandler.updateMousePositions(camera, 90);
 		RayIntersection intersection = world.getPhysicsSpace().getIntersecting(inputHandler.getMouseRay());
 

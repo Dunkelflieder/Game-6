@@ -73,7 +73,7 @@ public class ReceiverThread extends Thread {
 	private void addPacket(Packet packet) {
 		synchronized (packets) {
 			packets.add(packet);
-			System.out.println("received packet " + packet.toString());
+			System.out.println(Thread.currentThread().getName() + " received packet " + packet.toString());
 		}
 	}
 

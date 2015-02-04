@@ -4,7 +4,7 @@ import game6.client.gui.Font;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.*;
 
 public class GLabel extends GComponent {
 
@@ -53,11 +53,11 @@ public class GLabel extends GComponent {
 		int x = getPosX() + offsetX;
 		int y = getPosY() + offsetY;
 
-		// glEnable(GL_BLEND);
-		// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glColor4ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue(), (byte) color.getAlpha());
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glColor4ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue(), (byte) color.getAlpha());
 		font.render(x, y, getText());
-		GL11.glColor4f(1f, 1f, 1f, 1f);
+		glColor4f(1f, 1f, 1f, 1f);
 	}
 
 }

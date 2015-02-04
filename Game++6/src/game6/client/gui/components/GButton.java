@@ -10,10 +10,15 @@ public class GButton extends GComponent implements MouseListener {
 
 	private List<ButtonClickedListener> buttonClickedListener = new ArrayList<>();
 
-	public final GLabel text;
+	public GLabel text;
 	private GImage buttonImage;
 
-	public GButton() {
+	public GButton(String text) {
+		this.text.setText(text);
+	}
+
+	@Override
+	public void init() {
 		addMouseListener(this);
 		text = new GLabel();
 		// TODO make and use proper button texture
@@ -21,15 +26,30 @@ public class GButton extends GComponent implements MouseListener {
 		// TODO add hover and click textures
 	}
 
-	public GButton(String text) {
-		this();
-		this.text.setText(text);
+	@Override
+	public void setSizeX(int x) {
+		super.setSizeX(x);
+		text.setSizeX(x);
+		buttonImage.setSizeX(x);
+	}
+
+	@Override
+	public void setSizeY(int y) {
+		super.setSizeY(y);
+		text.setSizeY(y);
+		buttonImage.setSizeY(y);
+	}
+
+	@Override
+	public void setSize(int x, int y) {
+		setSizeX(x);
+		setSizeY(y);
 	}
 
 	@Override
 	public void render(int offsetX, int offsetY) {
-		buttonImage.render(offsetX, offsetY);
-		text.render(offsetX, offsetY);
+		buttonImage.render(getPosX() + offsetX, getPosY() + offsetY);
+		text.render(getPosX() + offsetX, getPosY() + offsetY);
 	}
 
 	public boolean addButtonClickedListener(ButtonClickedListener listener) {
