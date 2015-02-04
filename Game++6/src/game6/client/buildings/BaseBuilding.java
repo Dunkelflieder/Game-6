@@ -45,5 +45,13 @@ public abstract class BaseBuilding {
 	public void setPosY(int posY) {
 		core.setPosY(posY);
 	}
+	
+	public int getSizeX() {
+		return core.getSizeX();
+	}
+	
+	public int getSizeY() {
+		return core.getSizeY();
+	}
 
 }
