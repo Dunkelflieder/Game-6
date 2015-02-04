@@ -8,7 +8,7 @@ public class Main {
 
 		// Start internal server
 		Thread t = new Thread(() -> {
-			new Server(34543);
+			new Server(4200);
 		});
 		t.setName("Serverthread");
 		t.setDaemon(true);
