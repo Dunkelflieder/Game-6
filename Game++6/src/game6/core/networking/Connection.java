@@ -18,8 +18,8 @@ public class Connection {
 			return;
 		}
 		this.socket = socket;
-		this.recv = new ReceiverThread(socket);
 		this.send = new SenderThread(socket);
+		this.recv = new ReceiverThread(socket, send);
 	}
 
 	public void send(Packet packet) {
@@ -42,8 +42,8 @@ public class Connection {
 	}
 
 	public synchronized void close() {
-		recv.stopThread();
-		send.stopThread();
+		// recv.stopThread();
+		// send.stopThread();
 		try {
 			socket.close();
 		} catch (IOException e) {

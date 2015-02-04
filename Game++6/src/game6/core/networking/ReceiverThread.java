@@ -15,11 +15,14 @@ import de.felk.NodeFile.NodeFile;
 public class ReceiverThread extends Thread {
 
 	private Socket socket;
+	private SenderThread send;
 	private ArrayList<Packet> packets = new ArrayList<Packet>();
-
-	public ReceiverThread(Socket socket) {
+	
+	public ReceiverThread(Socket socket, SenderThread send) {
 		setName("Reveiver Thread for " + socket.toString());
 		this.socket = socket;
+		this.send = send;
+		this.setDaemon(true);
 		this.start();
 	}
 
@@ -65,8 +68,8 @@ public class ReceiverThread extends Thread {
 			// System.err.println("ReceiverThread crashed (maybe due to connection abort)");
 			// e.printStackTrace();
 		}
-
-		stopThread();
+		
+		send.interrupt();
 
 	}
 
@@ -79,16 +82,6 @@ public class ReceiverThread extends Thread {
 
 	public ArrayList<Packet> getPackets() {
 		return packets;
-	}
-
-	public void stopThread() {
-		interrupt();
-		try {
-			socket.close();
-		} catch (IOException e) {
-			System.err.println("Could not close socket in ReceiverThread.");
-			e.printStackTrace();
-		}
 	}
 
 }

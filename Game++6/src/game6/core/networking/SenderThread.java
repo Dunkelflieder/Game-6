@@ -17,15 +17,14 @@ public class SenderThread extends Thread {
 	public SenderThread(Socket socket) {
 		setName("Sender Thread for " + socket.toString());
 		this.socket = socket;
+		this.setDaemon(true);
 		this.start();
 	}
 
 	@Override
 	public void run() {
 
-		DataOutputStream stream;
-		try {
-			stream = new DataOutputStream(socket.getOutputStream());
+		try (DataOutputStream stream = new DataOutputStream(socket.getOutputStream())) {
 			while (!isInterrupted()) {
 				synchronized (packets) {
 
@@ -46,19 +45,17 @@ public class SenderThread extends Thread {
 
 					}
 					packets.clear();
-					
+
 				}
 			}
 		} catch (InterruptedException e) {
 			interrupt();
-			//System.err.println("InterruptedException in SenderThread");
-			//e.printStackTrace();
+			// System.err.println("InterruptedException in SenderThread");
+			// e.printStackTrace();
 		} catch (IOException e) {
-			//System.err.println("DataOutputStream is unavailable in SenderThread.");
-			//e.printStackTrace();
+			// System.err.println("DataOutputStream is unavailable in SenderThread.");
+			// e.printStackTrace();
 		}
-
-		stopThread();
 
 	}
 
@@ -66,16 +63,6 @@ public class SenderThread extends Thread {
 		synchronized (packets) {
 			packets.add(packet);
 			packets.notify();
-		}
-	}
-
-	public void stopThread() {
-		interrupt();
-		try {
-			socket.close();
-		} catch (IOException e) {
-			System.err.println("Could not close SenderThread socket.");
-			e.printStackTrace();
 		}
 	}
 
