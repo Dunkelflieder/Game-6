@@ -41,7 +41,7 @@ public class Game extends BaseGame {
 		button.setSize(500, 60);
 		button.addButtonClickedListener(b -> {
 			System.out.println("Button clicked.");
-			controller.connect("localhost", 34543);
+			controller.connect("localhost", 4200);
 		});
 		
 		button2.setPos(50, 250);

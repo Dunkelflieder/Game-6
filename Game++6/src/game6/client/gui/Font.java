@@ -27,7 +27,7 @@ public class Font {
 
 	private int charSize = 64;
 	private int charRowNum = 16;
-	private int kerning = 2;
+	private int kerning = 0;
 
 	private Texture2D fontTexture;
 	private int[] widths;
@@ -147,7 +147,7 @@ public class Font {
 		for (int x = 0; x < charRowNum; x++) {
 			for (int y = 0; y < charRowNum; y++) {
 				int offset = y * charRowNum + x;
-				g.drawString(getStringFromUnicode(offset), x * charSize, (y + 1) * charSize - 16);
+				g.drawString(getStringFromUnicode(offset), x * charSize + 2, (y + 1) * charSize - 16);
 			}
 		}
 
