@@ -1,6 +1,3 @@
-/bin/
-/res/
-/.settings/
-/.classpath
-/.project
-/dev/
+*
+!/src
+!.gitignore
