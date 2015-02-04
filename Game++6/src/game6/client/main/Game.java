@@ -5,8 +5,6 @@ import game6.client.gui.components.GButton;
 import game6.client.world.Controller;
 import game6.client.world.World;
 
-import java.awt.Color;
-
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.Camera;
 import de.nerogar.render.ScreenProperties;
@@ -20,7 +18,8 @@ public class Game extends BaseGame {
 	private ScreenProperties guiProperties;
 
 	private GButton button = new GButton("Connect to local server.");
-
+	private GButton button2 = new GButton("Place building");
+	
 	@Override
 	public void startup() {
 		worldProperties = new ScreenProperties(90, false);
@@ -44,7 +43,12 @@ public class Game extends BaseGame {
 			System.out.println("Button clicked.");
 			controller.connect("localhost", 34543);
 		});
-		button.text.setColor(Color.RED);
+		
+		button2.setPos(50, 250);
+		button2.setSize(500, 60);
+		button2.addButtonClickedListener(b -> {
+			controller.addBuildingDebug();
+		});
 	}
 
 	@Override
@@ -52,6 +56,7 @@ public class Game extends BaseGame {
 		controller.update(timeDelta);
 		world.update(timeDelta);
 		button.update();
+		button2.update();
 	}
 
 	@Override
@@ -60,6 +65,7 @@ public class Game extends BaseGame {
 		world.render();
 		display.setScreenProperties(guiProperties, false);
 		button.render(0, 0);
+		button2.render(0, 0);
 	}
 
 	@Override
