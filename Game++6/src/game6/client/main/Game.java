@@ -22,8 +22,11 @@ public class Game extends BaseGame {
 	public void startup() {
 		worldProperties = new ScreenProperties(90, false);
 		worldProperties.setDepthTest(true);
+		worldProperties.setScreenDimension(1280, 720);
 		guiProperties = new ScreenProperties(90, true);
 		guiProperties.setDepthTest(false);
+		guiProperties.setScreenDimension(1280, 720);
+		
 
 		world = new World();
 		Camera camera = new Camera();

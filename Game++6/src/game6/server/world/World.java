@@ -16,7 +16,7 @@ public class World {
 	private List<Player> players;
 
 	public World() {
-		this.map = new Map(MapGenerator.getMap(40, 40));
+		this.map = new Map(MapGenerator.getMap(100, 100));
 		this.players = new ArrayList<>();
 	}
 
