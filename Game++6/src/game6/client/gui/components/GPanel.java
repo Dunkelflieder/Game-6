@@ -29,5 +29,13 @@ public class GPanel extends GComponent {
 			component.render(offsetX + getPosX(), offsetY + getPosY());
 		}
 	}
+	
+	@Override
+	public void update() {
+		super.update();
+		for (GComponent component : components) {
+			component.update();
+		}
+	}
 
 }

@@ -1,9 +1,9 @@
 package game6.client.main;
 
-import java.awt.Color;
+import org.lwjgl.opengl.Display;
 
 import game6.client.entities.TestEntity;
-import game6.client.gui.components.GButton;
+import game6.client.gui.Guis;
 import game6.client.world.Controller;
 import game6.client.world.World;
 import de.nerogar.engine.BaseGame;
@@ -18,9 +18,6 @@ public class Game extends BaseGame {
 	private ScreenProperties worldProperties;
 	private ScreenProperties guiProperties;
 
-	private GButton button = new GButton("Connect to local server");
-	private GButton button2 = new GButton("Place building");
-
 	@Override
 	public void startup() {
 		worldProperties = new ScreenProperties(90, false);
@@ -32,34 +29,24 @@ public class Game extends BaseGame {
 		Camera camera = new Camera();
 		controller = new Controller(world, camera);
 		worldProperties.setCamera(camera);
-
+		
+		Guis.resize(Display.getWidth(), Display.getHeight());
+		display.addDisplayResizeListener((width, height) -> {
+			Guis.resize(width, height);
+		});
+		
 		display.setScreenProperties(worldProperties, true);
 		setTargetFPS(60);
 
 		world.spawnEntity(new TestEntity(), new Vector3f(0));
-
-		button.setPos(20, 20);
-		button.setSize(310, 40);
-		button.text.setColor(Color.BLACK);
-		button.addButtonClickedListener(b -> {
-			System.out.println("Button clicked.");
-			controller.connect("localhost", 4200);
-		});
 		
-		button2.setPos(20, 70);
-		button2.setSize(310, 40);
-		button2.text.setColor(Color.BLACK);
-		button2.addButtonClickedListener(b -> {
-			controller.addBuildingDebug();
-		});
 	}
 
 	@Override
 	protected void update(float timeDelta) {
 		controller.update(timeDelta);
 		world.update(timeDelta);
-		button.update();
-		button2.update();
+		Guis.update();
 	}
 
 	@Override
@@ -67,8 +54,7 @@ public class Game extends BaseGame {
 		display.setScreenProperties(worldProperties, true);
 		world.render();
 		display.setScreenProperties(guiProperties, false);
-		button.render(0, 0);
-		button2.render(0, 0);
+		Guis.render();
 	}
 
 	@Override

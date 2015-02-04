@@ -1,6 +1,7 @@
 package game6.client.world;
 
 //import game6.client.entities.EntityFighting;
+import game6.client.gui.GuiStart;
 import game6.core.buildings.BuildingType;
 import game6.core.networking.Connection;
 import game6.core.networking.PacketChannel;
@@ -71,13 +72,17 @@ public class Controller extends BaseController {
 		camera.z = 15;
 		camera.pitch = 60;
 		camera.yaw = 0;
-	}
 
-	// TODO remove this method
-	public void addBuildingDebug() {
-		if (isConnected()) {
-			connection.send(new PacketPlaceBuilding(BuildingType.REACTOR, (int) (Math.random() * 20), (int) (Math.random() * 20)));
-		}
+		GuiStart.instance.addConnectionClickedListener(() -> {
+			connect("localhost", 4200);
+		});
+
+		// TODO temporary debug stuff
+		GuiStart.instance.addBuildingClickedListener(() -> {
+			if (isConnected()) {
+				connection.send(new PacketPlaceBuilding(BuildingType.REACTOR, (int) (Math.random() * 20), (int) (Math.random() * 20)));
+			}
+		});
 	}
 
 	@Override

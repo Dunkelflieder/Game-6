@@ -103,9 +103,9 @@ public class GButton extends GComponent implements MouseListener {
 		return buttonClickedListener.remove(listener);
 	}
 
-	private void notifyButtonClickedListener(int button) {
+	private void notifyButtonClickedListener() {
 		for (ButtonClickedListener listener : buttonClickedListener) {
-			listener.buttonClicked(button);
+			listener.buttonClicked();
 		}
 	}
 
@@ -128,7 +128,7 @@ public class GButton extends GComponent implements MouseListener {
 	public void mouseReleased(int button) {
 		if (button == 0 && isCurrentlyHovered()) {
 			clicked = false;
-			notifyButtonClickedListener(button);
+			notifyButtonClickedListener();
 		}
 	}
 
