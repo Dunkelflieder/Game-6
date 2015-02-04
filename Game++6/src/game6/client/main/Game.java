@@ -1,10 +1,11 @@
 package game6.client.main;
 
+import java.awt.Color;
+
 import game6.client.entities.TestEntity;
 import game6.client.gui.components.GButton;
 import game6.client.world.Controller;
 import game6.client.world.World;
-
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.Camera;
 import de.nerogar.render.ScreenProperties;
@@ -17,7 +18,7 @@ public class Game extends BaseGame {
 	private ScreenProperties worldProperties;
 	private ScreenProperties guiProperties;
 
-	private GButton button = new GButton("Connect to local server.");
+	private GButton button = new GButton("Connect to local server");
 	private GButton button2 = new GButton("Place building");
 
 	@Override
@@ -37,15 +38,17 @@ public class Game extends BaseGame {
 
 		world.spawnEntity(new TestEntity(), new Vector3f(0));
 
-		button.setPos(50, 50);
-		button.setSize(500, 60);
+		button.setPos(20, 20);
+		button.setSize(310, 40);
+		button.text.setColor(Color.BLACK);
 		button.addButtonClickedListener(b -> {
 			System.out.println("Button clicked.");
 			controller.connect("localhost", 4200);
 		});
 		
-		button2.setPos(50, 250);
-		button2.setSize(500, 60);
+		button2.setPos(20, 70);
+		button2.setSize(310, 40);
+		button2.text.setColor(Color.BLACK);
 		button2.addButtonClickedListener(b -> {
 			controller.addBuildingDebug();
 		});

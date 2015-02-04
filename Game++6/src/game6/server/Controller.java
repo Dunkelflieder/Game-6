@@ -1,8 +1,11 @@
 package game6.server;
 
+import game6.core.buildings.BuildingType;
 import game6.core.networking.Connection;
 import game6.core.networking.ServerThread;
 import game6.core.networking.packets.PacketMap;
+import game6.core.networking.packets.PacketPlaceBuilding;
+import game6.server.buildings.BaseBuilding;
 import game6.server.world.World;
 
 import java.util.List;
@@ -20,7 +23,7 @@ public class Controller {
 	public void update() {
 
 		// TODO the following is sample code. Actual Server logic goes here
-		
+
 		// Get joining clients
 		List<Connection> conns = server.getNewConnections();
 
@@ -29,6 +32,10 @@ public class Controller {
 			PacketMap packet = new PacketMap(world.getMap().getCore());
 			for (Connection conn : conns) {
 				conn.send(packet);
+				for (BaseBuilding building : world.getMap().getBuildings()) {
+					PacketPlaceBuilding packetBuilding = new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getPosX(), building.getPosY());
+					conn.send(packetBuilding);
+				}
 				world.addPlayer(conn);
 			}
 		}
@@ -36,5 +43,4 @@ public class Controller {
 		world.update();
 
 	}
-
 }

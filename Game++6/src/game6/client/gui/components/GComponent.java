@@ -84,11 +84,11 @@ public abstract class GComponent {
 
 	// //////////
 
-	private boolean isCurrentlyHovered() {
+	protected boolean isCurrentlyHovered() {
 		return Mouse.getX() > getPosX() && Mouse.getX() < getPosX() + getSizeX() &&
 				Mouse.getY() > getPosY() && Mouse.getY() < getPosY() + getSizeY();
 	}
-
+	
 	public void update() {
 
 		boolean isCurrentlyHovered = isCurrentlyHovered();

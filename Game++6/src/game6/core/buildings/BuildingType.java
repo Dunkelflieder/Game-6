@@ -45,5 +45,14 @@ public enum BuildingType {
 		}
 		return null;
 	}
+	
+	public static BuildingType fromServerClass(Class<? extends game6.server.buildings.BaseBuilding> clazz) {
+		for (BuildingType type : values()) {
+			if (type.serverClass.equals(clazz)) {
+				return type;
+			}
+		}
+		return null;
+	}
 
 }

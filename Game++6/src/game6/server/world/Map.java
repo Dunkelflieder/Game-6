@@ -40,4 +40,8 @@ public class Map {
 		}
 	}
 
+	public List<BaseBuilding> getBuildings() {
+		return buildings;
+	}
+
 }

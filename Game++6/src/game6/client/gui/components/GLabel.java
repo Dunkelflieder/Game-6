@@ -50,13 +50,15 @@ public class GLabel extends GComponent {
 	public void render(int offsetX, int offsetY) {
 		// TODO don't hardcode OpenGL here
 
+		float scale = getSizeY() / 64f;
+		
 		int x = getPosX() + offsetX;
 		int y = getPosY() + offsetY;
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor4ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue(), (byte) color.getAlpha());
-		font.render(x, y, getText());
+		font.render(x, y, getText(), scale);
 		glColor4f(1f, 1f, 1f, 1f);
 	}
 

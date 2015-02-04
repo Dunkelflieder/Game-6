@@ -154,7 +154,7 @@ public class Font {
 		return image;
 	}
 
-	public void render(int posX, int posY, String text) {
+	public void render(int posX, int posY, String text, float scale) {
 		fontTexture.bind();
 
 		float step = 1f / charRowNum;
@@ -169,19 +169,19 @@ public class Font {
 			float texY = (c / charRowNum) / (float) charRowNum;
 
 			int x = posX + offsetX;
-			offsetX += getWidhtFor(c);
+			offsetX += getWidhtFor(c) * scale;
 
 			glTexCoord2f(texX, texY + step);
 			glVertex3f(x, posY, -1);
 
 			glTexCoord2f(texX + step, texY + step);
-			glVertex3f(x + charSize, posY, -1);
+			glVertex3f(x + charSize * scale, posY, -1);
 
 			glTexCoord2f(texX + step, texY);
-			glVertex3f(x + charSize, posY + charSize, -1);
+			glVertex3f(x + charSize * scale, posY + charSize * scale, -1);
 
 			glTexCoord2f(texX, texY);
-			glVertex3f(x, posY + charSize, -1);
+			glVertex3f(x, posY + charSize * scale, -1);
 
 		}
 		glEnd();

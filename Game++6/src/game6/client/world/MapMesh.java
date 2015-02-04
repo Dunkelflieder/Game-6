@@ -13,7 +13,7 @@ public class MapMesh extends Renderable {
 	private boolean vboDirty = true;
 
 	public MapMesh(CoreMap map) {
-		this.texture = TextureLoader.loadTexture("res/terrain/chrome.png");
+		this.texture = TextureLoader.loadTexture("res/terrain/chrome2.png");
 		this.map = map;
 		reload();
 	}
