@@ -15,13 +15,13 @@ public class BuildingImageRenderer {
 		guiTextureCam.z = building.getSizeY() + 0.5f;
 		guiTextureCam.pitch = 30;
 
-		renderTarget = new RenderTarget(new Texture2D("color", 0, 0));
-		renderTarget.activateDepthTexture();
+		renderTarget = new RenderTarget(true, new Texture2D("color", 0, 0));
 
 		screenProperties = new ScreenProperties();
 		screenProperties.setCamera(guiTextureCam);
 		screenProperties.setFov(90);
 		screenProperties.setScreenDimension(128, 128);
+		screenProperties.setClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 		screenProperties.setRenderTarget(renderTarget);
 
 		display.setScreenProperties(screenProperties, true);
