@@ -1,6 +1,6 @@
 package game6.client.world;
 
-import game6.core.CoreMap;
+import game6.core.world.CoreMap;
 import de.nerogar.render.RenderProperties;
 import de.nerogar.render.Renderable;
 import de.nerogar.render.Texture2D;

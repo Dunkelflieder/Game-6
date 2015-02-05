@@ -1,10 +1,10 @@
 package game6.server.world;
 
-import game6.core.MapGenerator;
 import game6.core.networking.Connection;
 import game6.core.networking.PacketChannel;
 import game6.core.networking.packets.Packet;
 import game6.core.networking.packets.PacketPlaceBuilding;
+import game6.core.world.MapGenerator;
 import game6.server.buildings.BaseBuilding;
 
 import java.util.ArrayList;

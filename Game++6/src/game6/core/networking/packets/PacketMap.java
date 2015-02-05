@@ -1,7 +1,7 @@
 package game6.core.networking.packets;
 
-import game6.core.CoreMap;
-import game6.core.Tile;
+import game6.core.world.CoreMap;
+import game6.core.world.Tile;
 import de.felk.NodeFile.NodeFile;
 
 public class PacketMap extends Packet {

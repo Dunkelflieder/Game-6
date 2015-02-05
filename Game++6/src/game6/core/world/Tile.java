@@ -1,4 +1,4 @@
-package game6.core;
+package game6.core.world;
 
 public enum Tile {
 	CHROME(1);

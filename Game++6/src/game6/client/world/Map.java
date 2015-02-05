@@ -1,8 +1,8 @@
 package game6.client.world;
 
 import game6.client.buildings.BaseBuilding;
-import game6.core.CoreMap;
-import game6.core.Tile;
+import game6.core.world.CoreMap;
+import game6.core.world.Tile;
 
 import java.util.ArrayList;
 import java.util.List;

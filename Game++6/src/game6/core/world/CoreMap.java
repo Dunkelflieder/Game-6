@@ -1,4 +1,4 @@
-package game6.core;
+package game6.core.world;
 
 import game6.core.buildings.CoreBuilding;
 

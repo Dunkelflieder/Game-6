@@ -1,6 +1,6 @@
 package game6.server.world;
 
-import game6.core.CoreMap;
+import game6.core.world.CoreMap;
 import game6.server.buildings.BaseBuilding;
 
 import java.util.ArrayList;
