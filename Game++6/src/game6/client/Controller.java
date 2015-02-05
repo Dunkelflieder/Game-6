@@ -83,7 +83,7 @@ public class Controller extends BaseController {
 		GuiStart.instance.addBuildingClickedListener(() -> {
 			if (isConnected()) {
 				World worldWorld = (World) world;
-				connection.send(new PacketPlaceBuilding(BuildingType.getRandom(), (int) (Math.random() * worldWorld.getMap().getSizeX() - 2), (int) (Math.random() * worldWorld.getMap().getSizeY() - 2)));
+				connection.send(new PacketPlaceBuilding(BuildingType.getRandom(), (int) (Math.random() * (worldWorld.getMap().getSizeX() - 2)), (int) (Math.random() * (worldWorld.getMap().getSizeY() - 2))));
 			}
 		});
 	}
