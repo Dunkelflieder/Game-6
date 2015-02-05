@@ -1,7 +1,10 @@
 package game6.client.gui;
 
+import game6.client.buildings.BuildingFactory;
 import game6.client.buildings.BuildingImageRenderer;
 import game6.client.buildings.BuildingReactor;
+import game6.client.buildings.BuildingResearch;
+import game6.client.buildings.BuildingTower;
 
 import java.awt.Color;
 
@@ -13,7 +16,10 @@ public class GuiStart extends Gui {
 	private GLabel title;
 	private GButton buttonConnect, buttonBuilding;
 	
+	private GImage buildingFactory;
 	private GImage buildingReactor;
+	private GImage buildingResearch;
+	private GImage buildingTower;
 
 	@Override
 	public void init() {
@@ -32,8 +38,14 @@ public class GuiStart extends Gui {
 	
 	// TODO remove this method. It sucks.
 	public void useThisDisplay(GameDisplay display) {
+		buildingFactory = new GImage(BuildingImageRenderer.render(display, new BuildingFactory()));
 		buildingReactor = new GImage(BuildingImageRenderer.render(display, new BuildingReactor()));
+		buildingResearch = new GImage(BuildingImageRenderer.render(display, new BuildingResearch()));
+		buildingTower = new GImage(BuildingImageRenderer.render(display, new BuildingTower()));
+		add(buildingFactory);
 		add(buildingReactor);
+		add(buildingResearch);
+		add(buildingTower);
 	}
 	
 	public boolean addConnectionClickedListener(ButtonClickedListener listener) {
@@ -71,8 +83,17 @@ public class GuiStart extends Gui {
 		buttonBuilding.setSize(310, 40);
 		buttonBuilding.setPos(20, 70);
 		
+		buildingFactory.setSize(128, 128);
+		buildingFactory.setPos(350, 0);
+		
 		buildingReactor.setSize(128, 128);
-		buildingReactor.setPos(350, 0);
+		buildingReactor.setPos(450, 0);
+		
+		buildingResearch.setSize(128, 128);
+		buildingResearch.setPos(550, 0);
+		
+		buildingTower.setSize(128, 128);
+		buildingTower.setPos(650, 0);
 	}
 
 }

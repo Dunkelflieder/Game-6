@@ -1,7 +1,10 @@
 package game6.core.buildings;
 
 public enum BuildingType {
-	REACTOR(1, game6.client.buildings.BuildingReactor.class, game6.server.buildings.BuildingReactor.class);
+	REACTOR(1, game6.client.buildings.BuildingReactor.class, game6.server.buildings.BuildingReactor.class),
+	RESEARCH(2, game6.client.buildings.BuildingResearch.class, game6.server.buildings.BuildingResearch.class),
+	TOWER(3, game6.client.buildings.BuildingTower.class, game6.server.buildings.BuildingTower.class),
+	FACTORY(4, game6.client.buildings.BuildingFactory.class, game6.server.buildings.BuildingFactory.class);
 
 	private int id;
 	private Class<? extends game6.client.buildings.BaseBuilding> clientClass;
@@ -45,7 +48,7 @@ public enum BuildingType {
 		}
 		return null;
 	}
-	
+
 	public static BuildingType fromServerClass(Class<? extends game6.server.buildings.BaseBuilding> clazz) {
 		for (BuildingType type : values()) {
 			if (type.serverClass.equals(clazz)) {
@@ -55,4 +58,7 @@ public enum BuildingType {
 		return null;
 	}
 
+	public static BuildingType getRandom() {
+		return values()[(int) (Math.random() * values().length)];
+	}
 }

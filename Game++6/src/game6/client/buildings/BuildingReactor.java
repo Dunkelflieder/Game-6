@@ -7,7 +7,7 @@ import de.nerogar.render.WavefrontLoader;
 public class BuildingReactor extends BaseBuilding {
 
 	public BuildingReactor() {
-		super(new CoreBuildingReactor(), WavefrontLoader.loadObject("res/entities/reactor/mesh.obj"), TextureLoader.loadTexture("res/entities/reactor/color.png"));
+		super(new CoreBuildingReactor(), WavefrontLoader.loadObject("res/buildings/reactor/mesh.obj"), TextureLoader.loadTexture("res/buildings/reactor/color.png"));
 	}
 
 }
