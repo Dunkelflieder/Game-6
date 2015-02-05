@@ -10,7 +10,7 @@ import de.nerogar.render.TextureLoader;
 
 public class GImage extends GComponent {
 
-	private static Texture2D texture;
+	private Texture2D texture;
 
 	public GImage(String filename) {
 		texture = TextureLoader.loadTexture(filename);
