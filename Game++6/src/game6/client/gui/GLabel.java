@@ -1,6 +1,4 @@
-package game6.client.gui.components;
-
-import game6.client.gui.Font;
+package game6.client.gui;
 
 import java.awt.Color;
 

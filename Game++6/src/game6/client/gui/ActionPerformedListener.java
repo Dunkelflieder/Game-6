@@ -1,4 +1,4 @@
-package game6.client.gui.components.listener;
+package game6.client.gui;
 
 public interface ActionPerformedListener {
 

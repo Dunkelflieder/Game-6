@@ -1,4 +1,4 @@
-package game6.client.gui.components;
+package game6.client.gui;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;

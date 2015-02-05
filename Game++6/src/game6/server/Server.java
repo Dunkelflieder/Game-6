@@ -28,7 +28,7 @@ public class Server {
 		} catch (BindException e) {
 			System.err.println("Could not start server. Port binding failed");
 			e.printStackTrace();
-			System.exit(-1);
+			Thread.currentThread().interrupt();
 		}
 
 	}

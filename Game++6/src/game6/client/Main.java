@@ -1,4 +1,4 @@
-package game6.client.main;
+package game6.client;
 
 import game6.server.Server;
 

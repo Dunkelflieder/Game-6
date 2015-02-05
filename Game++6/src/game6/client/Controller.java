@@ -1,7 +1,9 @@
-package game6.client.world;
+package game6.client;
 
 //import game6.client.entities.EntityFighting;
 import game6.client.gui.GuiStart;
+import game6.client.world.Map;
+import game6.client.world.World;
 import game6.core.buildings.BuildingType;
 import game6.core.networking.Connection;
 import game6.core.networking.PacketChannel;

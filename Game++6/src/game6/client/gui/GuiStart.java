@@ -2,10 +2,6 @@ package game6.client.gui;
 
 import game6.client.buildings.BuildingImageRenderer;
 import game6.client.buildings.BuildingReactor;
-import game6.client.gui.components.GButton;
-import game6.client.gui.components.GImage;
-import game6.client.gui.components.GLabel;
-import game6.client.gui.components.listener.ButtonClickedListener;
 
 import java.awt.Color;
 
@@ -75,8 +71,8 @@ public class GuiStart extends Gui {
 		buttonBuilding.setSize(310, 40);
 		buttonBuilding.setPos(20, 70);
 		
-		buildingReactor.setSize(400, 400);
-		buildingReactor.setPos(200, 200);
+		buildingReactor.setSize(128, 128);
+		buildingReactor.setPos(350, 0);
 	}
 
 }

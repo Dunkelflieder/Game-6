@@ -1,12 +1,10 @@
-package game6.client.gui.components;
+package game6.client.gui;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex3f;
-import game6.client.gui.components.listener.ButtonClickedListener;
-import game6.client.gui.components.listener.MouseListener;
 
 import java.util.ArrayList;
 import java.util.List;

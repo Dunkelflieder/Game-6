@@ -1,11 +1,10 @@
-package game6.client.main;
+package game6.client;
 
 import org.lwjgl.opengl.Display;
 
 import game6.client.entities.TestEntity;
 import game6.client.gui.GuiStart;
 import game6.client.gui.Guis;
-import game6.client.world.Controller;
 import game6.client.world.World;
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.Camera;

@@ -1,9 +1,5 @@
 package game6.client.gui;
 
-import game6.client.gui.components.GComponent;
-import game6.client.gui.components.GPanel;
-import game6.client.gui.components.listener.GuiListener;
-
 import java.util.ArrayList;
 import java.util.List;
 

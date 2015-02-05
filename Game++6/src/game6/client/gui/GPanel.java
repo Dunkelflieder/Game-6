@@ -1,4 +1,4 @@
-package game6.client.gui.components;
+package game6.client.gui;
 
 import java.util.ArrayList;
 import java.util.List;

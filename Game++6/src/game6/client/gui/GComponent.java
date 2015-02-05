@@ -1,6 +1,4 @@
-package game6.client.gui.components;
-
-import game6.client.gui.components.listener.MouseListener;
+package game6.client.gui;
 
 import java.util.ArrayList;
 import java.util.List;
