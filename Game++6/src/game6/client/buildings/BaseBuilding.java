@@ -25,6 +25,10 @@ public abstract class BaseBuilding {
 		texture.bind();
 		mesh.render(properties);
 	}
+	
+	public int getID() {
+		return core.getID();
+	}
 
 	public CoreBuilding getCore() {
 		return core;

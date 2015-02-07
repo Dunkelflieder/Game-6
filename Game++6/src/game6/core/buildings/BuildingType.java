@@ -1,5 +1,7 @@
 package game6.core.buildings;
 
+import java.lang.reflect.InvocationTargetException;
+
 public enum BuildingType {
 	REACTOR(1, game6.client.buildings.BuildingReactor.class, game6.server.buildings.BuildingReactor.class),
 	RESEARCH(2, game6.client.buildings.BuildingResearch.class, game6.server.buildings.BuildingResearch.class),
@@ -20,21 +22,21 @@ public enum BuildingType {
 		return id;
 	}
 
-	public game6.client.buildings.BaseBuilding getClientBuilding() {
+	public game6.client.buildings.BaseBuilding getClientBuilding(int id) {
 		try {
-			return clientClass.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			System.err.println("Could not instanciant client building.");
+			return clientClass.getConstructor(int.class).newInstance(id);
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			System.err.println("Could not instanciate client building.");
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public game6.server.buildings.BaseBuilding getServerBuilding() {
+	public game6.server.buildings.BaseBuilding getServerBuilding(int id) {
 		try {
-			return serverClass.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			System.err.println("Could not instanciant server building.");
+			return serverClass.getConstructor(int.class).newInstance(id);
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			System.err.println("Could not instanciate server building.");
 			e.printStackTrace();
 		}
 		return null;

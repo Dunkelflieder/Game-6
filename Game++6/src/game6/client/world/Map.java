@@ -32,9 +32,7 @@ public class Map extends BaseEntity {
 	}
 
 	public void addBuilding(int posX, int posY, BaseBuilding building) {
-		building.setPosX(posX);
-		building.setPosY(posY);
-		buildings.add(building);
+		buildings.add(building.getID(), building);
 		core.addBuilding(posX, posY, building.getCore());
 		terrainMesh.reload();
 	}

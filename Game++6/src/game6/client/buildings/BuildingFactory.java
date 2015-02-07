@@ -6,8 +6,8 @@ import de.nerogar.render.WavefrontLoader;
 
 public class BuildingFactory extends BaseBuilding {
 
-	public BuildingFactory() {
-		super(new CoreBuildingFactory(), WavefrontLoader.loadObject("res/buildings/factory/mesh.obj"), TextureLoader.loadTexture("res/buildings/factory/color.png"));
+	public BuildingFactory(int id) {
+		super(new CoreBuildingFactory(id), WavefrontLoader.loadObject("res/buildings/factory/mesh.obj"), TextureLoader.loadTexture("res/buildings/factory/color.png"));
 	}
 
 }

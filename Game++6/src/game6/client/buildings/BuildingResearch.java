@@ -6,8 +6,8 @@ import de.nerogar.render.WavefrontLoader;
 
 public class BuildingResearch extends BaseBuilding {
 
-	public BuildingResearch() {
-		super(new CoreBuildingResearch(), WavefrontLoader.loadObject("res/buildings/research/mesh.obj"), TextureLoader.loadTexture("res/buildings/research/color.png"));
+	public BuildingResearch(int id) {
+		super(new CoreBuildingResearch(id), WavefrontLoader.loadObject("res/buildings/research/mesh.obj"), TextureLoader.loadTexture("res/buildings/research/color.png"));
 	}
 
 }

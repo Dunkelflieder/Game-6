@@ -1,5 +1,6 @@
 package game6.server.world;
 
+import game6.core.events.Event;
 import game6.core.networking.Connection;
 import game6.core.networking.PacketChannel;
 import game6.core.networking.packets.Packet;
@@ -20,21 +21,24 @@ public class World {
 		this.players = new ArrayList<>();
 	}
 
-	public void update() {
+	public void update(List<Event> events) {
 
 		// check for building placement request. Sample code btw.
 		for (Player player : players) {
 			for (Packet packet : player.getConnection().get(PacketChannel.BUILDINGS)) {
 				if (packet instanceof PacketPlaceBuilding) {
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
-					BaseBuilding building = ppb.building.getServerBuilding();
+					BaseBuilding building = ppb.building.getServerBuilding(map.getBuildings().size());
 					if (map.canAddBuilding(ppb.posX, ppb.posY, building)) {
 						map.addBuilding(ppb.posX, ppb.posY, building);
-						broadcast(ppb);
+						broadcast(new PacketPlaceBuilding(ppb.building, building.getID(), building.getPosX(), building.getPosY()));
 					}
 				}
 			}
 		}
+		
+		map.update(events);
+		
 	}
 
 	public Map getMap() {
@@ -44,7 +48,7 @@ public class World {
 	public void addPlayer(Connection connection) {
 		players.add(new Player(connection));
 	}
-	
+
 	private void broadcast(Packet packet) {
 		for (Player player : players) {
 			player.getConnection().send(packet);

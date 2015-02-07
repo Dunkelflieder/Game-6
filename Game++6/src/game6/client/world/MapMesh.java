@@ -40,7 +40,7 @@ public class MapMesh extends Renderable {
 		for (int x = 0; x < map.getSizeX(); x++) {
 			for (int y = 0; y < map.getSizeY(); y++) {
 
-				if (map.getBuildings()[x][y] == null) {
+				if (map.getBuildingMap()[x][y] == null) {
 					// xyz xyz xyz xyz xyz xyz
 					int i = 0;
 					float error = 0.0f;

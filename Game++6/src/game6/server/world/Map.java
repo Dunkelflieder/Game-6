@@ -1,5 +1,6 @@
 package game6.server.world;
 
+import game6.core.events.Event;
 import game6.core.world.CoreMap;
 import game6.server.buildings.BaseBuilding;
 
@@ -23,10 +24,10 @@ public class Map {
 	public void addBuilding(int posX, int posY, BaseBuilding building) {
 		building.setPosX(posX);
 		building.setPosY(posY);
-		buildings.add(building);
+		buildings.add(building.getID(), building);
 		core.addBuilding(posX, posY, building.getCore());
 		
-		// send to clients
+		// send to clients ?
 		
 	}
 
@@ -34,10 +35,12 @@ public class Map {
 		return core;
 	}
 	
-	public void update() {
+	public void update(List<Event> events) {
+		
 		for (BaseBuilding building: buildings) {
-			building.update();
+			building.update(events);
 		}
+		
 	}
 
 	public List<BaseBuilding> getBuildings() {

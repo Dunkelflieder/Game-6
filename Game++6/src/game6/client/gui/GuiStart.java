@@ -38,10 +38,10 @@ public class GuiStart extends Gui {
 	
 	// TODO remove this method. It sucks.
 	public void useThisDisplay(GameDisplay display) {
-		buildingFactory = new GImage(BuildingImageRenderer.render(display, new BuildingFactory()));
-		buildingReactor = new GImage(BuildingImageRenderer.render(display, new BuildingReactor()));
-		buildingResearch = new GImage(BuildingImageRenderer.render(display, new BuildingResearch()));
-		buildingTower = new GImage(BuildingImageRenderer.render(display, new BuildingTower()));
+		buildingFactory = new GImage(BuildingImageRenderer.render(display, new BuildingFactory(-1)));
+		buildingReactor = new GImage(BuildingImageRenderer.render(display, new BuildingReactor(-1)));
+		buildingResearch = new GImage(BuildingImageRenderer.render(display, new BuildingResearch(-1)));
+		buildingTower = new GImage(BuildingImageRenderer.render(display, new BuildingTower(-1)));
 		add(buildingFactory);
 		add(buildingReactor);
 		add(buildingResearch);

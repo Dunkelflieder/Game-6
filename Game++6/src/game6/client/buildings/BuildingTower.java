@@ -6,8 +6,8 @@ import de.nerogar.render.WavefrontLoader;
 
 public class BuildingTower extends BaseBuilding {
 
-	public BuildingTower() {
-		super(new CoreBuildingTower(), WavefrontLoader.loadObject("res/buildings/tower/mesh.obj"), TextureLoader.loadTexture("res/buildings/tower/color.png"));
+	public BuildingTower(int id) {
+		super(new CoreBuildingTower(id), WavefrontLoader.loadObject("res/buildings/tower/mesh.obj"), TextureLoader.loadTexture("res/buildings/tower/color.png"));
 	}
 
 }

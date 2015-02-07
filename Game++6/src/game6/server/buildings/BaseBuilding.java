@@ -1,6 +1,9 @@
 package game6.server.buildings;
 
 import game6.core.buildings.CoreBuilding;
+import game6.core.events.Event;
+
+import java.util.List;
 
 public abstract class BaseBuilding {
 
@@ -10,6 +13,14 @@ public abstract class BaseBuilding {
 		this.core = core;
 	}
 
+	public int getID() {
+		return core.getID();
+	}
+	
+	public void setID(int id) {
+		core.setID(id);
+	}
+	
 	public CoreBuilding getCore() {
 		return core;
 	}
@@ -30,6 +41,8 @@ public abstract class BaseBuilding {
 		core.setPosY(posY);
 	}
 
-	public abstract void update();
+	public void update(List<Event> events) {
+		core.update(events);
+	}
 
 }

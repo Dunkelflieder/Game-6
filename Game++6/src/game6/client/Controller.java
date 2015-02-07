@@ -12,6 +12,7 @@ import game6.core.networking.packets.Packet;
 import game6.core.networking.packets.PacketConnectionInfo;
 import game6.core.networking.packets.PacketMap;
 import game6.core.networking.packets.PacketPlaceBuilding;
+import game6.core.networking.packets.PacketPowerSupply;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -83,7 +84,7 @@ public class Controller extends BaseController {
 		GuiStart.instance.addBuildingClickedListener(() -> {
 			if (isConnected()) {
 				World worldWorld = (World) world;
-				connection.send(new PacketPlaceBuilding(BuildingType.getRandom(), (int) (Math.random() * (worldWorld.getMap().getSizeX() - 2)), (int) (Math.random() * (worldWorld.getMap().getSizeY() - 2))));
+				connection.send(new PacketPlaceBuilding(BuildingType.getRandom(), -1, (int) (Math.random() * (worldWorld.getMap().getSizeX() - 2)), (int) (Math.random() * (worldWorld.getMap().getSizeY() - 2))));
 			}
 		});
 	}
@@ -104,8 +105,13 @@ public class Controller extends BaseController {
 			}
 			packets = connection.get(PacketChannel.BUILDINGS);
 			for (Packet packet : packets) {
-				PacketPlaceBuilding packetBuilding = (PacketPlaceBuilding) packet;
-				((World) world).getMap().addBuilding(packetBuilding.posX, packetBuilding.posY, packetBuilding.building.getClientBuilding());
+				if (packet instanceof PacketPlaceBuilding) {
+					PacketPlaceBuilding packetBuilding = (PacketPlaceBuilding) packet;
+					((World) world).getMap().addBuilding(packetBuilding.posX, packetBuilding.posY, packetBuilding.building.getClientBuilding(packetBuilding.id));
+				} else if (packet instanceof PacketPowerSupply) {
+					PacketPowerSupply packetPS = (PacketPowerSupply) packet;
+					System.out.println("POWER SUPPLY: " + packetPS.event);
+				}
 			}
 		}
 

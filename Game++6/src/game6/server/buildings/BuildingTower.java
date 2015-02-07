@@ -4,13 +4,8 @@ import game6.core.buildings.CoreBuildingTower;
 
 public class BuildingTower extends BaseBuilding {
 
-	public BuildingTower() {
-		super(new CoreBuildingTower());
-	}
-
-	@Override
-	public void update() {
-		
+	public BuildingTower(int id) {
+		super(new CoreBuildingTower(id));
 	}
 
 }
