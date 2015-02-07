@@ -10,11 +10,11 @@ import java.awt.Color;
 
 import de.nerogar.render.GameDisplay;
 
-public class GuiStart extends Gui {
+public class GuiIngame extends Gui {
 
-	public static GuiStart instance = new GuiStart();
+	public static GuiIngame instance = new GuiIngame();
 	private GLabel title;
-	private GButton buttonConnect, buttonBuilding;
+	private GButton buttonBuilding;
 	
 	private GImage buildingFactory;
 	private GImage buildingReactor;
@@ -23,16 +23,12 @@ public class GuiStart extends Gui {
 
 	@Override
 	public void init() {
-		title = new GLabel("Startgui");
-		
-		buttonConnect = new GButton("Connect to local server");
-		buttonConnect.text.setColor(Color.BLACK);
+		title = new GLabel("Ingame-Gui");
 		
 		buttonBuilding = new GButton("Place random building");
 		buttonBuilding.text.setColor(Color.BLACK);
 		
 		add(title);
-		add(buttonConnect);
 		add(buttonBuilding);
 	}
 	
@@ -46,14 +42,6 @@ public class GuiStart extends Gui {
 		add(buildingReactor);
 		add(buildingResearch);
 		add(buildingTower);
-	}
-	
-	public boolean addConnectionClickedListener(ButtonClickedListener listener) {
-		return buttonConnect.addButtonClickedListener(listener);
-	}
-	
-	public boolean removeConnectionClickedListener(ButtonClickedListener listener) {
-		return buttonConnect.removeButtonClickedListener(listener);
 	}
 	
 	public boolean addBuildingClickedListener(ButtonClickedListener listener) {
@@ -77,11 +65,8 @@ public class GuiStart extends Gui {
 		title.setSize(100, 30);
 		title.setPos(20, screenHeight - 50);
 		
-		buttonConnect.setSize(310, 40);
-		buttonConnect.setPos(20, 20);
-		
 		buttonBuilding.setSize(310, 40);
-		buttonBuilding.setPos(20, 70);
+		buttonBuilding.setPos(20, 20);
 		
 		buildingFactory.setSize(128, 128);
 		buildingFactory.setPos(350, 0);

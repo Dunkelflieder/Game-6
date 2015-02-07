@@ -1,9 +1,10 @@
 package game6.client;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import game6.client.entities.TestEntity;
-import game6.client.gui.GuiStart;
+import game6.client.gui.GuiIngame;
 import game6.client.gui.Guis;
 import game6.client.world.World;
 import de.nerogar.engine.BaseGame;
@@ -27,13 +28,14 @@ public class Game extends BaseGame {
 		guiProperties.setDepthTest(false);
 		guiProperties.setScreenDimension(1280, 720);
 		
-
+		Keyboard.enableRepeatEvents(true);
+		
 		world = new World();
 		Camera camera = new Camera();
 		controller = new Controller(world, camera);
 		worldProperties.setCamera(camera);
 		
-		GuiStart.instance.useThisDisplay(display);
+		GuiIngame.instance.useThisDisplay(display);
 		Guis.resize(Display.getWidth(), Display.getHeight());
 		display.addDisplayResizeListener((width, height) -> {
 			Guis.resize(width, height);

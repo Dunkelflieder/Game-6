@@ -9,12 +9,10 @@ public class CoreMap {
 
 	private Tile[][] tiles;
 	private CoreBuilding[][] buildingMap;
-	private List<CoreBuilding> buildings;
 
 	public CoreMap(Tile[][] tiles) {
 		this.tiles = tiles;
 		this.buildingMap = new CoreBuilding[getSizeX()][getSizeY()];
-		this.buildings = new ArrayList<>();
 	}
 
 	public boolean canAddBuilding(int posX, int posY, CoreBuilding building) {
@@ -30,20 +28,11 @@ public class CoreMap {
 	public void addBuilding(int posX, int posY, CoreBuilding building) {
 		building.setPosX(posX);
 		building.setPosY(posY);
-		buildings.add(building.getID(), building);
 		for (int x = posX; x < posX + building.getSizeX(); x++) {
 			for (int y = posY; y < posY + building.getSizeY(); y++) {
 				buildingMap[x][y] = building;
 			}
 		}
-	}
-	
-	public List<CoreBuilding> getBuildings() {
-		return buildings;
-	}
-	
-	public CoreBuilding getBuilding(int id) {
-		return buildings.get(id);
 	}
 	
 	public CoreBuilding getBuildingAt(int x, int y) {

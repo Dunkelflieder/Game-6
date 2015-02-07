@@ -8,16 +8,31 @@ import static org.lwjgl.opengl.GL11.glVertex3f;
 import de.nerogar.render.Texture2D;
 import de.nerogar.render.TextureLoader;
 
-public class GImage extends GComponent {
+public class GMultiimage extends GComponent {
 
 	private Texture2D texture;
+	private int cols, rows;
+	private int texX, texY;
 
-	public GImage(String filename) {
+	public GMultiimage(String filename, int cols, int rows) {
 		texture = TextureLoader.loadTexture(filename);
+		this.cols = cols;
+		this.rows = rows;
 	}
-	
-	public GImage(Texture2D texture) {
+
+	public GMultiimage(Texture2D texture, int cols, int rows) {
 		this.texture = texture;
+		this.cols = cols;
+		this.rows = rows;
+	}
+
+	public void setIndex(int i) {
+		setIndex(i % cols, i / cols);
+	}
+
+	public void setIndex(int x, int y) {
+		texX = x;
+		texY = y;
 	}
 
 	@Override
@@ -28,18 +43,23 @@ public class GImage extends GComponent {
 		int x = getPosX() + offsetX;
 		int y = getPosY() + offsetY;
 
+		float stepX = 1f / cols;
+		float stepY = 1f / rows;
+		float texX = this.texX * stepX;
+		float texY = this.texY * stepY;
+
 		glBegin(GL_QUADS);
 
-		glTexCoord2f(0, 0);
+		glTexCoord2f(texX, texY + stepY);
 		glVertex3f(x, y, -1);
 
-		glTexCoord2f(1, 0);
+		glTexCoord2f(texX + stepX, texY + stepY);
 		glVertex3f(x + getSizeX(), y, -1);
 
-		glTexCoord2f(1, 1);
+		glTexCoord2f(texX + stepX, texY);
 		glVertex3f(x + getSizeX(), y + getSizeY(), -1);
 
-		glTexCoord2f(0, 1);
+		glTexCoord2f(texX, texY);
 		glVertex3f(x, y + getSizeY(), -1);
 
 		glEnd();

@@ -1,7 +1,8 @@
 package game6.client;
 
-//import game6.client.entities.EntityFighting;
-import game6.client.gui.GuiStart;
+import game6.client.gui.GuiIngame;
+import game6.client.gui.GuiTitlescreen;
+import game6.client.gui.Guis;
 import game6.client.world.Map;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
@@ -36,13 +37,9 @@ public class Controller extends BaseController {
 	private InputHandler inputHandler;
 	private Connection connection;
 
-	// private List<EntityFighting> ownEntities;
-
 	public Controller(BaseWorld world, Camera camera) {
 		super(world, camera);
 		inputHandler = new InputHandler();
-
-		// ownEntities = new ArrayList<EntityFighting>();
 	}
 
 	public void cleanup() {
@@ -51,17 +48,19 @@ public class Controller extends BaseController {
 		}
 	}
 
-	public void connect(String host, int port) {
+	public boolean connect(String host, int port) {
 		if (isConnected()) {
 			connection.close();
 		}
 		try {
 			connection = new Connection(new Socket(host, port));
 			connection.send(new PacketConnectionInfo(Packets.NETWORKING_VERSION));
+			return true;
 		} catch (IOException e) {
 			System.err.println("Could not establish connection");
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	public boolean isConnected() {
@@ -76,12 +75,14 @@ public class Controller extends BaseController {
 		camera.pitch = 60;
 		camera.yaw = 0;
 
-		GuiStart.instance.addConnectionClickedListener(() -> {
-			connect("localhost", 4200);
+		GuiTitlescreen.instance.addConnectListener((host, port) -> {
+			if (connect(host, port)) {
+				Guis.select(Guis.INGAME);
+			}
 		});
 
 		// TODO temporary debug stuff
-		GuiStart.instance.addBuildingClickedListener(() -> {
+		GuiIngame.instance.addBuildingClickedListener(() -> {
 			if (isConnected()) {
 				World worldWorld = (World) world;
 				connection.send(new PacketPlaceBuilding(BuildingType.getRandom(), -1, (int) (Math.random() * (worldWorld.getMap().getSizeX() - 2)), (int) (Math.random() * (worldWorld.getMap().getSizeY() - 2))));

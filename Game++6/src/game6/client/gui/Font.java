@@ -35,6 +35,10 @@ public class Font {
 	public static final int PLAIN = java.awt.Font.PLAIN;
 	public static final int BOLD = java.awt.Font.BOLD;
 	public static final int ITALIC = java.awt.Font.ITALIC;
+	
+	public static final int LEFT = 10;
+	public static final int CENTER = 11;
+	public static final int RIGHT = 12;
 
 	// public static final Font DEFAULT = new Font("Times New Roman", PLAIN);
 	public static final Font DEFAULT = new Font("res/defaultFont");

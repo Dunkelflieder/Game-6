@@ -8,25 +8,26 @@ import org.lwjgl.input.Mouse;
 public abstract class GComponent {
 
 	private int posX, posY, sizeX, sizeY;
-	private boolean consumesInput;
+	private boolean focused;
 
-	private boolean isHovered;
+	private boolean wasHovered;
 	private boolean[] mouseButtonDown;
 
 	private List<MouseListener> mouseListener = new ArrayList<>();
+	private List<KeyboardListener> keyboardListener = new ArrayList<>();
 
 	public GComponent() {
 		init();
 		setPos(0, 0);
 		setSize(0, 0);
-		setConsumesInput(false);
-		isHovered = false;
+		focused = false;
+		wasHovered = false;
 		mouseButtonDown = new boolean[3];
 		mouseButtonDown[0] = false;
 		mouseButtonDown[1] = false;
 		mouseButtonDown[2] = false;
 	}
-	
+
 	public void init() {
 	}
 
@@ -72,12 +73,18 @@ public abstract class GComponent {
 		setSizeY(sizeY);
 	}
 
-	public void setConsumesInput(boolean consumesInput) {
-		this.consumesInput = consumesInput;
+	public void unfocus() {
+		focused = false;
+		onUnfocus();
 	}
 
-	public boolean consumesInput() {
-		return consumesInput;
+	public void focus() {
+		focused = true;
+		onFocus();
+	}
+
+	public boolean isFocused() {
+		return focused;
 	}
 
 	// //////////
@@ -86,29 +93,22 @@ public abstract class GComponent {
 		return Mouse.getX() > getPosX() && Mouse.getX() < getPosX() + getSizeX() &&
 				Mouse.getY() > getPosY() && Mouse.getY() < getPosY() + getSizeY();
 	}
-	
+
 	public void update() {
 
 		boolean isCurrentlyHovered = isCurrentlyHovered();
-		if (isCurrentlyHovered && !isHovered) {
+		if (isCurrentlyHovered && !wasHovered) {
 			notifyMouseEnteredListener();
-		} else if (!isCurrentlyHovered && isHovered) {
+		} else if (!isCurrentlyHovered && wasHovered) {
 			notifyMouseLeftListener();
 		}
-		isHovered = isCurrentlyHovered;
-
-		for (int i = 0; i < mouseButtonDown.length; i++) {
-			if (isHovered && Mouse.isButtonDown(i) && !mouseButtonDown[i]) {
-				notifyMouseClickedListener(i);
-			} else if (!Mouse.isButtonDown(i) && mouseButtonDown[i]) {
-				notifyMouseReleasedListener(i);
-			}
-			mouseButtonDown[i] = Mouse.isButtonDown(i);
-		}
+		wasHovered = isCurrentlyHovered;
 
 	}
-	
+
 	public abstract void render(int offsetX, int offsetY);
+	public abstract void onFocus();
+	public abstract void onUnfocus();
 
 	// //////////
 
@@ -120,28 +120,79 @@ public abstract class GComponent {
 		return mouseListener.remove(listener);
 	}
 
-	private void notifyMouseEnteredListener() {
+	public boolean addKeyboardListener(KeyboardListener listener) {
+		return keyboardListener.add(listener);
+	}
+
+	public boolean removeKeyboardListener(KeyboardListener listener) {
+		return keyboardListener.remove(listener);
+	}
+
+	protected void notifyMouseEnteredListener() {
 		for (MouseListener listener : mouseListener) {
-			listener.mouseEntered();
+			listener.mouseEntered(this);
 		}
 	}
 
-	private void notifyMouseLeftListener() {
+	protected void notifyMouseLeftListener() {
 		for (MouseListener listener : mouseListener) {
-			listener.mouseLeft();
+			listener.mouseLeft(this);
 		}
 	}
 
-	private void notifyMouseClickedListener(int button) {
+	protected boolean notifyMouseClickedListener(int button) {
 		for (MouseListener listener : mouseListener) {
-			listener.mouseClicked(button);
+			if (listener.mouseClicked(this, button)) {
+				return true;
+			}
 		}
+		return false;
 	}
 
-	private void notifyMouseReleasedListener(int button) {
+	protected boolean notifyMouseReleasedListener(int button) {
+		focus();
 		for (MouseListener listener : mouseListener) {
-			listener.mouseReleased(button);
+			if (listener.mouseReleased(this, button)) {
+				return true;
+			}
 		}
+		return false;
+	}
+
+	protected boolean notifyMouseWheelListener(int delta) {
+		for (MouseListener listener : mouseListener) {
+			if (listener.mouseWheel(this, delta)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean notifyMouseMovedListener(int dx, int dy) {
+		for (MouseListener listener : mouseListener) {
+			if (listener.mouseMoved(this, dx, dy)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean notifyKeyPressedListener(int keyCode, char key) {
+		for (KeyboardListener listener : keyboardListener) {
+			if (listener.keyPressed(this, keyCode, key)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean notifyKeyReleasedListener(int keyCode, char key) {
+		for (KeyboardListener listener : keyboardListener) {
+			if (listener.keyReleased(this, keyCode, key)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

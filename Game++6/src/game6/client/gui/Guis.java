@@ -2,10 +2,11 @@ package game6.client.gui;
 
 public enum Guis {
 
-	START(GuiStart.instance);
+	TITLESCREEN(GuiTitlescreen.instance),
+	INGAME(GuiIngame.instance);
 
 	private Gui gui;
-	private static Guis selectedGui = START;
+	private static Guis selectedGui = TITLESCREEN;
 
 	Guis(Gui gui) {
 		this.gui = gui;
