@@ -1,5 +1,11 @@
 package game6.client.gui;
 
+import game6.client.gui.components.GButton;
+import game6.client.gui.components.GColorfield;
+import game6.client.gui.components.GInput;
+import game6.client.gui.components.GInputNumber;
+import game6.client.gui.components.GLabel;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;

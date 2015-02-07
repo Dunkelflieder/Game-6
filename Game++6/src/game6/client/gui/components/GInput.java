@@ -1,4 +1,6 @@
-package game6.client.gui;
+package game6.client.gui.components;
+
+import game6.client.gui.listener.KeyboardListener;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;

@@ -1,4 +1,7 @@
-package game6.client.gui;
+package game6.client.gui.components;
+
+import game6.client.gui.listener.ButtonClickedListener;
+import game6.client.gui.listener.MouseListener;
 
 import java.awt.Color;
 import java.util.ArrayList;

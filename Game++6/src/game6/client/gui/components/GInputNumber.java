@@ -1,4 +1,4 @@
-package game6.client.gui;
+package game6.client.gui.components;
 
 import org.lwjgl.input.Keyboard;
 

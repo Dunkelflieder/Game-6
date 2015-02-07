@@ -1,4 +1,6 @@
-package game6.client.gui;
+package game6.client.gui.listener;
+
+import game6.client.gui.components.GComponent;
 
 public class KeyboardAdapter implements KeyboardListener {
 

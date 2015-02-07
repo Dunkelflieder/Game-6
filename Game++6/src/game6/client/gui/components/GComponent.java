@@ -1,4 +1,7 @@
-package game6.client.gui;
+package game6.client.gui.components;
+
+import game6.client.gui.listener.KeyboardListener;
+import game6.client.gui.listener.MouseListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +92,7 @@ public abstract class GComponent {
 
 	// //////////
 
-	protected boolean isCurrentlyHovered() {
+	public boolean isCurrentlyHovered() {
 		return Mouse.getX() > getPosX() && Mouse.getX() < getPosX() + getSizeX() &&
 				Mouse.getY() > getPosY() && Mouse.getY() < getPosY() + getSizeY();
 	}

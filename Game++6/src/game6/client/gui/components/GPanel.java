@@ -1,4 +1,4 @@
-package game6.client.gui;
+package game6.client.gui.components;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -62,7 +62,7 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	protected void notifyMouseEnteredListener() {
+	public void notifyMouseEnteredListener() {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
 			component.notifyMouseEnteredListener();
 		}
@@ -70,7 +70,7 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	protected void notifyMouseLeftListener() {
+	public void notifyMouseLeftListener() {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
 			component.notifyMouseLeftListener();
 		}
@@ -78,7 +78,7 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	protected boolean notifyMouseClickedListener(int button) {
+	public boolean notifyMouseClickedListener(int button) {
 		for (GComponent c : components) {
 			c.unfocus();
 		}
@@ -96,7 +96,7 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	protected boolean notifyMouseReleasedListener(int button) {
+	public boolean notifyMouseReleasedListener(int button) {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
 			if (component.isCurrentlyHovered()) {
 				if (component.notifyMouseReleasedListener(button)) {
@@ -111,7 +111,7 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	protected boolean notifyMouseWheelListener(int delta) {
+	public boolean notifyMouseWheelListener(int delta) {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
 			if (component.isCurrentlyHovered()) {
 				if (component.notifyMouseWheelListener(delta)) {
@@ -126,7 +126,7 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	protected boolean notifyMouseMovedListener(int dx, int dy) {
+	public boolean notifyMouseMovedListener(int dx, int dy) {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
 			if (component.isCurrentlyHovered()) {
 				if (component.notifyMouseMovedListener(dx, dy)) {
@@ -141,7 +141,7 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	protected boolean notifyKeyPressedListener(int keyCode, char key) {
+	public boolean notifyKeyPressedListener(int keyCode, char key) {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
 			if (component.notifyKeyPressedListener(keyCode, key)) {
 				return true;
@@ -154,7 +154,7 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	protected boolean notifyKeyReleasedListener(int keyCode, char key) {
+	public boolean notifyKeyReleasedListener(int keyCode, char key) {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
 			if (component.notifyKeyReleasedListener(keyCode, key)) {
 				return true;
