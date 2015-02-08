@@ -98,7 +98,7 @@ public class Controller extends BaseController {
 			for (Packet packet : packets) {
 				PacketMap packetMap = (PacketMap) packet;
 				// FIXME Can only World's methods with casting
-				((World) world).setMap(new Map(packetMap.map));
+				((World) world).setMap(new Map(packetMap.tiles));
 			}
 
 			if (((World) world).isReady()) {

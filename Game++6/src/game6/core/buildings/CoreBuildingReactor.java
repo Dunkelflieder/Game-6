@@ -5,7 +5,7 @@ import game6.core.events.ShockEvent;
 
 import java.util.List;
 
-public class CoreBuildingReactor extends CoreBuilding {
+public abstract class CoreBuildingReactor extends CoreBuilding {
 
 	private int tick = 0;
 	private int shockCooldown = 30;

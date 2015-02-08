@@ -9,10 +9,10 @@ public enum BuildingType {
 	FACTORY(4, game6.client.buildings.BuildingFactory.class, game6.server.buildings.BuildingFactory.class);
 
 	private int id;
-	private Class<? extends game6.client.buildings.BaseBuilding> clientClass;
-	private Class<? extends game6.server.buildings.BaseBuilding> serverClass;
+	private Class<? extends CoreBuilding> clientClass;
+	private Class<? extends CoreBuilding> serverClass;
 
-	BuildingType(int id, Class<? extends game6.client.buildings.BaseBuilding> clientClass, Class<? extends game6.server.buildings.BaseBuilding> serverClass) {
+	BuildingType(int id, Class<? extends CoreBuilding> clientClass, Class<? extends CoreBuilding> serverClass) {
 		this.id = id;
 		this.clientClass = clientClass;
 		this.serverClass = serverClass;
@@ -22,7 +22,7 @@ public enum BuildingType {
 		return id;
 	}
 
-	public game6.client.buildings.BaseBuilding getClientBuilding(int id) {
+	public CoreBuilding getClientBuilding(int id) {
 		try {
 			return clientClass.getConstructor(int.class).newInstance(id);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -32,7 +32,7 @@ public enum BuildingType {
 		return null;
 	}
 
-	public game6.server.buildings.BaseBuilding getServerBuilding(int id) {
+	public CoreBuilding getServerBuilding(int id) {
 		try {
 			return serverClass.getConstructor(int.class).newInstance(id);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -51,7 +51,7 @@ public enum BuildingType {
 		return null;
 	}
 
-	public static BuildingType fromServerClass(Class<? extends game6.server.buildings.BaseBuilding> clazz) {
+	public static BuildingType fromServerClass(Class<? extends CoreBuilding> clazz) {
 		for (BuildingType type : values()) {
 			if (type.serverClass.equals(clazz)) {
 				return type;

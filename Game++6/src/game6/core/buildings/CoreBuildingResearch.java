@@ -4,7 +4,7 @@ import game6.core.events.Event;
 
 import java.util.List;
 
-public class CoreBuildingResearch extends CoreBuilding {
+public abstract class CoreBuildingResearch extends CoreBuilding {
 
 	public CoreBuildingResearch(int id) {
 		super(id, 2, 2);
