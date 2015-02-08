@@ -1,6 +1,11 @@
 package game6.client.buildings;
 
-import de.nerogar.render.*;
+import game6.core.buildings.CoreBuilding;
+import de.nerogar.render.Camera;
+import de.nerogar.render.GameDisplay;
+import de.nerogar.render.RenderTarget;
+import de.nerogar.render.ScreenProperties;
+import de.nerogar.render.Texture2D;
 
 public class BuildingImageRenderer {
 
@@ -8,7 +13,7 @@ public class BuildingImageRenderer {
 	private static ScreenProperties screenProperties;
 	private static Camera guiTextureCam;
 
-	public static Texture2D render(GameDisplay display, BaseBuilding building) {
+	public static Texture2D render(GameDisplay display, CoreBuilding building) {
 		guiTextureCam = new Camera();
 		guiTextureCam.x = building.getSizeX() / 2f;
 		guiTextureCam.y = 1.0f;

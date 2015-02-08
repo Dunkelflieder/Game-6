@@ -1,12 +1,12 @@
 package game6.server;
 
 import game6.core.buildings.BuildingType;
+import game6.core.buildings.CoreBuilding;
 import game6.core.events.Event;
 import game6.core.networking.Connection;
 import game6.core.networking.ServerThread;
 import game6.core.networking.packets.PacketMap;
 import game6.core.networking.packets.PacketPlaceBuilding;
-import game6.server.buildings.BaseBuilding;
 import game6.server.world.World;
 
 import java.util.LinkedList;
@@ -31,10 +31,10 @@ public class Controller {
 
 		// Send them the map
 		if (conns.size() > 0) {
-			PacketMap packet = new PacketMap(world.getMap().getCore());
+			PacketMap packet = new PacketMap(world.getMap().getTiles());
 			for (Connection conn : conns) {
 				conn.send(packet);
-				for (BaseBuilding building : world.getMap().getBuildings()) {
+				for (CoreBuilding building : world.getMap().getBuildings()) {
 					PacketPlaceBuilding packetBuilding = new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getID(), building.getPosX(), building.getPosY());
 					conn.send(packetBuilding);
 				}
@@ -43,14 +43,14 @@ public class Controller {
 		}
 
 		LinkedList<Event> events = new LinkedList<>();
-		
+
 		world.update(events);
-		
-		while(!events.isEmpty()) {
+
+		while (!events.isEmpty()) {
 			Event event = events.pop();
-			event.doMap(events, world.getMap().getCore());
+			event.doMap(events, world.getMap());
 			event.doNetwork(events, server);
 		}
-		
+
 	}
 }

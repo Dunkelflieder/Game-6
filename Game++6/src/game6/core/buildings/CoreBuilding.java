@@ -13,12 +13,15 @@ public abstract class CoreBuilding {
 	private int maxEnergy;
 
 	public CoreBuilding(int id, int sizeX, int sizeY) {
+		init();
 		this.id = id;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.posX = 0;
 		this.posY = 0;
 	}
+	
+	public abstract void init();
 
 	public int getID() {
 		return id;
@@ -53,6 +56,7 @@ public abstract class CoreBuilding {
 	}
 
 	public abstract void update(List<Event> events);
+	public abstract void render();
 
 	public int getEnergy() {
 		return energy;

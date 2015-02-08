@@ -18,10 +18,10 @@ public class World extends BaseWorld {
 
 	public void setMap(Map map) {
 		if (this.map != null) {
-			this.map.removeFromWorld();
+			this.map.getEntity().removeFromWorld();
 		}
 		this.map = map;
-		spawnEntity(map, new Vector3f());
+		spawnEntity(map.getEntity(), new Vector3f());
 	}
 
 	@Override
