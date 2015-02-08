@@ -2,8 +2,7 @@ package game6.core.networking;
 
 import game6.core.networking.packets.Packet;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ public class SenderThread extends Thread {
 	@Override
 	public void run() {
 
-		try (DataOutputStream stream = new DataOutputStream(socket.getOutputStream())) {
+		try (DataOutputStream stream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()))) {
 			while (!isInterrupted()) {
 				synchronized (packets) {
 
