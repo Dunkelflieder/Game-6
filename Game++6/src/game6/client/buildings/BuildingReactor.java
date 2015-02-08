@@ -12,6 +12,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 
 	private Renderable mesh;
 	private Texture2D texture;
+	private Texture2D textureFaction;
 	
 	public BuildingReactor(int id) {
 		super(id);
@@ -21,12 +22,14 @@ public class BuildingReactor extends CoreBuildingReactor {
 	public void init() {
 		mesh = WavefrontLoader.loadObject("res/buildings/reactor/mesh.obj");
 		texture = TextureLoader.loadTexture("res/buildings/reactor/color.png");
+		textureFaction = TextureLoader.loadTexture("res/buildings/reactor/color.png");
 	}
 
 	@Override
 	public void render() {
 		Vector3f pos = new Vector3f(getPosX(), 0, getPosY());
-		texture.bind();
+		texture.bind(0);
+		textureFaction.bind(1);
 		mesh.render(new RenderProperties(pos, null, null));
 	}
 
