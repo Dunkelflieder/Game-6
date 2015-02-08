@@ -23,7 +23,6 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 		
 		if (tick % shockCooldown == 0) {
 			tick = 0;
-			System.out.println("Shocking!");
 			events.add(new ShockEvent(this, shockPower, shockRadius));
 		}
 		

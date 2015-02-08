@@ -111,7 +111,6 @@ public class Controller extends BaseController {
 					((World) world).getMap().addBuilding(packetBuilding.posX, packetBuilding.posY, packetBuilding.building.getClientBuilding(packetBuilding.id));
 				} else if (packet instanceof PacketPowerSupply) {
 					PacketPowerSupply packetPS = (PacketPowerSupply) packet;
-					System.out.println("POWER SUPPLY: " + packetPS.event);
 				}
 			}
 		}
