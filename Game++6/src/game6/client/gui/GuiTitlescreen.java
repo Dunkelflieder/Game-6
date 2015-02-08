@@ -7,8 +7,6 @@ import game6.client.gui.components.GInputNumber;
 import game6.client.gui.components.GLabel;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuiTitlescreen extends Gui {
 
@@ -20,28 +18,8 @@ public class GuiTitlescreen extends Gui {
 	private GInputNumber port;
 	private GButton connectButton;
 
-	private List<ConnectListener> connectListeners = new ArrayList<>();
-
-	public static interface ConnectListener {
-		public void connect(String host, int port);
-	}
-
-	public boolean addConnectListener(ConnectListener listener) {
-		return connectListeners.add(listener);
-	}
-
-	public boolean removeConnectListener(ConnectListener listener) {
-		return connectListeners.remove(listener);
-	}
-
-	private void notifyConnectListeners(String host, int port) {
-		for (ConnectListener listener : connectListeners) {
-			listener.connect(host, port);
-		}
-	}
-
 	@Override
-	public void init() {
+	public void initComponents() {
 		background = new GColorfield(new Color(0, 0, 160));
 
 		title = new GLabel("Dies ist der Titelbildschirm");
@@ -54,7 +32,11 @@ public class GuiTitlescreen extends Gui {
 		port = new GInputNumber(4200);
 
 		connectButton = new GButton("Verbinden");
-		connectButton.addButtonClickedListener(() -> notifyConnectListeners(host.getText(), port.getNumber()));
+		connectButton.addClickedListener(source -> {
+			if (controller.connect(host.getText(), port.getNumber())) {
+				Guis.select(Guis.INGAME);
+			}
+		});
 
 		add(background);
 		add(title);

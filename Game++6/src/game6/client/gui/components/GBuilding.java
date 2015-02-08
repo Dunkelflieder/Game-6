@@ -1,43 +1,46 @@
 package game6.client.gui.components;
 
+import game6.client.buildings.BuildingImageRenderer;
 import game6.client.gui.listener.ClickedListener;
 import game6.client.gui.listener.MouseListener;
+import game6.core.buildings.BuildingType;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GButton extends GComponent implements MouseListener {
+import de.nerogar.render.GameDisplay;
+
+public class GBuilding extends GComponent implements MouseListener {
 
 	private List<ClickedListener> clickedListener = new ArrayList<>();
 
-	public GLabel text;
-	private GMultiimage buttonImage;
+	private GImage image;
+	private BuildingType type;
 
-	public GButton(String text) {
-		this.text.setText(text);
+	public GBuilding(GameDisplay display, BuildingType type) {
+		this.type = type;
+		image = new GImage(BuildingImageRenderer.render(display, type.getClientBuilding(0)));
+	}
+	
+	public BuildingType getBuildingType() {
+		return type;
 	}
 
 	@Override
 	public void init() {
 		addMouseListener(this);
-		text = new GLabel();
-		text.setColor(Color.BLACK);
-		buttonImage = new GMultiimage("res/buttons.png", 1, 4);
 	}
 
 	@Override
 	public void setSizeX(int x) {
 		super.setSizeX(x);
-		text.setSizeX(x);
-		buttonImage.setSizeX(x);
+		image.setSizeX(x);
 	}
 
 	@Override
 	public void setSizeY(int y) {
 		super.setSizeY(y);
-		text.setSizeY(y);
-		buttonImage.setSizeY(y);
+		image.setSizeY(y);
 	}
 
 	@Override
@@ -48,8 +51,7 @@ public class GButton extends GComponent implements MouseListener {
 
 	@Override
 	public void render(int offsetX, int offsetY) {
-		buttonImage.render(getPosX() + offsetX, getPosY() + offsetY);
-		text.render(getPosX() + offsetX + 10, getPosY() + offsetY);
+		image.render(getPosX() + offsetX, getPosY() + offsetY);
 	}
 
 	public boolean addClickedListener(ClickedListener listener) {
@@ -68,18 +70,15 @@ public class GButton extends GComponent implements MouseListener {
 
 	@Override
 	public void mouseEntered(GComponent source) {
-		buttonImage.setIndex(1);
 	}
 
 	@Override
 	public void mouseLeft(GComponent source) {
-		buttonImage.setIndex(0);
 	}
 
 	@Override
 	public boolean mouseClicked(GComponent source, int button) {
 		if (button == 0) {
-			buttonImage.setIndex(2);
 			return true;
 		}
 		return false;
@@ -91,7 +90,6 @@ public class GButton extends GComponent implements MouseListener {
 			if (isCurrentlyHovered()) {
 				notifyClickedListener();
 			}
-			buttonImage.setIndex(0);
 			return true;
 		}
 		return false;

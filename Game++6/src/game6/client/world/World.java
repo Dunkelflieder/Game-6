@@ -23,7 +23,14 @@ public class World extends BaseWorld {
 		this.map = map;
 		spawnEntity(map.getEntity(), new Vector3f());
 	}
-
+	
+	public void unloadMap() {
+		if (this.map != null) {
+			this.map.getEntity().removeFromWorld();
+		}
+		this.map = null;
+	}
+	
 	@Override
 	public void load() {
 

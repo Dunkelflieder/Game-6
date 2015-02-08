@@ -2,7 +2,7 @@ package game6.client.gui.listener;
 
 import game6.client.gui.components.GComponent;
 
-public class MouseAdapter implements MouseListener {
+public abstract class MouseAdapter implements MouseListener {
 
 	@Override
 	public void mouseEntered(GComponent source) {

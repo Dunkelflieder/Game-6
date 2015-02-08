@@ -1,15 +1,25 @@
 package game6.client.gui;
 
+import game6.client.Controller;
+import de.nerogar.render.GameDisplay;
+
 public enum Guis {
 
 	TITLESCREEN(GuiTitlescreen.instance),
-	INGAME(GuiIngame.instance);
+	INGAME(GuiIngame.instance),
+	PAUSE(GuiPause.instance);
 
 	private Gui gui;
 	private static Guis selectedGui = TITLESCREEN;
 
 	Guis(Gui gui) {
 		this.gui = gui;
+	}
+	
+	public static void init(GameDisplay display, Controller controller) {
+		for (Guis gui : values()) {
+			gui.getGui().init(display, controller);
+		}
 	}
 
 	public Gui getGui() {

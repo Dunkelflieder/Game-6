@@ -2,7 +2,7 @@ package game6.client.gui.listener;
 
 import game6.client.gui.components.GComponent;
 
-public class KeyboardAdapter implements KeyboardListener {
+public abstract class KeyboardAdapter implements KeyboardListener {
 
 	@Override
 	public boolean keyPressed(GComponent source, int keyCode, char key) {

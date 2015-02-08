@@ -1,5 +1,6 @@
 package game6.client.gui;
 
+import game6.client.Controller;
 import game6.client.gui.components.GComponent;
 import game6.client.gui.components.GPanel;
 import game6.client.gui.listener.GuiListener;
@@ -10,17 +11,28 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import de.nerogar.render.GameDisplay;
+
 public abstract class Gui {
 
-	private GPanel panel;
+	protected Controller controller;
+	protected GPanel panel;
 	private List<GuiListener> guiListeners = new ArrayList<>();
 
 	public Gui() {
 		panel = new GPanel();
-		init();
 	}
 
-	public abstract void init();
+	public Controller getController() {
+		return controller;
+	}
+
+	public abstract void initComponents();
+	
+	public void init(GameDisplay display, Controller controller) {
+		this.controller = controller;
+		initComponents();
+	}
 
 	public boolean add(GComponent component) {
 		return panel.add(component);

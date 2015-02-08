@@ -14,21 +14,14 @@ public abstract class GComponent {
 	private boolean focused;
 
 	private boolean wasHovered;
-	private boolean[] mouseButtonDown;
 
 	private List<MouseListener> mouseListener = new ArrayList<>();
 	private List<KeyboardListener> keyboardListener = new ArrayList<>();
 
 	public GComponent() {
 		init();
-		setPos(0, 0);
-		setSize(0, 0);
 		focused = false;
 		wasHovered = false;
-		mouseButtonDown = new boolean[3];
-		mouseButtonDown[0] = false;
-		mouseButtonDown[1] = false;
-		mouseButtonDown[2] = false;
 	}
 
 	public void init() {
