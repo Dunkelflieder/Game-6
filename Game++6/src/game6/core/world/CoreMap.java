@@ -30,6 +30,7 @@ public class CoreMap {
 	public void addBuilding(int posX, int posY, CoreBuilding building) {
 		building.setPosX(posX);
 		building.setPosY(posY);
+		building.setMap(this);
 		this.buildings.add(building.getID(), building);
 		for (int x = posX; x < posX + building.getSizeX(); x++) {
 			for (int y = posY; y < posY + building.getSizeY(); y++) {
