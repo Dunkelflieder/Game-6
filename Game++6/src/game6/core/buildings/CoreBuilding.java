@@ -1,6 +1,8 @@
 package game6.core.buildings;
 
+import game6.core.Faction;
 import game6.core.events.Event;
+import game6.core.world.CoreMap;
 
 import java.util.List;
 
@@ -11,6 +13,9 @@ public abstract class CoreBuilding {
 
 	private int energy;
 	private int maxEnergy;
+	
+	protected CoreMap map;
+	protected Faction faction;
 
 	public CoreBuilding(int id, int sizeX, int sizeY) {
 		init();
@@ -86,6 +91,14 @@ public abstract class CoreBuilding {
 
 	public void setMaxEnergy(int maxEnergy) {
 		this.maxEnergy = maxEnergy;
+	}
+
+	public void setMap(CoreMap map) {
+		this.map = map;
+	}
+
+	public void setFaction(Faction faction){
+		this.faction = faction;
 	}
 
 }

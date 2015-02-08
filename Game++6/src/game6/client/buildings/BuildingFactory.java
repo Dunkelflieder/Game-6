@@ -12,6 +12,7 @@ public class BuildingFactory extends CoreBuildingFactory {
 
 	private Renderable mesh;
 	private Texture2D texture;
+	private Texture2D textureFaction;
 	
 	public BuildingFactory(int id) {
 		super(id);
@@ -21,12 +22,14 @@ public class BuildingFactory extends CoreBuildingFactory {
 	public void init() {
 		mesh = WavefrontLoader.loadObject("res/buildings/factory/mesh.obj");
 		texture = TextureLoader.loadTexture("res/buildings/factory/color.png");
+		textureFaction = TextureLoader.loadTexture("res/buildings/factory/faction.png");
 	}
 
 	@Override
 	public void render() {
 		Vector3f pos = new Vector3f(getPosX(), 0, getPosY());
-		texture.bind();
+		texture.bind(0);
+		textureFaction.bind(1);
 		mesh.render(new RenderProperties(pos, null, null));
 	}
 

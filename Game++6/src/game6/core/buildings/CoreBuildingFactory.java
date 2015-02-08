@@ -12,7 +12,7 @@ public abstract class CoreBuildingFactory extends CoreBuilding {
 
 	@Override
 	public void update(List<Event> events) {
-		// TODO do stuff
+		
 	}
 
 	
