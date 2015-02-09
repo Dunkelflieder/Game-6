@@ -47,4 +47,8 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 		return shockPower;
 	}
 	
+	public String getName() {
+		return "Reaktor";
+	}
+	
 }

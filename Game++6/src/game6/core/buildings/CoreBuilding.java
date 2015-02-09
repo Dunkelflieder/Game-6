@@ -62,6 +62,7 @@ public abstract class CoreBuilding {
 
 	public abstract void update(List<Event> events);
 	public abstract void render();
+	public abstract String getName();
 
 	public int getEnergy() {
 		return energy;

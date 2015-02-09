@@ -26,16 +26,19 @@ public class GuiIngame extends Gui {
 	private GButton buttonBuilding;
 	private GColorfield highlight;
 	private CoreBuilding preview;
+	private GPanelBuilding buildingPanel;
 
 	private List<GBuilding> buildings;
 	private BuildingType selectedBuilding;
+
+	private int mapX, mapY;
 
 	// 0 = not grabbed, 1 = grabbed for movement, 2 = grabbed for rotation
 	private int grabbed = 0;
 
 	@Override
 	public void initComponents() {
-		
+
 		title = new GLabel("Ingame-Gui");
 
 		buttonBuilding = new GButton("Place random building");
@@ -46,39 +49,44 @@ public class GuiIngame extends Gui {
 
 		highlight = new GColorfield(new Color(0f, 1f, 0f, 0.5f));
 
+		buildingPanel = new GPanelBuilding();
+		
 		initCameraMovementListener();
 
 		// clicks on map
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public boolean mouseClicked(GComponent source, int button) {
-				if (button == 0 && selectedBuilding != null) {
-					controller.placeBuilding(selectedBuilding, preview.getPosX(), preview.getPosY());
-					return true;
+				if (button == 0) {
+					if (selectedBuilding != null) {
+						controller.placeBuilding(selectedBuilding, preview.getPosX(), preview.getPosY());
+						return true;
+					} else {
+						CoreBuilding building = controller.getWorld().getMap().getBuildingAt(mapX, mapY);
+						buildingPanel.setBuilding(building);
+					}
 				}
 				return false;
 			}
 
 			@Override
 			public boolean mouseMoved(GComponent source, int dx, int dy) {
-				if (selectedBuilding != null) {
-					// TODO don't hardcode fov
+				World world = controller.getWorld();
 
-					World world = controller.getWorld();
+				// TODO don't hardcode fov
+				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
+				Ray mouseRay = controller.getInputHandler().getMouseRay();
+				RayIntersection intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
 
-					controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
-					Ray mouseRay = controller.getInputHandler().getMouseRay();
-					RayIntersection intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
-
-					if (intersection != null && intersection.intersectionPoint.getX() < world.getMap().getSizeX() && intersection.intersectionPoint.getZ() < world.getMap().getSizeY()) {
-						int clickX = (int) intersection.intersectionPoint.getX();
-						int clickY = (int) intersection.intersectionPoint.getZ();
-						preview.setPosX(MathHelper.clamp(clickX, 0, world.getMap().getSizeX() - preview.getSizeX()));
-						preview.setPosY(MathHelper.clamp(clickY, 0, world.getMap().getSizeY() - preview.getSizeY()));
+				if (intersection != null && intersection.intersectionPoint.getX() < world.getMap().getSizeX() && intersection.intersectionPoint.getZ() < world.getMap().getSizeY()) {
+					mapX = (int) intersection.intersectionPoint.getX();
+					mapY = (int) intersection.intersectionPoint.getZ();
+					if (selectedBuilding != null) {
+						preview.setPosX(MathHelper.clamp(mapX, 0, world.getMap().getSizeX() - preview.getSizeX()));
+						preview.setPosY(MathHelper.clamp(mapY, 0, world.getMap().getSizeY() - preview.getSizeY()));
 					}
-					return true;
 				}
-				return false;
+				return true;
 			}
 		});
 
@@ -96,8 +104,9 @@ public class GuiIngame extends Gui {
 		add(title);
 		add(buttonBuilding);
 		add(highlight);
+		add(buildingPanel);
 	}
-	
+
 	public void reset() {
 		selectBuilding(null);
 	}
@@ -199,6 +208,10 @@ public class GuiIngame extends Gui {
 		buttonBuilding.setSize(310, 40);
 		buttonBuilding.setPos(20, 20);
 
+		buildingPanel.setSize(300, 500);
+		buildingPanel.setPos(screenWidth - 300, 0);
+		buildingPanel.resize();
+		
 		int offsetX = 350;
 		for (GBuilding building : buildings) {
 			building.setSize(128, 128);

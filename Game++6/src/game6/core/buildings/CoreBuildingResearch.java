@@ -14,6 +14,8 @@ public abstract class CoreBuildingResearch extends CoreBuilding {
 	public void update(List<Event> events) {
 	}
 
-	
+	public String getName() {
+		return "Labor";
+	}
 	
 }

@@ -14,6 +14,8 @@ public abstract class CoreBuildingTower extends CoreBuilding {
 	public void update(List<Event> events) {
 	}
 
-	
+	public String getName() {
+		return "Turm";
+	}
 	
 }

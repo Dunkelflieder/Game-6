@@ -15,6 +15,8 @@ public abstract class CoreBuildingFactory extends CoreBuilding {
 		
 	}
 
-	
+	public String getName() {
+		return "Fabrik";
+	}
 	
 }
