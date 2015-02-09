@@ -2,15 +2,16 @@ package game6.core.events;
 
 import java.util.List;
 
-import game6.core.networking.ServerThread;
+import game6.core.Faction;
 import game6.core.networking.packets.PacketPowerSupply;
-import game6.core.world.CoreMap;
+import game6.server.world.Player;
 
-public class PowerSupplyEvent implements Event {
+public class PowerSupplyEvent extends Event {
 
 	private int sourceID, destID, amount;
 
-	public PowerSupplyEvent(int sourceID, int destID, int amount) {
+	public PowerSupplyEvent(Faction faction, int sourceID, int destID, int amount) {
+		super(faction);
 		this.sourceID = sourceID;
 		this.destID = destID;
 		this.amount = amount;
@@ -29,17 +30,15 @@ public class PowerSupplyEvent implements Event {
 	}
 
 	@Override
-	public void doNetwork(List<Event> events, ServerThread serverThread) {
-		serverThread.broadcast(new PacketPowerSupply(this));
-	}
-
-	@Override
-	public void doMap(List<Event> events, CoreMap map) {
-	}
-
-	@Override
 	public String toString() {
 		return "PowerSupplyEvent(source: " + sourceID + ", dest: " + destID + ", amount: " + amount + ")";
+	}
+
+	@Override
+	public void process(List<Player> players) {
+		for (Player p : players) {
+			p.getConnection().send(new PacketPowerSupply(this));
+		}
 	}
 
 }

@@ -29,7 +29,7 @@ public class BuildingFactory extends CoreBuildingFactory {
 	public void render() {
 		texture.bind(0);
 		textureFaction.bind(1);
-		float height = (getMap() == null) ? 0 : getMap().getHeight(getPosX(), getPosY());
+		float height = (map == null) ? 0 : map.getHeight(getPosX(), getPosY());
 		mesh.render(new RenderProperties(new Vector3f(getPosX(), height, getPosY()), null, null));
 	}
 

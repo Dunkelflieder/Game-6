@@ -97,10 +97,6 @@ public abstract class CoreBuilding {
 		this.map = map;
 	}
 	
-	public CoreMap getMap() {
-		return map;
-	}
-
 	public void setFaction(Faction faction){
 		this.faction = faction;
 	}

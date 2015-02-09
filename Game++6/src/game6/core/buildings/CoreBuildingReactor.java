@@ -1,7 +1,6 @@
 package game6.core.buildings;
 
-import game6.core.events.Event;
-import game6.core.events.ShockEvent;
+import game6.core.events.*;
 
 import java.util.List;
 
@@ -23,7 +22,19 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 		
 		if (tick % shockCooldown == 0) {
 			tick = 0;
-			events.add(new ShockEvent(this, shockPower, shockRadius));
+			List<CoreBuilding> candidates = map.getBuildingsWithin(getPosX(), getPosY(), shockRadius);
+			// Share the available energy between the buildings
+			int left = shockPower;
+			int part = (int) Math.ceil(left / (float) candidates.size());
+			for (int i = 0; i < candidates.size(); i++) {
+				CoreBuilding building = candidates.get(i);
+				int given = part - building.addEnergy(part);
+				left -= given;
+				part = (int) Math.ceil(left / (float) (candidates.size() - i + 1));
+				if (given > 0) {
+					events.add(new PowerSupplyEvent(faction, getID(), building.getID(), given));
+				}
+			}
 		}
 		
 	}

@@ -12,7 +12,6 @@ public abstract class CoreBuildingTower extends CoreBuilding {
 
 	@Override
 	public void update(List<Event> events) {
-		// TODO do stuff
 	}
 
 	

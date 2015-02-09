@@ -1,7 +1,8 @@
 package game6.server;
 
 import game6.core.networking.ServerThread;
-import game6.server.world.World;
+import game6.core.world.MapGenerator;
+import game6.server.world.Map;
 
 import java.net.BindException;
 
@@ -10,7 +11,6 @@ public class Server {
 	private ServerThread serverThread;
 	private TickTimer timer = new TickTimer(10); // Server ticks per second
 
-	private World world;
 	private Controller controller;
 
 	public Server(int port) {
@@ -35,8 +35,8 @@ public class Server {
 
 	private void start() {
 
-		world = new World();
-		controller = new Controller(world, serverThread);
+		Map map = new Map(MapGenerator.getMap((long) (Math.random() * Long.MAX_VALUE), 100, 100));
+		controller = new Controller(map, serverThread);
 
 		timer.start();
 
