@@ -13,7 +13,7 @@ public class BuildingTower extends CoreBuildingTower {
 	}
 
 	@Override
-	public void render(float height) {
+	public void render() {
 	}
 
 }

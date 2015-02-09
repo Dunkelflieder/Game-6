@@ -15,8 +15,8 @@ public abstract class GComponent {
 
 	private boolean wasHovered;
 
-	private List<MouseListener> mouseListener = new ArrayList<>();
-	private List<KeyboardListener> keyboardListener = new ArrayList<>();
+	private List<MouseListener> mouseListeners = new ArrayList<>();
+	private List<KeyboardListener> keyboardListeners = new ArrayList<>();
 
 	public GComponent() {
 		init();
@@ -109,35 +109,43 @@ public abstract class GComponent {
 	// //////////
 
 	public boolean addMouseListener(MouseListener listener) {
-		return mouseListener.add(listener);
+		return mouseListeners.add(listener);
 	}
 
 	public boolean removeMouseListener(MouseListener listener) {
-		return mouseListener.remove(listener);
+		return mouseListeners.remove(listener);
+	}
+	
+	public void removeAllMouseListeners() {
+		mouseListeners.clear();
 	}
 
 	public boolean addKeyboardListener(KeyboardListener listener) {
-		return keyboardListener.add(listener);
+		return keyboardListeners.add(listener);
 	}
 
 	public boolean removeKeyboardListener(KeyboardListener listener) {
-		return keyboardListener.remove(listener);
+		return keyboardListeners.remove(listener);
+	}
+	
+	public void removeAllKeyboardListeners() {
+		keyboardListeners.clear();
 	}
 
 	protected void notifyMouseEnteredListener() {
-		for (MouseListener listener : mouseListener) {
+		for (MouseListener listener : mouseListeners) {
 			listener.mouseEntered(this);
 		}
 	}
 
 	protected void notifyMouseLeftListener() {
-		for (MouseListener listener : mouseListener) {
+		for (MouseListener listener : mouseListeners) {
 			listener.mouseLeft(this);
 		}
 	}
 
 	protected boolean notifyMouseClickedListener(int button) {
-		for (MouseListener listener : mouseListener) {
+		for (MouseListener listener : mouseListeners) {
 			if (listener.mouseClicked(this, button)) {
 				return true;
 			}
@@ -147,7 +155,7 @@ public abstract class GComponent {
 
 	protected boolean notifyMouseReleasedListener(int button) {
 		focus();
-		for (MouseListener listener : mouseListener) {
+		for (MouseListener listener : mouseListeners) {
 			if (listener.mouseReleased(this, button)) {
 				return true;
 			}
@@ -156,7 +164,7 @@ public abstract class GComponent {
 	}
 
 	protected boolean notifyMouseWheelListener(int delta) {
-		for (MouseListener listener : mouseListener) {
+		for (MouseListener listener : mouseListeners) {
 			if (listener.mouseWheel(this, delta)) {
 				return true;
 			}
@@ -165,7 +173,7 @@ public abstract class GComponent {
 	}
 
 	protected boolean notifyMouseMovedListener(int dx, int dy) {
-		for (MouseListener listener : mouseListener) {
+		for (MouseListener listener : mouseListeners) {
 			if (listener.mouseMoved(this, dx, dy)) {
 				return true;
 			}
@@ -174,7 +182,7 @@ public abstract class GComponent {
 	}
 
 	protected boolean notifyKeyPressedListener(int keyCode, char key) {
-		for (KeyboardListener listener : keyboardListener) {
+		for (KeyboardListener listener : keyboardListeners) {
 			if (listener.keyPressed(this, keyCode, key)) {
 				return true;
 			}
@@ -183,7 +191,7 @@ public abstract class GComponent {
 	}
 
 	protected boolean notifyKeyReleasedListener(int keyCode, char key) {
-		for (KeyboardListener listener : keyboardListener) {
+		for (KeyboardListener listener : keyboardListeners) {
 			if (listener.keyReleased(this, keyCode, key)) {
 				return true;
 			}

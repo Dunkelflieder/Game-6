@@ -14,7 +14,7 @@ public class MapMesh extends Renderable {
 	private boolean vboDirty = true;
 
 	public MapMesh(CoreMap map) {
-		this.texture = TextureLoader.loadTexture("res/terrain/chrome2.png", InterpolationType.NEAREST);
+		this.texture = TextureLoader.loadTexture("res/terrain/chrome3.png", InterpolationType.NEAREST);
 		this.map = map;
 		reload();
 	}
@@ -75,7 +75,7 @@ public class MapMesh extends Renderable {
 		}
 
 		// Fill texture coordinates. each texture fills span*span tiles.
-		int span = 8;
+		int span = 16;
 		float step = 1f / span;
 		for (int x = 0; x < map.getSizeX(); x++) {
 			for (int y = 0; y < map.getSizeY(); y++) {

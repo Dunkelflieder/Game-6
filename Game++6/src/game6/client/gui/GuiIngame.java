@@ -28,13 +28,14 @@ public class GuiIngame extends Gui {
 	private CoreBuilding preview;
 
 	private List<GBuilding> buildings;
-	private BuildingType selectedBuilding = null;
+	private BuildingType selectedBuilding;
 
 	// 0 = not grabbed, 1 = grabbed for movement, 2 = grabbed for rotation
 	private int grabbed = 0;
 
 	@Override
 	public void initComponents() {
+		
 		title = new GLabel("Ingame-Gui");
 
 		buttonBuilding = new GButton("Place random building");
@@ -95,6 +96,10 @@ public class GuiIngame extends Gui {
 		add(title);
 		add(buttonBuilding);
 		add(highlight);
+	}
+	
+	public void reset() {
+		selectBuilding(null);
 	}
 
 	private void selectBuilding(BuildingType building) {
@@ -177,6 +182,9 @@ public class GuiIngame extends Gui {
 
 	@Override
 	public void onSelect() {
+		panel.removeAllKeyboardListeners();
+		panel.removeAllMouseListeners();
+		initComponents();
 	}
 
 	@Override

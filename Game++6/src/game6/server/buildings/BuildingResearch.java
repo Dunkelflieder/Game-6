@@ -13,7 +13,7 @@ public class BuildingResearch extends CoreBuildingResearch {
 	}
 
 	@Override
-	public void render(float height) {
+	public void render() {
 	}
 
 }

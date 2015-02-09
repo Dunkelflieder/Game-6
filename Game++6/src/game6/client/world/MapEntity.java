@@ -62,16 +62,23 @@ public class MapEntity extends BaseEntity {
 			gridMesh.render(renderProperties);
 		}
 
+		if (preview != null) {
+			if (map.canAddBuilding(preview.getPosX(), preview.getPosY(), preview)) {
+				GL11.glColor4f(0, 1, 0, 1);
+			} else {
+				GL11.glColor4f(1, 0, 0, 1);
+			}
+			preview.render();
+			GL11.glColor4f(1, 1, 1, 1);
+		}
+
 		shader.activate();
 
 		glUniform1i(glGetUniformLocation(shader.shaderHandle, "colorTex"), 0);
 		glUniform1i(glGetUniformLocation(shader.shaderHandle, "factionTex"), 1);
 
-		if (preview != null) {
-			preview.render(map.getHeight(preview.getPosX(), preview.getPosY()));
-		}
 		for (CoreBuilding building : map.getBuildings()) {
-			building.render(map.getHeight(building.getPosX(), building.getPosY()));
+			building.render();
 		}
 
 		shader.deactivate();

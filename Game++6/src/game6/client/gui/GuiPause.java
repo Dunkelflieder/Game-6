@@ -40,6 +40,7 @@ public class GuiPause extends Gui {
 		});
 		
 		exit.addClickedListener(source -> {
+			GuiIngame.instance.reset();
 			controller.disconnect();
 			Guis.select(Guis.TITLESCREEN);
 		});

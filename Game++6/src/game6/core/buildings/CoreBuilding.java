@@ -61,7 +61,7 @@ public abstract class CoreBuilding {
 	}
 
 	public abstract void update(List<Event> events);
-	public abstract void render(float height);
+	public abstract void render();
 
 	public int getEnergy() {
 		return energy;
@@ -95,6 +95,10 @@ public abstract class CoreBuilding {
 
 	public void setMap(CoreMap map) {
 		this.map = map;
+	}
+	
+	public CoreMap getMap() {
+		return map;
 	}
 
 	public void setFaction(Faction faction){

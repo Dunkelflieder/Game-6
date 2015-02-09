@@ -13,11 +13,11 @@ public class BuildingReactor extends CoreBuildingReactor {
 	private Renderable mesh;
 	private Texture2D texture;
 	private Texture2D textureFaction;
-	
+
 	public BuildingReactor(int id) {
 		super(id);
 	}
-	
+
 	@Override
 	public void init() {
 		mesh = WavefrontLoader.loadObject("res/buildings/reactor/mesh.obj");
@@ -26,11 +26,11 @@ public class BuildingReactor extends CoreBuildingReactor {
 	}
 
 	@Override
-	public void render(float height) {
-		Vector3f pos = new Vector3f(getPosX(), height, getPosY());
+	public void render() {
 		texture.bind(0);
 		textureFaction.bind(1);
-		mesh.render(new RenderProperties(pos, null, null));
+		float height = (getMap() == null) ? 0 : getMap().getHeight(getPosX(), getPosY());
+		mesh.render(new RenderProperties(new Vector3f(getPosX(), height, getPosY()), null, null));
 	}
 
 }
