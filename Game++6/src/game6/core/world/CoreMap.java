@@ -85,7 +85,7 @@ public class CoreMap {
 	}
 
 	public float getHeight(int x, int y) {
-		if (x > getSizeX() || y > getSizeY()) {
+		if (x < 0 || y < 0 || x > getSizeX() || y > getSizeY()) {
 			return 0;
 		}
 		return heights[x][y];

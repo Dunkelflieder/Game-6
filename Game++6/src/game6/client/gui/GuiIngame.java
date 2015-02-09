@@ -52,23 +52,12 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseClicked(GComponent source, int button) {
 				if (button == 0 && selectedBuilding != null) {
-					// TODO don't hardcode fov
-
-					World world = controller.getWorld();
-
-					controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
-					Ray mouseRay = controller.getInputHandler().getMouseRay();
-					RayIntersection intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
-
-					if (intersection != null && intersection.intersectionPoint.getX() < world.getMap().getSizeX() && intersection.intersectionPoint.getZ() < world.getMap().getSizeY()) {
-						int clickX = (int) intersection.intersectionPoint.getX();
-						int clickY = (int) intersection.intersectionPoint.getZ();
-						controller.placeBuilding(selectedBuilding, clickX, clickY);
-					}
+					controller.placeBuilding(selectedBuilding, preview.getPosX(), preview.getPosY());
+					return true;
 				}
 				return false;
 			}
-			
+
 			@Override
 			public boolean mouseMoved(GComponent source, int dx, int dy) {
 				if (selectedBuilding != null) {
@@ -83,8 +72,8 @@ public class GuiIngame extends Gui {
 					if (intersection != null && intersection.intersectionPoint.getX() < world.getMap().getSizeX() && intersection.intersectionPoint.getZ() < world.getMap().getSizeY()) {
 						int clickX = (int) intersection.intersectionPoint.getX();
 						int clickY = (int) intersection.intersectionPoint.getZ();
-						preview.setPosX(clickX);
-						preview.setPosY(clickY);
+						preview.setPosX(MathHelper.clamp(clickX, 0, world.getMap().getSizeX() - preview.getSizeX()));
+						preview.setPosY(MathHelper.clamp(clickY, 0, world.getMap().getSizeY() - preview.getSizeY()));
 					}
 					return true;
 				}
