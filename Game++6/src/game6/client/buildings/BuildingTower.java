@@ -18,7 +18,7 @@ public class BuildingTower extends CoreBuildingTower {
 	public void init() {
 		mesh = WavefrontLoader.loadObject("res/buildings/tower/mesh.obj");
 		texture = TextureLoader.loadTexture("res/buildings/tower/color.png");
-		textureFaction = TextureLoader.loadTexture("res/buildings/tower/color.png");
+		textureFaction = TextureLoader.loadTexture("res/buildings/tower/faction.png");
 	}
 
 	@Override

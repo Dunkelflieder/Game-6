@@ -22,7 +22,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 	public void init() {
 		mesh = WavefrontLoader.loadObject("res/buildings/reactor/mesh.obj");
 		texture = TextureLoader.loadTexture("res/buildings/reactor/color.png");
-		textureFaction = TextureLoader.loadTexture("res/buildings/reactor/color.png");
+		textureFaction = TextureLoader.loadTexture("res/buildings/reactor/faction.png");
 	}
 
 	@Override
