@@ -30,4 +30,8 @@ public class Map extends CoreMap {
 		entity.setGridActivated(is);
 	}
 	
+	public void setBuildingPreview(CoreBuilding preview) {
+		entity.setBuildingPreview(preview);
+	}
+	
 }

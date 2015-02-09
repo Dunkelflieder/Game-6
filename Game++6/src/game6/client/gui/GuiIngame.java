@@ -6,6 +6,7 @@ import game6.client.gui.listener.KeyboardAdapter;
 import game6.client.gui.listener.MouseAdapter;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
+import game6.core.buildings.CoreBuilding;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class GuiIngame extends Gui {
 	private GLabel title;
 	private GButton buttonBuilding;
 	private GColorfield highlight;
+	private CoreBuilding preview;
 
 	private List<GBuilding> buildings;
 	private BuildingType selectedBuilding = null;
@@ -66,6 +68,28 @@ public class GuiIngame extends Gui {
 				}
 				return false;
 			}
+			
+			@Override
+			public boolean mouseMoved(GComponent source, int dx, int dy) {
+				if (selectedBuilding != null) {
+					// TODO don't hardcode fov
+
+					World world = controller.getWorld();
+
+					controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
+					Ray mouseRay = controller.getInputHandler().getMouseRay();
+					RayIntersection intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
+
+					if (intersection != null && intersection.intersectionPoint.getX() < world.getMap().getSizeX() && intersection.intersectionPoint.getZ() < world.getMap().getSizeY()) {
+						int clickX = (int) intersection.intersectionPoint.getX();
+						int clickY = (int) intersection.intersectionPoint.getZ();
+						preview.setPosX(clickX);
+						preview.setPosY(clickY);
+					}
+					return true;
+				}
+				return false;
+			}
 		});
 
 		// pause menu
@@ -87,6 +111,12 @@ public class GuiIngame extends Gui {
 	private void selectBuilding(BuildingType building) {
 		this.selectedBuilding = building;
 		controller.getWorld().getMap().setGridActivated(building != null);
+		if (building != null) {
+			preview = building.getClientBuilding(0);
+		} else {
+			preview = null;
+		}
+		controller.getWorld().getMap().setBuildingPreview(preview);
 		updateHighlight();
 	}
 

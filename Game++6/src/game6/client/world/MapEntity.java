@@ -18,6 +18,7 @@ public class MapEntity extends BaseEntity {
 	private MapGridMesh gridMesh;
 	private RenderProperties renderProperties;
 	private boolean gridActivated = false;
+	private CoreBuilding preview;
 
 	private Shader shader;
 
@@ -30,13 +31,17 @@ public class MapEntity extends BaseEntity {
 
 		shader = new Shader("shaders/world.vert", "shaders/world.frag");
 	}
-	
+
 	public boolean isGridActivated() {
 		return gridActivated;
 	}
-	
+
 	public void setGridActivated(boolean is) {
 		gridActivated = is;
+	}
+
+	public void setBuildingPreview(CoreBuilding preview) {
+		this.preview = preview;
 	}
 
 	public void reloadMesh() {
@@ -62,6 +67,9 @@ public class MapEntity extends BaseEntity {
 		glUniform1i(glGetUniformLocation(shader.shaderHandle, "colorTex"), 0);
 		glUniform1i(glGetUniformLocation(shader.shaderHandle, "factionTex"), 1);
 
+		if (preview != null) {
+			preview.render(map.getHeight(preview.getPosX(), preview.getPosY()));
+		}
 		for (CoreBuilding building : map.getBuildings()) {
 			building.render(map.getHeight(building.getPosX(), building.getPosY()));
 		}
