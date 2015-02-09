@@ -31,7 +31,7 @@ public class Controller {
 
 		// Send them the map
 		if (conns.size() > 0) {
-			PacketMap packet = new PacketMap(world.getMap().getTiles());
+			PacketMap packet = new PacketMap(world.getMap());
 			for (Connection conn : conns) {
 				conn.send(packet);
 				for (CoreBuilding building : world.getMap().getBuildings()) {

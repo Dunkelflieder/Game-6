@@ -13,7 +13,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 	}
 
 	@Override
-	public void render() {
+	public void render(float height) {
 	}
 
 }

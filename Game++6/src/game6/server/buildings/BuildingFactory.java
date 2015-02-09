@@ -13,7 +13,7 @@ public class BuildingFactory extends CoreBuildingFactory {
 	}
 
 	@Override
-	public void render() {
+	public void render(float height) {
 	}
 
 }

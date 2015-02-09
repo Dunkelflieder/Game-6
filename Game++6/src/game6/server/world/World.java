@@ -17,7 +17,7 @@ public class World {
 	private List<Player> players;
 
 	public World() {
-		this.map = new Map(MapGenerator.getTiles(100, 100));
+		this.map = new Map(MapGenerator.getMap((long) (Math.random() * Long.MAX_VALUE), 100, 100));
 		this.players = new ArrayList<>();
 	}
 
@@ -36,9 +36,9 @@ public class World {
 				}
 			}
 		}
-		
+
 		map.update(events);
-		
+
 	}
 
 	public Map getMap() {

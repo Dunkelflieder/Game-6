@@ -32,7 +32,7 @@ public class BuildingImageRenderer {
 
 		display.setScreenProperties(screenProperties, true);
 
-		building.render();
+		building.render(0);
 
 		Texture2D buildingImage = renderTarget.getTexture("color");
 		renderTarget.removeTexture("color");

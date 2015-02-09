@@ -6,7 +6,6 @@ import game6.client.gui.listener.KeyboardAdapter;
 import game6.client.gui.listener.MouseAdapter;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
-import game6.core.buildings.CoreBuilding;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class GuiIngame extends Gui {
 	private GColorfield highlight;
 
 	private List<GBuilding> buildings;
-	private BuildingType selectedBuilding = BuildingType.FACTORY;
+	private BuildingType selectedBuilding = null;
 
 	// 0 = not grabbed, 1 = grabbed for movement, 2 = grabbed for rotation
 	private int grabbed = 0;
@@ -50,7 +49,7 @@ public class GuiIngame extends Gui {
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public boolean mouseClicked(GComponent source, int button) {
-				if (button == 0) {
+				if (button == 0 && selectedBuilding != null) {
 					// TODO don't hardcode fov
 
 					World world = controller.getWorld();
@@ -83,6 +82,12 @@ public class GuiIngame extends Gui {
 		add(title);
 		add(buttonBuilding);
 		add(highlight);
+	}
+
+	private void selectBuilding(BuildingType building) {
+		this.selectedBuilding = building;
+		controller.getWorld().getMap().setGridActivated(building != null);
+		updateHighlight();
 	}
 
 	private void initCameraMovementListener() {
@@ -129,6 +134,8 @@ public class GuiIngame extends Gui {
 						grabbed = 1;
 						return true;
 					}
+				} else if (button == 1) {
+					selectBuilding(null);
 				}
 				return false;
 			}
@@ -144,8 +151,7 @@ public class GuiIngame extends Gui {
 			buildings.add(gBuilding);
 			add(gBuilding);
 			gBuilding.addClickedListener(source -> {
-				selectedBuilding = ((GBuilding) source).getBuildingType();
-				updateHighlight();
+				selectBuilding(((GBuilding) source).getBuildingType());
 			});
 		}
 	}
@@ -176,11 +182,15 @@ public class GuiIngame extends Gui {
 	}
 
 	private void updateHighlight() {
-		for (GBuilding building : buildings) {
-			if (building.getBuildingType() == selectedBuilding) {
-				highlight.setPos(building.getPosX(), building.getPosY());
-				highlight.setSize(building.getSizeX(), building.getSizeY());
-				return;
+		if (selectedBuilding == null) {
+			highlight.setPos(-9999, -9999);
+		} else {
+			for (GBuilding building : buildings) {
+				if (building.getBuildingType() == selectedBuilding) {
+					highlight.setPos(building.getPosX(), building.getPosY());
+					highlight.setSize(building.getSizeX(), building.getSizeY());
+					return;
+				}
 			}
 		}
 	}

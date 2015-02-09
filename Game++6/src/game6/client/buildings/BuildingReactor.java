@@ -26,8 +26,8 @@ public class BuildingReactor extends CoreBuildingReactor {
 	}
 
 	@Override
-	public void render() {
-		Vector3f pos = new Vector3f(getPosX(), 0, getPosY());
+	public void render(float height) {
+		Vector3f pos = new Vector3f(getPosX(), height, getPosY());
 		texture.bind(0);
 		textureFaction.bind(1);
 		mesh.render(new RenderProperties(pos, null, null));
