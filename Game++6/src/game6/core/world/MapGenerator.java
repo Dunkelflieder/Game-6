@@ -12,7 +12,8 @@ public class MapGenerator {
 				if (x < sizeX && y < sizeY) {
 					tiles[x][y] = Tile.CHROME;
 				}
-				heights[x][y] = (float) SimplexNoise.noise(x / 40f, y / 40f) * 2;
+				// heights[x][y] = (float) SimplexNoise.noise(x / 40f, y / 40f) * 2;
+				heights[x][y] = 0;
 			}
 		}
 
