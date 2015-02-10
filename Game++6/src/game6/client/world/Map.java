@@ -8,7 +8,7 @@ public class Map extends CoreMap {
 	private MapEntity entity;
 
 	public Map(CoreMap core) {
-		super(core.getTiles(), core.getHeights());
+		super(core.getTiles());
 		this.entity = new MapEntity(this);
 	}
 	

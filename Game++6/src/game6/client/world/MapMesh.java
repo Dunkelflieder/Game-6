@@ -44,31 +44,29 @@ public class MapMesh extends Renderable {
 				if (map.getBuildingMap()[x][y] == null) {
 					// xyz xyz xyz xyz xyz xyz
 					int i = 0;
-					float error = 0.0f;
-					float heightReduce = 1;
 					int pos = (x * map.getSizeX() + y) * 6 * 3;
-					vertices[pos + i++] = x + error;
-					vertices[pos + i++] = map.getHeight(x, y) * heightReduce;
-					vertices[pos + i++] = y + error;
+					vertices[pos + i++] = x;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y;
 
-					vertices[pos + i++] = x + error;
-					vertices[pos + i++] = map.getHeight(x, y + 1) * heightReduce;
+					vertices[pos + i++] = x;
+					vertices[pos + i++] = 0;
 					vertices[pos + i++] = y + 1;
 
 					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = map.getHeight(x + 1, y) * heightReduce;
-					vertices[pos + i++] = y + error;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y;
 
 					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = map.getHeight(x + 1, y) * heightReduce;
-					vertices[pos + i++] = y + error;
+					vertices[pos + i++] = 0;
+					vertices[pos + i++] = y;
 
-					vertices[pos + i++] = x + error;
-					vertices[pos + i++] = map.getHeight(x, y + 1) * heightReduce;
+					vertices[pos + i++] = x;
+					vertices[pos + i++] = 0;
 					vertices[pos + i++] = y + 1;
 
 					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = map.getHeight(x + 1, y + 1) * heightReduce;
+					vertices[pos + i++] = 0;
 					vertices[pos + i++] = y + 1;
 				}
 			}

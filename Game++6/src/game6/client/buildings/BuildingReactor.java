@@ -29,8 +29,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 	public void render() {
 		texture.bind(0);
 		textureFaction.bind(1);
-		float height = (map == null) ? 0 : map.getHeight(getPosX(), getPosY());
-		mesh.render(new RenderProperties(new Vector3f(getPosX(), height, getPosY()), null, null));
+		mesh.render(new RenderProperties(new Vector3f(getPosX(), 0, getPosY()), null, null));
 	}
 
 }

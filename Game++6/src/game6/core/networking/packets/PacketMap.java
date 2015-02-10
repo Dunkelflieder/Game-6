@@ -25,17 +25,12 @@ public class PacketMap extends Packet {
 
 		// serialize the tiles
 		int[] tileIDs = new int[map.getSizeX() * map.getSizeY()];
-		float[] heights = new float[(map.getSizeX() + 1) * (map.getSizeY() + 1)];
-		for (int x = 0; x <= map.getSizeX(); x++) {
-			for (int y = 0; y <= map.getSizeY(); y++) {
-				if (x < map.getSizeX() && y < map.getSizeY()) {
+		for (int x = 0; x < map.getSizeX(); x++) {
+			for (int y = 0; y < map.getSizeY(); y++) {
 					tileIDs[y * map.getSizeX() + x] = map.getTile(x, y).getID();
-				}
-				heights[y * map.getSizeX() + x] = map.getHeight(x, y);
 			}
 		}
 		node.add('t', tileIDs);
-		node.add('h', heights);
 
 		return node;
 	}
@@ -46,21 +41,16 @@ public class PacketMap extends Packet {
 		int sizeY = node.getInt('y');
 
 		int[] tileIDs = node.getIntArray('t');
-		float[] heights = node.getFloatArray('h');
 
 		Tile[][] tiles = new Tile[sizeX][sizeY];
-		float[][] heights2d = new float[sizeX + 1][sizeY + 1];
 
-		for (int x = 0; x <= sizeX; x++) {
-			for (int y = 0; y <= sizeY; y++) {
-				if (x < sizeX && y < sizeY) {
+		for (int x = 0; x < sizeX; x++) {
+			for (int y = 0; y < sizeY; y++) {
 					tiles[x][y] = Tile.byID(tileIDs[y * sizeX + x]);
-				}
-				heights2d[x][y] = heights[y * sizeX + x];
 			}
 		}
 
-		map = new CoreMap(tiles, heights2d);
+		map = new CoreMap(tiles);
 	}
 
 }

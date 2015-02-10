@@ -128,7 +128,7 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseWheel(GComponent source, int delta) {
 				// Zoom in or out
-				controller.getCamera().y = MathHelper.clamp(controller.getCamera().y - 0.01f * (delta), 2f, 15f);
+				controller.getCamera().y = MathHelper.clamp(controller.getCamera().y - 0.01f * (delta), 2f, 100f);
 				return true;
 			}
 

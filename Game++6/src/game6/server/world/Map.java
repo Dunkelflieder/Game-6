@@ -16,7 +16,7 @@ public class Map extends CoreMap {
 	private List<Player> players;
 
 	public Map(CoreMap core) {
-		super(core.getTiles(), core.getHeights());
+		super(core.getTiles());
 		this.players = new ArrayList<>();
 	}
 

@@ -8,13 +8,11 @@ import java.util.List;
 public class CoreMap {
 
 	private Tile[][] tiles;
-	private float[][] heights;
 	private CoreBuilding[][] buildingMap;
 	private List<CoreBuilding> buildings;
 
-	public CoreMap(Tile[][] tiles, float[][] heights) {
+	public CoreMap(Tile[][] tiles) {
 		this.tiles = tiles;
-		this.heights = heights;
 		this.buildingMap = new CoreBuilding[getSizeX()][getSizeY()];
 		this.buildings = new ArrayList<>();
 	}
@@ -82,17 +80,6 @@ public class CoreMap {
 
 	public Tile[][] getTiles() {
 		return tiles;
-	}
-
-	public float getHeight(int x, int y) {
-		if (x < 0 || y < 0 || x > getSizeX() || y > getSizeY()) {
-			return 0;
-		}
-		return heights[x][y];
-	}
-
-	public float[][] getHeights() {
-		return heights;
 	}
 
 	public CoreBuilding[][] getBuildingMap() {
