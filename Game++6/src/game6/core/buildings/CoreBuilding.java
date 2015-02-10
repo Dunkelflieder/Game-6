@@ -24,6 +24,7 @@ public abstract class CoreBuilding {
 		this.sizeY = sizeY;
 		this.posX = 0;
 		this.posY = 0;
+		this.faction = Faction.YELLOW;
 	}
 	
 	public abstract void init();
@@ -100,6 +101,10 @@ public abstract class CoreBuilding {
 	
 	public void setFaction(Faction faction){
 		this.faction = faction;
+	}
+	
+	public Faction getFaction(){
+		return faction;
 	}
 
 }

@@ -5,6 +5,7 @@ varying vec3 normal;
 
 uniform sampler2D colorTex;
 uniform sampler2D factionTex;
+uniform vec4 factionColor;
 
 void main(){
 	//vec4 color;
@@ -14,9 +15,7 @@ void main(){
 	vec4 textureColor = texture2D(colorTex, gl_TexCoord[0].st);
 	vec4 textureFaction = texture2D(factionTex, gl_TexCoord[0].st);
 
-	textureColor +=(vec4(0.2f, 0.3f, 1.0f, 1.0f) * textureFaction);
+	//gl_FragColor = mix(textureColor, vec4(0.2f, 0.3f, 1.0f, 1.0f), textureFaction);
+	gl_FragColor = mix(textureColor, factionColor, textureFaction.r);
 
-	gl_FragColor = textureColor;
-	//gl_FragColor = vec4(light, light, light, 1);
-	//gl_FragColor = vec4(normalize(vec3(verpos.xyz - lightPos)), 1);
 }

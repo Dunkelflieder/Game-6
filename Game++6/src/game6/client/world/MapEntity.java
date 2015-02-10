@@ -9,6 +9,7 @@ import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.physics.BoundingAABB;
 import de.nerogar.render.RenderProperties;
 import de.nerogar.render.Shader;
+import de.nerogar.util.Color;
 import de.nerogar.util.Vector3f;
 
 public class MapEntity extends BaseEntity {
@@ -72,12 +73,15 @@ public class MapEntity extends BaseEntity {
 			GL11.glColor4f(1, 1, 1, 1);
 		}
 
+		//render buildings
 		shader.activate();
 
-		glUniform1i(glGetUniformLocation(shader.shaderHandle, "colorTex"), 0);
-		glUniform1i(glGetUniformLocation(shader.shaderHandle, "factionTex"), 1);
+		shader.setUniform1i("colorTex", 0);
+		shader.setUniform1i("factionTex", 1);
 
 		for (CoreBuilding building : map.getBuildings()) {
+			Color factionColor = building.getFaction().color;
+			shader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
 			building.render();
 		}
 
