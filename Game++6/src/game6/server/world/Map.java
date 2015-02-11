@@ -1,5 +1,6 @@
 package game6.server.world;
 
+import game6.core.Faction;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
 import game6.core.events.Event;
@@ -29,6 +30,7 @@ public class Map extends CoreMap {
 				if (packet instanceof PacketPlaceBuilding) {
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
 					CoreBuilding building = ppb.building.getServerBuilding(getBuildings().size());
+					building.setFaction(player.getFaction());
 					if (canAddBuilding(ppb.posX, ppb.posY, building)) {
 						addBuilding(ppb.posX, ppb.posY, building);
 						broadcast(new PacketPlaceBuilding(ppb.building, building.getID(), building.getPosX(), building.getPosY()));
@@ -58,7 +60,7 @@ public class Map extends CoreMap {
 		for (CoreBuilding building : getBuildings()) {
 			connection.send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getID(), building.getPosX(), building.getPosY()));
 		}
-		players.add(new Player(connection));
+		players.add(new Player(connection, Faction.getRandom()));
 	}
 	
 	public List<Player> getPlayers() {

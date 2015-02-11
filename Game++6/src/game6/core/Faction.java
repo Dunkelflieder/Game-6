@@ -25,4 +25,8 @@ public enum Faction {
 		this.color = color;
 	}
 
+	public static Faction getRandom() {
+		return values()[(int) (Math.random() * values().length)];
+	}
+
 }

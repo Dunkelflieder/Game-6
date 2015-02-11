@@ -1,6 +1,6 @@
 package game6.core.networking.packets;
 
-import game6.core.events.PowerSupplyEvent;
+import game6.core.events.EventPowerSupply;
 import de.felk.NodeFile.NodeFile;
 
 public class PacketPowerSupply extends Packet {
@@ -11,7 +11,7 @@ public class PacketPowerSupply extends Packet {
 		
 	}
 	
-	public PacketPowerSupply(PowerSupplyEvent event) {
+	public PacketPowerSupply(EventPowerSupply event) {
 		this.source = event.getSourceID();
 		this.destination = event.getDestID();
 		this.amount = event.getAmount();

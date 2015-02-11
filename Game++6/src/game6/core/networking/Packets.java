@@ -1,10 +1,6 @@
 package game6.core.networking;
 
-import game6.core.networking.packets.Packet;
-import game6.core.networking.packets.PacketConnectionInfo;
-import game6.core.networking.packets.PacketMap;
-import game6.core.networking.packets.PacketPlaceBuilding;
-import game6.core.networking.packets.PacketPowerSupply;
+import game6.core.networking.packets.*;
 import de.felk.NodeFile.NodeFile;
 
 public enum Packets {
@@ -12,7 +8,8 @@ public enum Packets {
 	CONNECTION_INFO(1, PacketChannel.CONNECTION_INFO, PacketConnectionInfo.class),
 	MAP(2, PacketChannel.MAP, PacketMap.class),
 	PLACE_BUILDING(3, PacketChannel.BUILDINGS, PacketPlaceBuilding.class),
-	POWER_SUPPLY(4, PacketChannel.BUILDINGS, PacketPowerSupply.class);
+	POWER_SUPPLY(4, PacketChannel.BUILDINGS, PacketPowerSupply.class),
+	BUILDING_UPDATE(5, PacketChannel.BUILDINGS, PacketBuildingUpdate.class);
 
 	private Class<? extends Packet> clazz;
 	private int id;

@@ -4,12 +4,10 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import game6.client.effects.EffectContainer;
-import game6.client.entities.TestEntity;
 import game6.client.gui.Guis;
 import game6.client.world.World;
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.*;
-import de.nerogar.util.Vector3f;
 
 public class Game extends BaseGame {
 
@@ -57,7 +55,7 @@ public class Game extends BaseGame {
 
 		world = new World();
 
-		controller = new Controller(world, camera);
+		controller = new Controller(world, camera, effectContainer);
 
 		Guis.init(display, controller);
 		Guis.resize(Display.getWidth(), Display.getHeight());
@@ -67,8 +65,6 @@ public class Game extends BaseGame {
 
 		display.setScreenProperties(worldProperties, true);
 		setTargetFPS(60);
-
-		world.spawnEntity(new TestEntity(), new Vector3f(0));
 
 	}
 

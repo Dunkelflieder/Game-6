@@ -25,6 +25,7 @@ public abstract class CoreBuilding {
 		this.posX = 0;
 		this.posY = 0;
 		this.faction = Faction.YELLOW;
+		this.maxEnergy = 100;
 	}
 	
 	public abstract void init();

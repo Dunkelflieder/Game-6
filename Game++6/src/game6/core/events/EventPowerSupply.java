@@ -6,11 +6,11 @@ import game6.core.Faction;
 import game6.core.networking.packets.PacketPowerSupply;
 import game6.server.world.Player;
 
-public class PowerSupplyEvent extends Event {
+public class EventPowerSupply extends Event {
 
 	private int sourceID, destID, amount;
 
-	public PowerSupplyEvent(Faction faction, int sourceID, int destID, int amount) {
+	public EventPowerSupply(Faction faction, int sourceID, int destID, int amount) {
 		super(faction);
 		this.sourceID = sourceID;
 		this.destID = destID;
