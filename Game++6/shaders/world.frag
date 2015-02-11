@@ -15,7 +15,6 @@ void main(){
 	vec4 textureColor = texture2D(colorTex, gl_TexCoord[0].st);
 	vec4 textureFaction = texture2D(factionTex, gl_TexCoord[0].st);
 
-	//gl_FragColor = mix(textureColor, vec4(0.2f, 0.3f, 1.0f, 1.0f), textureFaction);
 	gl_FragColor = mix(textureColor, factionColor, textureFaction.r);
 
 }
