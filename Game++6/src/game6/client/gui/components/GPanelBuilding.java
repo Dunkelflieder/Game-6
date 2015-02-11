@@ -1,18 +1,22 @@
 package game6.client.gui.components;
 
-import java.awt.Color;
-
+import game6.client.Controller;
 import game6.client.gui.Font;
 import game6.core.buildings.CoreBuilding;
 
+import java.awt.Color;
+
 public class GPanelBuilding extends GPanel {
 
+	private Controller controller;
 	private GColorfield background;
 	private CoreBuilding building;
 	private GLabel title;
 	private GLabel energy;
 
-	public GPanelBuilding() {
+	public GPanelBuilding(Controller controller) {
+
+		this.controller = controller;
 
 		background = new GColorfield(new Color(0, 0, 0, 0.5f));
 		background.setSize(99999, 99999);
@@ -32,7 +36,11 @@ public class GPanelBuilding extends GPanel {
 	public void update() {
 		super.update();
 		if (building != null) {
-			energy.setText("Energie: " + building.getEnergy() + " / " + building.getMaxEnergy());
+			if (building.getFaction() == controller.getFaction()) {
+				energy.setText("Energie: " + building.getEnergy() + " / " + building.getMaxEnergy());
+			} else {
+				energy.setText("owned by " + building.getFaction());
+			}
 		}
 	}
 

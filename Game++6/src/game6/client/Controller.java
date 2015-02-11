@@ -36,6 +36,10 @@ public class Controller {
 		init();
 	}
 
+	public Faction getFaction() {
+		return faction;
+	}
+	
 	public World getWorld() {
 		return world;
 	}

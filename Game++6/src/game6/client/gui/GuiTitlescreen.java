@@ -20,7 +20,7 @@ public class GuiTitlescreen extends Gui {
 
 	@Override
 	public void initComponents() {
-		background = new GColorfield(new Color(0, 0, 160));
+		background = new GColorfield(new Color(0, 0, 0));
 
 		title = new GLabel("Dies ist der Titelbildschirm");
 		title.setAlignment(Font.CENTER);

@@ -35,7 +35,7 @@ public class Server {
 
 	private void start() {
 
-		Map map = new Map(MapGenerator.getMap((long) (Math.random() * Long.MAX_VALUE), 100, 100));
+		Map map = new Map(MapGenerator.getMap((long) (Math.random() * Long.MAX_VALUE), 300, 300));
 		controller = new Controller(map, serverThread);
 
 		timer.start();

@@ -9,6 +9,7 @@ import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
 
 import java.awt.Color;
+import java.awt.MultipleGradientPaint.ColorSpaceType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class GuiIngame extends Gui {
 
 		highlight = new GColorfield(new Color(0f, 1f, 0f, 0.5f));
 
-		buildingPanel = new GPanelBuilding();
+		buildingPanel = new GPanelBuilding(controller);
 
 		initCameraMovementListener();
 

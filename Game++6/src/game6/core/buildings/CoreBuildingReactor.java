@@ -25,10 +25,10 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 			List<CoreBuilding> candidates = map.getBuildingsWithin(getPosX(), getPosY(), shockRadius);
 			
 			// Modify the candidates.
-			// 1st.: remove self and buildings without energy need
+			// 1st.: remove self, other factions and buildings without energy need
 			for (Iterator<CoreBuilding> iter = candidates.iterator(); iter.hasNext();) {
 				CoreBuilding building = iter.next();
-				if (building == this || building.getMaxEnergy() == 0 || building.getEnergy() == building.getMaxEnergy()) {
+				if (building == this || building.getFaction() != faction || building.getMaxEnergy() == 0 || building.getEnergy() == building.getMaxEnergy()) {
 					iter.remove();
 				}
 			}
