@@ -2,12 +2,12 @@ package game6.core.buildings;
 
 import game6.core.events.*;
 
-import java.util.List;
+import java.util.*;
 
 public abstract class CoreBuildingReactor extends CoreBuilding {
 
 	private int tick = 0;
-	private int shockCooldown = 30;
+	private int shockCooldown = 10;
 	private int shockPower = 10;
 	private int shockRadius = 10;
 
@@ -23,23 +23,38 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 		if (tick % shockCooldown == 0) {
 			tick = 0;
 			List<CoreBuilding> candidates = map.getBuildingsWithin(getPosX(), getPosY(), shockRadius);
+			
+			// Modify the candidates.
+			// 1st.: remove self and buildings without energy
+			for (Iterator<CoreBuilding> iter = candidates.iterator(); iter.hasNext();) {
+				CoreBuilding building = iter.next();
+				if (building == this || building.getMaxEnergy() == 0) {
+					iter.remove();
+				}
+			}
+			// 2nd shuffle (TODO: sort after distance)
+			Collections.shuffle(candidates);
+			
+			// prevent division through 0
+			if (candidates.size() == 0) {
+				return;
+			}
+			
 			// Share the available energy between the buildings
 			int left = shockPower;
-			int part = (int) Math.ceil(left / (float) (candidates.size() - 1));
+			int part = (int) Math.ceil(left / (float) (candidates.size()));
+			
 			for (int i = 0; i < candidates.size(); i++) {
 				CoreBuilding building = candidates.get(i);
-				if (building == this) {
-					continue;
-				}
 				int given = part - building.addEnergy(part);
 				left -= given;
-				part = (int) Math.ceil(left / (float) (candidates.size() - (i + 2)));
+				// calculate new energy per building
+				part = (int) Math.ceil(left / (float) (candidates.size() - (i + 1)));
 				if (given > 0) {
 					events.add(new EventPowerSupply(faction, getID(), building.getID(), given));
 					events.add(new EventBuildingUpdate(building));
 				}
 			}
-			events.add(new EventBuildingUpdate(this));
 		}
 
 	}
