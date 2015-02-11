@@ -1,11 +1,7 @@
 package game6.client.buildings;
 
 import game6.core.buildings.CoreBuildingFactory;
-import de.nerogar.render.RenderProperties;
-import de.nerogar.render.Renderable;
-import de.nerogar.render.Texture2D;
-import de.nerogar.render.TextureLoader;
-import de.nerogar.render.WavefrontLoader;
+import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
 
 public class BuildingFactory extends CoreBuildingFactory {

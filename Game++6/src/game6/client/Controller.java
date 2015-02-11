@@ -4,6 +4,7 @@ import game6.client.effects.EffectContainer;
 import game6.client.effects.Lightning;
 import game6.client.world.Map;
 import game6.client.world.World;
+import game6.core.Faction;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
 import game6.core.networking.*;
@@ -25,6 +26,7 @@ public class Controller {
 
 	private World world;
 	private Camera camera;
+	private Faction faction;
 
 	public Controller(World world, Camera camera, EffectContainer effects) {
 		this.world = world;
@@ -89,7 +91,7 @@ public class Controller {
 	// TODO debug method
 	public void placeBuilding(BuildingType type, int posX, int posY) {
 		if (isConnected()) {
-			connection.send(new PacketPlaceBuilding(type, -1, posX, posY));
+			connection.send(new PacketPlaceBuilding(type, faction, -1, posX, posY));
 		}
 	}
 
@@ -97,22 +99,29 @@ public class Controller {
 
 		// TODO debug/testing code
 		if (isConnected()) {
-			List<Packet> packets = connection.get(PacketChannel.MAP);
+			List<Packet> packets = connection.get(PacketChannel.INIT);
 			for (Packet packet : packets) {
-				PacketMap packetMap = (PacketMap) packet;
-				world.setMap(new Map(packetMap.map));
+				if (packet instanceof PacketPlayerInfo) {
+					PacketPlayerInfo packetInfo = (PacketPlayerInfo) packet;
+					faction = packetInfo.faction;
+				} else if (packet instanceof PacketMap) {
+					PacketMap packetMap = (PacketMap) packet;
+					world.setMap(new Map(packetMap.map));
+				}
 			}
 
 			if (world.isReady()) {
 
 			}
-			
+
 			// TODO Don't process the packets here
 			packets = connection.get(PacketChannel.BUILDINGS);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketPlaceBuilding) {
 					PacketPlaceBuilding packetBuilding = (PacketPlaceBuilding) packet;
-					((World) world).getMap().addBuilding(packetBuilding.posX, packetBuilding.posY, packetBuilding.building.getClientBuilding(packetBuilding.id));
+					CoreBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
+					building.setFaction(packetBuilding.faction);
+					((World) world).getMap().addBuilding(packetBuilding.posX, packetBuilding.posY, building);
 				} else if (packet instanceof PacketPowerSupply) {
 					PacketPowerSupply packetPS = (PacketPowerSupply) packet;
 					CoreBuilding start = getWorld().getMap().getBuildings().get(packetPS.source);

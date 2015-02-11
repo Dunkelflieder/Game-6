@@ -50,7 +50,7 @@ public class GuiIngame extends Gui {
 		highlight = new GColorfield(new Color(0f, 1f, 0f, 0.5f));
 
 		buildingPanel = new GPanelBuilding();
-		
+
 		initCameraMovementListener();
 
 		// clicks on map
@@ -72,6 +72,9 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseMoved(GComponent source, int dx, int dy) {
 				World world = controller.getWorld();
+				if (!world.isReady()) {
+					return false;
+				}
 
 				// TODO don't hardcode fov
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
@@ -211,7 +214,7 @@ public class GuiIngame extends Gui {
 		buildingPanel.setSize(300, 500);
 		buildingPanel.setPos(screenWidth - 300, 0);
 		buildingPanel.resize();
-		
+
 		int offsetX = 350;
 		for (GBuilding building : buildings) {
 			building.setSize(128, 128);

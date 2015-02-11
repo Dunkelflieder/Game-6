@@ -20,11 +20,11 @@ public abstract class CoreBuilding {
 	public CoreBuilding(int id, int sizeX, int sizeY, int maxEnergy) {
 		init();
 		this.id = id;
+		this.faction = Faction.YELLOW;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.posX = 0;
 		this.posY = 0;
-		this.faction = Faction.YELLOW;
 		this.maxEnergy = maxEnergy;
 	}
 	

@@ -1,7 +1,6 @@
 package game6.client.effects;
 
 import static org.lwjgl.opengl.GL11.*;
-import game6.core.Faction;
 import de.nerogar.util.Color;
 import de.nerogar.util.Vector3f;
 

@@ -33,23 +33,23 @@ public class Map extends CoreMap {
 					building.setFaction(player.getFaction());
 					if (canAddBuilding(ppb.posX, ppb.posY, building)) {
 						addBuilding(ppb.posX, ppb.posY, building);
-						broadcast(new PacketPlaceBuilding(ppb.building, building.getID(), building.getPosX(), building.getPosY()));
+						broadcast(new PacketPlaceBuilding(ppb.building, player.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
 					}
 				}
 			}
 		}
 
 		List<Event> events = new ArrayList<>();
-		
+
 		for (CoreBuilding building : getBuildings()) {
 			building.update(events);
 		}
-		
+
 		List<Packet> packets = new ArrayList<>();
 		for (Event e : events) {
 			e.process(players);
 		}
-		
+
 		for (Packet p : packets) {
 			broadcast(p);
 		}
@@ -57,12 +57,14 @@ public class Map extends CoreMap {
 
 	public void addPlayer(Connection connection) {
 		connection.send(new PacketMap(this));
+		Faction faction = Faction.getRandom();
+		connection.send(new PacketPlayerInfo(faction));
 		for (CoreBuilding building : getBuildings()) {
-			connection.send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getID(), building.getPosX(), building.getPosY()));
+			connection.send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
 		}
-		players.add(new Player(connection, Faction.getRandom()));
+		players.add(new Player(connection, faction));
 	}
-	
+
 	public List<Player> getPlayers() {
 		return players;
 	}

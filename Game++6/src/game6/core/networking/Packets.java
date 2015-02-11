@@ -6,10 +6,11 @@ import de.felk.NodeFile.NodeFile;
 public enum Packets {
 	// The first packet, ConnectionInfo, must always have ID 1 and it's own PacketChannel!
 	CONNECTION_INFO(1, PacketChannel.CONNECTION_INFO, PacketConnectionInfo.class),
-	MAP(2, PacketChannel.MAP, PacketMap.class),
-	PLACE_BUILDING(3, PacketChannel.BUILDINGS, PacketPlaceBuilding.class),
-	POWER_SUPPLY(4, PacketChannel.BUILDINGS, PacketPowerSupply.class),
-	BUILDING_UPDATE(5, PacketChannel.BUILDINGS, PacketBuildingUpdate.class);
+	PLAYER_INFO(2, PacketChannel.INIT, PacketPlayerInfo.class),
+	MAP(3, PacketChannel.INIT, PacketMap.class),
+	PLACE_BUILDING(4, PacketChannel.BUILDINGS, PacketPlaceBuilding.class),
+	POWER_SUPPLY(5, PacketChannel.BUILDINGS, PacketPowerSupply.class),
+	BUILDING_UPDATE(6, PacketChannel.BUILDINGS, PacketBuildingUpdate.class);
 
 	private Class<? extends Packet> clazz;
 	private int id;
