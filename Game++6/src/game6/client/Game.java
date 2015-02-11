@@ -72,6 +72,7 @@ public class Game extends BaseGame {
 	protected void update(float timeDelta) {
 		controller.update(timeDelta);
 		world.update(timeDelta);
+		effectContainer.update(timeDelta);
 		Guis.update();
 	}
 

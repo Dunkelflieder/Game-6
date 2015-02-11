@@ -16,7 +16,7 @@ void main(){
 		}
 	}
 
-	effectsColor = (effectsColor) * 0.5;
+	effectsColor = (effectsColor) * 0.8;
 
 	vec4 finalWorldColor =  worldColor + effectsColor;
 
