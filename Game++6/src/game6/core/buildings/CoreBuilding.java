@@ -17,7 +17,7 @@ public abstract class CoreBuilding {
 	protected CoreMap map;
 	protected Faction faction;
 
-	public CoreBuilding(int id, int sizeX, int sizeY) {
+	public CoreBuilding(int id, int sizeX, int sizeY, int maxEnergy) {
 		init();
 		this.id = id;
 		this.sizeX = sizeX;
@@ -25,7 +25,7 @@ public abstract class CoreBuilding {
 		this.posX = 0;
 		this.posY = 0;
 		this.faction = Faction.YELLOW;
-		this.maxEnergy = 100;
+		this.maxEnergy = maxEnergy;
 	}
 	
 	public abstract void init();

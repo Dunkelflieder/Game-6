@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class CoreBuildingFactory extends CoreBuilding {
 
 	public CoreBuildingFactory(int id) {
-		super(id, 3, 2);
+		super(id, 3, 2, 300);
 	}
 
 	@Override

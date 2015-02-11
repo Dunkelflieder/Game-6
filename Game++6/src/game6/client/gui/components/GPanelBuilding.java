@@ -32,7 +32,7 @@ public class GPanelBuilding extends GPanel {
 	public void update() {
 		super.update();
 		if (building != null) {
-			energy.setText("Energie: " + building.getEnergy());
+			energy.setText("Energie: " + building.getEnergy() + " / " + building.getMaxEnergy());
 		}
 	}
 
@@ -55,6 +55,6 @@ public class GPanelBuilding extends GPanel {
 		title.setPos(0, getSizeY() - 50);
 
 		energy.setSize(0, 40);
-		energy.setPos(0, getSizeY() - 100);
+		energy.setPos(20, getSizeY() - 100);
 	}
 }

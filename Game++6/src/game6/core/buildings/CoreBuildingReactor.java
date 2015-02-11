@@ -12,7 +12,7 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 	private int shockRadius = 10;
 
 	public CoreBuildingReactor(int id) {
-		super(id, 2, 2);
+		super(id, 2, 2, 0);
 	}
 
 	@Override
@@ -25,10 +25,10 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 			List<CoreBuilding> candidates = map.getBuildingsWithin(getPosX(), getPosY(), shockRadius);
 			
 			// Modify the candidates.
-			// 1st.: remove self and buildings without energy
+			// 1st.: remove self and buildings without energy need
 			for (Iterator<CoreBuilding> iter = candidates.iterator(); iter.hasNext();) {
 				CoreBuilding building = iter.next();
-				if (building == this || building.getMaxEnergy() == 0) {
+				if (building == this || building.getMaxEnergy() == 0 || building.getEnergy() == building.getMaxEnergy()) {
 					iter.remove();
 				}
 			}

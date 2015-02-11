@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class CoreBuildingTower extends CoreBuilding {
 
 	public CoreBuildingTower(int id) {
-		super(id, 1, 1);
+		super(id, 1, 1, 10);
 	}
 
 	@Override
