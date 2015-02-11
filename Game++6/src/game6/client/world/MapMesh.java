@@ -41,34 +41,37 @@ public class MapMesh extends Renderable {
 		for (int x = 0; x < map.getSizeX(); x++) {
 			for (int y = 0; y < map.getSizeY(); y++) {
 
-				if (map.getBuildingMap()[x][y] == null) {
-					// xyz xyz xyz xyz xyz xyz
-					int i = 0;
-					int pos = (x * map.getSizeX() + y) * 6 * 3;
-					vertices[pos + i++] = x;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y;
+				// TODO enable this again
+				// if (map.getBuildingMap()[x][y] != null) {
+				// continue;
+				// }
 
-					vertices[pos + i++] = x;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
+				// xyz xyz xyz xyz xyz xyz
+				int i = 0;
+				int pos = (x * map.getSizeX() + y) * 6 * 3;
+				vertices[pos + i++] = x;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y;
 
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y;
+				vertices[pos + i++] = x;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y + 1;
 
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y;
+				vertices[pos + i++] = x + 1;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y;
 
-					vertices[pos + i++] = x;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
+				vertices[pos + i++] = x + 1;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y;
 
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
-				}
+				vertices[pos + i++] = x;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y + 1;
+
+				vertices[pos + i++] = x + 1;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y + 1;
 			}
 		}
 
@@ -77,27 +80,27 @@ public class MapMesh extends Renderable {
 		float step = 1f / span;
 		for (int x = 0; x < map.getSizeX(); x++) {
 			for (int y = 0; y < map.getSizeY(); y++) {
-				
+
 				float texX = (x % span) * step;
 				float texY = (y % span) * step;
-				
+
 				int i = 0;
 				int pos = (x * map.getSizeX() + y) * 6 * 2;
-				
+
 				textures[pos + i++] = texX;
 				textures[pos + i++] = texY;
 				textures[pos + i++] = texX;
 				textures[pos + i++] = texY + step;
 				textures[pos + i++] = texX + step;
 				textures[pos + i++] = texY;
-				
+
 				textures[pos + i++] = texX + step;
 				textures[pos + i++] = texY;
 				textures[pos + i++] = texX;
 				textures[pos + i++] = texY + step;
 				textures[pos + i++] = texX + step;
 				textures[pos + i++] = texY + step;
-				
+
 			}
 		}
 
