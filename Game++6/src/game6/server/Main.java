@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		new Server(1234);
+		new Server(4200);
 		
 	}
 	

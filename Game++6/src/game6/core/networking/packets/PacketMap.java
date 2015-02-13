@@ -24,7 +24,7 @@ public class PacketMap extends Packet {
 		node.add('y', map.getSizeY());
 
 		// serialize the tiles
-		int[] tileIDs = new int[map.getSizeX() * map.getSizeY()];
+		byte[] tileIDs = new byte[map.getSizeX() * map.getSizeY()];
 		for (int x = 0; x < map.getSizeX(); x++) {
 			for (int y = 0; y < map.getSizeY(); y++) {
 					tileIDs[y * map.getSizeX() + x] = map.getTile(x, y).getID();
@@ -40,7 +40,7 @@ public class PacketMap extends Packet {
 		int sizeX = node.getInt('x');
 		int sizeY = node.getInt('y');
 
-		int[] tileIDs = node.getIntArray('t');
+		byte[] tileIDs = node.getByteArray('t');
 
 		Tile[][] tiles = new Tile[sizeX][sizeY];
 

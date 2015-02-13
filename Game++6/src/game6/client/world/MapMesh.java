@@ -1,133 +1,80 @@
 package game6.client.world;
 
+import org.lwjgl.opengl.GL11;
+
 import game6.core.world.CoreMap;
-import de.nerogar.render.RenderProperties;
-import de.nerogar.render.Renderable;
-import de.nerogar.render.Texture2D;
-import de.nerogar.render.TextureLoader;
-import de.nerogar.render.Texture2D.InterpolationType;
+import de.nerogar.render.*;
 
 public class MapMesh extends Renderable {
 
-	private Texture2D texture;
 	private CoreMap map;
-	private boolean vboDirty = true;
+	private MapMeshChunk[][] chunks;
+	private MapMeshGridChunk[][] gridChunks;
+	private Shader shader;
+
+	private boolean gridActivated = false;
+
+	public static final int CHUNKSIZE = 32;
 
 	public MapMesh(CoreMap map) {
-		this.texture = TextureLoader.loadTexture("res/terrain/chrome3.png", InterpolationType.NEAREST);
 		this.map = map;
-		reload();
-	}
+		this.shader = new Shader("shaders/map.vert", "shaders/map.frag");
 
-	public void reload() {
-		vboDirty = true;
-	}
+		int numX = (int) Math.ceil(map.getSizeX() / (float) CHUNKSIZE);
+		int numY = (int) Math.ceil(map.getSizeY() / (float) CHUNKSIZE);
+		chunks = new MapMeshChunk[numX][numY];
+		gridChunks = new MapMeshGridChunk[numX][numY];
 
-	public void reloadVBO() {
-
-		int tilesCount = map.getSizeX() * map.getSizeY();
-
-		// each tile is a quad with 4 vertices.
-		// But we need 2 triangles each. So 6 vertices * 3 components
-		float[] vertices = new float[tilesCount * 6 * 3];
-
-		// 1 texture coord per vertex. Only 2 components
-		float[] textures = new float[tilesCount * 6 * 2];
-
-		// 1 normal per vertex
-		float[] normals = new float[vertices.length];
-
-		// Fill vertices
-		for (int x = 0; x < map.getSizeX(); x++) {
-			for (int y = 0; y < map.getSizeY(); y++) {
-
-				// TODO enable this again
-				// if (map.getBuildingMap()[x][y] != null) {
-				// continue;
-				// }
-
-				// xyz xyz xyz xyz xyz xyz
-				int i = 0;
-				int pos = (x * map.getSizeX() + y) * 6 * 3;
-				vertices[pos + i++] = x;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y;
-
-				vertices[pos + i++] = x;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + 1;
-
-				vertices[pos + i++] = x + 1;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y;
-
-				vertices[pos + i++] = x + 1;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y;
-
-				vertices[pos + i++] = x;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + 1;
-
-				vertices[pos + i++] = x + 1;
-				vertices[pos + i++] = 0;
-				vertices[pos + i++] = y + 1;
+		for (int x = 0; x < chunks.length; x++) {
+			for (int y = 0; y < chunks[x].length; y++) {
+				chunks[x][y] = new MapMeshChunk(map, x * CHUNKSIZE, y * CHUNKSIZE, Math.min(CHUNKSIZE, map.getSizeX() - x * CHUNKSIZE), Math.min(CHUNKSIZE, map.getSizeY() - y * CHUNKSIZE));
+				gridChunks[x][y] = new MapMeshGridChunk(map, x * CHUNKSIZE, y * CHUNKSIZE, Math.min(CHUNKSIZE, map.getSizeX() - x * CHUNKSIZE), Math.min(CHUNKSIZE, map.getSizeY() - y * CHUNKSIZE));
 			}
 		}
 
-		// Fill texture coordinates. each texture fills span*span tiles.
-		int span = 16;
-		float step = 1f / span;
-		for (int x = 0; x < map.getSizeX(); x++) {
-			for (int y = 0; y < map.getSizeY(); y++) {
+		reload(0, 0, map.getSizeX(), map.getSizeY());
+	}
 
-				float texX = (x % span) * step;
-				float texY = (y % span) * step;
+	public boolean isGridActivated() {
+		return gridActivated;
+	}
 
-				int i = 0;
-				int pos = (x * map.getSizeX() + y) * 6 * 2;
+	public void setGridActivated(boolean is) {
+		gridActivated = is;
+	}
 
-				textures[pos + i++] = texX;
-				textures[pos + i++] = texY;
-				textures[pos + i++] = texX;
-				textures[pos + i++] = texY + step;
-				textures[pos + i++] = texX + step;
-				textures[pos + i++] = texY;
-
-				textures[pos + i++] = texX + step;
-				textures[pos + i++] = texY;
-				textures[pos + i++] = texX;
-				textures[pos + i++] = texY + step;
-				textures[pos + i++] = texX + step;
-				textures[pos + i++] = texY + step;
-
+	public void reload(int posX, int posY, int sizeX, int sizeY) {
+		for (int x = (int) Math.floor(posX / (float) CHUNKSIZE); x < (posX + sizeX) / (float) CHUNKSIZE; x++) {
+			for (int y = (int) Math.floor(posY / (float) CHUNKSIZE); y < (posY + sizeY) / (float) CHUNKSIZE; y++) {
+				chunks[x][y].reload();
+				gridChunks[x][y].reload();
 			}
 		}
-
-		// Fill normals. Alternating diagonals for now
-		for (int i = 0; i < normals.length; i += 6) {
-			normals[i + 0] = 1;
-			normals[i + 1] = 1;
-			normals[i + 2] = 1;
-			normals[i + 3] = -1;
-			normals[i + 4] = 1;
-			normals[i + 5] = -1;
-		}
-
-		setVertexData(vertices, 3);
-		setTextureData(textures, 2);
-		setNormalData(normals, 3);
-		initVBO();
-		vboDirty = false;
+		System.gc();
 	}
 
 	@Override
 	public void render(RenderProperties renderProperties) {
-		texture.bind();
-		if (vboDirty) {
-			reloadVBO();
+
+		shader.activate();
+
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 5; y++) {
+				chunks[x][y].render(renderProperties);
+			}
 		}
-		super.render(renderProperties);
+
+		if (gridActivated) {
+			GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+			for (int x = 0; x < 5; x++) {
+				for (int y = 0; y < 5; y++) {
+					gridChunks[x][y].render(renderProperties);
+				}
+			}
+		}
+
+		shader.deactivate();
+
 	}
 
 }

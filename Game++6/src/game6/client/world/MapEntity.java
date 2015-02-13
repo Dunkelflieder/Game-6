@@ -16,9 +16,7 @@ public class MapEntity extends BaseEntity {
 
 	private Map map;
 	private MapMesh mesh;
-	private MapGridMesh gridMesh;
 	private RenderProperties renderProperties;
-	private boolean gridActivated = false;
 	private CoreBuilding preview;
 
 	private Shader shader;
@@ -27,27 +25,25 @@ public class MapEntity extends BaseEntity {
 		super(new BoundingAABB(new Vector3f(-99999), new Vector3f(99999, 0, 99999)), new Vector3f(0));
 		this.map = map;
 		mesh = new MapMesh(map);
-		gridMesh = new MapGridMesh(map);
 		renderProperties = new RenderProperties();
 
 		shader = new Shader("shaders/world.vert", "shaders/world.frag");
 	}
 
 	public boolean isGridActivated() {
-		return gridActivated;
+		return mesh.isGridActivated();
 	}
 
 	public void setGridActivated(boolean is) {
-		gridActivated = is;
+		mesh.setGridActivated(is);
 	}
 
 	public void setBuildingPreview(CoreBuilding preview) {
 		this.preview = preview;
 	}
 
-	public void reloadMesh() {
-		mesh.reload();
-		gridMesh.reload();
+	public void reloadMesh(int posX, int posY, int sizeX, int sizeY) {
+		mesh.reload(posX, posY, sizeX, sizeY);
 	}
 
 	@Override
@@ -57,11 +53,6 @@ public class MapEntity extends BaseEntity {
 	@Override
 	public void render() {
 		mesh.render(renderProperties);
-		if (gridActivated) {
-			// TODO Don't hardcode OpenGL here. This is to ensure that the grid overlays the terrain.
-			GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-			gridMesh.render(renderProperties);
-		}
 
 		if (preview != null) {
 			if (map.canAddBuilding(preview.getPosX(), preview.getPosY(), preview)) {

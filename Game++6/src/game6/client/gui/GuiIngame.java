@@ -9,7 +9,6 @@ import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
 
 import java.awt.Color;
-import java.awt.MultipleGradientPaint.ColorSpaceType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +131,7 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseWheel(GComponent source, int delta) {
 				// Zoom in or out
-				controller.getCamera().y = MathHelper.clamp(controller.getCamera().y - 0.01f * (delta), 2f, 100f);
+				controller.getCamera().y = MathHelper.clamp(controller.getCamera().y - 0.01f * (delta), 2f, 300f);
 				return true;
 			}
 

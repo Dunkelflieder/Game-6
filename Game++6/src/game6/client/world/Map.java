@@ -15,7 +15,7 @@ public class Map extends CoreMap {
 	@Override
 	public void addBuilding(int posX, int posY, CoreBuilding building) {
 		super.addBuilding(posX, posY, building);
-		entity.reloadMesh();
+		entity.reloadMesh(posX, posY, building.getSizeX(), building.getSizeY());
 	}
 
 	public MapEntity getEntity() {
