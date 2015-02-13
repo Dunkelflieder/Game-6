@@ -50,7 +50,6 @@ public class MapMesh extends Renderable {
 				gridChunks[x][y].reload();
 			}
 		}
-		System.gc();
 	}
 
 	@Override
