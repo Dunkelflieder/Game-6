@@ -9,19 +9,19 @@ public class MapMeshGridChunk extends Renderable {
 	private Texture2D texture;
 	private CoreMap map;
 	private boolean vboDirty = true;
-	
+
 	private int posX, posY, sizeX, sizeY;
-	
+
 	public MapMeshGridChunk(CoreMap map, int posX, int posY, int sizeX, int sizeY) {
-		
+
 		this.posX = posX;
 		this.posY = posY;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
-		
+
 		this.texture = TextureLoader.loadTexture("res/terrain/transparents.png", InterpolationType.NEAREST);
 		this.map = map;
-		
+
 		reload();
 	}
 
@@ -44,8 +44,8 @@ public class MapMeshGridChunk extends Renderable {
 		float[] normals = new float[vertices.length];
 
 		// Fill vertices
-		for (int x = posX; x < posX+sizeX; x++) {
-			for (int y = posY; y < posY+sizeY; y++) {
+		for (int x = posX; x < posX + sizeX; x++) {
+			for (int y = posY; y < posY + sizeY; y++) {
 
 				// xyz xyz xyz xyz xyz xyz
 				int i = 0;
@@ -77,10 +77,10 @@ public class MapMeshGridChunk extends Renderable {
 		}
 
 		// Fill texture coordinates. each texture fills span*span tiles.
-		for (int x = posX; x < posX+sizeX; x++) {
-			for (int y = posY; y < posY+sizeY; y++) {
+		for (int x = posX; x < posX + sizeX; x++) {
+			for (int y = posY; y < posY + sizeY; y++) {
 
-				float step = 1/2f;
+				float step = 1 / 2f;
 				float texX = ((x + y) % 2) * step;
 				float texY = (map.getBuildingAt(x, y) == null) ? 0 : step;
 
@@ -114,22 +114,19 @@ public class MapMeshGridChunk extends Renderable {
 			normals[i + 5] = -1;
 		}
 
-		setVertexData(vertices, 3);
-		setTextureData(textures, 2);
-		setNormalData(normals, 3);
-		initVBO();
+		initVBO(vertices, 3, textures, 2, normals, 3);
 		vboDirty = false;
 	}
 
 	@Override
 	public void render(RenderProperties renderProperties) {
-		
+
 		texture.bind();
 		if (vboDirty) {
 			reloadVBO();
 		}
 		super.render(renderProperties);
-		
+
 	}
 
 }

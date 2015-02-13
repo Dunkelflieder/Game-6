@@ -9,19 +9,19 @@ public class MapMeshChunk extends Renderable {
 	private Texture2D texture;
 	private CoreMap map;
 	private boolean vboDirty = true;
-	
+
 	private int posX, posY, sizeX, sizeY;
-	
+
 	public MapMeshChunk(CoreMap map, int posX, int posY, int sizeX, int sizeY) {
-		
+
 		this.posX = posX;
 		this.posY = posY;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
-		
+
 		this.texture = TextureLoader.loadTexture("res/terrain/mars.png", InterpolationType.NEAREST);
 		this.map = map;
-		
+
 		reload();
 	}
 
@@ -44,14 +44,14 @@ public class MapMeshChunk extends Renderable {
 		float[] normals = new float[vertices.length];
 
 		// Fill vertices
-		for (int x = posX; x < posX+sizeX; x++) {
-			for (int y = posY; y < posY+sizeY; y++) {
+		for (int x = posX; x < posX + sizeX; x++) {
+			for (int y = posY; y < posY + sizeY; y++) {
 
 				// TODO enable this again
 				// if (map.getBuildingMap()[x][y] != null) {
 				// continue;
 				// }
-				
+
 				// xyz xyz xyz xyz xyz xyz
 				int i = 0;
 				int pos = ((x - posX) * sizeY + (y - posY)) * 6 * 3;
@@ -84,8 +84,8 @@ public class MapMeshChunk extends Renderable {
 		// Fill texture coordinates. each texture fills span*span tiles.
 		int span = 16;
 		float step = 1f / span;
-		for (int x = posX; x < posX+sizeX; x++) {
-			for (int y = posY; y < posY+sizeY; y++) {
+		for (int x = posX; x < posX + sizeX; x++) {
+			for (int y = posY; y < posY + sizeY; y++) {
 
 				float texX = (x % span) * step;
 				float texY = (y % span) * step;
@@ -120,22 +120,19 @@ public class MapMeshChunk extends Renderable {
 			normals[i + 5] = -1;
 		}
 
-		setVertexData(vertices, 3);
-		setTextureData(textures, 2);
-		setNormalData(normals, 3);
-		initVBO();
+		initVBO(vertices, 3, textures, 2, normals, 3);
 		vboDirty = false;
 	}
 
 	@Override
 	public void render(RenderProperties renderProperties) {
-		
+
 		texture.bind();
 		if (vboDirty) {
 			reloadVBO();
 		}
 		super.render(renderProperties);
-		
+
 	}
 
 }
