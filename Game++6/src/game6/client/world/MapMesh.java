@@ -114,10 +114,7 @@ public class MapMesh extends Renderable {
 			normals[i + 5] = -1;
 		}
 
-		setVertexData(vertices, 3);
-		setTextureData(textures, 2);
-		setNormalData(normals, 3);
-		initVBO();
+		initVBO(vertices, 3, textures, 2, normals, 3);
 		vboDirty = false;
 	}
 

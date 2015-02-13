@@ -40,60 +40,60 @@ public class MapGridMesh extends Renderable {
 		// Fill vertices
 		for (int x = 0; x < map.getSizeX(); x++) {
 			for (int y = 0; y < map.getSizeY(); y++) {
-					// xyz xyz xyz xyz xyz xyz
-					int i = 0;
-					int pos = (x * map.getSizeX() + y) * 6 * 3;
-					vertices[pos + i++] = x;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y;
+				// xyz xyz xyz xyz xyz xyz
+				int i = 0;
+				int pos = (x * map.getSizeX() + y) * 6 * 3;
+				vertices[pos + i++] = x;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y;
 
-					vertices[pos + i++] = x;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
+				vertices[pos + i++] = x;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y + 1;
 
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y;
+				vertices[pos + i++] = x + 1;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y;
 
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y;
+				vertices[pos + i++] = x + 1;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y;
 
-					vertices[pos + i++] = x;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
+				vertices[pos + i++] = x;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y + 1;
 
-					vertices[pos + i++] = x + 1;
-					vertices[pos + i++] = 0;
-					vertices[pos + i++] = y + 1;
+				vertices[pos + i++] = x + 1;
+				vertices[pos + i++] = 0;
+				vertices[pos + i++] = y + 1;
 			}
 		}
 
 		// Fill texture coordinates. each texture fills span*span tiles.
 		for (int x = 0; x < map.getSizeX(); x++) {
 			for (int y = 0; y < map.getSizeY(); y++) {
-				
-				float step = 1/2f;
+
+				float step = 1 / 2f;
 				float texX = ((x + y) % 2) * step;
 				float texY = (map.getBuildingAt(x, y) == null) ? 0 : step;
-				
+
 				int i = 0;
 				int pos = (x * map.getSizeX() + y) * 6 * 2;
-				
+
 				textures[pos + i++] = texX;
 				textures[pos + i++] = texY;
 				textures[pos + i++] = texX;
 				textures[pos + i++] = texY + step;
 				textures[pos + i++] = texX + step;
 				textures[pos + i++] = texY;
-				
+
 				textures[pos + i++] = texX + step;
 				textures[pos + i++] = texY;
 				textures[pos + i++] = texX;
 				textures[pos + i++] = texY + step;
 				textures[pos + i++] = texX + step;
 				textures[pos + i++] = texY + step;
-				
+
 			}
 		}
 
@@ -107,10 +107,7 @@ public class MapGridMesh extends Renderable {
 			normals[i + 5] = -1;
 		}
 
-		setVertexData(vertices, 3);
-		setTextureData(textures, 2);
-		setNormalData(normals, 3);
-		initVBO();
+		initVBO(vertices, 3, textures, 2, normals, 3);
 		vboDirty = false;
 	}
 
