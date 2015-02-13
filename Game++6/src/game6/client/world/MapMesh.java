@@ -57,16 +57,18 @@ public class MapMesh extends Renderable {
 
 		shader.activate();
 
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++) {
+		// TODO only render visible chunks!
+		for (int x = 0; x < chunks.length; x++) {
+			for (int y = 0; y < chunks[x].length; y++) {
 				chunks[x][y].render(renderProperties);
 			}
 		}
 
+		// TODO only render visible chunks!
 		if (gridActivated) {
 			GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-			for (int x = 0; x < 5; x++) {
-				for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < gridChunks.length; x++) {
+				for (int y = 0; y < gridChunks[x].length; y++) {
 					gridChunks[x][y].render(renderProperties);
 				}
 			}
