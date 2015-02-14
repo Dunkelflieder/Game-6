@@ -67,8 +67,9 @@ public class MapEntity extends BaseEntity {
 		//render buildings
 		shader.activate();
 
-		shader.setUniform1i("colorTex", 0);
-		shader.setUniform1i("factionTex", 1);
+		shader.setUniform1i("lightTex", 0);
+		shader.setUniform1i("colorTex", 1);
+		shader.setUniform1i("factionTex", 2);
 
 		for (CoreBuilding building : map.getBuildings()) {
 			Color factionColor = building.getFaction().color;
