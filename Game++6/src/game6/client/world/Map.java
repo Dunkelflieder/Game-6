@@ -34,4 +34,8 @@ public class Map extends CoreMap {
 		entity.setBuildingPreview(preview);
 	}
 	
+	public void setAt(int x, int z) {
+		entity.setAt(x, z);
+	}
+	
 }

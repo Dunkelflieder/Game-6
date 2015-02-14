@@ -2,6 +2,8 @@ package game6.client.world;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import java.util.HashSet;
+
 import org.lwjgl.opengl.GL11;
 
 import game6.core.buildings.CoreBuilding;
@@ -19,6 +21,8 @@ public class MapEntity extends BaseEntity {
 	private RenderProperties renderProperties;
 	private CoreBuilding preview;
 
+	private int atX, atY;
+
 	private Shader shader;
 
 	public MapEntity(Map map) {
@@ -28,6 +32,11 @@ public class MapEntity extends BaseEntity {
 		renderProperties = new RenderProperties();
 
 		shader = new Shader("shaders/world.vert", "shaders/world.frag");
+	}
+
+	public void setAt(int x, int z) {
+		this.atX = x;
+		this.atY = z;
 	}
 
 	public boolean isGridActivated() {
@@ -52,7 +61,7 @@ public class MapEntity extends BaseEntity {
 
 	@Override
 	public void render() {
-		mesh.render(renderProperties);
+		mesh.render(renderProperties, atX, atY);
 
 		if (preview != null) {
 			if (map.canAddBuilding(preview.getPosX(), preview.getPosY(), preview)) {
@@ -64,19 +73,22 @@ public class MapEntity extends BaseEntity {
 			GL11.glColor4f(1, 1, 1, 1);
 		}
 
-		//render buildings
+		// render buildings
 		shader.activate();
 
 		shader.setUniform1i("lightTex", 0);
 		shader.setUniform1i("colorTex", 1);
 		shader.setUniform1i("factionTex", 2);
 
-		for (CoreBuilding building : map.getBuildings()) {
-			Color factionColor = building.getFaction().color;
+		for (CoreBuilding building: map.getBuildingsWithin(atX, atY, 150)) {
+			Color factionColor = new Color(0);
+			if (building.getFaction() != null) {
+				factionColor = building.getFaction().color;
+			}
 			shader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
 			building.render();
 		}
-
+		
 		shader.deactivate();
 	}
 

@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import game6.core.world.CoreMap;
 import de.nerogar.render.*;
 
-public class MapMesh extends Renderable {
+public class MapMesh {
 
 	private CoreMap map;
 	private MapMeshChunk[][] chunks;
@@ -52,14 +52,16 @@ public class MapMesh extends Renderable {
 		}
 	}
 
-	@Override
-	public void render(RenderProperties renderProperties) {
+	public void render(RenderProperties renderProperties, float atX, float atY) {
 
 		shader.activate();
 
 		// TODO only render visible chunks!
-		for (int x = 0; x < chunks.length; x++) {
-			for (int y = 0; y < chunks[x].length; y++) {
+		for (int x = (int) (atX / CHUNKSIZE - 5); x < atX / CHUNKSIZE + 5; x++) {
+			for (int y = (int) (atY / CHUNKSIZE - 5); y < atY / CHUNKSIZE + 5; y++) {
+				if (x < 0 || y < 0 || x >= chunks.length || y >= chunks[0].length) {
+					continue;
+				}
 				chunks[x][y].render(renderProperties);
 			}
 		}
@@ -67,8 +69,11 @@ public class MapMesh extends Renderable {
 		// TODO only render visible chunks!
 		if (gridActivated) {
 			GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-			for (int x = 0; x < gridChunks.length; x++) {
-				for (int y = 0; y < gridChunks[x].length; y++) {
+			for (int x = (int) (atX / CHUNKSIZE - 5); x < atX / CHUNKSIZE + 5; x++) {
+				for (int y = (int) (atY / CHUNKSIZE - 5); y < atY / CHUNKSIZE + 5; y++) {
+					if (x < 0 || y < 0 || x >= gridChunks.length || y >= gridChunks[0].length) {
+						continue;
+					}
 					gridChunks[x][y].render(renderProperties);
 				}
 			}

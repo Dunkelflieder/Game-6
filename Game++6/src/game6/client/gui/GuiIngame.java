@@ -16,6 +16,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import de.nerogar.render.Camera;
 import de.nerogar.render.GameDisplay;
 import de.nerogar.util.*;
 
@@ -51,13 +52,38 @@ public class GuiIngame extends Gui {
 
 		buildingPanel = new GPanelBuilding(controller);
 
-		initCameraMovementListener();
-
-		// clicks on map
+		// clicks on map && camera movement
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
+			public boolean mouseWheel(GComponent source, int delta) {
+				// Zoom in or out
+				controller.getCamera().y = MathHelper.clamp(controller.getCamera().y - 0.01f * (delta), 2f, 42f);
+				updateAt();
+				return true;
+			}
+
+			@Override
+			public boolean mouseReleased(GComponent source, int button) {
+				if (button == 2) {
+					grabbed = 0;
+					return true;
+				}
+				return false;
+			}
+
+			@Override
 			public boolean mouseClicked(GComponent source, int button) {
-				if (button == 0) {
+				if (button == 2) {
+					if ((Mouse.getY() < Display.getHeight() * 0.3 && grabbed != 1) || grabbed == 2) {
+						grabbed = 2;
+						return true;
+					} else if (grabbed != 2) {
+						grabbed = 1;
+						return true;
+					}
+				} else if (button == 1) {
+					selectBuilding(null);
+				} else if (button == 0) {
 					if (selectedBuilding != null) {
 						controller.placeBuilding(selectedBuilding, preview.getPosX(), preview.getPosY());
 						return true;
@@ -71,6 +97,7 @@ public class GuiIngame extends Gui {
 
 			@Override
 			public boolean mouseMoved(GComponent source, int dx, int dy) {
+
 				World world = controller.getWorld();
 				if (!world.isReady()) {
 					return false;
@@ -89,6 +116,20 @@ public class GuiIngame extends Gui {
 						preview.setPosY(MathHelper.clamp(mapY, 0, world.getMap().getSizeY() - preview.getSizeY()));
 					}
 				}
+
+				if (grabbed == 1) {
+					float slow = 0.01f * controller.getCamera().y;
+					float angle = (float) (controller.getCamera().yaw / (180f / Math.PI));
+
+					controller.getCamera().x -= slow * dx * Math.cos(angle) + slow * dy * Math.sin(angle);
+					controller.getCamera().z -= slow * dx * Math.sin(angle) - slow * dy * Math.cos(angle);
+
+				} else if (grabbed == 2) {
+					controller.getCamera().yaw += dx * 0.5f;
+				}
+
+				updateAt();
+
 				return true;
 			}
 		});
@@ -110,6 +151,27 @@ public class GuiIngame extends Gui {
 		add(buildingPanel);
 	}
 
+	public void updateAt() {
+		
+		// TODO move this functionality to camera, Justin!
+		Camera cam = controller.getCamera();
+		
+		double conv = 180 / Math.PI;
+
+		double x = Math.cos((cam.pitch * 0.3) / conv) * Math.sin(cam.yaw / conv);
+		double y = - Math.sin((cam.pitch * 0.3) / conv);
+		double z = - Math.cos((cam.pitch * 0.3) / conv) * Math.cos(cam.yaw / conv);
+
+		Ray cameraRay = new Ray(new Vector3f(cam.x, cam.y, cam.z), new Vector3f((float) x, (float) y, (float) z));
+		
+		RayIntersection intersection = controller.getWorld().getPhysicsSpace().getIntersecting(cameraRay);
+		if (intersection != null) {
+			int atX = (int) intersection.intersectionPoint.getX();
+			int atY = (int) intersection.intersectionPoint.getZ();
+			controller.getWorld().getMap().setAt(atX, atY);
+		}
+	}
+
 	public void reset() {
 		selectBuilding(null);
 	}
@@ -124,58 +186,6 @@ public class GuiIngame extends Gui {
 		}
 		controller.getWorld().getMap().setBuildingPreview(preview);
 		updateHighlight();
-	}
-
-	private void initCameraMovementListener() {
-		panel.addMouseListener(new MouseAdapter() {
-			@Override
-			public boolean mouseWheel(GComponent source, int delta) {
-				// Zoom in or out
-				controller.getCamera().y = MathHelper.clamp(controller.getCamera().y - 0.01f * (delta), 2f, 300f);
-				return true;
-			}
-
-			@Override
-			public boolean mouseReleased(GComponent source, int button) {
-				if (button == 2) {
-					grabbed = 0;
-					return true;
-				}
-				return false;
-			}
-
-			@Override
-			public boolean mouseMoved(GComponent source, int dx, int dy) {
-				if (grabbed == 1) {
-					float slow = 0.01f * controller.getCamera().y;
-					float angle = (float) (controller.getCamera().yaw / (180f / Math.PI));
-
-					controller.getCamera().x -= slow * dx * Math.cos(angle) + slow * dy * Math.sin(angle);
-					controller.getCamera().z -= slow * dx * Math.sin(angle) - slow * dy * Math.cos(angle);
-					return true;
-				} else if (grabbed == 2) {
-					controller.getCamera().yaw += dx * 0.5f;
-					return true;
-				}
-				return false;
-			}
-
-			@Override
-			public boolean mouseClicked(GComponent source, int button) {
-				if (button == 2) {
-					if ((Mouse.getY() < Display.getHeight() * 0.3 && grabbed != 1) || grabbed == 2) {
-						grabbed = 2;
-						return true;
-					} else if (grabbed != 2) {
-						grabbed = 1;
-						return true;
-					}
-				} else if (button == 1) {
-					selectBuilding(null);
-				}
-				return false;
-			}
-		});
 	}
 
 	@Override

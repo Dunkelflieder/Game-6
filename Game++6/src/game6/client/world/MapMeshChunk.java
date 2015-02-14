@@ -1,12 +1,11 @@
 package game6.client.world;
 
 import game6.core.world.CoreMap;
+import game6.core.world.Tile;
 import de.nerogar.render.*;
-import de.nerogar.render.Texture2D.InterpolationType;
 
 public class MapMeshChunk extends Renderable {
 
-	private Texture2D texture;
 	private CoreMap map;
 	private boolean vboDirty = true;
 
@@ -19,7 +18,6 @@ public class MapMeshChunk extends Renderable {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 
-		this.texture = TextureLoader.loadTexture("res/terrain/mars.png", InterpolationType.NEAREST);
 		this.map = map;
 
 		reload();
@@ -83,12 +81,17 @@ public class MapMeshChunk extends Renderable {
 
 		// Fill texture coordinates. each texture fills span*span tiles.
 		int span = 16;
-		float step = 1f / span;
+		float step = (1f / TerrainTexture.ROWCOUNT) / span;
 		for (int x = posX; x < posX + sizeX; x++) {
 			for (int y = posY; y < posY + sizeY; y++) {
 
-				float texX = (x % span) * step;
-				float texY = (y % span) * step;
+				Tile tile = map.getTile(x, y);
+				
+				float texOffsetX = TerrainTexture.getOffsetXForID(tile.getID());
+				float texOffsetY = TerrainTexture.getOffsetYForID(tile.getID());
+				
+				float texX = texOffsetX + (x % span) * step;
+				float texY = texOffsetY + (y % span) * step;
 
 				int i = 0;
 				int pos = ((x - posX) * sizeY + (y - posY)) * 6 * 2;
@@ -127,7 +130,7 @@ public class MapMeshChunk extends Renderable {
 	@Override
 	public void render(RenderProperties renderProperties) {
 
-		texture.bind();
+		TerrainTexture.getTexture().bind();
 		if (vboDirty) {
 			reloadVBO();
 		}

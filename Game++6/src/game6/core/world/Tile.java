@@ -1,18 +1,23 @@
 package game6.core.world;
 
 public enum Tile {
-	CHROME((byte) 1),
-	MARS((byte) 2),
-	ICE((byte) 3);
+	MARS((byte) 1, "mars.png"),
+	ICE((byte) 2, "ice.png");
 
 	private byte id;
+	private String tex;
 
-	Tile(byte id) {
+	Tile(byte id, String tex) {
 		this.id = id;
+		this.tex = tex;
 	}
 
 	public byte getID() {
 		return id;
+	}
+	
+	public String getTex() {
+		return tex;
 	}
 
 	public static Tile byID(byte id) {

@@ -18,6 +18,9 @@ public class Map extends CoreMap {
 
 	public Map(CoreMap core) {
 		super(core.getTiles());
+		for (CoreBuilding building : core.getBuildings()) {
+			addBuilding(building.getPosX(), building.getPosY(), building);
+		}
 		this.players = new ArrayList<>();
 	}
 
