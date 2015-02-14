@@ -1,4 +1,4 @@
-package game6.core;
+package game6.core.faction;
 
 import game6.core.buildings.CoreBuilding;
 

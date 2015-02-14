@@ -2,7 +2,7 @@ package game6.core.events;
 
 import java.util.List;
 
-import game6.core.Faction;
+import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketPowerSupply;
 import game6.server.world.Player;
 

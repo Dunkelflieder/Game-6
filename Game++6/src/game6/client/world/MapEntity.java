@@ -1,12 +1,9 @@
 package game6.client.world;
 
-import static org.lwjgl.opengl.GL20.*;
-
-import java.util.HashSet;
+import game6.core.buildings.CoreBuilding;
 
 import org.lwjgl.opengl.GL11;
 
-import game6.core.buildings.CoreBuilding;
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.physics.BoundingAABB;
 import de.nerogar.render.RenderProperties;

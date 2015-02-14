@@ -4,9 +4,9 @@ import game6.client.effects.EffectContainer;
 import game6.client.effects.Lightning;
 import game6.client.world.Map;
 import game6.client.world.World;
-import game6.core.Faction;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
+import game6.core.faction.Faction;
 import game6.core.networking.*;
 import game6.core.networking.packets.*;
 

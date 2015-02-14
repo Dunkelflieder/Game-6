@@ -1,6 +1,6 @@
 package game6.core.events;
 
-import game6.core.Faction;
+import game6.core.faction.Faction;
 import game6.server.world.Player;
 
 import java.util.List;

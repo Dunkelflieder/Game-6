@@ -1,9 +1,9 @@
 package game6.server.world;
 
-import game6.core.Faction;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
 import game6.core.events.Event;
+import game6.core.faction.Faction;
 import game6.core.networking.Connection;
 import game6.core.networking.PacketChannel;
 import game6.core.networking.packets.*;

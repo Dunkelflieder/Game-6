@@ -1,7 +1,7 @@
 package game6.core.buildings;
 
-import game6.core.Faction;
 import game6.core.events.Event;
+import game6.core.faction.Faction;
 import game6.core.world.CoreMap;
 
 import java.util.List;

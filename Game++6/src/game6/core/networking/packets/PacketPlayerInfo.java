@@ -1,6 +1,6 @@
 package game6.core.networking.packets;
 
-import game6.core.Faction;
+import game6.core.faction.Faction;
 import de.felk.NodeFile.NodeFile;
 
 public class PacketPlayerInfo extends Packet {

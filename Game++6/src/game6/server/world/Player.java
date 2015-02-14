@@ -1,6 +1,6 @@
 package game6.server.world;
 
-import game6.core.Faction;
+import game6.core.faction.Faction;
 import game6.core.networking.Connection;
 
 public class Player {
