@@ -56,7 +56,6 @@ public class MapMesh {
 
 		shader.activate();
 
-		// TODO only render visible chunks!
 		for (int x = (int) (atX / CHUNKSIZE - 5); x < atX / CHUNKSIZE + 5; x++) {
 			for (int y = (int) (atY / CHUNKSIZE - 5); y < atY / CHUNKSIZE + 5; y++) {
 				if (x < 0 || y < 0 || x >= chunks.length || y >= chunks[0].length) {
@@ -66,8 +65,9 @@ public class MapMesh {
 			}
 		}
 
-		// TODO only render visible chunks!
+		// TODO don't render the grid as a 2nd mesh, but rather in the shader. Improves performance.
 		if (gridActivated) {
+			// TODO don't avoid z-fighting by clearing depth buffer
 			GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 			for (int x = (int) (atX / CHUNKSIZE - 5); x < atX / CHUNKSIZE + 5; x++) {
 				for (int y = (int) (atY / CHUNKSIZE - 5); y < atY / CHUNKSIZE + 5; y++) {

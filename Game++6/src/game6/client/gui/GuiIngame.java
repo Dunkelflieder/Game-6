@@ -15,7 +15,9 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import static org.lwjgl.opengl.GL11.*;
 
+import de.nerogar.render.Camera;
 import de.nerogar.render.GameDisplay;
 import de.nerogar.util.*;
 
@@ -99,7 +101,7 @@ public class GuiIngame extends Gui {
 
 				World world = controller.getWorld();
 				if (!world.isReady()) {
-				return false;
+					return false;
 				}
 
 				// TODO don't hardcode fov
@@ -151,14 +153,18 @@ public class GuiIngame extends Gui {
 	}
 
 	public void updateAt() {
-		// TODO move this functionality to camera, Justin!
+
+		float pitch = controller.getCamera().getPitch();
+		controller.getCamera().setPitch(pitch * 0.3f);
+
 		Ray cameraRay = controller.getCamera().getCameraRay();
-		RayIntersection intersection = controller.getWorld().getPhysicsSpace().getIntersecting(cameraRay);
-		if (intersection != null) {
-			int atX = (int) intersection.intersectionPoint.getX();
-			int atY = (int) intersection.intersectionPoint.getZ();
-			controller.getWorld().getMap().setAt(atX, atY);
-		}
+		Vector3f start = (Vector3f) cameraRay.getStart();
+		Vector3f dir = (Vector3f) cameraRay.getDirection();
+		dir.multiply(- start.getY() / dir.getY());
+		start.add(dir);
+
+		controller.getWorld().getMap().setAt((int) start.getX(), (int) start.getZ());
+		controller.getCamera().setPitch(pitch);
 	}
 
 	public void reset() {
