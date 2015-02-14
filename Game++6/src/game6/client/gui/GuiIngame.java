@@ -152,18 +152,8 @@ public class GuiIngame extends Gui {
 	}
 
 	public void updateAt() {
-		
 		// TODO move this functionality to camera, Justin!
-		Camera cam = controller.getCamera();
-		
-		double conv = 180 / Math.PI;
-
-		double x = Math.cos((cam.pitch * 0.3) / conv) * Math.sin(cam.yaw / conv);
-		double y = - Math.sin((cam.pitch * 0.3) / conv);
-		double z = - Math.cos((cam.pitch * 0.3) / conv) * Math.cos(cam.yaw / conv);
-
-		Ray cameraRay = new Ray(new Vector3f(cam.x, cam.y, cam.z), new Vector3f((float) x, (float) y, (float) z));
-		
+		Ray cameraRay = controller.getCamera().getCameraRay();
 		RayIntersection intersection = controller.getWorld().getPhysicsSpace().getIntersecting(cameraRay);
 		if (intersection != null) {
 			int atX = (int) intersection.intersectionPoint.getX();
