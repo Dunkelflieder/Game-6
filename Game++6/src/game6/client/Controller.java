@@ -85,11 +85,11 @@ public class Controller {
 	}
 
 	protected void init() {
-		camera.y = 15;
-		camera.x = 15;
-		camera.z = 15;
-		camera.pitch = 60;
-		camera.yaw = 0;
+		camera.setY(15f);
+		camera.setX(15f);
+		camera.setZ(15f);
+		camera.setPitch(60);
+		camera.setYaw(0f);
 	}
 
 	// TODO debug method

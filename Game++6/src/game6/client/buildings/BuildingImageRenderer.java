@@ -11,11 +11,11 @@ public class BuildingImageRenderer {
 
 	public static Texture2D render(GameDisplay display, CoreBuilding building) {
 		guiTextureCam = new Camera();
-		guiTextureCam.x = building.getSizeX() / 2f;
-		guiTextureCam.y = 0.5f;
-		guiTextureCam.z = (float)building.getSizeY() + 2;
-		guiTextureCam.pitch = 0;
-		
+		guiTextureCam.setX(building.getSizeX() / 2f);
+		guiTextureCam.setY(0.5f);
+		guiTextureCam.setZ(building.getSizeY() + 2);
+		guiTextureCam.setPitch(0f);
+
 		/*guiTextureCam.x = building.getSizeX() / 2f;
 		guiTextureCam.y = 1.0f;
 		guiTextureCam.z = building.getSizeY() + 0.5f;

@@ -16,7 +16,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import de.nerogar.render.Camera;
 import de.nerogar.render.GameDisplay;
 import de.nerogar.util.*;
 
@@ -57,7 +56,7 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseWheel(GComponent source, int delta) {
 				// Zoom in or out
-				controller.getCamera().y = MathHelper.clamp(controller.getCamera().y - 0.01f * (delta), 2f, 42f);
+				controller.getCamera().setY(MathHelper.clamp(controller.getCamera().getY() - 0.01f * (delta), 2f, 42f));
 				updateAt();
 				return true;
 			}
@@ -100,7 +99,7 @@ public class GuiIngame extends Gui {
 
 				World world = controller.getWorld();
 				if (!world.isReady()) {
-					return false;
+				return false;
 				}
 
 				// TODO don't hardcode fov
@@ -118,14 +117,14 @@ public class GuiIngame extends Gui {
 				}
 
 				if (grabbed == 1) {
-					float slow = 0.01f * controller.getCamera().y;
-					float angle = (float) (controller.getCamera().yaw / (180f / Math.PI));
+					float slow = 0.01f * controller.getCamera().getY();
+					float angle = (float) (controller.getCamera().getYaw() / (180f / Math.PI));
 
-					controller.getCamera().x -= slow * dx * Math.cos(angle) + slow * dy * Math.sin(angle);
-					controller.getCamera().z -= slow * dx * Math.sin(angle) - slow * dy * Math.cos(angle);
+					controller.getCamera().setX(controller.getCamera().getX() - (float) (slow * dx * Math.cos(angle) + slow * dy * Math.sin(angle)));
+					controller.getCamera().setZ(controller.getCamera().getZ() - (float) (slow * dx * Math.sin(angle) - slow * dy * Math.cos(angle)));
 
 				} else if (grabbed == 2) {
-					controller.getCamera().yaw += dx * 0.5f;
+					controller.getCamera().setYaw(controller.getCamera().getYaw() + dx * 0.5f);
 				}
 
 				updateAt();
