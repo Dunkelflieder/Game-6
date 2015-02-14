@@ -1,21 +1,20 @@
 package game6.client.effects;
 
 import static org.lwjgl.opengl.GL11.*;
-import de.nerogar.util.Color;
 import de.nerogar.util.Vector3f;
 
 public class Lightning extends Effect {
-	public Vector3f start;
-	public Vector3f end;
-	public Color color;
+	protected float lifeTime;
+	protected final float MAX_LIFETIME;
+
+	//private Color color;
 
 	private Vector3f[] positions;
 	private Vector3f[] smallExtensions;
 
 	public Lightning(Vector3f start, Vector3f end) {
-		super(0.15f);
-		this.start = start;
-		this.end = end;
+		MAX_LIFETIME = 0.15f;
+		lifeTime = MAX_LIFETIME;
 
 		Vector3f direction = end.subtracted(start);
 		int vertices = (int) direction.getValue();
@@ -54,7 +53,7 @@ public class Lightning extends Effect {
 			glVertex3f(positions[i].getX(), positions[i].getY(), positions[i].getZ());
 			glVertex3f(positions[i + 1].getX(), positions[i + 1].getY(), positions[i + 1].getZ());
 		}
-		
+
 		for (int i = 0; i < positions.length; i++) {
 			glVertex3f(positions[i].getX(), positions[i].getY(), positions[i].getZ());
 			glVertex3f(smallExtensions[i].getX(), smallExtensions[i].getY(), smallExtensions[i].getZ());
@@ -63,4 +62,15 @@ public class Lightning extends Effect {
 		glEnd();
 		glEnable(GL_TEXTURE_2D);
 	}
+
+	@Override
+	public void update(float timeDelta) {
+		lifeTime -= timeDelta;
+	}
+
+	@Override
+	public boolean dead() {
+		return lifeTime < 0;
+	}
+
 }
