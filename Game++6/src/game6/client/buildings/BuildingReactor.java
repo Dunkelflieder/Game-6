@@ -11,7 +11,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 	private Texture2D textureColor;
 	private Texture2D textureFaction;
 
-	public BuildingReactor(int id) {
+	public BuildingReactor(long id) {
 		super(id);
 	}
 

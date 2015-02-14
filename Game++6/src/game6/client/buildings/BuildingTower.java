@@ -11,7 +11,7 @@ public class BuildingTower extends CoreBuildingTower {
 	private Texture2D textureColor;
 	private Texture2D textureFaction;
 
-	public BuildingTower(int id) {
+	public BuildingTower(long id) {
 		super(id);
 	}
 

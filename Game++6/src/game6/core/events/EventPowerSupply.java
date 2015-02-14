@@ -8,20 +8,21 @@ import game6.server.world.Player;
 
 public class EventPowerSupply extends Event {
 
-	private int sourceID, destID, amount;
+	private long sourceID, destID;
+	private int amount;
 
-	public EventPowerSupply(Faction faction, int sourceID, int destID, int amount) {
+	public EventPowerSupply(Faction faction, long sourceID, long destID, int amount) {
 		super(faction);
 		this.sourceID = sourceID;
 		this.destID = destID;
 		this.amount = amount;
 	}
 
-	public int getSourceID() {
+	public long getSourceID() {
 		return sourceID;
 	}
 
-	public int getDestID() {
+	public long getDestID() {
 		return destID;
 	}
 

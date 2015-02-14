@@ -5,7 +5,8 @@ import de.felk.NodeFile.NodeFile;
 
 public class PacketBuildingUpdate extends Packet {
 
-	public int id, energy;
+	public long id;
+	public int energy;
 
 	public PacketBuildingUpdate() {
 	}
@@ -28,7 +29,7 @@ public class PacketBuildingUpdate extends Packet {
 	@Override
 	public void loadNode(NodeFile node) {
 
-		id = node.getInt('i');
+		id = node.getLong('i');
 		energy = node.getInt('e');
 
 	}

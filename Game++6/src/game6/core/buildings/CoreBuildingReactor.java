@@ -11,7 +11,7 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 	private int shockPower = 10;
 	private int shockRadius = 10;
 
-	public CoreBuildingReactor(int id) {
+	public CoreBuildingReactor(long id) {
 		super(id, 2, 2, 0);
 	}
 

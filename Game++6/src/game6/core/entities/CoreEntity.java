@@ -6,8 +6,8 @@ import de.nerogar.util.Vectorf;
 
 public abstract class CoreEntity extends BaseEntity {
 
-	public CoreEntity(BoundingAABB bounding, Vectorf<?> position) {
-		super(bounding, position);
+	public CoreEntity(long id, BoundingAABB bounding, Vectorf<?> position) {
+		super(id, bounding, position);
 	}
 
 }

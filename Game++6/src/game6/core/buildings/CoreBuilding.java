@@ -8,17 +8,19 @@ import java.util.List;
 
 public abstract class CoreBuilding {
 
-	private int id;
+	private static long MAX_ID;
+	private long id;
 	private int sizeX, sizeY, posX, posY;
 
 	private int energy;
 	private int maxEnergy;
-	
+
 	protected CoreMap map;
 	protected Faction faction;
 
-	public CoreBuilding(int id, int sizeX, int sizeY, int maxEnergy) {
+	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy) {
 		init();
+		if (id > MAX_ID) MAX_ID = id;
 		this.id = id;
 		this.faction = Faction.YELLOW;
 		this.sizeX = sizeX;
@@ -27,13 +29,13 @@ public abstract class CoreBuilding {
 		this.posY = 0;
 		this.maxEnergy = maxEnergy;
 	}
-	
+
 	public abstract void init();
 
-	public int getID() {
+	public long getID() {
 		return id;
 	}
-	
+
 	public void setID(int id) {
 		this.id = id;
 	}
@@ -63,7 +65,9 @@ public abstract class CoreBuilding {
 	}
 
 	public abstract void update(List<Event> events);
+
 	public abstract void render();
+
 	public abstract String getName();
 
 	public int getEnergy() {
@@ -99,13 +103,18 @@ public abstract class CoreBuilding {
 	public void setMap(CoreMap map) {
 		this.map = map;
 	}
-	
-	public void setFaction(Faction faction){
+
+	public void setFaction(Faction faction) {
 		this.faction = faction;
 	}
-	
-	public Faction getFaction(){
+
+	public Faction getFaction() {
 		return faction;
+	}
+	
+	protected static long getNextID() {
+		MAX_ID++;
+		return MAX_ID;
 	}
 
 }

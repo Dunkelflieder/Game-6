@@ -4,8 +4,8 @@ import game6.core.buildings.CoreBuildingReactor;
 
 public class BuildingReactor extends CoreBuildingReactor {
 
-	public BuildingReactor(int id) {
-		super(id);
+	public BuildingReactor() {
+		super(getNextID());
 	}
 
 	@Override

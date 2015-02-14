@@ -11,7 +11,7 @@ public class BuildingResearch extends CoreBuildingResearch {
 	private Texture2D textureColor;
 	private Texture2D textureFaction;
 
-	public BuildingResearch(int id) {
+	public BuildingResearch(long id) {
 		super(id);
 	}
 

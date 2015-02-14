@@ -128,14 +128,14 @@ public class Controller {
 					((World) world).getMap().addBuilding(packetBuilding.posX, packetBuilding.posY, building);
 				} else if (packet instanceof PacketPowerSupply) {
 					PacketPowerSupply packetPS = (PacketPowerSupply) packet;
-					CoreBuilding start = getWorld().getMap().getBuildings().get(packetPS.source);
-					CoreBuilding dest = getWorld().getMap().getBuildings().get(packetPS.destination);
+					CoreBuilding start = getWorld().getMap().getBuilding(packetPS.source);
+					CoreBuilding dest = getWorld().getMap().getBuilding(packetPS.destination);
 					Vector3f from = new Vector3f(start.getPosX() + (0.5f * start.getSizeX()), 0.5f, start.getPosY() + (0.5f * start.getSizeY()));
 					Vector3f to = new Vector3f(dest.getPosX() + (0.5f * dest.getSizeX()), 0.5f, dest.getPosY() + (0.5f * dest.getSizeY()));
 					effects.addEffect(new Lightning(from, to));
 				} else if (packet instanceof PacketBuildingUpdate) {
 					PacketBuildingUpdate pbu = (PacketBuildingUpdate) packet;
-					getWorld().getMap().getBuildings().get(pbu.id).setEnergy(pbu.energy);
+					getWorld().getMap().getBuilding(pbu.id).setEnergy(pbu.energy);
 				}
 			}
 		}

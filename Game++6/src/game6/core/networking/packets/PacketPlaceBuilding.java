@@ -8,12 +8,13 @@ public class PacketPlaceBuilding extends Packet {
 
 	public BuildingType building;
 	public Faction faction;
-	public int id, posX, posY;
+	public long id;
+	public int posX, posY;
 
 	public PacketPlaceBuilding() {
 	}
 
-	public PacketPlaceBuilding(BuildingType building, Faction faction, int id, int posX, int posY) {
+	public PacketPlaceBuilding(BuildingType building, Faction faction, long id, int posX, int posY) {
 		this.building = building;
 		this.faction = faction;
 		this.id = id;
@@ -38,7 +39,7 @@ public class PacketPlaceBuilding extends Packet {
 	public void loadNode(NodeFile node) {
 
 		faction = Faction.byID(node.getInt('f'));
-		id = node.getInt('i');
+		id = node.getLong('i');
 		posX = node.getInt('x');
 		posY = node.getInt('y');
 		building = BuildingType.byID(node.getInt('t'));

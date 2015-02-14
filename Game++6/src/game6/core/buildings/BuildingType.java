@@ -24,9 +24,9 @@ public enum BuildingType {
 		return id;
 	}
 
-	public CoreBuilding getClientBuilding(int id) {
+	public CoreBuilding getClientBuilding(long id) {
 		try {
-			return clientClass.getConstructor(int.class).newInstance(id);
+			return clientClass.getConstructor(long.class).newInstance(id);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			System.err.println("Could not instanciate client building.");
 			e.printStackTrace();
@@ -34,9 +34,9 @@ public enum BuildingType {
 		return null;
 	}
 
-	public CoreBuilding getServerBuilding(int id) {
+	public CoreBuilding getServerBuilding() {
 		try {
-			return serverClass.getConstructor(int.class).newInstance(id);
+			return serverClass.getConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			System.err.println("Could not instanciate server building.");
 			e.printStackTrace();

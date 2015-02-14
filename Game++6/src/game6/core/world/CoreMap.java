@@ -20,8 +20,7 @@ public class CoreMap {
 	public boolean canAddBuilding(int posX, int posY, CoreBuilding building) {
 		for (int x = posX; x < posX + building.getSizeX(); x++) {
 			for (int y = posY; y < posY + building.getSizeY(); y++) {
-				if (buildingMap[x][y] != null)
-					return false;
+				if (buildingMap[x][y] != null) return false;
 			}
 		}
 		return true;
@@ -31,7 +30,8 @@ public class CoreMap {
 		building.setPosX(posX);
 		building.setPosY(posY);
 		building.setMap(this);
-		this.buildings.add(building.getID(), building);
+		this.buildings.add(building);
+		this.buildings.sort((a, b) -> (int) (a.getID() - b.getID()));
 		for (int x = posX; x < posX + building.getSizeX(); x++) {
 			for (int y = posY; y < posY + building.getSizeY(); y++) {
 				buildingMap[x][y] = building;
@@ -40,9 +40,7 @@ public class CoreMap {
 	}
 
 	public CoreBuilding getBuildingAt(int x, int y) {
-		if (x < 0 || y < 0 || x >= getSizeX() || y >= getSizeY()) {
-			return null;
-		}
+		if (x < 0 || y < 0 || x >= getSizeX() || y >= getSizeY()) { return null; }
 		return buildingMap[x][y];
 	}
 
@@ -88,6 +86,26 @@ public class CoreMap {
 
 	public List<CoreBuilding> getBuildings() {
 		return buildings;
+	}
+
+	public CoreBuilding getBuilding(long id) {
+
+		int l = 0;
+		int r = buildings.size() - 1;
+		int p;
+		while (l <= r) {
+			p = (l + r) / 2;
+
+			if (buildings.get(p).getID() == id) return buildings.get(p);
+			if (buildings.get(p).getID() < id) {
+				l = p + 1;
+			} else {
+				r = p - 1;
+			}
+		}
+
+		return null;
+
 	}
 
 }

@@ -32,7 +32,7 @@ public class Map extends CoreMap {
 			for (Packet packet : player.getConnection().get(PacketChannel.BUILDINGS)) {
 				if (packet instanceof PacketPlaceBuilding) {
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
-					CoreBuilding building = ppb.building.getServerBuilding(getBuildings().size());
+					CoreBuilding building = ppb.building.getServerBuilding();
 					building.setFaction(player.getFaction());
 					if (canAddBuilding(ppb.posX, ppb.posY, building)) {
 						addBuilding(ppb.posX, ppb.posY, building);

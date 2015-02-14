@@ -4,8 +4,8 @@ import game6.core.buildings.CoreBuildingResearch;
 
 public class BuildingResearch extends CoreBuildingResearch {
 
-	public BuildingResearch(int id) {
-		super(id);
+	public BuildingResearch() {
+		super(getNextID());
 	}
 
 	@Override

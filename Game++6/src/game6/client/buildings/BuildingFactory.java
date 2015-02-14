@@ -11,7 +11,7 @@ public class BuildingFactory extends CoreBuildingFactory {
 	private Texture2D textureColor;
 	private Texture2D textureFaction;
 
-	public BuildingFactory(int id) {
+	public BuildingFactory(long id) {
 		super(id);
 	}
 

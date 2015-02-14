@@ -17,7 +17,7 @@ public class MapGenerator {
 
 				Tile tile = Tile.MARS;
 				if (r1 > 0.8) {
-					map.addBuilding(x, y, new BuildingRock(map.getBuildings().size()));
+					map.addBuilding(x, y, new BuildingRock());
 				}
 				if (r2 > 0.8) {
 					tile = Tile.ICE;

@@ -4,8 +4,8 @@ import game6.core.buildings.CoreBuildingRock;
 
 public class BuildingRock extends CoreBuildingRock {
 
-	public BuildingRock(int id) {
-		super(id);
+	public BuildingRock() {
+		super(getNextID());
 	}
 
 	@Override

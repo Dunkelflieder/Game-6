@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class CoreBuildingResearch extends CoreBuilding {
 
-	public CoreBuildingResearch(int id) {
+	public CoreBuildingResearch(long id) {
 		super(id, 2, 2, 50);
 	}
 

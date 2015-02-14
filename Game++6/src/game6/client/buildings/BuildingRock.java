@@ -11,7 +11,7 @@ public class BuildingRock extends CoreBuildingRock {
 	private Texture2D textureColor;
 	private Texture2D textureFaction;
 
-	public BuildingRock(int id) {
+	public BuildingRock(long id) {
 		super(id);
 	}
 

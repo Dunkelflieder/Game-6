@@ -5,7 +5,8 @@ import de.felk.NodeFile.NodeFile;
 
 public class PacketPowerSupply extends Packet {
 
-	public int source, destination, amount;
+	public long source, destination;
+	private int amount;
 
 	public PacketPowerSupply() {
 		
@@ -31,8 +32,8 @@ public class PacketPowerSupply extends Packet {
 	@Override
 	public void loadNode(NodeFile node) {
 
-		source = node.getInt('s');
-		destination = node.getInt('d');
+		source = node.getLong('s');
+		destination = node.getLong('d');
 		amount = node.getInt('a');
 
 	}

@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class CoreBuildingFactory extends CoreBuilding {
 
-	public CoreBuildingFactory(int id) {
+	public CoreBuildingFactory(long id) {
 		super(id, 3, 2, 300);
 	}
 

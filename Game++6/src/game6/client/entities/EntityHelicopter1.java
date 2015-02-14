@@ -1,11 +1,11 @@
 package game6.client.entities;
 
-import game6.core.entities.CoreEntityHelicopter;
+import game6.core.entities.CoreEntityHelicopter1;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
 import de.nerogar.util.Vectorf;
 
-public class EntityHelicopter extends CoreEntityHelicopter {
+public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 
 	private RenderProperties renderPropertiesMain;
 	private RenderProperties renderPropertiesRotorL;
@@ -15,8 +15,8 @@ public class EntityHelicopter extends CoreEntityHelicopter {
 	private WavefrontMesh meshRotorL;
 	private WavefrontMesh meshRotorH;
 
-	public EntityHelicopter(Vectorf<?> position) {
-		super(position);
+	public EntityHelicopter1(long id, Vectorf<?> position) {
+		super(id, position);
 
 		meshMain = WavefrontLoader.loadObject("res/entities/helicopter1/mesh.obj");
 		meshRotorL = WavefrontLoader.loadObject("res/entities/helicopter1/meshRotorL.obj");

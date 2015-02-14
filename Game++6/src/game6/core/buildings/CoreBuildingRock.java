@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class CoreBuildingRock extends CoreBuilding {
 
-	public CoreBuildingRock(int id) {
+	public CoreBuildingRock(long id) {
 		super(id, 1, 1, 0);
 	}
 
