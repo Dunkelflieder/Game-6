@@ -8,9 +8,16 @@ import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
+/**
+ * Abstract Gui-Component class.
+ * All components inherit from this class.
+ * Offers mouse and keyboard listeners.
+ * @author Felk
+ *
+ */
 public abstract class GComponent {
 
-	private int posX, posY, sizeX, sizeY;
+	private int posX, posY, sizeX, sizeY, offsetX, offsetY;
 	private boolean focused;
 
 	private boolean wasHovered;
@@ -22,77 +29,92 @@ public abstract class GComponent {
 		init();
 		focused = false;
 		wasHovered = false;
+		offsetX = 0;
+		offsetY = 0;
 	}
 
 	public void init() {
 	}
 
-	public void setPosX(int posX) {
+	public void setPos(int posX, int posY) {
 		this.posX = posX;
+		this.posY = posY;
 	}
 
 	public int getPosX() {
 		return posX;
 	}
 
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
-
 	public int getPosY() {
 		return posY;
 	}
 
-	public void setPos(int posX, int posY) {
-		setPosX(posX);
-		setPosY(posY);
-	}
-
-	public void setSizeX(int sizeX) {
+	public void setSize(int sizeX, int sizeY) {
 		this.sizeX = sizeX;
+		this.sizeY = sizeY;
 	}
 
 	public int getSizeX() {
 		return sizeX;
 	}
 
-	public void setSizeY(int sizeY) {
-		this.sizeY = sizeY;
-	}
-
 	public int getSizeY() {
 		return sizeY;
 	}
 
-	public void setSize(int sizeX, int sizeY) {
-		setSizeX(sizeX);
-		setSizeY(sizeY);
+	public void setOffset(int x, int y) {
+		this.offsetX = x;
+		this.offsetY = y;
 	}
 
+	public int getOffsetX() {
+		return offsetX;
+	}
+
+	public int getOffsetY() {
+		return offsetY;
+	}
+
+	/**
+	 * Tells the component, that it is no longer focused. Should not be called manually.
+	 */
 	public void unfocus() {
 		focused = false;
 		onUnfocus();
 	}
 
+	/**
+	 * Tells the component, that it is focused now. Should not be called manually.
+	 */
 	public void focus() {
 		focused = true;
 		onFocus();
 	}
 
+	/**
+	 * Returns whether the component is currently focused or not.
+	 * @return true, if it is focused. False otherwise.
+	 */
 	public boolean isFocused() {
 		return focused;
 	}
 
 	// //////////
 
-	public boolean isCurrentlyHovered() {
-		return Mouse.getX() > getPosX() && Mouse.getX() < getPosX() + getSizeX() &&
-				Mouse.getY() > getPosY() && Mouse.getY() < getPosY() + getSizeY();
+	/**
+	 * Returns whether the component is currently hovered my the Mouse or not
+	 * @return true, if the mouse is currently within the components bounds. False otherwise
+	 */
+	public boolean isHovered() {
+		return Mouse.getX() > getPosX() + getOffsetX() && Mouse.getX() < getPosX() + getSizeX() + getOffsetX() &&
+				Mouse.getY() > getPosY() + getOffsetY() && Mouse.getY() < getPosY() + getSizeY() + getOffsetY();
 	}
 
 	public void update() {
 
-		boolean isCurrentlyHovered = isCurrentlyHovered();
+		// These are the only listeners, which are notified by the component itself (for now)
+		// Determines, if the mouse left or entered the component's bounds.
+		boolean isCurrentlyHovered = isHovered();
 		if (isCurrentlyHovered && !wasHovered) {
 			notifyMouseEnteredListener();
 		} else if (!isCurrentlyHovered && wasHovered) {
@@ -102,8 +124,10 @@ public abstract class GComponent {
 
 	}
 
-	public abstract void render(int offsetX, int offsetY);
+	public abstract void render();
+
 	public abstract void onFocus();
+
 	public abstract void onUnfocus();
 
 	// //////////
@@ -112,10 +136,6 @@ public abstract class GComponent {
 		return mouseListeners.add(listener);
 	}
 
-	public boolean removeMouseListener(MouseListener listener) {
-		return mouseListeners.remove(listener);
-	}
-	
 	public void removeAllMouseListeners() {
 		mouseListeners.clear();
 	}
@@ -124,10 +144,6 @@ public abstract class GComponent {
 		return keyboardListeners.add(listener);
 	}
 
-	public boolean removeKeyboardListener(KeyboardListener listener) {
-		return keyboardListeners.remove(listener);
-	}
-	
 	public void removeAllKeyboardListeners() {
 		keyboardListeners.clear();
 	}

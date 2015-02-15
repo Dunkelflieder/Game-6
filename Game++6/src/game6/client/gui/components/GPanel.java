@@ -5,6 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Gui-Component, that can hold components itself and renders them offsetted by the panel's position.
+ * Is a component itself and propergates events and stuff to all contained components.
+ * Events are processed in reverse the order they are added, to have a front-to-back event consuming.
+ * Last added and therefore last rendered components are handled as topmost.
+ * @author Felk
+ *
+ */
 public class GPanel extends GComponent {
 
 	private class ListReverser<T> implements Iterable<T> {
@@ -32,9 +40,28 @@ public class GPanel extends GComponent {
 		}
 	}
 
+	private void updateOffsets() {
+		for (GComponent component : components) {
+			component.setOffset(getPosX() + getOffsetX(), getPosY() + getOffsetY());
+		}
+	}
+
+	@Override
+	public void setOffset(int x, int y) {
+		super.setOffset(x, y);
+		updateOffsets();
+	}
+
+	@Override
+	public void setPos(int x, int y) {
+		super.setPos(x, y);
+		updateOffsets();
+	}
+
 	private List<GComponent> components = new ArrayList<>();
 
 	public boolean add(GComponent component) {
+		component.setOffset(getPosX() + getOffsetX(), getPosY() + getOffsetY());
 		return components.add(component);
 	}
 
@@ -47,9 +74,9 @@ public class GPanel extends GComponent {
 	}
 
 	@Override
-	public void render(int offsetX, int offsetY) {
+	public void render() {
 		for (GComponent component : components) {
-			component.render(offsetX + getPosX(), offsetY + getPosY());
+			component.render();
 		}
 	}
 
@@ -83,7 +110,7 @@ public class GPanel extends GComponent {
 			c.unfocus();
 		}
 		for (GComponent component : new ListReverser<GComponent>(components)) {
-			if (component.isCurrentlyHovered()) {
+			if (component.isHovered()) {
 				if (component.notifyMouseClickedListener(button)) {
 					return true;
 				}
@@ -98,7 +125,7 @@ public class GPanel extends GComponent {
 	@Override
 	public boolean notifyMouseReleasedListener(int button) {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
-			if (component.isCurrentlyHovered()) {
+			if (component.isHovered()) {
 				if (component.notifyMouseReleasedListener(button)) {
 					return true;
 				}
@@ -113,7 +140,7 @@ public class GPanel extends GComponent {
 	@Override
 	public boolean notifyMouseWheelListener(int delta) {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
-			if (component.isCurrentlyHovered()) {
+			if (component.isHovered()) {
 				if (component.notifyMouseWheelListener(delta)) {
 					return true;
 				}
@@ -128,7 +155,7 @@ public class GPanel extends GComponent {
 	@Override
 	public boolean notifyMouseMovedListener(int dx, int dy) {
 		for (GComponent component : new ListReverser<GComponent>(components)) {
-			if (component.isCurrentlyHovered()) {
+			if (component.isHovered()) {
 				if (component.notifyMouseMovedListener(dx, dy)) {
 					return true;
 				}

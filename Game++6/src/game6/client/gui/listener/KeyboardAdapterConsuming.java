@@ -2,6 +2,12 @@ package game6.client.gui.listener;
 
 import game6.client.gui.components.GComponent;
 
+/**
+ * An abstract class, that implements a Keyboard listener and consumes all inputs by default.
+ * Can be useful if you want to define an non-interactive portion in a gui.
+ * @author Felk
+ *
+ */
 public abstract class KeyboardAdapterConsuming implements KeyboardListener {
 
 	@Override

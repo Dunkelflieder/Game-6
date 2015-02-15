@@ -7,6 +7,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Gui-Component, which represents a button.
+ * Offers a listener for click events.
+ * @author Felk
+ *
+ */
 public class GButton extends GComponent implements MouseListener {
 
 	private List<ClickedListener> clickedListener = new ArrayList<>();
@@ -27,29 +33,30 @@ public class GButton extends GComponent implements MouseListener {
 	}
 
 	@Override
-	public void setSizeX(int x) {
-		super.setSizeX(x);
-		text.setSizeX(x);
-		buttonImage.setSizeX(x);
-	}
-
-	@Override
-	public void setSizeY(int y) {
-		super.setSizeY(y);
-		text.setSizeY(y);
-		buttonImage.setSizeY(y);
-	}
-
-	@Override
 	public void setSize(int x, int y) {
-		setSizeX(x);
-		setSizeY(y);
+		super.setSize(x, y);
+		text.setSize(x, y);
+		buttonImage.setSize(x, y);
 	}
 
 	@Override
-	public void render(int offsetX, int offsetY) {
-		buttonImage.render(getPosX() + offsetX, getPosY() + offsetY);
-		text.render(getPosX() + offsetX + 10, getPosY() + offsetY);
+	public void setOffset(int x, int y) {
+		super.setOffset(x, y);
+		text.setOffset(x, y);
+		buttonImage.setOffset(x, y);
+	}
+
+	@Override
+	public void setPos(int x, int y) {
+		super.setPos(x, y);
+		text.setPos(x + 10, y);
+		buttonImage.setPos(x, y);
+	}
+
+	@Override
+	public void render() {
+		buttonImage.render();
+		text.render();
 	}
 
 	public boolean addClickedListener(ClickedListener listener) {
@@ -88,7 +95,7 @@ public class GButton extends GComponent implements MouseListener {
 	@Override
 	public boolean mouseReleased(GComponent source, int button) {
 		if (button == 0) {
-			if (isCurrentlyHovered()) {
+			if (isHovered()) {
 				notifyClickedListener();
 			}
 			buttonImage.setIndex(0);

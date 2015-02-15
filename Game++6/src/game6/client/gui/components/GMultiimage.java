@@ -8,6 +8,12 @@ import static org.lwjgl.opengl.GL11.glVertex3f;
 import de.nerogar.render.Texture2D;
 import de.nerogar.render.TextureLoader;
 
+/**
+ * Gui-Component, that displays a part of a texture. The underlying texture is interpreted as a grid of images.
+ * The portion that should be rendered can be set.
+ * @author Felk
+ *
+ */
 public class GMultiimage extends GComponent {
 
 	private Texture2D texture;
@@ -36,12 +42,12 @@ public class GMultiimage extends GComponent {
 	}
 
 	@Override
-	public void render(int offsetX, int offsetY) {
+	public void render() {
 		// TODO don't hardcode OpenGL here
 		texture.bind();
 
-		int x = getPosX() + offsetX;
-		int y = getPosY() + offsetY;
+		int x = getPosX() + getOffsetX();
+		int y = getPosY() + getOffsetY();
 
 		float stepX = 1f / cols;
 		float stepY = 1f / rows;

@@ -8,6 +8,11 @@ import static org.lwjgl.opengl.GL11.glVertex3f;
 import de.nerogar.render.Texture2D;
 import de.nerogar.render.TextureLoader;
 
+/**
+ * Gui-Component, that renders a given texture within its bounds
+ * @author Felk
+ *
+ */
 public class GImage extends GComponent {
 
 	private Texture2D texture;
@@ -15,18 +20,18 @@ public class GImage extends GComponent {
 	public GImage(String filename) {
 		texture = TextureLoader.loadTexture(filename);
 	}
-	
+
 	public GImage(Texture2D texture) {
 		this.texture = texture;
 	}
 
 	@Override
-	public void render(int offsetX, int offsetY) {
+	public void render() {
 		// TODO don't hardcode OpenGL here
 		texture.bind();
 
-		int x = getPosX() + offsetX;
-		int y = getPosY() + offsetY;
+		int x = getPosX() + getOffsetX();
+		int y = getPosY() + getOffsetY();
 
 		glBegin(GL_QUADS);
 

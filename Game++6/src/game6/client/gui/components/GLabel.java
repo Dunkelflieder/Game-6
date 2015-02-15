@@ -6,6 +6,11 @@ import java.awt.Color;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Gui-Component, that displays (colored) text within given bounds.
+ * @author Felk
+ *
+ */
 public class GLabel extends GComponent {
 
 	private String text;
@@ -58,11 +63,11 @@ public class GLabel extends GComponent {
 	}
 
 	@Override
-	public void render(int offsetX, int offsetY) {
+	public void render() {
 		// TODO don't hardcode OpenGL here
 
 		float scale = getSizeY() / 64f;
-		
+
 		int offset = 0;
 		if (alignment == Font.RIGHT) {
 			offset = (int) (getSizeX() - font.getWidthFor(text) * scale);
@@ -70,8 +75,8 @@ public class GLabel extends GComponent {
 			offset = (int) ((getSizeX() - font.getWidthFor(text) * scale) / 2);
 		}
 
-		int x = getPosX() + offsetX;
-		int y = getPosY() + offsetY;
+		int x = getPosX() + getOffsetX();
+		int y = getPosY() + getOffsetY();
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

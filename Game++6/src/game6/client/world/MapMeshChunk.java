@@ -81,19 +81,24 @@ public class MapMeshChunk extends Renderable {
 
 		// Fill texture coordinates. each texture fills span*span tiles.
 		int span = 16;
+		// The texture step each tile advanced in the texture
 		float step = (1f / TerrainTexture.ROWCOUNT) / span;
+		
 		for (int x = posX; x < posX + sizeX; x++) {
 			for (int y = posY; y < posY + sizeY; y++) {
 
 				Tile tile = map.getTile(x, y);
 				
+				// get texture coorinates in stitched texture
 				float texOffsetX = TerrainTexture.getOffsetXForID(tile.getID());
 				float texOffsetY = TerrainTexture.getOffsetYForID(tile.getID());
 				
+				// get texture coorinates local to previous coordinates for texture-span over multiple tiles.
 				float texX = texOffsetX + (x % span) * step;
 				float texY = texOffsetY + (y % span) * step;
 
 				int i = 0;
+				// current textures-array position
 				int pos = ((x - posX) * sizeY + (y - posY)) * 6 * 2;
 
 				textures[pos + i++] = texX;
@@ -130,6 +135,7 @@ public class MapMeshChunk extends Renderable {
 	@Override
 	public void render(RenderProperties renderProperties) {
 
+		// bind the stitched texture containing all terrain textures
 		TerrainTexture.getTexture().bind();
 		if (vboDirty) {
 			reloadVBO();

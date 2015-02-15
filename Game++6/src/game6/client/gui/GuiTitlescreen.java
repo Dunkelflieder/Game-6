@@ -8,6 +8,12 @@ import game6.client.gui.components.GLabel;
 
 import java.awt.Color;
 
+/**
+ * The gui, that is visible on game startup.
+ * Currently contains inputs for ip:port to connect to (internal) servers and start the map.
+ * @author Felk
+ *
+ */
 public class GuiTitlescreen extends Gui {
 
 	public static GuiTitlescreen instance = new GuiTitlescreen();
@@ -66,11 +72,11 @@ public class GuiTitlescreen extends Gui {
 		label.setSize(0, 60);
 		label.setPos(screenWidth / 2, screenHeight / 2);
 
-		host.setSize(220, 60);
+		host.setSize(250, 60);
 		host.setPos(screenWidth / 2, screenHeight / 2);
 
-		port.setSize(120, 60);
-		port.setPos(screenWidth / 2 + 225, screenHeight / 2);
+		port.setSize(140, 60);
+		port.setPos(screenWidth / 2 + 255, screenHeight / 2);
 
 		connectButton.setSize(220, 60);
 		connectButton.setPos(screenWidth / 2, screenHeight / 2 - 65);

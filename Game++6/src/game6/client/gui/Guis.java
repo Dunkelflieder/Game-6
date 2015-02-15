@@ -3,6 +3,11 @@ package game6.client.gui;
 import game6.client.Controller;
 import de.nerogar.render.GameDisplay;
 
+/**
+ * Basically the static Gui-Manager class. Contains all GUIs and offers method to select another GUI
+ * @author Felk
+ *
+ */
 public enum Guis {
 
 	TITLESCREEN(GuiTitlescreen.instance),
@@ -15,7 +20,7 @@ public enum Guis {
 	Guis(Gui gui) {
 		this.gui = gui;
 	}
-	
+
 	public static void init(GameDisplay display, Controller controller) {
 		for (Guis gui : values()) {
 			gui.getGui().init(display, controller);

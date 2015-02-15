@@ -4,6 +4,11 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.Color;
 
+/**
+ * Gui-Component, that renderes a given color within its bounds
+ * @author Felk
+ *
+ */
 public class GColorfield extends GComponent {
 
 	private Color color;
@@ -11,13 +16,13 @@ public class GColorfield extends GComponent {
 	public GColorfield(Color color) {
 		this.color = color;
 	}
-	
+
 	@Override
-	public void render(int offsetX, int offsetY) {
+	public void render() {
 		// TODO don't hardcode OpenGL here
-		int x = getPosX() + offsetX;
-		int y = getPosY() + offsetY;
-		
+		int x = getPosX() + getOffsetX();
+		int y = getPosY() + getOffsetY();
+
 		glDisable(GL_TEXTURE_2D);
 
 		glColor4ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue(), (byte) color.getAlpha());
@@ -28,7 +33,7 @@ public class GColorfield extends GComponent {
 		glVertex3f(x, y + getSizeY(), -1);
 		glEnd();
 		glColor4f(1f, 1f, 1f, 1f);
-		
+
 		glEnable(GL_TEXTURE_2D);
 	}
 

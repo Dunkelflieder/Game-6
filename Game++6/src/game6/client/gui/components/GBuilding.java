@@ -10,6 +10,12 @@ import java.util.List;
 
 import de.nerogar.render.GameDisplay;
 
+/**
+ * Gui-Component, that renders a Building-Type as an Image.
+ * Offers a listener for clicked-events.
+ * @author Felk
+ *
+ */
 public class GBuilding extends GComponent implements MouseListener {
 
 	private List<ClickedListener> clickedListener = new ArrayList<>();
@@ -21,7 +27,7 @@ public class GBuilding extends GComponent implements MouseListener {
 		this.type = type;
 		image = new GImage(BuildingImageRenderer.render(display, type.getClientBuilding(0)));
 	}
-	
+
 	public BuildingType getBuildingType() {
 		return type;
 	}
@@ -32,26 +38,26 @@ public class GBuilding extends GComponent implements MouseListener {
 	}
 
 	@Override
-	public void setSizeX(int x) {
-		super.setSizeX(x);
-		image.setSizeX(x);
-	}
-
-	@Override
-	public void setSizeY(int y) {
-		super.setSizeY(y);
-		image.setSizeY(y);
-	}
-
-	@Override
 	public void setSize(int x, int y) {
-		setSizeX(x);
-		setSizeY(y);
+		super.setSize(x, y);
+		image.setSize(x, y);
 	}
 
 	@Override
-	public void render(int offsetX, int offsetY) {
-		image.render(getPosX() + offsetX, getPosY() + offsetY);
+	public void setOffset(int x, int y) {
+		super.setOffset(x, y);
+		image.setOffset(x, y);
+	}
+
+	@Override
+	public void setPos(int x, int y) {
+		super.setPos(x, y);
+		image.setPos(x, y);
+	}
+
+	@Override
+	public void render() {
+		image.render();
 	}
 
 	public boolean addClickedListener(ClickedListener listener) {
@@ -87,7 +93,7 @@ public class GBuilding extends GComponent implements MouseListener {
 	@Override
 	public boolean mouseReleased(GComponent source, int button) {
 		if (button == 0) {
-			if (isCurrentlyHovered()) {
+			if (isHovered()) {
 				notifyClickedListener();
 			}
 			return true;

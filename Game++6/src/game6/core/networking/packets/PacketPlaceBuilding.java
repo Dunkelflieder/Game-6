@@ -26,11 +26,15 @@ public class PacketPlaceBuilding extends Packet {
 	public NodeFile toNode() {
 		NodeFile node = new NodeFile();
 
-		node.add('f', faction.getID());
+		if (faction == null) {
+			node.add('f', -1);
+		} else {
+			node.add('f', faction.getID());
+		}
 		node.add('i', id);
 		node.add('x', posX);
 		node.add('y', posY);
-		node.add('t', building.getID());
+		node.add('t', building.getTypeID());
 
 		return node;
 	}
@@ -42,7 +46,7 @@ public class PacketPlaceBuilding extends Packet {
 		id = node.getLong('i');
 		posX = node.getInt('x');
 		posY = node.getInt('y');
-		building = BuildingType.byID(node.getInt('t'));
+		building = BuildingType.byTypeID(node.getInt('t'));
 
 	}
 

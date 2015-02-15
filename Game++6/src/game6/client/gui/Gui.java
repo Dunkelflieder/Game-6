@@ -28,7 +28,7 @@ public abstract class Gui {
 	}
 
 	public abstract void initComponents();
-	
+
 	public void init(GameDisplay display, Controller controller) {
 		this.controller = controller;
 		initComponents();
@@ -71,7 +71,7 @@ public abstract class Gui {
 	}
 
 	public void render() {
-		panel.render(0, 0);
+		panel.render();
 	}
 
 	public void update() {
@@ -80,7 +80,7 @@ public abstract class Gui {
 
 		while (Mouse.next()) {
 			if (Mouse.getEventButton() >= 0) {
-				if (panel.isCurrentlyHovered()) {
+				if (panel.isHovered()) {
 					if (Mouse.getEventButtonState()) {
 						panel.notifyMouseClickedListener(Mouse.getEventButton());
 					} else {
@@ -124,8 +124,7 @@ public abstract class Gui {
 	}
 
 	public void resize(int screenWidth, int screenHeight) {
-		panel.setSizeX(screenWidth);
-		panel.setSizeY(screenHeight);
+		panel.setSize(screenWidth, screenHeight);
 		onResize(screenWidth, screenHeight);
 	}
 

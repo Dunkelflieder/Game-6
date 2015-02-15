@@ -2,6 +2,11 @@ package game6.client.gui.components;
 
 import org.lwjgl.input.Keyboard;
 
+/**
+ * Gui-Component, that does the same as GInput, but only accepts digits.
+ * @author Felk
+ *
+ */
 public class GInputNumber extends GInput {
 
 	public GInputNumber(int number) {

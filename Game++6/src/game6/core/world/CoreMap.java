@@ -5,6 +5,8 @@ import game6.core.buildings.CoreBuilding;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.nerogar.util.*;
+
 public class CoreMap {
 
 	private Tile[][] tiles;
@@ -106,6 +108,17 @@ public class CoreMap {
 
 		return null;
 
+	}
+	
+	public Vector2f getIntersection(Ray ray) {
+		Vector3f start = (Vector3f) ray.getStart();
+		Vector3f dir = (Vector3f) ray.getDirection();
+		if (dir.getY() >= 0) {
+			return null;
+		}
+		dir.multiply(- start.getY() / dir.getY());
+		Vector3f intersect = start.added(dir);
+		return new Vector2f(intersect.getX(), intersect.getZ());
 	}
 
 }

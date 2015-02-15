@@ -7,23 +7,33 @@ public enum BuildingType {
 	RESEARCH(2, game6.client.buildings.BuildingResearch.class, game6.server.buildings.BuildingResearch.class),
 	TOWER(3, game6.client.buildings.BuildingTower.class, game6.server.buildings.BuildingTower.class),
 	FACTORY(4, game6.client.buildings.BuildingFactory.class, game6.server.buildings.BuildingFactory.class),
-	
+
 	ROCK(5, game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
 
-	private int id;
+	private int typeID;
 	private Class<? extends CoreBuilding> clientClass;
 	private Class<? extends CoreBuilding> serverClass;
 
-	BuildingType(int id, Class<? extends CoreBuilding> clientClass, Class<? extends CoreBuilding> serverClass) {
-		this.id = id;
+	BuildingType(int typeID, Class<? extends CoreBuilding> clientClass, Class<? extends CoreBuilding> serverClass) {
+		this.typeID = typeID;
 		this.clientClass = clientClass;
 		this.serverClass = serverClass;
 	}
 
-	public int getID() {
-		return id;
+	/**
+	 * Returns the Building-Type-ID of the current enum.
+	 * It is unique per building type.
+	 * @return Building-Type-ID
+	 */
+	public int getTypeID() {
+		return typeID;
 	}
 
+	/**
+	 * Returns an client-class-instance of the building type 
+	 * @param id The unique ID of the instance.
+	 * @return BuildingReactor instance for client
+	 */
 	public CoreBuilding getClientBuilding(long id) {
 		try {
 			return clientClass.getConstructor(long.class).newInstance(id);
@@ -34,6 +44,10 @@ public enum BuildingType {
 		return null;
 	}
 
+	/**
+	 * Returns an server-class-instance of the building type 
+	 * @return BuildingReactor instance for server
+	 */
 	public CoreBuilding getServerBuilding() {
 		try {
 			return serverClass.getConstructor().newInstance();
@@ -44,15 +58,25 @@ public enum BuildingType {
 		return null;
 	}
 
-	public static BuildingType byID(int id) {
+	/**
+	 * Returns the BuildingType-Enum with the corresponding Type-ID
+	 * @param typeID the Building-Type-ID
+	 * @return corresponding enum
+	 */
+	public static BuildingType byTypeID(int typeID) {
 		for (BuildingType type : values()) {
-			if (type.getID() == id) {
+			if (type.getTypeID() == typeID) {
 				return type;
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * Returns the BuildingType enum by a server-class
+	 * @param clazz Class of the instance
+	 * @return corresponding enum
+	 */
 	public static BuildingType fromServerClass(Class<? extends CoreBuilding> clazz) {
 		for (BuildingType type : values()) {
 			if (type.serverClass.equals(clazz)) {
@@ -62,6 +86,10 @@ public enum BuildingType {
 		return null;
 	}
 
+	/**
+	 * Returns a random BuildingType enum. For debug and stuff
+	 * @return random enum
+	 */
 	public static BuildingType getRandom() {
 		return values()[(int) (Math.random() * values().length)];
 	}

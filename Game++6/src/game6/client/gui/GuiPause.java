@@ -7,6 +7,11 @@ import org.lwjgl.input.Keyboard;
 import game6.client.gui.components.*;
 import game6.client.gui.listener.KeyboardAdapter;
 
+/**
+ * Gui, which represents the Pause-Menu
+ * @author Felk
+ *
+ */
 public class GuiPause extends Gui {
 
 	public static GuiPause instance = new GuiPause();
@@ -38,7 +43,8 @@ public class GuiPause extends Gui {
 				return false;
 			}
 		});
-		
+
+		// disconnect and return to title screen
 		exit.addClickedListener(source -> {
 			GuiIngame.instance.reset();
 			controller.disconnect();

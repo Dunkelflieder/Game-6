@@ -18,7 +18,7 @@ public class MapEntity extends BaseEntity {
 	private RenderProperties renderProperties;
 	private CoreBuilding preview;
 
-	private int atX, atY;
+	private int renderCenterX, renderCenterY;
 
 	private Shader shader;
 
@@ -31,9 +31,9 @@ public class MapEntity extends BaseEntity {
 		shader = new Shader("shaders/world.vert", "shaders/world.frag");
 	}
 
-	public void setAt(int x, int z) {
-		this.atX = x;
-		this.atY = z;
+	public void setCenterOfRendering(int x, int z) {
+		this.renderCenterX = x;
+		this.renderCenterY = z;
 	}
 
 	public boolean isGridActivated() {
@@ -58,7 +58,7 @@ public class MapEntity extends BaseEntity {
 
 	@Override
 	public void render() {
-		mesh.render(renderProperties, atX, atY);
+		mesh.render(renderProperties, renderCenterX, renderCenterY);
 
 		if (preview != null) {
 			if (map.canAddBuilding(preview.getPosX(), preview.getPosY(), preview)) {
@@ -77,7 +77,7 @@ public class MapEntity extends BaseEntity {
 		shader.setUniform1i("colorTex", 1);
 		shader.setUniform1i("factionTex", 2);
 
-		for (CoreBuilding building: map.getBuildingsWithin(atX, atY, 150)) {
+		for (CoreBuilding building: map.getBuildingsWithin(renderCenterX, renderCenterY, 150)) {
 			Color factionColor = new Color(0);
 			if (building.getFaction() != null) {
 				factionColor = building.getFaction().color;

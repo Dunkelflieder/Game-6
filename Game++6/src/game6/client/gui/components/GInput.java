@@ -7,6 +7,11 @@ import java.awt.event.KeyEvent;
 
 import org.lwjgl.input.Keyboard;
 
+/**
+ * Gui-Component, that acts like a text-input-field. Consumes keystroked when focused.
+ * @author Felk
+ *
+ */
 public class GInput extends GComponent implements KeyboardListener {
 
 	private GLabel text;
@@ -16,18 +21,18 @@ public class GInput extends GComponent implements KeyboardListener {
 	public GInput(String text) {
 		setText(text);
 	}
-	
+
 	public GInput() {
 	}
-	
+
 	public String getText() {
 		return text.getText();
 	}
-	
+
 	public void setText(String text) {
 		this.text.setText(text);
 	}
-	
+
 	@Override
 	public void init() {
 		addKeyboardListener(this);
@@ -37,29 +42,30 @@ public class GInput extends GComponent implements KeyboardListener {
 	}
 
 	@Override
-	public void setSizeX(int x) {
-		super.setSizeX(x);
-		text.setSizeX(x);
-		bgColor.setSizeX(x);
-	}
-
-	@Override
-	public void setSizeY(int y) {
-		super.setSizeY(y);
-		text.setSizeY(y);
-		bgColor.setSizeY(y);
-	}
-
-	@Override
 	public void setSize(int x, int y) {
-		setSizeX(x);
-		setSizeY(y);
+		super.setSize(x, y);
+		text.setSize(x, y);
+		bgColor.setSize(x, y);
 	}
 
 	@Override
-	public void render(int offsetX, int offsetY) {
-		bgColor.render(getPosX() + offsetX, getPosY() + offsetY);
-		text.render(getPosX() + offsetX + 10, getPosY() + offsetY);
+	public void setOffset(int x, int y) {
+		super.setOffset(x, y);
+		text.setOffset(x, y);
+		bgColor.setOffset(x, y);
+	}
+
+	@Override
+	public void setPos(int x, int y) {
+		super.setPos(x, y);
+		text.setPos(x + 10, y);
+		bgColor.setPos(x, y);
+	}
+
+	@Override
+	public void render() {
+		bgColor.render();
+		text.render();
 	}
 
 	@Override
