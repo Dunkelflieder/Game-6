@@ -1,6 +1,8 @@
 package game6.client.effects;
 
 import static org.lwjgl.opengl.GL11.*;
+import de.nerogar.render.Shader;
+import de.nerogar.util.Color;
 import de.nerogar.util.Vector3f;
 
 public class Lightning extends Effect {
@@ -43,11 +45,10 @@ public class Lightning extends Effect {
 	}
 
 	@Override
-	public void render() {
-		glDisable(GL_TEXTURE_2D);
-		glBegin(GL_LINES);
+	public void render(Shader shader) {
+		setColor(shader, new Color(0.1f, 0.2f, 1.0f, lifeTime / MAX_LIFETIME));
 
-		glColor4f(0.1f, 0.2f, 1.0f, lifeTime / MAX_LIFETIME);
+		glBegin(GL_LINES);
 
 		for (int i = 0; i < positions.length - 1; i++) {
 			glVertex3f(positions[i].getX(), positions[i].getY(), positions[i].getZ());
@@ -60,7 +61,6 @@ public class Lightning extends Effect {
 		}
 
 		glEnd();
-		glEnable(GL_TEXTURE_2D);
 	}
 
 	@Override

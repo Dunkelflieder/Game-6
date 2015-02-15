@@ -1,6 +1,7 @@
 package game6.client.effects;
 
 import static org.lwjgl.opengl.GL11.*;
+import de.nerogar.render.Shader;
 import de.nerogar.util.Color;
 import de.nerogar.util.Vector3f;
 
@@ -22,19 +23,17 @@ public class LaserBeam extends Effect {
 	}
 
 	@Override
-	public void render() {
-		glDisable(GL_TEXTURE_2D);
+	public void render(Shader shader) {
 		glLineWidth(4f);
-		glBegin(GL_LINES);
+		setColor(shader, color);
 
-		glColor4f(color.getR(), color.getG(), color.getB(), 1);
+		glBegin(GL_LINES);
 
 		glVertex3f(start.getX(), start.getY(), start.getZ());
 		glVertex3f(end.getX(), end.getY(), end.getZ());
 
 		glEnd();
 		glLineWidth(1f);
-		glEnable(GL_TEXTURE_2D);
 	}
 
 	@Override
