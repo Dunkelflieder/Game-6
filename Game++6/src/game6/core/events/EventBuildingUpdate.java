@@ -6,6 +6,8 @@ import game6.server.world.Player;
 
 import java.util.List;
 
+import de.nerogar.engine.UpdateEventInterface;
+
 public class EventBuildingUpdate extends Event {
 
 	private CoreBuilding building;
@@ -20,8 +22,9 @@ public class EventBuildingUpdate extends Event {
 	}
 
 	@Override
-	public void process(List<Player> players) {
-		for (Player p : players) {
+	public void process(List<UpdateEventInterface> players) {
+		for (UpdateEventInterface i : players) {
+			Player p = (Player) i;
 			if (p.getFaction() == faction) {
 				p.getConnection().send(new PacketBuildingUpdate(building));
 			}

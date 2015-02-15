@@ -1,10 +1,12 @@
 package game6.core.events;
 
-import java.util.List;
-
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketPowerSupply;
 import game6.server.world.Player;
+
+import java.util.List;
+
+import de.nerogar.engine.UpdateEventInterface;
 
 public class EventPowerSupply extends Event {
 
@@ -36,8 +38,9 @@ public class EventPowerSupply extends Event {
 	}
 
 	@Override
-	public void process(List<Player> players) {
-		for (Player p : players) {
+	public void process(List<UpdateEventInterface> players) {
+		for (UpdateEventInterface i : players) {
+			Player p = (Player) i;
 			p.getConnection().send(new PacketPowerSupply(this));
 		}
 	}

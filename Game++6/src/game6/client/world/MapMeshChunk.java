@@ -1,17 +1,17 @@
 package game6.client.world;
 
-import game6.core.world.CoreMap;
+import game6.core.world.Map;
 import game6.core.world.Tile;
 import de.nerogar.render.*;
 
 public class MapMeshChunk extends Renderable {
 
-	private CoreMap map;
+	private Map map;
 	private boolean vboDirty = true;
 
 	private int posX, posY, sizeX, sizeY;
 
-	public MapMeshChunk(CoreMap map, int posX, int posY, int sizeX, int sizeY) {
+	public MapMeshChunk(Map map, int posX, int posY, int sizeX, int sizeY) {
 
 		this.posX = posX;
 		this.posY = posY;

@@ -1,18 +1,18 @@
 package game6.client.world;
 
-import game6.core.world.CoreMap;
+import game6.core.world.Map;
 import de.nerogar.render.*;
 import de.nerogar.render.Texture2D.InterpolationType;
 
-public class MapMeshGridChunk extends Renderable {
+public class MapMeshChunkGrid extends Renderable {
 
 	private Texture2D texture;
-	private CoreMap map;
+	private Map map;
 	private boolean vboDirty = true;
 
 	private int posX, posY, sizeX, sizeY;
 
-	public MapMeshGridChunk(CoreMap map, int posX, int posY, int sizeX, int sizeY) {
+	public MapMeshChunkGrid(Map map, int posX, int posY, int sizeX, int sizeY) {
 
 		this.posX = posX;
 		this.posY = posY;

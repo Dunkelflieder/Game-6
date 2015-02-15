@@ -1,8 +1,8 @@
 package game6.core.buildings;
 
-import game6.core.events.Event;
-
 import java.util.List;
+
+import de.nerogar.engine.UpdateEvent;
 
 public abstract class CoreBuildingFactory extends CoreBuilding {
 
@@ -11,7 +11,7 @@ public abstract class CoreBuildingFactory extends CoreBuilding {
 	}
 
 	@Override
-	public void update(List<Event> events) {
+	public void update(List<UpdateEvent> events) {
 		
 	}
 

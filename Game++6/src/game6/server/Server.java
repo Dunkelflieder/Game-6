@@ -1,17 +1,19 @@
 package game6.server;
 
-import game6.core.networking.ServerThread;
-import game6.core.world.MapGenerator;
-import game6.server.world.Map;
+import game6.core.world.WorldGenerator;
+import game6.server.world.World;
 
 import java.net.BindException;
+
+import de.nerogar.network.Connection;
+import de.nerogar.network.ServerThread;
 
 public class Server {
 
 	private ServerThread serverThread;
 	private TickTimer timer = new TickTimer(10); // Server ticks per second
 
-	private Controller controller;
+	private World world;
 
 	public Server(int port) {
 
@@ -35,8 +37,7 @@ public class Server {
 
 	private void start() {
 
-		Map map = new Map(MapGenerator.getMap((long) (Math.random() * Long.MAX_VALUE), 1000, 1000));
-		controller = new Controller(map, serverThread);
+		world = WorldGenerator.getWorld(0, 1000, 1000);
 
 		timer.start();
 
@@ -52,7 +53,11 @@ public class Server {
 
 	private void update() {
 
-		controller.update();
+		for (Connection conn : serverThread.getNewConnections()) {
+			world.addPlayer(conn);
+		}
+
+		world.update(0);
 
 	}
 

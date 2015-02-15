@@ -1,5 +1,8 @@
 package game6.core.entities;
 
+import java.util.List;
+
+import de.nerogar.engine.UpdateEvent;
 import de.nerogar.physics.BoundingAABB;
 import de.nerogar.util.Vector3f;
 
@@ -10,7 +13,7 @@ public class CoreEntityHelicopter1 extends CoreEntity {
 	}
 
 	@Override
-	public void update(float timeDelta) {
+	public void update(float timeDelta, List<UpdateEvent> events) {
 		// TODO Auto-generated method stub
 
 	}

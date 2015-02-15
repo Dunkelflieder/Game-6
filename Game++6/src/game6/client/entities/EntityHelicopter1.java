@@ -1,6 +1,10 @@
 package game6.client.entities;
 
 import game6.core.entities.CoreEntityHelicopter1;
+
+import java.util.List;
+
+import de.nerogar.engine.UpdateEvent;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
 
@@ -27,7 +31,7 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 	}
 
 	@Override
-	public void update(float timeDelta) {
+	public void update(float timeDelta, List<UpdateEvent> events) {
 
 	}
 

@@ -61,7 +61,7 @@ public class GuiIngame extends Gui {
 						// Else, try to select a building on the map
 
 						World world = controller.getWorld();
-						if (!world.isReady()) {
+						if (!world.isLoaded()) {
 							return false;
 						}
 
@@ -93,7 +93,7 @@ public class GuiIngame extends Gui {
 				}
 
 				World world = controller.getWorld();
-				if (!world.isReady()) {
+				if (!world.isLoaded()) {
 					return false;
 				}
 
@@ -134,6 +134,10 @@ public class GuiIngame extends Gui {
 	 */
 	public void updateCenterOfRendering() {
 
+		if (!controller.getWorld().isLoaded()) {
+			return;
+		}
+		
 		// Decrease the pitch angle for the calculation to get a center point further away.
 		// Because of perspective, the actual center point is not a good center point for rendering.
 		float pitch = controller.getCamera().getPitch();
@@ -144,7 +148,7 @@ public class GuiIngame extends Gui {
 
 		Vector2f intersect = controller.getWorld().getMap().getIntersection(cameraRay);
 		if (intersect != null) {
-			controller.getWorld().getMap().setCenterOfRendering((int) intersect.getX(), (int) intersect.getY());
+			controller.getWorld().setCenterOfRendering((int) intersect.getX(), (int) intersect.getY());
 		}
 
 		// Revert to the original pitch

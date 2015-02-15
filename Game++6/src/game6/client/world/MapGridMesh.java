@@ -1,6 +1,6 @@
 package game6.client.world;
 
-import game6.core.world.CoreMap;
+import game6.core.world.Map;
 import de.nerogar.render.RenderProperties;
 import de.nerogar.render.Renderable;
 import de.nerogar.render.Texture2D;
@@ -10,10 +10,10 @@ import de.nerogar.render.Texture2D.InterpolationType;
 public class MapGridMesh extends Renderable {
 
 	private Texture2D texture;
-	private CoreMap map;
+	private Map map;
 	private boolean vboDirty = true;
 
-	public MapGridMesh(CoreMap map) {
+	public MapGridMesh(Map map) {
 		this.texture = TextureLoader.loadTexture("res/terrain/transparents.png", InterpolationType.NEAREST);
 		this.map = map;
 		reload();

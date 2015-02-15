@@ -1,10 +1,11 @@
 package game6.core.buildings;
 
-import game6.core.events.Event;
 import game6.core.faction.Faction;
-import game6.core.world.CoreMap;
+import game6.core.world.Map;
 
 import java.util.List;
+
+import de.nerogar.engine.UpdateEvent;
 
 public abstract class CoreBuilding {
 
@@ -15,7 +16,7 @@ public abstract class CoreBuilding {
 	private int energy;
 	private int maxEnergy;
 
-	protected CoreMap map;
+	protected Map map;
 	protected Faction faction;
 
 	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy) {
@@ -76,7 +77,7 @@ public abstract class CoreBuilding {
 	 * Updates the logic and can cause (network) events, that are added to the supplied list
 	 * @param events list of events, where new events can be appended
 	 */
-	public abstract void update(List<Event> events);
+	public abstract void update(List<UpdateEvent> events);
 
 	/**
 	 * Should be implemented by client subclasses
@@ -137,7 +138,7 @@ public abstract class CoreBuilding {
 	 * Is or should be used while this instance is added to the map.
 	 * @param map
 	 */
-	public void setMap(CoreMap map) {
+	public void setMap(Map map) {
 		this.map = map;
 	}
 

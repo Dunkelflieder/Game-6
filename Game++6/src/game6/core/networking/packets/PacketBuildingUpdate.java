@@ -1,7 +1,10 @@
 package game6.core.networking.packets;
 
 import game6.core.buildings.CoreBuilding;
-import de.felk.NodeFile.NodeFile;
+
+import java.nio.ByteBuffer;
+
+import de.nerogar.network.packets.Packet;
 
 public class PacketBuildingUpdate extends Packet {
 
@@ -10,28 +13,26 @@ public class PacketBuildingUpdate extends Packet {
 
 	public PacketBuildingUpdate() {
 	}
-	
+
 	public PacketBuildingUpdate(CoreBuilding building) {
 		this.id = building.getID();
 		this.energy = building.getEnergy();
 	}
-	
+
 	@Override
-	public NodeFile toNode() {
-		NodeFile node = new NodeFile();
-
-		node.add('i', id);
-		node.add('e', energy);
-
-		return node;
+	public void fromByteArray(byte[] data) {
+		ByteBuffer buffer = ByteBuffer.wrap(data);
+		id = buffer.getLong();
+		energy = buffer.getInt();
 	}
 
 	@Override
-	public void loadNode(NodeFile node) {
-
-		id = node.getLong('i');
-		energy = node.getInt('e');
-
+	public byte[] toByteArray() {
+		ByteBuffer buffer = ByteBuffer.allocate(12);
+		buffer.putLong(id);
+		buffer.putInt(energy);
+		buffer.flip();
+		return buffer.array();
 	}
 
 }

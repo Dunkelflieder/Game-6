@@ -1,7 +1,10 @@
 package game6.core.networking.packets;
 
 import game6.core.events.EventPowerSupply;
-import de.felk.NodeFile.NodeFile;
+
+import java.nio.ByteBuffer;
+
+import de.nerogar.network.packets.Packet;
 
 public class PacketPowerSupply extends Packet {
 
@@ -9,9 +12,9 @@ public class PacketPowerSupply extends Packet {
 	private int amount;
 
 	public PacketPowerSupply() {
-		
+
 	}
-	
+
 	public PacketPowerSupply(EventPowerSupply event) {
 		this.source = event.getSourceID();
 		this.destination = event.getDestID();
@@ -19,23 +22,21 @@ public class PacketPowerSupply extends Packet {
 	}
 
 	@Override
-	public NodeFile toNode() {
-		NodeFile node = new NodeFile();
-
-		node.add('s', source);
-		node.add('d', destination);
-		node.add('a', amount);
-
-		return node;
+	public void fromByteArray(byte[] data) {
+		ByteBuffer buffer = ByteBuffer.wrap(data);
+		source = buffer.getLong();
+		destination = buffer.getLong();
+		amount = buffer.getInt();
 	}
 
 	@Override
-	public void loadNode(NodeFile node) {
-
-		source = node.getLong('s');
-		destination = node.getLong('d');
-		amount = node.getInt('a');
-
+	public byte[] toByteArray() {
+		ByteBuffer buffer = ByteBuffer.allocate(20);
+		buffer.putLong(source);
+		buffer.putLong(destination);
+		buffer.putInt(amount);
+		buffer.flip();
+		return buffer.array();
 	}
 
 }

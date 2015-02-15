@@ -71,13 +71,13 @@ public class GPanelBuildingSelection extends GPanel {
 
 	void selectBuilding(BuildingType building) {
 		this.selectedBuilding = building;
-		controller.getWorld().getMap().setGridActivated(building != null);
+		controller.getWorld().setGridActivated(building != null);
 		if (building != null) {
 			buildingPreview = building.getClientBuilding(0);
 		} else {
 			buildingPreview = null;
 		}
-		controller.getWorld().getMap().setBuildingPreview(buildingPreview);
+		controller.getWorld().setBuildingPreview(buildingPreview);
 		updateHighlight();
 	}
 

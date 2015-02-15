@@ -1,9 +1,10 @@
 package game6.server.world;
 
+import de.nerogar.engine.UpdateEventInterface;
+import de.nerogar.network.Connection;
 import game6.core.faction.Faction;
-import game6.core.networking.Connection;
 
-public class Player {
+public class Player implements UpdateEventInterface {
 
 	private Connection connection;
 	private Faction faction;

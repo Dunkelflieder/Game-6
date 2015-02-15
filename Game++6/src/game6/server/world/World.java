@@ -2,30 +2,30 @@ package game6.server.world;
 
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
-import game6.core.events.Event;
 import game6.core.faction.Faction;
-import game6.core.networking.Connection;
 import game6.core.networking.PacketChannel;
 import game6.core.networking.packets.*;
-import game6.core.world.CoreMap;
+import game6.core.world.CoreWorld;
+import game6.core.world.Map;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Map extends CoreMap {
+import de.nerogar.engine.UpdateEvent;
+import de.nerogar.network.Connection;
+import de.nerogar.network.packets.Packet;
+
+public class World extends CoreWorld {
 
 	private List<Player> players;
 
-	public Map(CoreMap core) {
-		super(core.getTiles());
-		for (CoreBuilding building : core.getBuildings()) {
-			addBuilding(building.getPosX(), building.getPosY(), building);
-		}
+	public World(Map map) {
+		super(map);
 		this.players = new ArrayList<>();
 	}
 
-	public void update() {
-
+	@Override
+	public List<UpdateEvent> update(float timeDelta) {
 		// check for building placement request.
 		// TODO this is sample code btw.
 		for (Player player : players) {
@@ -34,7 +34,7 @@ public class Map extends CoreMap {
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
 					CoreBuilding building = ppb.building.getServerBuilding();
 					building.setFaction(player.getFaction());
-					if (canAddBuilding(ppb.posX, ppb.posY, building)) {
+					if (getMap().canAddBuilding(ppb.posX, ppb.posY, building)) {
 						addBuilding(ppb.posX, ppb.posY, building);
 						broadcast(new PacketPlaceBuilding(ppb.building, player.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
 					}
@@ -42,24 +42,11 @@ public class Map extends CoreMap {
 			}
 		}
 
-		List<Event> events = new ArrayList<>();
-
-		for (CoreBuilding building : getBuildings()) {
-			building.update(events);
-		}
-
-		List<Packet> packets = new ArrayList<>();
-		for (Event e : events) {
-			e.process(players);
-		}
-
-		for (Packet p : packets) {
-			broadcast(p);
-		}
+		return super.update(timeDelta);
 	}
 
 	public void addPlayer(Connection connection) {
-		connection.send(new PacketMap(this));
+		connection.send(new PacketMap(getMap()));
 		Faction faction = Faction.getRandom();
 		connection.send(new PacketPlayerInfo(faction));
 		for (CoreBuilding building : getBuildings()) {

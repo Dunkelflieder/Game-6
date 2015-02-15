@@ -1,8 +1,11 @@
 package game6.core.buildings;
 
-import game6.core.events.*;
+import game6.core.events.EventBuildingUpdate;
+import game6.core.events.EventPowerSupply;
 
 import java.util.*;
+
+import de.nerogar.engine.UpdateEvent;
 
 public abstract class CoreBuildingReactor extends CoreBuilding {
 
@@ -20,7 +23,7 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 	}
 
 	@Override
-	public void update(List<Event> events) {
+	public void update(List<UpdateEvent> events) {
 
 		tick++;
 

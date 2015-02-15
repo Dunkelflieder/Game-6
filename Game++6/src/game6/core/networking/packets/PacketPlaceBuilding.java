@@ -2,7 +2,10 @@ package game6.core.networking.packets;
 
 import game6.core.buildings.BuildingType;
 import game6.core.faction.Faction;
-import de.felk.NodeFile.NodeFile;
+
+import java.nio.ByteBuffer;
+
+import de.nerogar.network.packets.Packet;
 
 public class PacketPlaceBuilding extends Packet {
 
@@ -23,31 +26,29 @@ public class PacketPlaceBuilding extends Packet {
 	}
 
 	@Override
-	public NodeFile toNode() {
-		NodeFile node = new NodeFile();
-
-		if (faction == null) {
-			node.add('f', -1);
-		} else {
-			node.add('f', faction.getID());
-		}
-		node.add('i', id);
-		node.add('x', posX);
-		node.add('y', posY);
-		node.add('t', building.getTypeID());
-
-		return node;
+	public void fromByteArray(byte[] data) {
+		ByteBuffer buffer = ByteBuffer.wrap(data);
+		faction = Faction.byID(buffer.getInt());
+		id = buffer.getLong();
+		posX = buffer.getInt();
+		posY = buffer.getInt();
+		building = BuildingType.byTypeID(buffer.getInt());
 	}
 
 	@Override
-	public void loadNode(NodeFile node) {
-
-		faction = Faction.byID(node.getInt('f'));
-		id = node.getLong('i');
-		posX = node.getInt('x');
-		posY = node.getInt('y');
-		building = BuildingType.byTypeID(node.getInt('t'));
-
+	public byte[] toByteArray() {
+		ByteBuffer buffer = ByteBuffer.allocate(24);
+		if (faction == null) {
+			buffer.putInt(-1);
+		} else {
+			buffer.putInt(faction.getID());
+		}
+		buffer.putLong(id);
+		buffer.putInt(posX);
+		buffer.putInt(posY);
+		buffer.putInt(building.getTypeID());
+		buffer.flip();
+		return buffer.array();
 	}
 
 }

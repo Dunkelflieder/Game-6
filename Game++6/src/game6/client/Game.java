@@ -6,13 +6,14 @@ import org.lwjgl.opengl.Display;
 import game6.client.effects.EffectContainer;
 import game6.client.gui.Guis;
 import game6.client.world.World;
+import game6.core.networking.PacketList;
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.*;
 
 public class Game extends BaseGame {
 
 	private Controller controller;
-	private World world = new World();
+	private World world;
 	private ScreenProperties worldProperties;
 	private ScreenProperties effectProperties;
 	private ScreenProperties guiProperties;
@@ -26,6 +27,8 @@ public class Game extends BaseGame {
 		Camera camera = new Camera();
 		compositer = new Compositer();
 
+		PacketList.init();
+		
 		worldProperties = new ScreenProperties(90, false);
 		worldProperties.setScreenDimension(1280, 720);
 		worldProperties.setCamera(camera);
@@ -53,7 +56,7 @@ public class Game extends BaseGame {
 
 		Keyboard.enableRepeatEvents(true);
 
-		world = new World();
+		world = new World(null);
 
 		controller = new Controller(world, camera, effectContainer);
 
