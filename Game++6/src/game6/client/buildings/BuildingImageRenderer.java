@@ -14,12 +14,6 @@ public class BuildingImageRenderer {
 		guiTextureCam.setX(building.getSizeX() / 2f);
 		guiTextureCam.setY(0.5f);
 		guiTextureCam.setZ(building.getSizeY() + 2);
-		guiTextureCam.setPitch(0f);
-
-		/*guiTextureCam.x = building.getSizeX() / 2f;
-		guiTextureCam.y = 1.0f;
-		guiTextureCam.z = building.getSizeY() + 0.5f;
-		guiTextureCam.pitch = 30;*/
 
 		renderTarget = new RenderTarget(true, new Texture2D("color", 0, 0));
 
