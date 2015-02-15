@@ -11,7 +11,7 @@ import de.nerogar.render.Shader;
 import de.nerogar.util.Color;
 import de.nerogar.util.Vector3f;
 
-public class MapEntity extends BaseEntity {
+public class MapEntity extends BaseEntity<Vector3f> {
 
 	private Map map;
 	private MapMesh mesh;
@@ -23,7 +23,7 @@ public class MapEntity extends BaseEntity {
 	private Shader shader;
 
 	public MapEntity(Map map) {
-		super(new BoundingAABB(new Vector3f(-99999), new Vector3f(99999, 0, 99999)), new Vector3f(0));
+		super(new BoundingAABB<Vector3f>(new Vector3f(-99999), new Vector3f(99999, 0, 99999)), new Vector3f(0));
 		this.map = map;
 		mesh = new MapMesh(map);
 		renderProperties = new RenderProperties();

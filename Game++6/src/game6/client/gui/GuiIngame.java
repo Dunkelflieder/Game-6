@@ -67,8 +67,8 @@ public class GuiIngame extends Gui {
 
 						// TODO don't hardcode fov
 						controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
-						Ray mouseRay = controller.getInputHandler().getMouseRay();
-						RayIntersection intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
+						Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
+						RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
 
 						if (intersection != null && intersection.intersectionPoint.getX() < world.getMap().getSizeX() && intersection.intersectionPoint.getZ() < world.getMap().getSizeY()) {
 							int mapX = (int) intersection.intersectionPoint.getX();
@@ -99,7 +99,7 @@ public class GuiIngame extends Gui {
 
 				// TODO don't hardcode fov
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
-				Ray mouseRay = controller.getInputHandler().getMouseRay();
+				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
 
 				Vector2f intersect = world.getMap().getIntersection(mouseRay);
 
@@ -140,7 +140,7 @@ public class GuiIngame extends Gui {
 		controller.getCamera().setPitch(pitch * 0.3f);
 
 		// Get the world point of the camera center
-		Ray cameraRay = controller.getCamera().getCameraRay();
+		Ray<Vector3f> cameraRay = controller.getCamera().getCameraRay();
 
 		Vector2f intersect = controller.getWorld().getMap().getIntersection(cameraRay);
 		if (intersect != null) {

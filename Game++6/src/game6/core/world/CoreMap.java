@@ -110,9 +110,9 @@ public class CoreMap {
 
 	}
 	
-	public Vector2f getIntersection(Ray ray) {
-		Vector3f start = (Vector3f) ray.getStart();
-		Vector3f dir = (Vector3f) ray.getDirection();
+	public Vector2f getIntersection(Ray<Vector3f> ray) {
+		Vector3f start = ray.getStart();
+		Vector3f dir = ray.getDirection();
 		if (dir.getY() >= 0) {
 			return null;
 		}

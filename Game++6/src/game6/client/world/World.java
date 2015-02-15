@@ -3,7 +3,7 @@ package game6.client.world;
 import de.nerogar.engine.BaseWorld;
 import de.nerogar.util.Vector3f;
 
-public class World extends BaseWorld {
+public class World extends BaseWorld<Vector3f> {
 
 	private Map map;
 
