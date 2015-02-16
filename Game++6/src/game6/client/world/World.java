@@ -4,6 +4,7 @@ import game6.core.buildings.CoreBuilding;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import de.nerogar.render.RenderProperties;
@@ -65,9 +66,24 @@ public class World extends CoreWorld {
 
 	@Override
 	public void render() {
+		worldShader.activate();
+
 		super.render();
+
+		//TODO remove (debug)
+		if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
+			worldShader.reloadFiles();
+			worldShader.reCompile();
+		}
+
 		if (isLoaded()) {
+			//render terrain
+
+			worldShader.setUniform1bool("renderFactionObject", false);
+
 			mesh.render(renderProperties, renderCenterX, renderCenterY);
+
+			worldShader.deactivate();
 
 			if (preview != null) {
 				if (getMap().canAddBuilding(preview.getPosX(), preview.getPosY(), preview)) {
@@ -81,7 +97,7 @@ public class World extends CoreWorld {
 
 			// render buildings
 			worldShader.activate();
-
+			worldShader.setUniform1bool("renderFactionObject", true);
 			worldShader.setUniform1i("lightTex", 0);
 			worldShader.setUniform1i("colorTex", 1);
 			worldShader.setUniform1i("factionTex", 2);
@@ -95,8 +111,9 @@ public class World extends CoreWorld {
 				building.render();
 			}
 
-			worldShader.deactivate();
 		}
+
+		worldShader.deactivate();
 	}
 
 	@Override

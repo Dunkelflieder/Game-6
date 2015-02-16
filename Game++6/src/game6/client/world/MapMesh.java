@@ -9,7 +9,6 @@ public class MapMesh {
 
 	private MapMeshChunk[][] chunks;
 	private MapMeshChunkGrid[][] chunksGrid;
-	private Shader shader;
 
 	private boolean gridActivated = false;
 
@@ -17,8 +16,6 @@ public class MapMesh {
 	public static final int CHUNK_RENDER_RADIUS = 6;
 
 	public MapMesh(Map map) {
-		this.shader = new Shader("shaders/map.vert", "shaders/map.frag");
-
 		int numX = (int) Math.ceil(map.getSizeX() / (float) CHUNKSIZE);
 		int numY = (int) Math.ceil(map.getSizeY() / (float) CHUNKSIZE);
 		chunks = new MapMeshChunk[numX][numY];
@@ -53,8 +50,6 @@ public class MapMesh {
 
 	public void render(RenderProperties renderProperties, float atX, float atY) {
 
-		shader.activate();
-
 		for (int x = (int) (atX / CHUNKSIZE - CHUNK_RENDER_RADIUS); x < atX / CHUNKSIZE + CHUNK_RENDER_RADIUS; x++) {
 			for (int y = (int) (atY / CHUNKSIZE - CHUNK_RENDER_RADIUS); y < atY / CHUNKSIZE + CHUNK_RENDER_RADIUS; y++) {
 				if (x < 0 || y < 0 || x >= chunks.length || y >= chunks[0].length) {
@@ -77,8 +72,6 @@ public class MapMesh {
 				}
 			}
 		}
-
-		shader.deactivate();
 
 	}
 
