@@ -16,6 +16,7 @@ import de.nerogar.util.Vector3f;
 public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	protected int tick;
+	private float rotation;
 
 	private Map map;
 	private Faction faction;
@@ -32,6 +33,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		this.speed = speed;
 		this.flying = flying;
 		this.tick = 0;
+		this.rotation = 0;
 		goals = new ArrayList<Vector3f>();
 	}
 
@@ -43,23 +45,32 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	}
 
 	public void move(Vector3f to) {
-		if (isFlying()) {
-			// Just add the goal
-			goals.add(to);
-		} else {
-			// TODO calculate path and add nodes to goal list
-			// for now, act as flying
-			goals.add(to);
+		goals.clear();
+		if (to != null) {
+			if (isFlying()) {
+				// Just add the goal
+				goals.add(to);
+			} else {
+				// TODO calculate path and add nodes to goal list
+				// for now, act as flying
+				goals.add(to);
+			}
 		}
 		hasNewGoal = true;
 	}
 
-	public void setGoal(Vector3f goal) {
-		goals.clear();
-		if (goal != null) {
-			goals.add(goal);
+	public void updateRotation() {
+		Vector3f goal = getNextGoal();
+		if (goal == null) {
+			return;
 		}
-		hasNewGoal = true;
+		Vector3f dir = goal.subtracted(getPosition());
+
+		rotation = (float) ((180 / Math.PI) * Math.atan(dir.getX() / dir.getZ()));
+		// fix unaligned due to arctan in 3rd and 4th (?) quadrant.
+		if (dir.getX() < 0) {
+			rotation += 180;
+		}
 	}
 
 	@Override
@@ -69,6 +80,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		if (hasNewGoal) {
 			events.add(new EventEntityGoalChanged(this));
+			updateRotation();
 			hasNewGoal = false;
 		}
 
@@ -84,6 +96,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			} else {
 				// goal is reached with this tick
 				goals.remove(0);
+				updateRotation();
 				events.add(new EventEntityGoalChanged(this));
 			}
 
@@ -134,6 +147,14 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	public void setFlying(boolean flying) {
 		this.flying = flying;
+	}
+
+	public float getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
 	}
 
 }

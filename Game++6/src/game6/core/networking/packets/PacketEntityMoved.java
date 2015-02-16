@@ -10,30 +10,34 @@ import de.nerogar.util.Vector3f;
 public class PacketEntityMoved extends Packet {
 
 	public long id;
-	public Vector3f pos;
+	public Vector3f position;
+	public float rotation;
 
 	public PacketEntityMoved() {
 	}
 
 	public PacketEntityMoved(CoreEntity entity) {
 		this.id = entity.getID();
-		this.pos = entity.getPosition();
+		this.position = entity.getPosition();
+		this.rotation = entity.getRotation();
 	}
 
 	@Override
 	public void fromByteArray(byte[] data) {
 		ByteBuffer buffer = ByteBuffer.wrap(data);
 		id = buffer.getLong();
-		pos = new Vector3f(buffer.getFloat(), buffer.getFloat(), buffer.getFloat());
+		position = new Vector3f(buffer.getFloat(), buffer.getFloat(), buffer.getFloat());
+		rotation = buffer.getFloat();
 	}
 
 	@Override
 	public byte[] toByteArray() {
-		ByteBuffer buffer = ByteBuffer.allocate(20);
+		ByteBuffer buffer = ByteBuffer.allocate(24);
 		buffer.putLong(id);
-		buffer.putFloat(pos.getX());
-		buffer.putFloat(pos.getY());
-		buffer.putFloat(pos.getZ());
+		buffer.putFloat(position.getX());
+		buffer.putFloat(position.getY());
+		buffer.putFloat(position.getZ());
+		buffer.putFloat(rotation);
 		return buffer.array();
 	}
 

@@ -27,6 +27,7 @@ public class EntityTank1 extends CoreEntityTank1 {
 
 	@Override
 	public void render() {
+		renderProperties.rotation.set(1, getRotation());
 		tex.bind(0);
 		texLight.bind(1);
 		texFaction.bind(2);

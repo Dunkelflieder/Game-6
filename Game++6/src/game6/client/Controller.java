@@ -165,12 +165,14 @@ public class Controller {
 				} else if (packet instanceof PacketEntityMoved) {
 
 					PacketEntityMoved packetEntity = (PacketEntityMoved) packet;
-					world.getEntityList().getEntity(packetEntity.id).teleport(packetEntity.pos);
+					CoreEntity entity = (CoreEntity) world.getEntityList().getEntity(packetEntity.id);
+					entity.teleport(packetEntity.position);
+					entity.setRotation(packetEntity.rotation);
 
 				} else if (packet instanceof PacketEntityGoalChanged) {
 
 					PacketEntityGoalChanged packetEntity = (PacketEntityGoalChanged) packet;
-					((CoreEntity) world.getEntityList().getEntity(packetEntity.id)).setGoal(packetEntity.goal);
+					((CoreEntity) world.getEntityList().getEntity(packetEntity.id)).move(packetEntity.goal);
 
 				}
 			}

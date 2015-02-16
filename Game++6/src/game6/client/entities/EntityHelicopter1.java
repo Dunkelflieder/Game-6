@@ -59,6 +59,7 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 
 	@Override
 	public void render() {
+		renderPropertiesMain.rotation.set(1, getRotation());
 		texMain.bind(0);
 		texLightMain.bind(1);
 		texFactionMain.bind(2);
