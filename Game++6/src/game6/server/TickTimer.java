@@ -6,7 +6,7 @@ public class TickTimer {
 	private final double tickLength;
 	private long ticks;
 	private long lastMillis;
-
+	
 	public TickTimer(int tickrate) {
 		this.TICKRATE = tickrate;
 		this.tickLength = 1000d / TICKRATE;
@@ -60,5 +60,5 @@ public class TickTimer {
 	public long getTick() {
 		return ticks;
 	}
-
+	
 }

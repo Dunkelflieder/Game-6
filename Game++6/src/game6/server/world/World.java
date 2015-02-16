@@ -4,7 +4,7 @@ import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
 import game6.core.entities.CoreEntity;
 import game6.core.faction.Faction;
-import game6.core.networking.PacketChannel;
+import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
@@ -31,7 +31,7 @@ public class World extends CoreWorld {
 		// check for building placement request.
 		// TODO this is sample code btw.
 		for (Player player : players) {
-			for (Packet packet : player.getConnection().get(PacketChannel.BUILDINGS)) {
+			for (Packet packet : player.getConnection().get(PacketList.BUILDINGS)) {
 				if (packet instanceof PacketPlaceBuilding) {
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
 					CoreBuilding building = ppb.building.getServerBuilding();
@@ -42,7 +42,7 @@ public class World extends CoreWorld {
 					}
 				}
 			}
-			for (Packet packet : player.getConnection().get(PacketChannel.ENTITIES)) {
+			for (Packet packet : player.getConnection().get(PacketList.ENTITIES)) {
 				if (packet instanceof PacketSpawnEntity) {
 					PacketSpawnEntity pse = (PacketSpawnEntity) packet;
 					CoreEntity entity = pse.entity.getServerEntity();

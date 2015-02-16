@@ -2,7 +2,6 @@ package game6.core.events;
 
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketPowerSupply;
-import game6.server.world.Player;
 
 import java.util.List;
 
@@ -40,8 +39,7 @@ public class EventPowerSupply extends Event {
 	@Override
 	public void process(List<UpdateEventInterface> players) {
 		for (UpdateEventInterface i : players) {
-			Player p = (Player) i;
-			p.getConnection().send(new PacketPowerSupply(this));
+			i.getConnection().send(new PacketPowerSupply(this));
 		}
 	}
 

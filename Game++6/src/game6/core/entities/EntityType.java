@@ -3,7 +3,8 @@ package game6.core.entities;
 import java.lang.reflect.InvocationTargetException;
 
 public enum EntityType {
-	HELICOPTER1(1, game6.client.entities.EntityHelicopter1.class, game6.server.entities.EntityHelicopter1.class);
+	HELICOPTER1(1, game6.client.entities.EntityHelicopter1.class, game6.server.entities.EntityHelicopter1.class),
+	TANK1(2, game6.client.entities.EntityTank1.class, game6.server.entities.EntityTank1.class);
 
 	private int typeID;
 	private Class<? extends CoreEntity> clientClass;

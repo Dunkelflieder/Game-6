@@ -41,7 +41,9 @@ public class GuiIngame extends Gui {
 
 		buttonEntity = new GButton("Place random entity");
 		buttonEntity.addClickedListener(source -> {
-			controller.requestEntity(EntityType.getRandom(), new Vector3f((float) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), 1, (float) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2))));
+			for (int i = 0; i < 100; i++) {
+				controller.requestEntity(EntityType.getRandom(), new Vector3f((float) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), 1, (float) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2))));
+			}
 		});
 
 		// Panel, that represents the Info-Panel for a selected building. Very basic and generic for all buildings for now
@@ -193,7 +195,7 @@ public class GuiIngame extends Gui {
 	public void onResize(int screenWidth, int screenHeight) {
 		buttonBuilding.setSize(310, 40);
 		buttonBuilding.setPos(20, 20);
-		
+
 		buttonEntity.setSize(310, 40);
 		buttonEntity.setPos(20, 70);
 

@@ -61,7 +61,7 @@ public class Server {
 			world.addPlayer(conn);
 		}
 
-		List<UpdateEvent> events = world.update(0);
+		List<UpdateEvent> events = world.update(1f / timer.TICKRATE);
 
 		List<UpdateEventInterface> ps = new ArrayList<>();
 		ps.addAll(world.getPlayers());

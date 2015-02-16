@@ -135,7 +135,6 @@ public class World extends CoreWorld {
 
 	public void cleanup() {
 		unloadMap();
-		worldShader.cleanup();
 	}
 
 }

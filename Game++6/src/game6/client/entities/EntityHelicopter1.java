@@ -50,7 +50,8 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 
 	@Override
 	public void update(float timeDelta, List<UpdateEvent> events) {
-
+		super.update(timeDelta, events);
+		
 		renderPropertiesRotorL.rotation.set(1, (renderPropertiesRotorL.rotation.get(1) + 360*timeDelta) % 360);
 		renderPropertiesRotorH.rotation.set(1, (renderPropertiesRotorH.rotation.get(1) - 360*timeDelta) % 360);
 		

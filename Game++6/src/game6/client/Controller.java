@@ -8,7 +8,7 @@ import game6.core.buildings.CoreBuilding;
 import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
-import game6.core.networking.PacketChannel;
+import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
 
 import java.io.IOException;
@@ -115,7 +115,7 @@ public class Controller {
 
 		// TODO debug/testing code
 		if (isConnected()) {
-			List<Packet> packets = connection.get(PacketChannel.INIT);
+			List<Packet> packets = connection.get(PacketList.INIT);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketPlayerInfo) {
 					PacketPlayerInfo packetInfo = (PacketPlayerInfo) packet;
@@ -127,7 +127,7 @@ public class Controller {
 			}
 
 			// TODO Don't process the packets here
-			packets = connection.get(PacketChannel.BUILDINGS);
+			packets = connection.get(PacketList.BUILDINGS);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketPlaceBuilding) {
 
@@ -153,7 +153,7 @@ public class Controller {
 				}
 			}
 
-			packets = connection.get(PacketChannel.ENTITIES);
+			packets = connection.get(PacketList.ENTITIES);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketSpawnEntity) {
 
@@ -161,6 +161,16 @@ public class Controller {
 					CoreEntity entity = packetEntity.entity.getClientEntity(packetEntity.id);
 					entity.setFaction(packetEntity.faction);
 					world.spawnEntity(entity, packetEntity.position);
+
+				} else if (packet instanceof PacketEntityMoved) {
+
+					PacketEntityMoved packetEntity = (PacketEntityMoved) packet;
+					world.getEntityList().getEntity(packetEntity.id).teleport(packetEntity.pos);
+
+				} else if (packet instanceof PacketEntityGoalChanged) {
+
+					PacketEntityGoalChanged packetEntity = (PacketEntityGoalChanged) packet;
+					((CoreEntity) world.getEntityList().getEntity(packetEntity.id)).setGoal(packetEntity.goal);
 
 				}
 			}
