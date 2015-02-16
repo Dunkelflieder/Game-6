@@ -13,8 +13,6 @@ public class EffectContainer {
 
 	public EffectContainer() {
 		effects = new ArrayList<Effect>();
-		effects.add(new LaserBeam(new Vector3f(0.0f, 2.0f, 0.0f), new Vector3f(20.0f, 0.0f, 20.0f)));
-
 		shader = new Shader("shaders/effects.vert", "shaders/effects.frag");
 	}
 
@@ -22,7 +20,13 @@ public class EffectContainer {
 		effects.add(effect);
 	}
 
+	private float runtime = 0;
 	public void update(float timeDelta) {
+		runtime += timeDelta;
+		if (runtime > 0.1) {
+			runtime = 0;
+			addEffect(new LaserBullet(new Vector3f(0.0f, 2.0f, 0.0f), new Vector3f((float)Math.random()*500f, 2.0f, (float)Math.random()*20f)));
+		}
 		for (Effect effect : effects) {
 			effect.update(timeDelta);
 		}
