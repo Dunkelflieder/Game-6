@@ -5,6 +5,8 @@ import game6.client.effects.Lightning;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
+import game6.core.entities.CoreEntity;
+import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
 import game6.core.networking.PacketChannel;
 import game6.core.networking.packets.*;
@@ -102,6 +104,13 @@ public class Controller {
 		}
 	}
 
+	// TODO debug method
+	public void requestEntity(EntityType type, Vector3f position) {
+		if (isConnected()) {
+			connection.send(new PacketSpawnEntity(type, faction, -1, position));
+		}
+	}
+
 	public void update(float timeDelta) {
 
 		// TODO debug/testing code
@@ -140,6 +149,18 @@ public class Controller {
 				} else if (packet instanceof PacketBuildingUpdate) {
 					PacketBuildingUpdate pbu = (PacketBuildingUpdate) packet;
 					getWorld().getBuilding(pbu.id).setEnergy(pbu.energy);
+
+				}
+			}
+
+			packets = connection.get(PacketChannel.ENTITIES);
+			for (Packet packet : packets) {
+				if (packet instanceof PacketSpawnEntity) {
+
+					PacketSpawnEntity packetEntity = (PacketSpawnEntity) packet;
+					CoreEntity entity = packetEntity.entity.getClientEntity(packetEntity.id);
+					entity.setFaction(packetEntity.faction);
+					world.spawnEntity(entity, packetEntity.position);
 
 				}
 			}

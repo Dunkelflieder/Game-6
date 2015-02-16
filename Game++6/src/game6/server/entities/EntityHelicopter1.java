@@ -5,8 +5,8 @@ import de.nerogar.util.Vector3f;
 
 public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 
-	public EntityHelicopter1(long id, Vector3f position) {
-		super(id, position);
+	public EntityHelicopter1() {
+		super(getNextID(), new Vector3f());
 	}
 
 }

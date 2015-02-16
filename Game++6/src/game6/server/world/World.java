@@ -2,6 +2,7 @@ package game6.server.world;
 
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
+import game6.core.entities.CoreEntity;
 import game6.core.faction.Faction;
 import game6.core.networking.PacketChannel;
 import game6.core.networking.packets.*;
@@ -14,6 +15,7 @@ import java.util.List;
 import de.nerogar.engine.UpdateEvent;
 import de.nerogar.network.Connection;
 import de.nerogar.network.packets.Packet;
+import de.nerogar.util.Vector3f;
 
 public class World extends CoreWorld {
 
@@ -40,9 +42,24 @@ public class World extends CoreWorld {
 					}
 				}
 			}
+			for (Packet packet : player.getConnection().get(PacketChannel.ENTITIES)) {
+				if (packet instanceof PacketSpawnEntity) {
+					PacketSpawnEntity pse = (PacketSpawnEntity) packet;
+					CoreEntity entity = pse.entity.getServerEntity();
+					entity.setFaction(player.getFaction());
+					if (canAddEntity(pse.position, entity)) {
+						spawnEntity(entity, pse.position);
+						broadcast(new PacketSpawnEntity(pse.entity, player.getFaction(), entity.getID(), entity.getPosition()));
+					}
+				}
+			}
 		}
 
 		return super.update(timeDelta);
+	}
+	
+	public boolean canAddEntity(Vector3f position, CoreEntity entity) {
+		return position.getX() >= 0 && position.getY() >= 0 && position.getX() < getMap().getSizeX() && position.getY() < getMap().getSizeY();
 	}
 
 	public void addPlayer(Connection connection) {

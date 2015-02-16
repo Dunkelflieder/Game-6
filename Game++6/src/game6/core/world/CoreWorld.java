@@ -16,6 +16,7 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 
 	public CoreWorld(Map map) {
 		super(new Vector3f());
+		isStatic = true;
 		setMap(map);
 		this.buildings = new ArrayList<>();
 	}

@@ -7,8 +7,7 @@ import game6.client.gui.listener.MouseAdapter;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
-
-import java.awt.Color;
+import game6.core.entities.EntityType;
 
 import org.lwjgl.input.Keyboard;
 
@@ -25,6 +24,7 @@ public class GuiIngame extends Gui {
 
 	public static GuiIngame instance = new GuiIngame();
 	private GButton buttonBuilding;
+	private GButton buttonEntity;
 
 	private GPanelBuildingInfo buildingPanel;
 	private GPanelBuildingSelection selectionPanel;
@@ -33,11 +33,15 @@ public class GuiIngame extends Gui {
 	public void initComponents() {
 
 		buttonBuilding = new GButton("Place random building");
-		buttonBuilding.text.setColor(Color.BLACK);
 		buttonBuilding.addClickedListener(source -> {
 			for (int i = 0; i < 100; i++) {
 				controller.placeBuilding(BuildingType.getRandom(), (int) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), (int) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2)));
 			}
+		});
+
+		buttonEntity = new GButton("Place random entity");
+		buttonEntity.addClickedListener(source -> {
+			controller.requestEntity(EntityType.getRandom(), new Vector3f((float) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), 1, (float) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2))));
 		});
 
 		// Panel, that represents the Info-Panel for a selected building. Very basic and generic for all buildings for now
@@ -136,6 +140,7 @@ public class GuiIngame extends Gui {
 		});
 
 		add(buttonBuilding);
+		add(buttonEntity);
 		add(buildingPanel);
 	}
 
@@ -188,6 +193,9 @@ public class GuiIngame extends Gui {
 	public void onResize(int screenWidth, int screenHeight) {
 		buttonBuilding.setSize(310, 40);
 		buttonBuilding.setPos(20, 20);
+		
+		buttonEntity.setSize(310, 40);
+		buttonEntity.setPos(20, 70);
 
 		buildingPanel.setSize(300, 500);
 		buildingPanel.setPos(screenWidth - 300, 0);

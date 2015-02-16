@@ -32,7 +32,7 @@ public enum BuildingType {
 	/**
 	 * Returns an client-class-instance of the building type 
 	 * @param id The unique ID of the instance.
-	 * @return BuildingReactor instance for client
+	 * @return Building instance for client
 	 */
 	public CoreBuilding getClientBuilding(long id) {
 		try {
@@ -46,7 +46,7 @@ public enum BuildingType {
 
 	/**
 	 * Returns an server-class-instance of the building type 
-	 * @return BuildingReactor instance for server
+	 * @return Building instance for server
 	 */
 	public CoreBuilding getServerBuilding() {
 		try {

@@ -11,6 +11,7 @@ public class PacketList {
 		Packets.addPacket(PacketChannel.BUILDINGS, PacketPlaceBuilding.class);
 		Packets.addPacket(PacketChannel.INIT, PacketPlayerInfo.class);
 		Packets.addPacket(PacketChannel.BUILDINGS, PacketPowerSupply.class);
+		Packets.addPacket(PacketChannel.ENTITIES, PacketSpawnEntity.class);
 	}
 
 }

@@ -26,7 +26,7 @@ public class Map {
 		}
 		return true;
 	}
-
+	
 	public void addBuilding(CoreBuilding building) {
 		for (int x = building.getPosX(); x < building.getPosX() + building.getSizeX(); x++) {
 			for (int y = building.getPosY(); y < building.getPosY() + building.getSizeY(); y++) {
@@ -34,7 +34,7 @@ public class Map {
 			}
 		}
 	}
-
+	
 	public CoreBuilding getBuildingAt(int x, int y) {
 		if (x < 0 || y < 0 || x >= getSizeX() || y >= getSizeY()) {
 			return null;
