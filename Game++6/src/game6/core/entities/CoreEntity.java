@@ -29,7 +29,6 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	public CoreEntity(long id, BoundingAABB<Vector3f> bounding, Vector3f position, int speed, boolean flying) {
 		super(id, bounding, position);
-		position.setY(isFlying() ? 3 : 0);
 		this.speed = speed;
 		this.flying = flying;
 		this.tick = 0;

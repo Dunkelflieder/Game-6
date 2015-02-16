@@ -48,6 +48,7 @@ public class World extends CoreWorld {
 					CoreEntity entity = pse.entity.getServerEntity();
 					entity.setFaction(player.getFaction());
 					if (canAddEntity(pse.position, entity)) {
+						pse.position.setY(entity.isFlying() ? 3 : 0);
 						spawnEntity(entity, pse.position);
 						broadcast(new PacketSpawnEntity(pse.entity, player.getFaction(), entity.getID(), entity.getPosition()));
 					}
