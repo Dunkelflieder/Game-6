@@ -2,8 +2,7 @@ package game6.core.world;
 
 import game6.core.buildings.CoreBuilding;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import de.nerogar.util.*;
 
@@ -45,7 +44,7 @@ public class Map {
 
 	public List<CoreBuilding> getBuildingsWithin(int posX, int posY, int radius) {
 		// TODO give back a list sorted by distance
-		List<CoreBuilding> closeBuildings = new ArrayList<>();
+		Set<CoreBuilding> closeBuildings = new HashSet<>();
 		for (int x = posX - radius; x < posX + radius; x++) {
 			for (int y = posY - radius; y < posY + radius; y++) {
 				CoreBuilding b = getBuildingAt(x, y);
@@ -54,7 +53,10 @@ public class Map {
 				}
 			}
 		}
-		return closeBuildings;
+		
+		List<CoreBuilding> buildingList = (new ArrayList<CoreBuilding>());
+		buildingList.addAll(closeBuildings);
+		return buildingList;
 	}
 
 	public int getSizeX() {
