@@ -1,3 +1,5 @@
+uniform bool renderFactionObject;
+
 uniform sampler2D texture1;
 
 varying vec4 verpos;
@@ -10,16 +12,23 @@ uniform sampler2D factionTex;
 uniform vec4 factionColor;
 
 void main(){
-	//vec4 color;
-	//color = vec4(0.808, 0.488, 0.055, 1); //gold
-	//color = vec4(1, 0.5, 0.5, 1); //blue
+	//gl_FragColor = vec4(normal, 1.0);
+	//return;
+	
+	if(renderFactionObject){
+		vec4 textureLight = texture2D(lightTex, gl_TexCoord[0].st);
+		vec4 textureColor = texture2D(colorTex, gl_TexCoord[0].st);
+		vec4 textureFaction = texture2D(factionTex, gl_TexCoord[0].st);
+		vec3 light = vec3(-1, -1, -1);
+		float bright = max(-dot(normalize(normal), light), 0.5);
 
-	vec4 textureLight = texture2D(lightTex, gl_TexCoord[0].st);
-	vec4 textureColor = texture2D(colorTex, gl_TexCoord[0].st);
-	vec4 textureFaction = texture2D(factionTex, gl_TexCoord[0].st);
+		textureColor *= vec4(textureLight.rgb * vec3(bright), 1.0);
+		//textureColor *= textureLight;
 
-	textureColor *= textureLight;
-
-	gl_FragColor = mix(textureColor, factionColor, textureFaction.r);
+		gl_FragColor = mix(textureColor, factionColor, textureFaction.r);
+		return;
+	}else{
+		gl_FragColor = texture2D(lightTex, gl_TexCoord[0].st);
+	}
 
 }

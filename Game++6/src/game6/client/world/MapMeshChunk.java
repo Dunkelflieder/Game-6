@@ -120,12 +120,12 @@ public class MapMeshChunk extends Renderable {
 
 		// Fill normals. Alternating diagonals for now
 		for (int i = 0; i < normals.length; i += 6) {
-			normals[i + 0] = 1;
+			normals[i + 0] = 0;
 			normals[i + 1] = 1;
-			normals[i + 2] = 1;
-			normals[i + 3] = -1;
+			normals[i + 2] = 0;
+			normals[i + 3] = 0;
 			normals[i + 4] = 1;
-			normals[i + 5] = -1;
+			normals[i + 5] = 0;
 		}
 
 		initVBO(vertices, 3, textures, 2, normals, 3);
