@@ -31,7 +31,6 @@ public class PacketBuildingUpdate extends Packet {
 		ByteBuffer buffer = ByteBuffer.allocate(12);
 		buffer.putLong(id);
 		buffer.putInt(energy);
-		buffer.flip();
 		return buffer.array();
 	}
 

@@ -47,7 +47,6 @@ public class PacketPlaceBuilding extends Packet {
 		buffer.putInt(posX);
 		buffer.putInt(posY);
 		buffer.putInt(building.getTypeID());
-		buffer.flip();
 		return buffer.array();
 	}
 

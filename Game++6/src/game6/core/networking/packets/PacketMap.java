@@ -53,7 +53,6 @@ public class PacketMap extends Packet {
 		}
 
 		buffer.put(tileIDs, 0, tileIDs.length);
-		buffer.flip();
 		return buffer.array();
 	}
 

@@ -27,7 +27,6 @@ public class PacketPlayerInfo extends Packet {
 	public byte[] toByteArray() {
 		ByteBuffer buffer = ByteBuffer.allocate(4);
 		buffer.putInt(faction.getID());
-		buffer.flip();
 		return buffer.array();
 	}
 

@@ -35,7 +35,6 @@ public class PacketPowerSupply extends Packet {
 		buffer.putLong(source);
 		buffer.putLong(destination);
 		buffer.putInt(amount);
-		buffer.flip();
 		return buffer.array();
 	}
 
