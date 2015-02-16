@@ -57,7 +57,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	public void setGoal(Vector3f goal) {
 		goals.clear();
-		goals.add(goal);
+		if (goal != null) {
+			goals.add(goal);
+		}
 		hasNewGoal = true;
 	}
 

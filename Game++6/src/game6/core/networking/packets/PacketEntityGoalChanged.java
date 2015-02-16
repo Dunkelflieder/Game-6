@@ -24,16 +24,29 @@ public class PacketEntityGoalChanged extends Packet {
 	public void fromByteArray(byte[] data) {
 		ByteBuffer buffer = ByteBuffer.wrap(data);
 		id = buffer.getLong();
-		goal = new Vector3f(buffer.getFloat(), buffer.getFloat(), buffer.getFloat());
+		float x = buffer.getFloat();
+		float y = buffer.getFloat();
+		float z = buffer.getFloat();
+		if (x == Float.MIN_VALUE && y == Float.MIN_VALUE && z == Float.MIN_VALUE) {
+			goal = null;
+		} else {
+			goal = new Vector3f(x, y, z);
+		}
 	}
 
 	@Override
 	public byte[] toByteArray() {
 		ByteBuffer buffer = ByteBuffer.allocate(20);
 		buffer.putLong(id);
-		buffer.putFloat(goal.getX());
-		buffer.putFloat(goal.getY());
-		buffer.putFloat(goal.getZ());
+		if (goal == null) {
+			buffer.putFloat(Float.MIN_VALUE);
+			buffer.putFloat(Float.MIN_VALUE);
+			buffer.putFloat(Float.MIN_VALUE);
+		} else {
+			buffer.putFloat(goal.getX());
+			buffer.putFloat(goal.getY());
+			buffer.putFloat(goal.getZ());
+		}
 		return buffer.array();
 	}
 
