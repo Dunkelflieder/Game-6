@@ -1,5 +1,8 @@
 package game6.server.buildings;
 
+import java.util.List;
+
+import de.nerogar.engine.UpdateEvent;
 import game6.core.buildings.CoreBuildingTower;
 
 public class BuildingTower extends CoreBuildingTower {
@@ -14,6 +17,10 @@ public class BuildingTower extends CoreBuildingTower {
 
 	@Override
 	public void render() {
+	}
+
+	@Override
+	public void update(List<UpdateEvent> events) {
 	}
 
 }

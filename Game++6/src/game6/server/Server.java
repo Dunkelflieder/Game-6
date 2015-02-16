@@ -4,7 +4,11 @@ import game6.core.world.WorldGenerator;
 import game6.server.world.World;
 
 import java.net.BindException;
+import java.util.ArrayList;
+import java.util.List;
 
+import de.nerogar.engine.UpdateEvent;
+import de.nerogar.engine.UpdateEventInterface;
 import de.nerogar.network.Connection;
 import de.nerogar.network.ServerThread;
 
@@ -37,7 +41,7 @@ public class Server {
 
 	private void start() {
 
-		world = WorldGenerator.getWorld(0, 1000, 1000);
+		world = WorldGenerator.getWorld(0, 200, 200);
 
 		timer.start();
 
@@ -57,7 +61,13 @@ public class Server {
 			world.addPlayer(conn);
 		}
 
-		world.update(0);
+		List<UpdateEvent> events = world.update(0);
+
+		List<UpdateEventInterface> ps = new ArrayList<>();
+		ps.addAll(world.getPlayers());
+		for (UpdateEvent event : events) {
+			event.process(ps);
+		}
 
 	}
 

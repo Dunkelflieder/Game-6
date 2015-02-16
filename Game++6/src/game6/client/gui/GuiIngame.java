@@ -70,11 +70,20 @@ public class GuiIngame extends Gui {
 						Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
 						RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
 
-						if (intersection != null && intersection.intersectionPoint.getX() < world.getMap().getSizeX() && intersection.intersectionPoint.getZ() < world.getMap().getSizeY()) {
-							int mapX = (int) intersection.intersectionPoint.getX();
-							int mapY = (int) intersection.intersectionPoint.getZ();
-							CoreBuilding building = controller.getWorld().getMap().getBuildingAt(mapX, mapY);
-							buildingPanel.setBuilding(building);
+						if (intersection == null) {
+
+							// No intersection with mouse ray. Trying to select building...
+							Vector2f mapIntersection = controller.getWorld().getMap().getIntersection(mouseRay);
+							if (mapIntersection != null) {
+								// If there is a building, select it
+								CoreBuilding building = controller.getWorld().getMap().getBuildingAt((int) mapIntersection.getX(), (int) mapIntersection.getY());
+								buildingPanel.setBuilding(building);
+							}
+
+						} else {
+
+							// TODO A unit was selected. Do stuff.
+
 						}
 					}
 
@@ -137,7 +146,7 @@ public class GuiIngame extends Gui {
 		if (!controller.getWorld().isLoaded()) {
 			return;
 		}
-		
+
 		// Decrease the pitch angle for the calculation to get a center point further away.
 		// Because of perspective, the actual center point is not a good center point for rendering.
 		float pitch = controller.getCamera().getPitch();

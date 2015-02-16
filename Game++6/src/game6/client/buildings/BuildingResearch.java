@@ -1,6 +1,9 @@
 package game6.client.buildings;
 
+import java.util.List;
+
 import game6.core.buildings.CoreBuildingResearch;
+import de.nerogar.engine.UpdateEvent;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
 
@@ -29,6 +32,10 @@ public class BuildingResearch extends CoreBuildingResearch {
 		textureColor.bind(1);
 		textureFaction.bind(2);
 		mesh.render(new RenderProperties(new Vector3f(getPosX(), 0, getPosY()), null, null));
+	}
+
+	@Override
+	public void update(List<UpdateEvent> events) {
 	}
 
 }

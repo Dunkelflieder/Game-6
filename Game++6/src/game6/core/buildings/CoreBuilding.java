@@ -21,7 +21,8 @@ public abstract class CoreBuilding {
 
 	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy) {
 		init();
-		if (id > MAX_ID) MAX_ID = id;
+		if (id > MAX_ID)
+			MAX_ID = id;
 		this.id = id;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
@@ -104,9 +105,22 @@ public abstract class CoreBuilding {
 	 */
 	private int getEnergyOverflow() {
 		if (this.energy > maxEnergy) {
-			int overlap = maxEnergy - this.energy;
+			int overflow = maxEnergy - this.energy;
 			this.energy = maxEnergy;
-			return overlap;
+			return overflow;
+		}
+		return 0;
+	}
+
+	/**
+	 * Fixes energy underflowing below 0
+	 * @return The amount of energy that was underflowing or 0 if none was underflowing;
+	 */
+	private int getEnergyUnderflow() {
+		if (this.energy < 0) {
+			int underflow = -this.energy;
+			this.energy = 0;
+			return underflow;
 		}
 		return 0;
 	}
@@ -123,6 +137,16 @@ public abstract class CoreBuilding {
 	public int addEnergy(int energy) {
 		this.energy += energy;
 		return getEnergyOverflow();
+	}
+
+	/**
+	 * Subtracts energy from the building
+	 * @param energy subtracted energy
+	 * @return amount of energy that was not subtracted due to underflowing
+	 */
+	public int subtractEnergy(int energy) {
+		this.energy -= energy;
+		return getEnergyUnderflow();
 	}
 
 	public int getMaxEnergy() {
@@ -153,7 +177,7 @@ public abstract class CoreBuilding {
 	public Faction getFaction() {
 		return faction;
 	}
-	
+
 	/**
 	 * Returns the next unique-Instance-ID.
 	 * @return unique building-instance-ID
@@ -162,7 +186,7 @@ public abstract class CoreBuilding {
 		MAX_ID++;
 		return MAX_ID;
 	}
-	
+
 	/**
 	 * Returns whether the building can receive energy or not.
 	 * @return true, if the building can receive energy and is not full. False otherwise.
