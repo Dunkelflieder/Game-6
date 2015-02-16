@@ -41,7 +41,7 @@ public class Server {
 
 	private void start() {
 
-		world = WorldGenerator.getWorld(0, 200, 200);
+		world = WorldGenerator.getWorld(0, 300, 300);
 
 		timer.start();
 

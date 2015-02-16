@@ -52,6 +52,9 @@ public class World extends CoreWorld {
 	@Override
 	public void setMap(Map map) {
 		super.setMap(map);
+		if (mesh != null) {
+			mesh.cleanup();
+		}
 		if (map == null) {
 			mesh = null;
 		} else {
@@ -111,6 +114,11 @@ public class World extends CoreWorld {
 
 	public boolean isLoaded() {
 		return getMap() != null;
+	}
+
+	public void cleanup() {
+		unloadMap();
+		worldShader.cleanup();
 	}
 
 }

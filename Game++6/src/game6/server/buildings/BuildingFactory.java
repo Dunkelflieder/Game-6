@@ -22,7 +22,7 @@ public class BuildingFactory extends CoreBuildingFactory {
 
 	@Override
 	public void update(List<UpdateEvent> events) {
-		if (subtractEnergy(3) == 0) {
+		if (subtractEnergy(3) != 3) {
 			events.add(new EventBuildingUpdate(this));
 		}
 	}

@@ -15,7 +15,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 	// Ticks between each energy pulse
 	private int shockCooldown = 10;
 	// Amount of energy emitted with each pulse
-	private int shockPower = 10;
+	private int shockPower = 100;
 	// (quadratic) radius in which the energy can be emitted.
 	private int shockRadius = 10;
 
@@ -51,8 +51,8 @@ public class BuildingReactor extends CoreBuildingReactor {
 				}
 			}
 
-			// 2nd shuffle (TODO: sort after distance)
-			Collections.shuffle(candidates);
+			// 2nd.: order by energy need
+			candidates.sort((b1, b2) -> (b1.getMaxEnergy() - b1.getEnergy()) - (b2.getMaxEnergy() - b2.getEnergy()));
 
 			// If no one could receive energy, stop the pulse emission.
 			if (candidates.size() == 0) {

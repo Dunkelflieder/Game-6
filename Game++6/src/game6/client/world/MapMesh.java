@@ -82,4 +82,13 @@ public class MapMesh {
 
 	}
 
+	public void cleanup() {
+		for (int x = 0; x < chunks.length; x++) {
+			for (int y = 0; y < chunks[x].length; y++) {
+				chunks[x][y].cleanup();
+				chunksGrid[x][y].cleanup();
+			}
+		}
+	}
+
 }

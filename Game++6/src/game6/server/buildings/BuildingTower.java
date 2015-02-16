@@ -15,7 +15,7 @@ public class BuildingTower extends CoreBuildingTower {
 	private int shockCooldown = 10;
 	// (quadratic) radius in which the energy can be emitted.
 	private int shockRadius = 10;
-	
+
 	public BuildingTower() {
 		super(getNextID());
 	}
@@ -47,8 +47,8 @@ public class BuildingTower extends CoreBuildingTower {
 				}
 			}
 
-			// 2nd shuffle (TODO: sort after distance)
-			Collections.shuffle(candidates);
+			// 2nd.: order by energy need
+			candidates.sort((b1, b2) -> (b1.getMaxEnergy() - b1.getEnergy()) - (b2.getMaxEnergy() - b2.getEnergy()));
 
 			// If no one could receive energy, stop the pulse emission.
 			if (candidates.size() == 0) {
@@ -68,6 +68,10 @@ public class BuildingTower extends CoreBuildingTower {
 				// amount of energy the building actually received
 				int given = part - building.addEnergy(part);
 
+				if (given < 0) {
+					System.out.println("Part: " + part + ", given: " + given);
+				}
+
 				// Remove the given energy from remaining pool
 				left -= given;
 
@@ -80,7 +84,7 @@ public class BuildingTower extends CoreBuildingTower {
 					events.add(new EventBuildingUpdate(building));
 				}
 			}
-			
+
 			if (left != getEnergy()) {
 				events.add(new EventBuildingUpdate(this));
 				setEnergy(left);

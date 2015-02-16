@@ -35,7 +35,9 @@ public class GuiIngame extends Gui {
 		buttonBuilding = new GButton("Place random building");
 		buttonBuilding.text.setColor(Color.BLACK);
 		buttonBuilding.addClickedListener(source -> {
-			controller.placeBuilding(BuildingType.getRandom(), (int) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), (int) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2)));
+			for (int i = 0; i < 100; i++) {
+				controller.placeBuilding(BuildingType.getRandom(), (int) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), (int) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2)));
+			}
 		});
 
 		// Panel, that represents the Info-Panel for a selected building. Very basic and generic for all buildings for now
