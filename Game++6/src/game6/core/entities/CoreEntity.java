@@ -92,7 +92,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		tick++;
 
-		float remainingDistance = 0.001f * getSpeed() * timeDelta;
+		float remainingDistance = getSpeed() * timeDelta;
 		while (!goals.isEmpty() && remainingDistance > 0) {
 			Vector3f moveDelta = getNextGoal().subtracted(getPosition());
 			float moveDistance = moveDelta.getValue();
