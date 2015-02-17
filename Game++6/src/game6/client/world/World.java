@@ -135,6 +135,8 @@ public class World extends CoreWorld {
 
 	public void cleanup() {
 		unloadMap();
+		getBuildings().clear();
+		getEntityList().clear();
 	}
 
 }

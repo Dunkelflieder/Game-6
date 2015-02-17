@@ -72,11 +72,11 @@ public class GuiTitlescreen extends Gui {
 		label.setSize(0, 60);
 		label.setPos(screenWidth / 2, screenHeight / 2);
 
-		host.setSize(250, 60);
+		host.setSize(350, 60);
 		host.setPos(screenWidth / 2, screenHeight / 2);
 
 		port.setSize(140, 60);
-		port.setPos(screenWidth / 2 + 255, screenHeight / 2);
+		port.setPos(screenWidth / 2 + 355, screenHeight / 2);
 
 		connectButton.setSize(220, 60);
 		connectButton.setPos(screenWidth / 2, screenHeight / 2 - 65);

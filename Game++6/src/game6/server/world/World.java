@@ -3,6 +3,7 @@ package game6.server.world;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
 import game6.core.entities.CoreEntity;
+import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
 import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nerogar.engine.UpdateEvent;
+import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.network.Connection;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
@@ -48,7 +50,7 @@ public class World extends CoreWorld {
 					CoreEntity entity = pse.entity.getServerEntity();
 					entity.setFaction(player.getFaction());
 					if (canAddEntity(pse.position, entity)) {
-						pse.position.setY(entity.isFlying() ? 3 : 0);
+						pse.position.setY(entity.isFlying() ? 2 : 0);
 						spawnEntity(entity, pse.position);
 						broadcast(new PacketSpawnEntity(pse.entity, player.getFaction(), entity.getID(), entity.getPosition()));
 						entity.move(new Vector3f(1, entity.getPosition().getY(), 1));
@@ -70,6 +72,10 @@ public class World extends CoreWorld {
 		connection.send(new PacketPlayerInfo(faction));
 		for (CoreBuilding building : getBuildings()) {
 			connection.send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
+		}
+		for (BaseEntity<Vector3f> entity : getEntityList().getEntities()) {
+			CoreEntity coreEntity = (CoreEntity) entity;
+			connection.send(new PacketSpawnEntity(EntityType.fromServerClass(coreEntity.getClass()), coreEntity.getFaction(), coreEntity.getID(), coreEntity.getPosition()));
 		}
 		players.add(new Player(connection, faction));
 	}

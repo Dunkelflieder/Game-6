@@ -38,7 +38,6 @@ public class Pathfinder {
 	}
 
 	public void update(Map map, int fromX, int fromY, int toX, int toY) {
-		System.out.println("Update from " + fromX + "/" + fromY + " to " + toX + "/" + toY);
 		if (fromX < 0 || fromY < 0 || toX > sizeX || toY > sizeY || fromX > toX || fromY > toY) {
 			throw new RuntimeException("Tried to update an invalid portion of the Pathfinder");
 		}
