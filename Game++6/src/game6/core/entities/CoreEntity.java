@@ -82,7 +82,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		rotation = (float) ((180 / Math.PI) * Math.atan(dir.getX() / (dir.getZ() - 0.01)));
 		// fix unaligned due to arctan in 3rd and 4th (?) quadrant.
-		if (dir.getX() <= 0) {
+		if (dir.getZ() <= 0) {
 			rotation += 180;
 		}
 	}
@@ -120,7 +120,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			hasNewGoal = false;
 		}
 
-		if (moved) {
+		if (moved && tick % 50 == 0) {
 			events.add(new EventEntityMoved(this));
 			moved = false;
 		}

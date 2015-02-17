@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Pathfinder {
 
-	private int maxDepth = 1000;
+	private int maxDepth = 100000;
 	private Node[] nodes;
 
 	private int sizeX, sizeY;
