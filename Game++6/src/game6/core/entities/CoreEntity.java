@@ -122,6 +122,8 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		if (moved && tick % 50 == 0) {
 			events.add(new EventEntityMoved(this));
+			// Force update somewhen
+			hasNewGoal = true;
 			moved = false;
 		}
 	}
