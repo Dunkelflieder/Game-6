@@ -48,14 +48,14 @@ public class MapMesh {
 		}
 	}
 
-	public void render(RenderProperties renderProperties, float atX, float atY) {
+	public void render(float atX, float atY) {
 
 		for (int x = (int) (atX / CHUNKSIZE - CHUNK_RENDER_RADIUS); x < atX / CHUNKSIZE + CHUNK_RENDER_RADIUS; x++) {
 			for (int y = (int) (atY / CHUNKSIZE - CHUNK_RENDER_RADIUS); y < atY / CHUNKSIZE + CHUNK_RENDER_RADIUS; y++) {
 				if (x < 0 || y < 0 || x >= chunks.length || y >= chunks[0].length) {
 					continue;
 				}
-				chunks[x][y].render(renderProperties);
+				chunks[x][y].render(null);
 			}
 		}
 
@@ -68,7 +68,7 @@ public class MapMesh {
 					if (x < 0 || y < 0 || x >= chunksGrid.length || y >= chunksGrid[0].length) {
 						continue;
 					}
-					chunksGrid[x][y].render(renderProperties);
+					chunksGrid[x][y].render(null);
 				}
 			}
 		}

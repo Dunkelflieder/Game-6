@@ -7,8 +7,7 @@ import game6.core.world.Map;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import de.nerogar.render.RenderProperties;
-import de.nerogar.render.Shader;
+import de.nerogar.render.*;
 import de.nerogar.util.Color;
 
 public class World extends CoreWorld {
@@ -18,12 +17,12 @@ public class World extends CoreWorld {
 	private CoreBuilding preview;
 
 	private int renderCenterX, renderCenterY;
-	private RenderProperties renderProperties;
+	private RenderProperties3f renderProperties;
 	private Shader worldShader;
 
 	public World(Map map) {
 		super(map);
-		renderProperties = new RenderProperties();
+		renderProperties = new RenderProperties3f();
 		worldShader = new Shader("shaders/world.vert", "shaders/world.frag");
 	}
 
@@ -68,7 +67,7 @@ public class World extends CoreWorld {
 	}
 
 	@Override
-	public void render() {
+	public void render(Shader shader) {
 		worldShader.activate();
 
 		//TODO remove (debug)
@@ -81,24 +80,23 @@ public class World extends CoreWorld {
 			//render terrain
 
 			worldShader.setUniform1bool("renderFactionObject", false);
+			worldShader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
+			mesh.render(renderCenterX, renderCenterY);
 
-			mesh.render(renderProperties, renderCenterX, renderCenterY);
-
-			worldShader.deactivate();
-
+			worldShader.setUniform1bool("renderFactionObject", true);
 			if (preview != null) {
 				if (getMap().canAddBuilding(preview.getPosX(), preview.getPosY(), preview)) {
+					worldShader.setUniform4f("factionColor", 0.0f, 1.0f, 0.0f, 1.0f);
 					GL11.glColor4f(0, 1, 0, 1);
 				} else {
+					worldShader.setUniform4f("factionColor", 1.0f, 0.0f, 0.0f, 1.0f);
 					GL11.glColor4f(1, 0, 0, 1);
 				}
-				preview.render();
+				preview.render(worldShader);
 				GL11.glColor4f(1, 1, 1, 1);
 			}
 
 			// render buildings
-			worldShader.activate();
-			worldShader.setUniform1bool("renderFactionObject", true);
 			worldShader.setUniform1i("lightTex", 0);
 			worldShader.setUniform1i("colorTex", 1);
 			worldShader.setUniform1i("factionTex", 2);
@@ -109,12 +107,12 @@ public class World extends CoreWorld {
 					factionColor = building.getFaction().color;
 				}
 				worldShader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
-				building.render();
+				building.render(worldShader);
 			}
 
 		}
-		
-		super.render();
+
+		super.render(worldShader);
 
 		worldShader.deactivate();
 	}

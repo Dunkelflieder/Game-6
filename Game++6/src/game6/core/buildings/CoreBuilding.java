@@ -6,6 +6,7 @@ import game6.core.world.Map;
 import java.util.List;
 
 import de.nerogar.engine.UpdateEvent;
+import de.nerogar.render.Shader;
 
 public abstract class CoreBuilding {
 
@@ -82,8 +83,9 @@ public abstract class CoreBuilding {
 
 	/**
 	 * Should be implemented by client subclasses
+	 * @param shader the currently active shader
 	 */
-	public abstract void render();
+	public abstract void render(Shader shader);
 
 	/**
 	 * Returns a human-readable name for this building.

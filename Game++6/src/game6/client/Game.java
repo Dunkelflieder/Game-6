@@ -82,7 +82,7 @@ public class Game extends BaseGame {
 	@Override
 	protected void render() {
 		display.setScreenProperties(worldProperties, true);
-		world.render();
+		world.render(null);
 
 		display.setScreenProperties(effectProperties, true);
 		effectContainer.render();

@@ -80,10 +80,10 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		}
 		Vector3f dir = goal.subtracted(getPosition());
 
-		rotation = (float) ((180 / Math.PI) * Math.atan(dir.getX() / (dir.getZ() - 0.01)));
+		rotation = (float) (-Math.atan(dir.getX() / (dir.getZ() - 0.01)));
 		// fix unaligned due to arctan in 3rd and 4th (?) quadrant.
 		if (dir.getZ() <= 0) {
-			rotation += 180;
+			rotation += Math.PI;
 		}
 	}
 	

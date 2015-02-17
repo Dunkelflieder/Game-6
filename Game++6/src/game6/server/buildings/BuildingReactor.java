@@ -8,6 +8,7 @@ import game6.core.events.EventPowerSupply;
 import java.util.*;
 
 import de.nerogar.engine.UpdateEvent;
+import de.nerogar.render.Shader;
 
 public class BuildingReactor extends CoreBuildingReactor {
 
@@ -28,7 +29,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 	}
 
 	@Override
-	public void render() {
+	public void render(Shader shader) {
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package game6.client.buildings;
 
+import game6.core.buildings.CoreBuildingTower;
+
 import java.util.List;
 
-import game6.core.buildings.CoreBuildingTower;
 import de.nerogar.engine.UpdateEvent;
 import de.nerogar.render.*;
-import de.nerogar.util.Vector3f;
 
 public class BuildingTower extends CoreBuildingTower {
 
@@ -13,6 +13,8 @@ public class BuildingTower extends CoreBuildingTower {
 	private Texture2D textureLight;
 	private Texture2D textureColor;
 	private Texture2D textureFaction;
+
+	private RenderProperties3f renderProperties;
 
 	public BuildingTower(long id) {
 		super(id);
@@ -24,14 +26,19 @@ public class BuildingTower extends CoreBuildingTower {
 		textureLight = TextureLoader.loadTexture("res/buildings/tower/light.png");
 		textureColor = TextureLoader.loadTexture("res/buildings/tower/color.png");
 		textureFaction = TextureLoader.loadTexture("res/buildings/tower/faction.png");
+		
+		renderProperties = new RenderProperties3f();
 	}
 
 	@Override
-	public void render() {
+	public void render(Shader shader) {
+		renderProperties.setXYZ(getPosX(), 0, getPosY());
+		if (shader != null) shader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
+
 		textureLight.bind(0);
 		textureColor.bind(1);
 		textureFaction.bind(2);
-		mesh.render(new RenderProperties(new Vector3f(getPosX(), 0, getPosY()), null, null));
+		mesh.render(null);
 	}
 
 	@Override

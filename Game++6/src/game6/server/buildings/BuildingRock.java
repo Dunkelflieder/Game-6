@@ -3,6 +3,7 @@ package game6.server.buildings;
 import java.util.List;
 
 import de.nerogar.engine.UpdateEvent;
+import de.nerogar.render.Shader;
 import game6.core.buildings.CoreBuildingRock;
 
 public class BuildingRock extends CoreBuildingRock {
@@ -16,7 +17,7 @@ public class BuildingRock extends CoreBuildingRock {
 	}
 
 	@Override
-	public void render() {
+	public void render(Shader shader) {
 	}
 
 	@Override

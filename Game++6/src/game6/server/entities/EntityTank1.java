@@ -1,6 +1,7 @@
 package game6.server.entities;
 
 import game6.core.entities.CoreEntityTank1;
+import de.nerogar.render.Shader;
 import de.nerogar.util.Vector3f;
 
 public class EntityTank1 extends CoreEntityTank1 {
@@ -10,7 +11,7 @@ public class EntityTank1 extends CoreEntityTank1 {
 	}
 
 	@Override
-	public void render() {
+	public void render(Shader shader) {
 	}
 
 }
