@@ -32,7 +32,7 @@ public class BuildingResearch extends CoreBuildingResearch {
 
 	@Override
 	public void render(Shader shader) {
-		renderProperties.setXYZ(getPosX(), 3, getPosY());
+		renderProperties.setXYZ(getPosX(), 0, getPosY());
 		if (shader != null) shader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
 
 		textureLight.bind(0);
