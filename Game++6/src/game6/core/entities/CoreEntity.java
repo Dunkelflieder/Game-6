@@ -25,11 +25,11 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	private List<Vector3f> goals;
 	private boolean moved = false, hasNewGoal = false;;
 
-	// maximum movement speed in mm/s
-	private int speed;
+	// maximum movement speed in m/s
+	private float speed;
 	private boolean flying;
 
-	public CoreEntity(long id, BoundingAABB<Vector3f> bounding, Vector3f position, int speed, boolean flying) {
+	public CoreEntity(long id, BoundingAABB<Vector3f> bounding, Vector3f position, float speed, boolean flying) {
 		super(id, bounding, position);
 		this.speed = speed;
 		this.flying = flying;
@@ -151,9 +151,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	}
 
 	/**
-	 * @return Maximum movement speed in mm/s
+	 * @return Maximum movement speed in m/s
 	 */
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 
