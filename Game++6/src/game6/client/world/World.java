@@ -71,8 +71,6 @@ public class World extends CoreWorld {
 	public void render() {
 		worldShader.activate();
 
-		super.render();
-
 		//TODO remove (debug)
 		if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
 			worldShader.reloadFiles();
@@ -115,6 +113,8 @@ public class World extends CoreWorld {
 			}
 
 		}
+		
+		super.render();
 
 		worldShader.deactivate();
 	}
