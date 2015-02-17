@@ -12,7 +12,7 @@ public class EntityTank1 extends CoreEntityTank1 {
 	private Texture2D tex;
 	private Texture2D texLight;
 	private Texture2D texFaction;
-
+	
 	public EntityTank1(long id) {
 		super(id, new Vector3f());
 
@@ -28,7 +28,7 @@ public class EntityTank1 extends CoreEntityTank1 {
 	@Override
 	public void render(Shader shader) {
 		renderProperties.setXYZ(getPosition());
-		renderProperties.setYaw(getRotation());
+		renderProperties.setYaw(getVisibleRotation());
 
 		shader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
 		tex.bind(0);

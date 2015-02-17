@@ -12,18 +12,22 @@ import java.util.List;
 import de.nerogar.engine.UpdateEvent;
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.physics.BoundingAABB;
+import de.nerogar.util.MathHelper;
 import de.nerogar.util.Vector3f;
 
 public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	protected int tick;
 	private float rotation;
+	private float visibleRotation;
+	private static final float rotationSpeed = 3;
 
 	private Map map;
 	private Faction faction;
 
 	private List<Vector3f> goals;
-	private boolean moved = false, hasNewGoal = false;;
+	private boolean moved = false;
+	private boolean hasNewGoal = false;
 
 	// maximum movement speed in m/s
 	private float speed;
@@ -80,13 +84,22 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		}
 		Vector3f dir = goal.subtracted(getPosition());
 
-		rotation = (float) (-Math.atan(dir.getX() / (dir.getZ() - 0.01)));
-		// fix unaligned due to arctan in 3rd and 4th (?) quadrant.
-		if (dir.getZ() <= 0) {
-			rotation += Math.PI;
+		// If moving on x-axis, set direction manually
+		if (Math.abs(dir.getZ()) < 0.001f) {
+			if (dir.getX() > 0) {
+				rotation = (float) (3 * Math.PI / 2);
+			} else {
+				rotation = (float) (Math.PI / 2);
+			}
+		} else {
+			rotation = (float) (-Math.atan(dir.getX() / (dir.getZ())));
+			// fix unaligned due to arctan in 3rd and 4th (?) quadrant.
+			if (dir.getZ() <= 0) {
+				rotation += Math.PI;
+			}
 		}
 	}
-	
+
 	public void advanceOneGoal() {
 		goals.remove(0);
 		hasNewGoal = true;
@@ -96,7 +109,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			Vector3f pos = goals.get(i);
 			if (getMap().getBuildingAt((int) Math.floor(pos.getX()), (int) Math.floor(pos.getZ())) != null) {
 				// path is blocked! recalculate new one
-				Vector3f last = goals.get(goals.size()-1);
+				Vector3f last = goals.get(goals.size() - 1);
 				move(last);
 			}
 		}
@@ -108,8 +121,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		tick++;
 
 		// check if path got invalid somewhen
-		
-		
+
 		float remainingDistance = getSpeed() * timeDelta;
 		while (!goals.isEmpty() && remainingDistance > 0) {
 			Vector3f moveDelta = getNextGoal().subtracted(getPosition());
@@ -143,6 +155,13 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			hasNewGoal = true;
 			moved = false;
 		}
+
+		float delta = (MathHelper.clamp(rotation - visibleRotation, -rotationSpeed * timeDelta, rotationSpeed * timeDelta));
+		visibleRotation += delta;
+	}
+
+	protected float getVisibleRotation() {
+		return visibleRotation;
 	}
 
 	public boolean isMoving() {
