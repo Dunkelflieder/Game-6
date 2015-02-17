@@ -86,7 +86,7 @@ public class CameraMovementManager implements MouseListener {
 			float slow = 0.01f * camera.getY();
 
 			// yaw to radians
-			float yaw = (float) (camera.getYaw() / (180f / Math.PI));
+			float yaw = (float) (camera.getYaw());
 
 			// Magic/Trigonometry. Do the math again if you don't trust this code.
 			camera.setX(camera.getX() - (float) (slow * dx * Math.cos(yaw) + slow * dy * Math.sin(yaw)));
@@ -96,7 +96,7 @@ public class CameraMovementManager implements MouseListener {
 			return true;
 		} else if (grabbedType == 2) {
 			// If grabbed for rotation, just add delta x times something to yaw.
-			camera.setYaw(camera.getYaw() + dx * 0.5f);
+			camera.setYaw(camera.getYaw() + dx * 0.005f);
 
 			notifyCameraMovedListener();
 			return true;
