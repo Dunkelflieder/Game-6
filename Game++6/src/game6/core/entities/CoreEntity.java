@@ -1,5 +1,6 @@
 package game6.core.entities;
 
+import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.events.EventEntityGoalChanged;
 import game6.core.events.EventEntityMoved;
 import game6.core.faction.Faction;
@@ -44,6 +45,14 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		return goals.get(0);
 	}
 
+	public void setGoal(Vector3f to) {
+		goals.clear();
+		if (to != null) {
+			goals.add(to);
+		}
+		hasNewGoal = true;
+	}
+
 	public void move(Vector3f to) {
 		goals.clear();
 		if (to != null) {
@@ -51,9 +60,14 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 				// Just add the goal
 				goals.add(to);
 			} else {
-				// TODO calculate path and add nodes to goal list
-				// for now, act as flying
-				goals.add(to);
+				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), to.getX(), to.getY());
+				if (path == null) {
+					System.err.println("NO PATH FOUND!");
+				} else {
+					for (Position node : path) {
+						goals.add(new Vector3f(node.x + 0.5f, 0, node.y + 0.5f));
+					}
+				}
 			}
 		}
 		hasNewGoal = true;
@@ -66,9 +80,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		}
 		Vector3f dir = goal.subtracted(getPosition());
 
-		rotation = (float) ((180 / Math.PI) * Math.atan(dir.getX() / dir.getZ()));
+		rotation = (float) ((180 / Math.PI) * Math.atan(dir.getX() / (dir.getZ() - 0.01)));
 		// fix unaligned due to arctan in 3rd and 4th (?) quadrant.
-		if (dir.getX() < 0) {
+		if (dir.getX() <= 0) {
 			rotation += 180;
 		}
 	}
@@ -78,33 +92,35 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		tick++;
 
-		if (hasNewGoal) {
-			events.add(new EventEntityGoalChanged(this));
-			updateRotation();
-			hasNewGoal = false;
-		}
-
-		if (goals.size() > 0) {
-			// Move!
-			float maxDistance = 0.001f * getSpeed() * timeDelta;
+		float remainingDistance = 0.001f * getSpeed() * timeDelta;
+		while (!goals.isEmpty() && remainingDistance > 0) {
 			Vector3f moveDelta = getNextGoal().subtracted(getPosition());
+			float moveDistance = moveDelta.getValue();
 
-			if (moveDelta.getValue() > maxDistance) {
+			if (moveDistance > remainingDistance) {
 				// goal is too far away to reach in this tick.
 				// limit the travelled distance to maximum distance
-				moveDelta.setValue(maxDistance);
+				moveDelta.setValue(remainingDistance);
+				remainingDistance = 0;
 			} else {
 				// goal is reached with this tick
 				goals.remove(0);
-				updateRotation();
-				events.add(new EventEntityGoalChanged(this));
+				remainingDistance -= moveDistance;
+				hasNewGoal = true;
 			}
 
 			teleportRelative(moveDelta);
 			moved = true;
 		}
 
-		if (moved && tick % 5 == 0) {
+		if (hasNewGoal) {
+			updateRotation();
+			events.add(new EventEntityGoalChanged(this));
+			moved = true;
+			hasNewGoal = false;
+		}
+
+		if (moved) {
 			events.add(new EventEntityMoved(this));
 			moved = false;
 		}

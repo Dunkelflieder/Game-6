@@ -173,7 +173,7 @@ public class Controller {
 				} else if (packet instanceof PacketEntityGoalChanged) {
 
 					PacketEntityGoalChanged packetEntity = (PacketEntityGoalChanged) packet;
-					((CoreEntity) world.getEntityList().getEntity(packetEntity.id)).move(packetEntity.goal);
+					((CoreEntity) world.getEntityList().getEntity(packetEntity.id)).setGoal(packetEntity.goal);
 
 				}
 			}

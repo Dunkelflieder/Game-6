@@ -1,19 +1,25 @@
 package game6.core.world;
 
 public enum Tile {
-	MARS((byte) 1, "mars.png"),
-	ICE((byte) 2, "ice.png");
+	MARS((byte) 1, 1, "mars.png"),
+	ICE((byte) 2, 1, "ice.png");
 
 	private byte id;
+	private float cost;
 	private String tex;
 
-	Tile(byte id, String tex) {
+	Tile(byte id, float cost, String tex) {
 		this.id = id;
+		this.cost = cost;
 		this.tex = tex;
 	}
 
 	public byte getID() {
 		return id;
+	}
+	
+	public float getCost() {
+		return cost;
 	}
 	
 	public String getTex() {

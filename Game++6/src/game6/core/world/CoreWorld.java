@@ -1,6 +1,7 @@
 package game6.core.world;
 
 import game6.core.buildings.CoreBuilding;
+import game6.core.entities.CoreEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,11 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 
 	public void setMap(Map map) {
 		this.map = map;
+	}
+
+	public void spawnEntity(CoreEntity entity, Vector3f position) {
+		entity.setMap(getMap());
+		super.spawnEntity(entity, position);
 	}
 
 	public void addBuilding(int posX, int posY, CoreBuilding building) {

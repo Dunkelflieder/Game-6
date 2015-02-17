@@ -34,7 +34,7 @@ public enum EntityType {
 		try {
 			return clientClass.getConstructor(long.class).newInstance(id);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			System.err.println("Could not instanciate client building.");
+			System.err.println("Could not instanciate client entity.");
 			e.printStackTrace();
 		}
 		return null;
@@ -48,7 +48,7 @@ public enum EntityType {
 		try {
 			return serverClass.getConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			System.err.println("Could not instanciate server building.");
+			System.err.println("Could not instanciate server entity.");
 			e.printStackTrace();
 		}
 		return null;
