@@ -7,7 +7,6 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 
 	public EntityHelicopter1() {
 		super(getNextID(), new Vector3f());
-		move(new Vector3f(1, getPosition().getY(), 1));
 	}
 
 	@Override

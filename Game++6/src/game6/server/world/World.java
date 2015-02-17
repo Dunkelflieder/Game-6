@@ -51,6 +51,7 @@ public class World extends CoreWorld {
 						pse.position.setY(entity.isFlying() ? 3 : 0);
 						spawnEntity(entity, pse.position);
 						broadcast(new PacketSpawnEntity(pse.entity, player.getFaction(), entity.getID(), entity.getPosition()));
+						entity.move(new Vector3f(1, entity.getPosition().getY(), 1));
 					}
 				}
 			}
@@ -58,7 +59,7 @@ public class World extends CoreWorld {
 
 		return super.update(timeDelta);
 	}
-	
+
 	public boolean canAddEntity(Vector3f position, CoreEntity entity) {
 		return position.getX() >= 0 && position.getY() >= 0 && position.getX() < getMap().getSizeX() && position.getY() < getMap().getSizeY();
 	}

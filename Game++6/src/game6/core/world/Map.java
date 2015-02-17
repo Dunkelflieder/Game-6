@@ -1,5 +1,7 @@
 package game6.core.world;
 
+import game6.core.ai.pathfinding.Pathfinder;
+import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.buildings.CoreBuilding;
 
 import java.util.*;
@@ -10,10 +12,12 @@ public class Map {
 
 	private Tile[][] tiles;
 	private CoreBuilding[][] buildingMap;
+	private Pathfinder pathfinder;
 
 	public Map(Tile[][] tiles) {
 		this.tiles = tiles;
 		this.buildingMap = new CoreBuilding[getSizeX()][getSizeY()];
+		this.pathfinder = new Pathfinder(this);
 	}
 
 	public boolean canAddBuilding(int posX, int posY, CoreBuilding building) {
@@ -26,15 +30,16 @@ public class Map {
 		}
 		return true;
 	}
-	
+
 	public void addBuilding(CoreBuilding building) {
 		for (int x = building.getPosX(); x < building.getPosX() + building.getSizeX(); x++) {
 			for (int y = building.getPosY(); y < building.getPosY() + building.getSizeY(); y++) {
 				buildingMap[x][y] = building;
 			}
 		}
+		pathfinder.update(this, building.getPosX(), building.getPosY(), building.getPosX() + building.getSizeX(), building.getPosY() + building.getSizeY());
 	}
-	
+
 	public CoreBuilding getBuildingAt(int x, int y) {
 		if (x < 0 || y < 0 || x >= getSizeX() || y >= getSizeY()) {
 			return null;
@@ -53,7 +58,7 @@ public class Map {
 				}
 			}
 		}
-		
+
 		List<CoreBuilding> buildingList = (new ArrayList<CoreBuilding>());
 		buildingList.addAll(closeBuildings);
 		return buildingList;
@@ -92,6 +97,14 @@ public class Map {
 		dir.multiply(-start.getY() / dir.getY());
 		Vector3f intersect = start.added(dir);
 		return new Vector2f(intersect.getX(), intersect.getZ());
+	}
+
+	public List<Position> getPath(int fromX, int fromY, int toX, int toY) {
+		return pathfinder.getPath(fromX, fromY, toX, toY);
+	}
+	
+	public List<Position> getPath(float fromX, float fromY, float toX, float toY) {
+		return pathfinder.getPath((int) Math.floor(fromX), (int) Math.floor(fromY), (int) Math.floor(toX), (int) Math.floor(toY));
 	}
 
 }
