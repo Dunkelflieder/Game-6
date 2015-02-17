@@ -27,8 +27,7 @@ class Node {
 			int diffY = Math.abs(goalY - posY);
 			float pointerCost = (pointer == null) ? 0 : pointer.getTotalCost(goalX, goalY);
 			// recursion base ~distance cost path varying sqrt(2)
-			float guess = (float) Math.sqrt(diffX * diffX + diffY * diffY);
-			costCalc = pointerCost + guess + cost * (isDiagonal() ? 1.41421356f : 1);
+			costCalc = pointerCost + (diffX + diffY + cost) * (isDiagonal() ? 1.41421356f : 1);
 		}
 		return costCalc;
 	}

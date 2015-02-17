@@ -58,9 +58,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		if (to != null) {
 			if (isFlying()) {
 				// Just add the goal
-				goals.add(to);
+				goals.add(to.added(new Vector3f(0.5f, 0f, 0.5f)));
 			} else {
-				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), to.getX(), to.getY());
+				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), to.getX(), to.getZ());
 				if (path == null) {
 					System.err.println("NO PATH FOUND!");
 				} else {
@@ -86,12 +86,30 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			rotation += 180;
 		}
 	}
+	
+	public void advanceOneGoal() {
+		goals.remove(0);
+		hasNewGoal = true;
+		// test, if path got blocked
+		int depth = 5;
+		for (int i = 0; i < Math.min(goals.size(), depth); i++) {
+			Vector3f pos = goals.get(i);
+			if (getMap().getBuildingAt((int) Math.floor(pos.getX()), (int) Math.floor(pos.getZ())) != null) {
+				// path is blocked! recalculate new one
+				Vector3f last = goals.get(goals.size()-1);
+				move(last);
+			}
+		}
+	}
 
 	@Override
 	public void update(float timeDelta, List<UpdateEvent> events) {
 
 		tick++;
 
+		// check if path got invalid somewhen
+		
+		
 		float remainingDistance = getSpeed() * timeDelta;
 		while (!goals.isEmpty() && remainingDistance > 0) {
 			Vector3f moveDelta = getNextGoal().subtracted(getPosition());
@@ -104,9 +122,8 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 				remainingDistance = 0;
 			} else {
 				// goal is reached with this tick
-				goals.remove(0);
+				advanceOneGoal();
 				remainingDistance -= moveDistance;
-				hasNewGoal = true;
 			}
 
 			teleportRelative(moveDelta);
