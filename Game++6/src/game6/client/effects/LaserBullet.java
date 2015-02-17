@@ -23,12 +23,12 @@ public class LaserBullet extends Effect {
 		this.end = end;
 		position = start.clone();
 		direction = end.subtracted(start);
-		speed = 150f;
+		speed = 50f;
 
 		MAX_LIFETIME = direction.getValue() / speed;
 		lifeTime = MAX_LIFETIME;
 
-		direction.setValue(5.0f);
+		direction.setValue(2.0f);
 		moveStep = direction.clone().setValue(speed);
 
 		color = new Color(0.1f, 0.1f, 1.0f, 1.0f);

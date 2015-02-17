@@ -23,9 +23,9 @@ public class EffectContainer {
 	private float runtime = 0;
 	public void update(float timeDelta) {
 		runtime += timeDelta;
-		if (runtime > 0.1) {
+		if (runtime > 0.3) {
 			runtime = 0;
-			addEffect(new LaserBullet(new Vector3f(0.0f, 2.0f, 0.0f), new Vector3f((float)Math.random()*500f, 2.0f, (float)Math.random()*20f)));
+			addEffect(new LaserBullet(new Vector3f(0.0f, 1.0f, 0.0f), new Vector3f((float)Math.random()*500f, 1.0f, (float)Math.random()*20f)));
 		}
 		for (Effect effect : effects) {
 			effect.update(timeDelta);

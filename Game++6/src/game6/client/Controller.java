@@ -93,7 +93,8 @@ public class Controller {
 		camera.setY(15f);
 		camera.setX(15f);
 		camera.setZ(15f);
-		camera.setPitch(60);
+		//camera.setPitch(60f / (float) (180f * Math.PI));
+		camera.setPitch(1);
 		camera.setYaw(0f);
 	}
 
