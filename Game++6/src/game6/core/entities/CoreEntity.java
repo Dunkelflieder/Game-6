@@ -20,7 +20,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	protected int tick;
 	private float rotation;
 	private float visibleRotation;
-	private static final float rotationSpeed = 3;
+	private static final float rotationSpeed = 6;
 
 	private Map map;
 	private Faction faction;
@@ -155,9 +155,18 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			hasNewGoal = true;
 			moved = false;
 		}
-
-		float delta = (MathHelper.clamp(rotation - visibleRotation, -rotationSpeed * timeDelta, rotationSpeed * timeDelta));
-		visibleRotation += delta;
+		// determine the delta this entity needs to turn.
+		float turngoal = rotation - visibleRotation;
+		// fix, if turning > 180°. Reverse the direction 
+		if (turngoal > Math.PI) {
+			turngoal -= 2 * Math.PI;
+		}
+		// fix, if turning < -180°. Reverse the direction
+		if (turngoal < -Math.PI) {
+			turngoal += 2 * Math.PI;
+		}
+		float delta = MathHelper.clamp(turngoal, -rotationSpeed * timeDelta, rotationSpeed * timeDelta);
+		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
 	}
 
 	protected float getVisibleRotation() {
