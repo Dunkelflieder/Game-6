@@ -28,7 +28,7 @@ class ALBufferBank {
 		// create OpenAL context, if not already done
 		SoundManager.createAL();
 
-		File file = new File("res/sound/" + filename);
+		File file = new File(filename);
 
 		int id = ALHelper.genBuffer();
 
