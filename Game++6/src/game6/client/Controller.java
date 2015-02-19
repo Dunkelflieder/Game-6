@@ -2,6 +2,7 @@ package game6.client;
 
 import game6.client.effects.EffectContainer;
 import game6.client.effects.Lightning;
+import game6.client.sound.SoundContext;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
@@ -29,6 +30,11 @@ public class Controller {
 	private Connection connection;
 	private EffectContainer effects;
 
+	// TODO public for now. change later
+	public SoundContext soundMain;
+	public SoundContext soundMusic;
+	public SoundContext soundEffects;
+	
 	private World world;
 	private Camera camera;
 	private Faction faction;
@@ -96,6 +102,10 @@ public class Controller {
 		//camera.setPitch(60f / (float) (180f * Math.PI));
 		camera.setPitch(1);
 		camera.setYaw(0f);
+		
+		soundMain = new SoundContext();
+		soundMusic = soundMain.createSubContext();
+		soundEffects = soundMain.createSubContext();
 	}
 
 	// TODO debug method

@@ -1,12 +1,14 @@
 package game6.client;
 
+import game6.client.effects.EffectContainer;
+import game6.client.gui.Guis;
+import game6.client.sound.SoundManager;
+import game6.client.world.World;
+import game6.core.networking.PacketList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
-import game6.client.effects.EffectContainer;
-import game6.client.gui.Guis;
-import game6.client.world.World;
-import game6.core.networking.PacketList;
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.*;
 
@@ -21,14 +23,31 @@ public class Game extends BaseGame {
 
 	private EffectContainer effectContainer;
 	private Compositer compositer;
-
+	
 	@Override
 	public void startup() {
-		Camera camera = new Camera();
+		PacketList.init();
+		Keyboard.enableRepeatEvents(true);
+
 		compositer = new Compositer();
 
-		PacketList.init();
-		
+		Camera camera = new Camera();
+		initProperties(camera);
+		world = new World();
+		controller = new Controller(world, camera, effectContainer);
+
+		Guis.init(display, controller);
+		// Trigger gui resize event once at startup
+		Guis.resize(Display.getWidth(), Display.getHeight());
+		// Trigger gui resize on display resize
+		display.addDisplayResizeListener((width, height) -> {
+			Guis.resize(width, height);
+		});
+
+		setTargetFPS(60);
+	}
+
+	private void initProperties(Camera camera) {
 		worldProperties = new ScreenProperties(90, false);
 		worldProperties.setScreenDimension(1280, 720);
 		worldProperties.setCamera(camera);
@@ -53,22 +72,6 @@ public class Game extends BaseGame {
 		compositionProperties = new ScreenProperties(0, true);
 		compositionProperties.setDepthTest(false);
 		compositionProperties.setScreenDimension(1280, 720);
-
-		Keyboard.enableRepeatEvents(true);
-
-		world = new World(null);
-
-		controller = new Controller(world, camera, effectContainer);
-
-		Guis.init(display, controller);
-		Guis.resize(Display.getWidth(), Display.getHeight());
-		display.addDisplayResizeListener((width, height) -> {
-			Guis.resize(width, height);
-		});
-
-		display.setScreenProperties(worldProperties, true);
-		setTargetFPS(60);
-
 	}
 
 	@Override
@@ -77,6 +80,7 @@ public class Game extends BaseGame {
 		world.update(timeDelta);
 		effectContainer.update(timeDelta);
 		Guis.update();
+		SoundManager.update();
 	}
 
 	@Override
@@ -96,6 +100,7 @@ public class Game extends BaseGame {
 	@Override
 	protected void cleanup() {
 		controller.cleanup();
+		SoundManager.shutdown();
 	}
 
 }

@@ -20,8 +20,8 @@ public class World extends CoreWorld {
 	private RenderProperties3f renderProperties;
 	private Shader worldShader;
 
-	public World(Map map) {
-		super(map);
+	public World() {
+		super(null);
 		renderProperties = new RenderProperties3f();
 		worldShader = new Shader("shaders/world.vert", "shaders/world.frag");
 	}
