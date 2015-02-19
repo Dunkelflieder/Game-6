@@ -49,7 +49,7 @@ public class Pathfinder {
 				if (map.getBuildingAt(x, y) != null) {
 					cost = -1;
 				}
-				nodes[x + y * sizeX] = new Node(cost, null, x, y);
+				nodes[x + y * sizeX] = new Node(cost, x, y);
 			}
 		}
 	}
@@ -61,23 +61,12 @@ public class Pathfinder {
 		return nodes[posX + sizeX * posY];
 	}
 
-	public void reset() {
-		for (int i = 0; i < nodes.length; i++) {
-			nodes[i].setState(Node.STATE_INIT);
-			nodes[i].setPointer(null);
-			nodes[i].setDiagonal(false);
-		}
-	}
-
 	public List<Position> getPath(int fromX, int fromY, int goalX, int goalY) {
 
-		reset();
-
 		ArrayList<Node> openList = new ArrayList<Node>();
+		ArrayList<Node> closedList = new ArrayList<Node>();
 
 		Node current = getNodeAt(fromX, fromY);
-		current.setState(Node.STATE_OPEN);
-		openList.add(current);
 
 		// check if start and goal are valid
 		Node to = getNodeAt(goalX, goalY);
@@ -88,18 +77,29 @@ public class Pathfinder {
 			return null;
 		}
 
+		current.setState(Node.STATE_OPEN);
+		openList.add(current);
+
 		// try finding a path, but abort if it's too expensive (thats the limit for)
 		for (int i = 0; i < maxDepth; i++) {
 			// no path possible
-			if (openList.size() == 0)
+			if (openList.size() == 0) {
 				return null;
+			}
 
 			// cheapest open node is always at 0
 			current = openList.get(0);
 
 			// goal reached
 			if (current.posX == goalX && current.posY == goalY) {
-				return nodeToArraylist(current);
+				ArrayList<Position> path = nodeToArraylist(current);
+				for (Node node : closedList) {
+					node.reset();
+				}
+				for (Node node : openList) {
+					node.reset();
+				}
+				return path;
 			}
 
 			Position[] newPos = new Position[8];
@@ -126,7 +126,7 @@ public class Pathfinder {
 						// example: j = 7: left-up
 						// j-4 = 3 => left
 						// j-3 = 4 => Out of Bounds => j==7: 0 => up
-						//continue;
+						// continue;
 					}
 				}
 
@@ -154,6 +154,7 @@ public class Pathfinder {
 			// remove processed node from open list and add to pseudo closed list
 			current.setState(Node.STATE_CLOSED);
 			openList.remove(0);
+			closedList.add(current);
 
 		}
 

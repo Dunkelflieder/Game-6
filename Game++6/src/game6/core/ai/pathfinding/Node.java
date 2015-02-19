@@ -14,11 +14,17 @@ class Node {
 	public static byte STATE_OPEN = 1;
 	public static byte STATE_CLOSED = 2;
 
-	public Node(float cost, Node pointer, int posX, int posY) {
+	public Node(float cost, int posX, int posY) {
 		this.cost = cost;
-		this.pointer = pointer;
 		this.posX = posX;
 		this.posY = posY;
+		reset();
+	}
+	
+	public void reset() {
+		pointer = null;
+		state = STATE_INIT;
+		diagonal = false;
 	}
 
 	public float getTotalCost(int goalX, int goalY) {
