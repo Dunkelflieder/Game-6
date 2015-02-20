@@ -10,6 +10,7 @@ public class Compositer {
 	public RenderTarget renderTargetEffects;
 	public RenderTarget renderTargetEffectsMask;
 	public RenderTarget renderTargetGui;
+	public RenderTarget renderTargetLights;
 
 	private Shader compositionShader;
 	private Shader effectMaskShader;
@@ -35,7 +36,7 @@ public class Compositer {
 			effectMaskShader.reCompile();
 		}
 
-		//mask
+		//effects mask
 		display.setScreenProperties(effectMaskProperties, true);
 		effectMaskShader.activate();
 
@@ -55,12 +56,21 @@ public class Compositer {
 		compositionShader.activate();
 
 		renderTargetWorld.getTexture("color").bind(0);
-		renderTargetEffectsMask.getTexture("color").bind(1);
-		renderTargetGui.getTexture("color").bind(2);
+		renderTargetWorld.getTexture("normal").bind(1);
+		renderTargetWorld.getTexture("position").bind(2);
+		renderTargetWorld.getTexture("ambient").bind(3);
+		renderTargetLights.getTexture("light").bind(4);
+		renderTargetEffectsMask.getTexture("color").bind(5);
+		renderTargetGui.getTexture("color").bind(6);
 
-		compositionShader.setUniform1i("worldTexture", 0);
-		compositionShader.setUniform1i("effectsTexture", 1);
-		compositionShader.setUniform1i("guiTexture", 2);
+		compositionShader.setUniform1i("tex_worldColor", 0);
+		compositionShader.setUniform1i("tex_worldNormal", 1);
+		compositionShader.setUniform1i("tex_worldPosition", 2);
+		compositionShader.setUniform1i("tex_worldAmbient", 3);
+		compositionShader.setUniform1i("tex_worldLight", 4);
+		compositionShader.setUniform1i("tex_effectsColor", 5);
+		compositionShader.setUniform1i("tex_guiColor", 6);
+
 		compositionShader.setUniform2f("resolution", screenProperties.getRenderWidth(), screenProperties.getRenderHeight());
 
 		RenderHelper.renderFullscreenQuad(screenProperties);

@@ -35,8 +35,8 @@ public class BuildingFactory extends CoreBuildingFactory {
 		renderProperties.setXYZ(getPosX(), 0, getPosY());
 		if (shader != null) shader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
 
-		textureLight.bind(0);
-		textureColor.bind(1);
+		textureColor.bind(0);
+		textureLight.bind(1);
 		textureFaction.bind(2);
 		mesh.render(null);
 	}

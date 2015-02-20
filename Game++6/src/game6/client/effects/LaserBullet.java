@@ -35,6 +35,11 @@ public class LaserBullet extends Effect {
 	}
 
 	@Override
+	public void initLights(LightContainer lightContainer) {
+		addLight(new Light(color, position, 10.0f, 5.0f), lightContainer);
+	}
+
+	@Override
 	public void render(Shader shader) {
 		glLineWidth(1f);
 		setColor(shader, color);
@@ -52,11 +57,8 @@ public class LaserBullet extends Effect {
 	public void update(float timeDelta) {
 		lifeTime -= timeDelta;
 		position.add(moveStep.multiplied(timeDelta));
-	}
 
-	@Override
-	public boolean dead() {
-		return lifeTime < 0;
+		if (lifeTime < 0) kill();
 	}
 
 }

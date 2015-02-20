@@ -11,7 +11,7 @@ public enum Faction {
 	BLUE(1, new Color(0.2f, 0.3f, 1.0f, 1.0f)),
 	RED(2, new Color(1.0f, 0.2f, 0.1f, 1.0f)),
 	GREEN(3, new Color(0.1f, 1.0f, 0.3f, 1.0f)),
-	YELLOW(4, new Color(1.0f, 0.5f, 0.0f, 1.0f));
+	YELLOW(4, new Color(1.0f, 0.5f, 0.1f, 1.0f));
 
 	private int id;
 

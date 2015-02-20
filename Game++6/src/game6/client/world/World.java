@@ -93,6 +93,11 @@ public class World extends CoreWorld {
 	public void render(Shader shader) {
 		worldShader.activate();
 
+		//set texture positions
+		worldShader.setUniform1i("colorTex", 0);
+		worldShader.setUniform1i("ambientTex", 1);
+		worldShader.setUniform1i("factionTex", 2);
+
 		//TODO remove (debug)
 		if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
 			worldShader.reloadFiles();
@@ -120,9 +125,6 @@ public class World extends CoreWorld {
 			}
 
 			// render buildings
-			worldShader.setUniform1i("lightTex", 0);
-			worldShader.setUniform1i("colorTex", 1);
-			worldShader.setUniform1i("factionTex", 2);
 
 			// TODO highlight selectedBuilding somehow
 			for (CoreBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {

@@ -8,6 +8,8 @@ import de.nerogar.util.Vector3f;
 
 public class EffectContainer {
 
+	private LightContainer lightContainer;
+
 	private Shader shader;
 	private List<Effect> effects;
 
@@ -18,14 +20,16 @@ public class EffectContainer {
 
 	public void addEffect(Effect effect) {
 		effects.add(effect);
+		effect.initLights(lightContainer);
 	}
 
 	private float runtime = 0;
+
 	public void update(float timeDelta) {
 		runtime += timeDelta;
 		if (runtime > 0.3) {
 			runtime = 0;
-			addEffect(new LaserBullet(new Vector3f(0.0f, 1.0f, 0.0f), new Vector3f((float)Math.random()*500f, 1.0f, (float)Math.random()*20f)));
+			addEffect(new LaserBullet(new Vector3f(0.0f, 1.0f, 0.0f), new Vector3f((float) Math.random() * 500f, 1.0f, (float) Math.random() * 20f)));
 		}
 		for (Effect effect : effects) {
 			effect.update(timeDelta);
@@ -44,5 +48,9 @@ public class EffectContainer {
 		}
 
 		shader.deactivate();
+	}
+
+	public void setLightContainer(LightContainer lightContainer) {
+		this.lightContainer = lightContainer;
 	}
 }

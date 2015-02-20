@@ -23,6 +23,10 @@ public class LaserBeam extends Effect {
 	}
 
 	@Override
+	public void initLights(LightContainer lightContainer) {
+	}
+
+	@Override
 	public void render(Shader shader) {
 		glLineWidth(4f);
 		setColor(shader, color);
@@ -39,11 +43,8 @@ public class LaserBeam extends Effect {
 	@Override
 	public void update(float timeDelta) {
 		lifeTime -= timeDelta;
-	}
 
-	@Override
-	public boolean dead() {
-		return lifeTime < 0;
+		if (lifeTime < 0) kill();
 	}
 
 }

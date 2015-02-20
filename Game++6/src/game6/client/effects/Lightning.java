@@ -8,15 +8,21 @@ import de.nerogar.util.Vector3f;
 public class Lightning extends Effect {
 	protected float lifeTime;
 	protected final float MAX_LIFETIME;
+	protected final float MAX_BRIGHTNES;
 
-	//private Color color;
-
+	private Vector3f center;
 	private Vector3f[] positions;
 	private Vector3f[] smallExtensions;
 
+	private Color color;
+	private Light light;
+
 	public Lightning(Vector3f start, Vector3f end) {
-		MAX_LIFETIME = 0.15f;
+		MAX_BRIGHTNES = 3.0f;
+		MAX_LIFETIME = 0.1f;
 		lifeTime = MAX_LIFETIME;
+
+		center = start.added(end).multiply(0.5f);
 
 		Vector3f direction = end.subtracted(start);
 		int vertices = (int) direction.getValue();
@@ -42,11 +48,19 @@ public class Lightning extends Effect {
 
 		positions[0] = start;
 		positions[positions.length - 1] = end;
+
+		color = new Color(0.1f, 0.2f, 1.0f, lifeTime / MAX_LIFETIME);
+	}
+
+	@Override
+	public void initLights(LightContainer lightContainer) {
+		light = new Light(color, center, 10.0f, MAX_BRIGHTNES);
+		addLight(light, lightContainer);
 	}
 
 	@Override
 	public void render(Shader shader) {
-		setColor(shader, new Color(0.1f, 0.2f, 1.0f, lifeTime / MAX_LIFETIME));
+		setColor(shader, new Color(color.getR(), color.getG(), color.getB(), lifeTime / MAX_LIFETIME));
 
 		glBegin(GL_LINES);
 
@@ -66,11 +80,10 @@ public class Lightning extends Effect {
 	@Override
 	public void update(float timeDelta) {
 		lifeTime -= timeDelta;
-	}
 
-	@Override
-	public boolean dead() {
-		return lifeTime < 0;
+		light.intensity = MAX_BRIGHTNES * (lifeTime / MAX_LIFETIME);
+
+		if (lifeTime < 0) kill();
 	}
 
 }

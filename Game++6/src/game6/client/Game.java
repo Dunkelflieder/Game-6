@@ -1,6 +1,7 @@
 package game6.client;
 
 import game6.client.effects.EffectContainer;
+import game6.client.effects.LightContainer;
 import game6.client.gui.Guis;
 import game6.client.sound.SoundManager;
 import game6.client.world.World;
@@ -11,6 +12,8 @@ import org.lwjgl.opengl.Display;
 
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.*;
+import de.nerogar.render.Texture2D.DataType;
+import de.nerogar.render.Texture2D.InterpolationType;
 
 public class Game extends BaseGame {
 
@@ -18,12 +21,14 @@ public class Game extends BaseGame {
 	private World world;
 	private ScreenProperties worldProperties;
 	private ScreenProperties effectProperties;
+	private ScreenProperties lightProperties;
 	private ScreenProperties guiProperties;
 	private ScreenProperties compositionProperties;
 
 	private EffectContainer effectContainer;
+	private LightContainer lightContainer;
 	private Compositer compositer;
-	
+
 	@Override
 	public void startup() {
 		PacketList.init();
@@ -51,10 +56,25 @@ public class Game extends BaseGame {
 		worldProperties = new ScreenProperties(90, false);
 		worldProperties.setScreenDimension(1280, 720);
 		worldProperties.setCamera(camera);
-		compositer.renderTargetWorld = new RenderTarget(true, new Texture2D("color", 0, 0));
+		compositer.renderTargetWorld = new RenderTarget(true,
+				new Texture2D("color", 0, 0, null, InterpolationType.NEAREST, DataType.BGRA_8_8_8_8I),
+				new Texture2D("normal", 0, 0, null, InterpolationType.NEAREST, DataType.BGRA_32_32_32_32F),
+				new Texture2D("position", 0, 0, null, InterpolationType.NEAREST, DataType.BGRA_32_32_32_32F),
+				new Texture2D("ambient", 0, 0, null, InterpolationType.NEAREST, DataType.BGRA_8_8_8_8I));
 		worldProperties.setRenderTarget(compositer.renderTargetWorld);
 
+		lightContainer = new LightContainer();
+		lightProperties = new ScreenProperties(90, false);
+		lightProperties.setScreenDimension(1280, 720);
+		lightProperties.setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		lightProperties.setCamera(camera);
+		lightProperties.setDepthTest(false);
+		compositer.renderTargetLights = new RenderTarget(false, new Texture2D("light", 0, 0, null, InterpolationType.NEAREST, DataType.BGRA_32_32_32_32F));
+		lightContainer.setWorldRenderTarget(compositer.renderTargetWorld);
+		lightProperties.setRenderTarget(compositer.renderTargetLights);
+
 		effectContainer = new EffectContainer();
+		effectContainer.setLightContainer(lightContainer);
 		effectProperties = new ScreenProperties(90, false);
 		effectProperties.setScreenDimension(1280, 720);
 		effectProperties.setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -79,6 +99,7 @@ public class Game extends BaseGame {
 		controller.update(timeDelta);
 		world.update(timeDelta);
 		effectContainer.update(timeDelta);
+		lightContainer.update(timeDelta);
 		Guis.update();
 		SoundManager.update();
 	}
@@ -87,6 +108,9 @@ public class Game extends BaseGame {
 	protected void render() {
 		display.setScreenProperties(worldProperties, true);
 		world.render(null);
+
+		display.setScreenProperties(lightProperties, true);
+		lightContainer.render(lightProperties);
 
 		display.setScreenProperties(effectProperties, true);
 		effectContainer.render();
