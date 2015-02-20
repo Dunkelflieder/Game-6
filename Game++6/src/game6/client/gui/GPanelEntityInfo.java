@@ -2,7 +2,7 @@ package game6.client.gui;
 
 import game6.client.Controller;
 import game6.client.gui.components.*;
-import game6.core.buildings.CoreBuilding;
+import game6.core.entities.CoreEntity;
 
 import java.awt.Color;
 
@@ -12,14 +12,13 @@ import java.awt.Color;
  * @author Felk
  *
  */
-public class GPanelBuildingInfo extends GPanel {
+public class GPanelEntityInfo extends GPanel {
 
 	private Controller controller;
 	private GColorfield background;
 	private GLabel title;
-	private GLabel energy;
 
-	public GPanelBuildingInfo(Controller controller) {
+	public GPanelEntityInfo(Controller controller) {
 
 		this.controller = controller;
 
@@ -30,31 +29,26 @@ public class GPanelBuildingInfo extends GPanel {
 		title = new GLabel();
 		title.setAlignment(Font.CENTER);
 
-		energy = new GLabel("Energie: ");
-
 		add(background);
 		add(title);
-		add(energy);
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		CoreBuilding selectedBuilding = controller.getWorld().getSelectedBuilding();
-		if (selectedBuilding != null) {
-			if (selectedBuilding.getFaction() == controller.getFaction()) {
-				title.setText(selectedBuilding.getName() + " #" + selectedBuilding.getID());
-				energy.setText("Energie: " + selectedBuilding.getEnergy() + " / " + selectedBuilding.getMaxEnergy());
+		CoreEntity selectedEntity = controller.getWorld().getSelectedEntity();
+		if (selectedEntity != null) {
+			if (selectedEntity.getFaction() == controller.getFaction()) {
+				title.setText(selectedEntity.getName() + " #" + selectedEntity.getID());
 			} else {
-				title.setText(selectedBuilding.getName() + " von " + selectedBuilding.getFaction());
-				energy.setText("");
+				title.setText("Fremde Einheit");
 			}
 		}
 	}
 
 	@Override
 	public void render() {
-		if (controller.getWorld().getSelectedBuilding() != null) {
+		if (controller.getWorld().getSelectedEntity() != null) {
 			super.render();
 		}
 	}
@@ -65,8 +59,5 @@ public class GPanelBuildingInfo extends GPanel {
 	public void resize() {
 		title.setSize(getSizeX(), 40);
 		title.setPos(0, getSizeY() - 50);
-
-		energy.setSize(0, 40);
-		energy.setPos(20, getSizeY() - 100);
 	}
 }

@@ -55,6 +55,11 @@ public class World extends CoreWorld {
 						broadcast(new PacketSpawnEntity(pse.entity, player.getFaction(), entity.getID(), entity.getPosition()));
 						entity.move(new Vector3f(1, entity.getPosition().getY(), 1));
 					}
+				} else if (packet instanceof PacketEntityGoalChanged) {
+					PacketEntityGoalChanged pegc = (PacketEntityGoalChanged) packet;
+					CoreEntity entity = (CoreEntity) getEntityList().getEntity(pegc.id);
+					// TODO check if movement is valid
+					entity.move(pegc.goal);
 				}
 			}
 		}

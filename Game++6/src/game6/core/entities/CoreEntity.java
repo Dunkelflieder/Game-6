@@ -66,11 +66,13 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			} else {
 				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), to.getX(), to.getZ());
 				if (path == null) {
-					System.err.println("NO PATH FOUND!");
+					System.err.println("NO PATH FOUND to: " + to + ", from: " + getPosition());
 				} else {
 					for (Position node : path) {
 						goals.add(new Vector3f(node.x + 0.5f, 0, node.y + 0.5f));
 					}
+					goals.remove(goals.size() - 1);
+					goals.add(to);
 				}
 			}
 		}
@@ -157,7 +159,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		}
 		// determine the delta this entity needs to turn.
 		float turngoal = rotation - visibleRotation;
-		// fix, if turning > 180°. Reverse the direction 
+		// fix, if turning > 180°. Reverse the direction
 		if (turngoal > Math.PI) {
 			turngoal -= 2 * Math.PI;
 		}
@@ -219,5 +221,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
 	}
+
+	public abstract String getName();
 
 }

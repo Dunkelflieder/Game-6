@@ -122,6 +122,13 @@ public class Controller {
 		}
 	}
 
+	// TODO debug method
+	public void moveEntity(CoreEntity entity, Vector3f position) {
+		if (isConnected()) {
+			connection.send(new PacketEntityGoalChanged(entity, position));
+		}
+	}
+	
 	public void update(float timeDelta) {
 
 		// TODO debug/testing code

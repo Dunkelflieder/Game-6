@@ -16,8 +16,12 @@ public class PacketEntityGoalChanged extends Packet {
 	}
 
 	public PacketEntityGoalChanged(CoreEntity entity) {
+		this(entity, entity.getNextGoal());
+	}
+
+	public PacketEntityGoalChanged(CoreEntity entity, Vector3f goal) {
 		this.id = entity.getID();
-		this.goal = entity.getNextGoal();
+		this.goal = goal;
 	}
 
 	@Override

@@ -9,4 +9,8 @@ public abstract class CoreEntityTank1 extends CoreEntity {
 		super(id, new BoundingAABB<Vector3f>(new Vector3f(-0.3f, 0f, -0.3f), new Vector3f(0.3f, 0.3f, 0.3f)), position, 2, false);
 	}
 
+	public String getName() {
+		return "Tank";
+	}
+
 }

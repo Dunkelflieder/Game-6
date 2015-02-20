@@ -1,13 +1,15 @@
 package game6.client.world;
 
 import game6.core.buildings.CoreBuilding;
+import game6.core.entities.CoreEntity;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import de.nerogar.render.*;
+import de.nerogar.render.RenderProperties3f;
+import de.nerogar.render.Shader;
 import de.nerogar.util.Color;
 
 public class World extends CoreWorld {
@@ -19,13 +21,34 @@ public class World extends CoreWorld {
 	private int renderCenterX, renderCenterY;
 	private RenderProperties3f renderProperties;
 	private Shader worldShader;
+	
+	private CoreBuilding selectedBuilding;
+	private CoreEntity selectedEntity;
 
 	public World() {
 		super(null);
 		renderProperties = new RenderProperties3f();
 		worldShader = new Shader("shaders/world.vert", "shaders/world.frag");
 	}
+	
+	public CoreBuilding getSelectedBuilding() {
+		return selectedBuilding;
+	}
+	
+	public void selectBuilding(CoreBuilding building) {
+		selectedBuilding = building;
+		selectedEntity = null;
+	}
 
+	public CoreEntity getSelectedEntity() {
+		return selectedEntity;
+	}
+	
+	public void selectEntity(CoreEntity entity) {
+		selectedEntity = entity;
+		selectedBuilding = null;
+	}
+	
 	@Override
 	public void addBuilding(int posX, int posY, CoreBuilding building) {
 		super.addBuilding(posX, posY, building);
@@ -101,6 +124,7 @@ public class World extends CoreWorld {
 			worldShader.setUniform1i("colorTex", 1);
 			worldShader.setUniform1i("factionTex", 2);
 
+			// TODO highlight selectedBuilding somehow
 			for (CoreBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {
 				Color factionColor = new Color(0);
 				if (building.getFaction() != null) {
@@ -111,6 +135,8 @@ public class World extends CoreWorld {
 			}
 
 		}
+		
+		// TODO highlight selectedEntity somehow
 
 		super.render(worldShader);
 

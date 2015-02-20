@@ -9,4 +9,8 @@ public abstract class CoreEntityHelicopter1 extends CoreEntity {
 		super(id, new BoundingAABB<Vector3f>(new Vector3f(-0.3f, 0f, -0.3f), new Vector3f(0.3f, 0.3f, 0.3f)), position, 5, true);
 	}
 
+	public String getName() {
+		return "Helicopter";
+	}
+
 }

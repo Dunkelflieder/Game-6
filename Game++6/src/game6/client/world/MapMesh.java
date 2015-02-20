@@ -3,7 +3,6 @@ package game6.client.world;
 import org.lwjgl.opengl.GL11;
 
 import game6.core.world.Map;
-import de.nerogar.render.*;
 
 public class MapMesh {
 

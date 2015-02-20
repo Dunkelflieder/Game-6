@@ -7,6 +7,7 @@ import game6.client.gui.listener.MouseAdapter;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
+import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 
 import org.lwjgl.input.Keyboard;
@@ -26,8 +27,11 @@ public class GuiIngame extends Gui {
 	private GButton buttonBuilding;
 	private GButton buttonEntity;
 
+	private GPanelEntityInfo entityPanel;
 	private GPanelBuildingInfo buildingPanel;
 	private GPanelBuildingSelection selectionPanel;
+
+	private Vector2f mapPosition;
 
 	@Override
 	public void initComponents() {
@@ -43,12 +47,14 @@ public class GuiIngame extends Gui {
 		buttonEntity.addClickedListener(source -> {
 			for (int i = 0; i < 100; i++) {
 				controller.requestEntity(EntityType.getRandom(), new Vector3f((int) (200 * Math.random()), 0, (int) (200 * Math.random())));
-			// controller.requestEntity(EntityType.getRandom(), new Vector3f((float) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), 1, (float) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2))));
+				// controller.requestEntity(EntityType.getRandom(), new Vector3f((float) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), 1, (float) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2))));
 			}
-			});
+		});
 
 		// Panel, that represents the Info-Panel for a selected building. Very basic and generic for all buildings for now
 		buildingPanel = new GPanelBuildingInfo(controller);
+
+		entityPanel = new GPanelEntityInfo(controller);
 
 		// Add manager for camera movement
 		CameraMovementManager camManager = new CameraMovementManager(controller.getCamera());
@@ -86,12 +92,13 @@ public class GuiIngame extends Gui {
 							if (mapIntersection != null) {
 								// If there is a building, select it
 								CoreBuilding building = controller.getWorld().getMap().getBuildingAt((int) mapIntersection.getX(), (int) mapIntersection.getY());
-								buildingPanel.setBuilding(building);
+								world.selectBuilding(building);
 							}
 
 						} else {
 
-							// TODO A unit was selected. Do stuff.
+							CoreEntity entity = (CoreEntity) intersection.intersectingBody;
+							world.selectEntity(entity);
 
 						}
 					}
@@ -99,16 +106,17 @@ public class GuiIngame extends Gui {
 				} else if (button == 1) {
 					// Rightclick deselects
 					selectionPanel.selectBuilding(null);
+
+					CoreEntity selectedEntity = controller.getWorld().getSelectedEntity();
+					if (selectedEntity != null) {
+						controller.moveEntity(selectedEntity, new Vector3f(mapPosition.getX(), selectedEntity.getPosition().getY(), mapPosition.getY()));
+					}
 				}
 				return false;
 			}
 
 			@Override
 			public boolean mouseMoved(GComponent source, int dx, int dy) {
-
-				if (selectionPanel.getBuilding() == null) {
-					return false;
-				}
 
 				World world = controller.getWorld();
 				if (!world.isLoaded()) {
@@ -119,11 +127,13 @@ public class GuiIngame extends Gui {
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
 				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
 
-				Vector2f intersect = world.getMap().getIntersection(mouseRay);
+				mapPosition = world.getMap().getIntersection(mouseRay);
 
-				if (intersect != null) {
-					selectionPanel.getPreview().setPosX(MathHelper.clamp((int) intersect.getX(), 0, world.getMap().getSizeX() - selectionPanel.getPreview().getSizeX()));
-					selectionPanel.getPreview().setPosY(MathHelper.clamp((int) intersect.getY(), 0, world.getMap().getSizeY() - selectionPanel.getPreview().getSizeY()));
+				if (selectionPanel.getBuilding() != null) {
+					if (mapPosition != null) {
+						selectionPanel.getPreview().setPosX(MathHelper.clamp((int) mapPosition.getX(), 0, world.getMap().getSizeX() - selectionPanel.getPreview().getSizeX()));
+						selectionPanel.getPreview().setPosY(MathHelper.clamp((int) mapPosition.getY(), 0, world.getMap().getSizeY() - selectionPanel.getPreview().getSizeY()));
+					}
 				}
 
 				return true;
@@ -145,6 +155,7 @@ public class GuiIngame extends Gui {
 		add(buttonBuilding);
 		add(buttonEntity);
 		add(buildingPanel);
+		add(entityPanel);
 	}
 
 	/**
@@ -203,6 +214,10 @@ public class GuiIngame extends Gui {
 		buildingPanel.setSize(300, 500);
 		buildingPanel.setPos(screenWidth - 300, 0);
 		buildingPanel.resize();
+
+		entityPanel.setSize(300, 500);
+		entityPanel.setPos(screenWidth - 300, 0);
+		entityPanel.resize();
 
 		selectionPanel.setSize(screenWidth, 128);
 		selectionPanel.setPos(310, 0);
