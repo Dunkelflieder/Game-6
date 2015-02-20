@@ -84,6 +84,7 @@ public class Pathfinder {
 		for (int i = 0; i < maxDepth; i++) {
 			// no path possible
 			if (openList.size() == 0) {
+				reset(openList, closedList);
 				return null;
 			}
 
@@ -93,12 +94,7 @@ public class Pathfinder {
 			// goal reached
 			if (current.posX == goalX && current.posY == goalY) {
 				ArrayList<Position> path = nodeToArraylist(current);
-				for (Node node : closedList) {
-					node.reset();
-				}
-				for (Node node : openList) {
-					node.reset();
-				}
+				reset(openList, closedList);
 				return path;
 			}
 
@@ -152,13 +148,23 @@ public class Pathfinder {
 			}
 
 			// remove processed node from open list and add to pseudo closed list
+			openList.remove(current);
 			current.setState(Node.STATE_CLOSED);
-			openList.remove(0);
 			closedList.add(current);
 
 		}
 
+		reset(openList, closedList);
 		return null;
+	}
+
+	private void reset(List<Node> openList, List<Node> closedList) {
+		for (Node node : closedList) {
+			node.reset();
+		}
+		for (Node node : openList) {
+			node.reset();
+		}
 	}
 
 	private static ArrayList<Position> nodeToArraylist(Node node) {
@@ -176,10 +182,11 @@ public class Pathfinder {
 		int ir = list.size();
 		int mid = 0;
 		while (il < ir) {
-			if (node.getTotalCost(goalX, goalY) < list.get(mid).getTotalCost(goalX, goalY))
+			if (node.getTotalCost(goalX, goalY) < list.get(mid).getTotalCost(goalX, goalY)) {
 				ir = mid;
-			else
+			} else {
 				il = mid + 1;
+			}
 			mid = (il + ir) / 2;
 		}
 		list.add(il, node);
