@@ -67,11 +67,16 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), to.getX(), to.getZ());
 				if (path == null) {
 					System.err.println("NO PATH FOUND to: " + to + ", from: " + getPosition());
+				} else if (path.size() == 0) {
+					System.err.println("EMPTY PATH FOUND!");
 				} else {
+					path.remove(0);
 					for (Position node : path) {
 						goals.add(new Vector3f(node.x + 0.5f, 0, node.y + 0.5f));
 					}
-					goals.remove(goals.size() - 1);
+					if (goals.size() > 0) {
+						goals.remove(goals.size() - 1);
+					}
 					goals.add(to);
 				}
 			}
