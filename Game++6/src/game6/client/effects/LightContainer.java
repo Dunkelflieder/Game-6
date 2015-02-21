@@ -1,16 +1,13 @@
 package game6.client.effects;
 
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11.glEnable;
-
-import java.util.*;
-
-import org.lwjgl.input.Keyboard;
 import static org.lwjgl.opengl.GL11.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+
 import de.nerogar.render.*;
-import de.nerogar.util.Color;
-import de.nerogar.util.Vector3f;
 
 public class LightContainer {
 
