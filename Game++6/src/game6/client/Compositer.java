@@ -53,27 +53,54 @@ public class Compositer {
 
 		//composition
 		display.setScreenProperties(screenProperties, true);
-		compositionShader.activate();
 
-		renderTargetWorld.getTexture("color").bind(0);
-		renderTargetWorld.getTexture("normal").bind(1);
-		renderTargetWorld.getTexture("position").bind(2);
-		renderTargetWorld.getTexture("ambient").bind(3);
-		renderTargetLights.getTexture("light").bind(4);
-		renderTargetEffectsMask.getTexture("color").bind(5);
-		renderTargetGui.getTexture("color").bind(6);
+		if (!Keyboard.isKeyDown(Keyboard.KEY_T)) {
 
-		compositionShader.setUniform1i("tex_worldColor", 0);
-		compositionShader.setUniform1i("tex_worldNormal", 1);
-		compositionShader.setUniform1i("tex_worldPosition", 2);
-		compositionShader.setUniform1i("tex_worldAmbient", 3);
-		compositionShader.setUniform1i("tex_worldLight", 4);
-		compositionShader.setUniform1i("tex_effectsColor", 5);
-		compositionShader.setUniform1i("tex_guiColor", 6);
+			compositionShader.activate();
 
-		compositionShader.setUniform2f("resolution", screenProperties.getRenderWidth(), screenProperties.getRenderHeight());
+			renderTargetWorld.getTexture("color").bind(0);
+			renderTargetWorld.getTexture("normal").bind(1);
+			renderTargetWorld.getTexture("position").bind(2);
+			renderTargetWorld.getTexture("ambient").bind(3);
+			renderTargetLights.getTexture("light").bind(4);
+			renderTargetEffectsMask.getTexture("color").bind(5);
+			renderTargetGui.getTexture("color").bind(6);
 
-		RenderHelper.renderFullscreenQuad(screenProperties);
-		compositionShader.deactivate();
+			compositionShader.setUniform1i("tex_worldColor", 0);
+			compositionShader.setUniform1i("tex_worldNormal", 1);
+			compositionShader.setUniform1i("tex_worldPosition", 2);
+			compositionShader.setUniform1i("tex_worldAmbient", 3);
+			compositionShader.setUniform1i("tex_worldLight", 4);
+			compositionShader.setUniform1i("tex_effectsColor", 5);
+			compositionShader.setUniform1i("tex_guiColor", 6);
+
+			compositionShader.setUniform2f("resolution", screenProperties.getRenderWidth(), screenProperties.getRenderHeight());
+
+			RenderHelper.renderFullscreenQuad(screenProperties);
+
+			compositionShader.deactivate();
+		} else {
+			renderTargetWorld.getTexture("color").bind();
+			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.0f);
+
+			renderTargetWorld.getTexture("normal").bind();
+			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.333f, 0.0f);
+
+			renderTargetWorld.getTexture("position").bind();
+			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.666f, 0.0f);
+
+			renderTargetWorld.getTexture("ambient").bind();
+			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.333f);
+			
+			renderTargetLights.getTexture("light").bind();
+			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.333f, 0.333f);
+			
+			renderTargetEffectsMask.getTexture("color").bind();
+			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.666f, 0.333f);
+			
+			renderTargetGui.getTexture("color").bind();
+			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.666f);
+		}
+
 	}
 }

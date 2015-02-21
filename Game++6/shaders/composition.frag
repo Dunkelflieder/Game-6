@@ -52,5 +52,4 @@ void main(){
 	//combine
 	vec4 finalCombinedColor =  worldFinal + effectsColor;
 	gl_FragColor = mix(finalCombinedColor, guiColor, guiColor.a);
-	//gl_FragColor = worldLight;
 }
