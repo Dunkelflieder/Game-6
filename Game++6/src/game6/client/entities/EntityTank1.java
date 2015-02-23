@@ -29,6 +29,7 @@ public class EntityTank1 extends CoreEntityTank1 {
 	public void render(Shader shader) {
 		renderProperties.setXYZ(getPosition());
 		renderProperties.setYaw(getVisibleRotation());
+		renderProperties.setScale(2, 2, 2);
 
 		shader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
 		tex.bind(0);

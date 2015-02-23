@@ -10,8 +10,7 @@ import game6.core.world.Map;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import de.nerogar.render.RenderProperties3f;
-import de.nerogar.render.Shader;
+import de.nerogar.render.*;
 import de.nerogar.util.Color;
 
 public class World extends CoreWorld {
@@ -31,17 +30,23 @@ public class World extends CoreWorld {
 
 	private SelectionMarker selectionMarker;
 
+	private Minimap minimap;
+
 	public World(EffectContainer effectContainer) {
 		super(null);
 		this.effectContainer = effectContainer;
 		selectionMarker = new SelectionMarker(null, 0, 0);
-
 		renderProperties = new RenderProperties3f();
 		worldShader = new Shader("shaders/world.vert", "shaders/world.frag");
+		minimap = new Minimap();
 	}
 
 	public CoreBuilding getSelectedBuilding() {
 		return selectedBuilding;
+	}
+
+	public Minimap getMinimap() {
+		return minimap;
 	}
 
 	public void selectBuilding(CoreBuilding building) {
@@ -74,6 +79,7 @@ public class World extends CoreWorld {
 	public void addBuilding(int posX, int posY, CoreBuilding building) {
 		super.addBuilding(posX, posY, building);
 		mesh.reload(posX, posY, building.getSizeX(), building.getSizeY());
+		minimap.update(posX, posY, building.getSizeX(), building.getSizeY());
 	}
 
 	public void setCenterOfRendering(int x, int z) {
@@ -96,6 +102,9 @@ public class World extends CoreWorld {
 	@Override
 	public void setMap(Map map) {
 		super.setMap(map);
+		if (minimap != null) {
+			minimap.setMap(map);
+		}
 		if (mesh != null) {
 			mesh.cleanup();
 		}
@@ -114,19 +123,19 @@ public class World extends CoreWorld {
 	public void render(Shader shader) {
 		worldShader.activate();
 
-		//set texture positions
+		// set texture positions
 		worldShader.setUniform1i("colorTex", 0);
 		worldShader.setUniform1i("ambientTex", 1);
 		worldShader.setUniform1i("factionTex", 2);
 
-		//TODO remove (debug)
+		// TODO remove (debug)
 		if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
 			worldShader.reloadFiles();
 			worldShader.reCompile();
 		}
 
 		if (isLoaded()) {
-			//render terrain
+			// render terrain
 
 			worldShader.setUniform1bool("renderFactionObject", false);
 			worldShader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());

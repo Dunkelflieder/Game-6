@@ -49,6 +49,8 @@ public class MapMesh {
 
 	public void render(float atX, float atY) {
 
+		GL11.glEnable(GL11.GL_BLEND);
+		
 		for (int x = (int) (atX / CHUNKSIZE - CHUNK_RENDER_RADIUS); x < atX / CHUNKSIZE + CHUNK_RENDER_RADIUS; x++) {
 			for (int y = (int) (atY / CHUNKSIZE - CHUNK_RENDER_RADIUS); y < atY / CHUNKSIZE + CHUNK_RENDER_RADIUS; y++) {
 				if (x < 0 || y < 0 || x >= chunks.length || y >= chunks[0].length) {
@@ -71,6 +73,8 @@ public class MapMesh {
 				}
 			}
 		}
+		
+		GL11.glDisable(GL11.GL_BLEND);
 
 	}
 

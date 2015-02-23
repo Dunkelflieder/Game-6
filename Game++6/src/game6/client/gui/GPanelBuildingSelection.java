@@ -6,7 +6,6 @@ import game6.client.gui.listener.MouseAdapter;
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,27 +20,26 @@ public class GPanelBuildingSelection extends GPanel {
 
 	private Controller controller;
 
-	private GColorfield highlight;
 	private List<GBuilding> buildings;
 	private BuildingType selectedBuilding;
 	private CoreBuilding buildingPreview;
+
+	private GImage buildingBackground;
+	private GImage buildingHighlight;
 
 	public GPanelBuildingSelection(GameDisplay display, Controller controller) {
 
 		this.controller = controller;
 
-		highlight = new GColorfield(new Color(0f, 1f, 0f, 0.5f));
-
 		buildings = new ArrayList<>();
 
-		for (BuildingType type : BuildingType.values()) {
-			GBuilding gBuilding = new GBuilding(display, type);
-			buildings.add(gBuilding);
-			add(gBuilding);
-			gBuilding.addClickedListener(source -> {
-				selectBuilding(((GBuilding) source).getBuildingType());
-			});
-		}
+		buildingBackground = new GImage("res/gui/ingameBuildings.png");
+		buildingBackground.setPos(0, 0);
+		buildingBackground.setSize(1920, 175);
+
+		buildingHighlight = new GImage("res/gui/ingameBuildingsHighlight.png");
+		buildingHighlight.setSize(73, 73);
+		buildingHighlight.setPos(-100, 0);
 
 		addMouseListener(new MouseAdapter() {
 
@@ -58,7 +56,17 @@ public class GPanelBuildingSelection extends GPanel {
 
 		});
 
-		add(highlight);
+		add(buildingBackground);
+		add(buildingHighlight);
+
+		for (BuildingType type : BuildingType.values()) {
+			GBuilding gBuilding = new GBuilding(display, type);
+			buildings.add(gBuilding);
+			add(gBuilding);
+			gBuilding.addClickedListener(source -> {
+				selectBuilding(((GBuilding) source).getBuildingType());
+			});
+		}
 	}
 
 	public BuildingType getBuilding() {
@@ -83,27 +91,39 @@ public class GPanelBuildingSelection extends GPanel {
 
 	private void updateHighlight() {
 		if (selectedBuilding == null) {
-			highlight.setPos(-9999, -9999);
+			buildingHighlight.setPos(-9999, -9999);
 		} else {
 			for (GBuilding building : buildings) {
 				if (building.getBuildingType() == selectedBuilding) {
-					highlight.setPos(building.getPosX(), building.getPosY());
-					highlight.setSize(building.getSizeX(), building.getSizeY());
+					buildingHighlight.setPos(building.getPosX() - 5, building.getPosY() - 5);
 					return;
 				}
 			}
 		}
 	}
 
+	private int getPositionXForIndex(int index) {
+		int x = 256 + 18;
+		x += 69 * (index % 5);
+		return x;
+	}
+
+	private int getPositionYForIndex(int index) {
+		int y = 78;
+		if (index > 5) {
+			y += 80;
+		}
+		return y;
+	}
+
 	/**
 	 * Resizes the panel's components to match it's bounds.
 	 */
 	public void resize() {
-		int offsetX = 0;
-		for (GBuilding building : buildings) {
-			building.setSize(128, 128);
-			building.setPos(offsetX, 0);
-			offsetX += 128;
+		for (int index = 0; index < buildings.size(); index++) {
+			GBuilding building = buildings.get(index);
+			building.setSize(64, 64);
+			building.setPos(getPositionXForIndex(index), getPositionYForIndex(index));
 		}
 		updateHighlight();
 	}

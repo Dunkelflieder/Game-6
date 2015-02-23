@@ -1,12 +1,11 @@
 package game6.client.gui.components;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glVertex3f;
-import de.nerogar.render.Texture2D;
-import de.nerogar.render.TextureLoader;
+import static org.lwjgl.opengl.GL11.*;
+
+import java.awt.image.BufferedImage;
+
+import de.nerogar.render.*;
+import de.nerogar.render.Texture2D.InterpolationType;
 
 /**
  * Gui-Component, that renders a given texture within its bounds
@@ -21,7 +20,15 @@ public class GImage extends GComponent {
 		texture = TextureLoader.loadTexture(filename);
 	}
 
+	public GImage(BufferedImage image, String name) {
+		texture = TextureLoader.loadTexture(image, name, InterpolationType.NEAREST);
+	}
+
 	public GImage(Texture2D texture) {
+		this.texture = texture;
+	}
+
+	public void setTexture(Texture2D texture) {
 		this.texture = texture;
 	}
 
@@ -35,16 +42,16 @@ public class GImage extends GComponent {
 
 		glBegin(GL_QUADS);
 
-		glTexCoord2f(0, 0);
+		glTexCoord2f(0, 1);
 		glVertex3f(x, y, -1);
 
-		glTexCoord2f(1, 0);
+		glTexCoord2f(1, 1);
 		glVertex3f(x + getSizeX(), y, -1);
 
-		glTexCoord2f(1, 1);
+		glTexCoord2f(1, 0);
 		glVertex3f(x + getSizeX(), y + getSizeY(), -1);
 
-		glTexCoord2f(0, 1);
+		glTexCoord2f(0, 0);
 		glVertex3f(x, y + getSizeY(), -1);
 
 		glEnd();

@@ -8,7 +8,7 @@ import game6.client.world.World;
 import game6.core.networking.PacketList;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.*;
 
 import de.nerogar.engine.BaseGame;
 import de.nerogar.render.*;
@@ -116,7 +116,10 @@ public class Game extends BaseGame {
 		effectContainer.render();
 
 		display.setScreenProperties(guiProperties, true);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE);
 		Guis.render();
+		GL11.glDisable(GL11.GL_BLEND);
 
 		compositer.render(display, compositionProperties);
 	}

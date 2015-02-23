@@ -31,19 +31,21 @@ public class GuiIngame extends Gui {
 	private GPanelBuildingInfo buildingPanel;
 	private GPanelBuildingSelection selectionPanel;
 
+	private GImage minimap;
+
 	private Vector2f mapPosition;
 
 	@Override
 	public void initComponents() {
 
-		buttonBuilding = new GButton("Place random building");
+		buttonBuilding = new GButton("100 buildings");
 		buttonBuilding.addClickedListener(source -> {
 			for (int i = 0; i < 100; i++) {
 				controller.placeBuilding(BuildingType.getRandom(), (int) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), (int) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2)));
 			}
 		});
 
-		buttonEntity = new GButton("Place random entity");
+		buttonEntity = new GButton("100 entities");
 		buttonEntity.addClickedListener(source -> {
 			for (int i = 0; i < 100; i++) {
 				controller.requestEntity(EntityType.getRandom(), new Vector3f((int) (200 * Math.random()), 0, (int) (200 * Math.random())));
@@ -105,7 +107,10 @@ public class GuiIngame extends Gui {
 
 				} else if (button == 1) {
 					// Rightclick deselects
-					selectionPanel.selectBuilding(null);
+					if (selectionPanel.getBuilding() != null) {
+						selectionPanel.selectBuilding(null);
+						return true;
+					}
 
 					CoreEntity selectedEntity = controller.getWorld().getSelectedEntity();
 					if (selectedEntity != null) {
@@ -152,10 +157,25 @@ public class GuiIngame extends Gui {
 			}
 		});
 
-		add(buttonBuilding);
-		add(buttonEntity);
+		selectionPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public boolean mouseClicked(GComponent source, int button) {
+				if (button < 2) {
+					return true;
+				}
+				return false;
+			}
+		});
+
+		minimap = new GMinimap(controller.getWorld().getMinimap());
+		minimap.setPos(8, 8);
+		minimap.setSize(256, 256);
+
 		add(buildingPanel);
 		add(entityPanel);
+		add(buttonBuilding);
+		add(buttonEntity);
+		add(minimap);
 	}
 
 	/**
@@ -187,9 +207,9 @@ public class GuiIngame extends Gui {
 
 	@Override
 	public void init(GameDisplay display, Controller controller) {
-		super.init(display, controller);
 		selectionPanel = new GPanelBuildingSelection(display, controller);
 		add(selectionPanel);
+		super.init(display, controller);
 	}
 
 	@Override
@@ -205,10 +225,10 @@ public class GuiIngame extends Gui {
 
 	@Override
 	public void onResize(int screenWidth, int screenHeight) {
-		buttonBuilding.setSize(310, 40);
+		buttonBuilding.setSize(210, 40);
 		buttonBuilding.setPos(20, 20);
 
-		buttonEntity.setSize(310, 40);
+		buttonEntity.setSize(210, 40);
 		buttonEntity.setPos(20, 70);
 
 		buildingPanel.setSize(300, 500);
@@ -219,8 +239,8 @@ public class GuiIngame extends Gui {
 		entityPanel.setPos(screenWidth - 300, 0);
 		entityPanel.resize();
 
-		selectionPanel.setSize(screenWidth, 128);
-		selectionPanel.setPos(310, 0);
+		selectionPanel.setSize(screenWidth, 170);
+		selectionPanel.setPos(0, 0);
 		selectionPanel.resize();
 	}
 

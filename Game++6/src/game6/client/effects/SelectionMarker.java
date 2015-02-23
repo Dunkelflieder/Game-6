@@ -17,7 +17,8 @@ public class SelectionMarker extends Effect {
 		this.position = position;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
-		color = new Color(0.8f, 0.8f, 0.1f, 1.0f);
+		// color = new Color(0.8f, 0.8f, 0.1f, 1.0f);
+		color = new Color(0.1f, 0.8f, 0.1f, 0.1f);
 
 		markerMesh = WavefrontLoader.loadObject("res/shapes/selectionMarker.obj");
 		renderProperties = new RenderProperties3f();
@@ -29,7 +30,7 @@ public class SelectionMarker extends Effect {
 
 	@Override
 	public void render(Shader shader) {
-		setColor(shader, new Color(0.8f, 0.4f, 0.1f, 0.1f));
+		setColor(shader, color);
 		renderProperties.setXYZ(position);
 		renderProperties.setScale(sizeX, 1.0f, sizeY);
 		markerMesh.render(renderProperties);

@@ -11,11 +11,11 @@ public class WorldGenerator {
 		for (int x = 0; x < sizeX; x++) {
 			for (int y = 0; y < sizeY; y++) {
 
-				double r = SimplexNoise.noise(x / 100f, y / 100f, 200);
+				double r = SimplexNoise.noise(x / 100f, y / 100f, 100);
 
 				tiles[x][y] = Tile.MARS;
 
-				if (r > 0.8) {
+				if (r > 0.7) {
 					tiles[x][y] = Tile.ICE;
 				}
 

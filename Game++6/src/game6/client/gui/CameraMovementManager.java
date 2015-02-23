@@ -15,7 +15,7 @@ import de.nerogar.util.MathHelper;
 public class CameraMovementManager implements MouseListener {
 
 	private static final float MIN_CAMERA_Y = 4;
-	private static final float MAX_CAMERA_Y = 42;
+	private static final float MAX_CAMERA_Y = 26;
 
 	// 0 = not grabbed, 1 = grabbed for movement, 2 = grabbed for rotation
 	private int grabbedType = 0;

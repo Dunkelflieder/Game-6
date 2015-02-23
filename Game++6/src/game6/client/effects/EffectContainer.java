@@ -3,6 +3,8 @@ package game6.client.effects;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import de.nerogar.render.Shader;
 import de.nerogar.util.Vector3f;
 
@@ -42,11 +44,14 @@ public class EffectContainer {
 
 	public void render() {
 		shader.activate();
-
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		for (Effect effect : effects) {
 			effect.render(shader);
 		}
 
+		GL11.glDisable(GL11.GL_BLEND);
 		shader.deactivate();
 	}
 

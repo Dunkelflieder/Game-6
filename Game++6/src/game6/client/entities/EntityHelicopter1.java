@@ -63,6 +63,10 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 		renderPropertiesRotorL.setXYZ(getPosition());
 		renderPropertiesRotorH.setXYZ(getPosition());
 		renderPropertiesMain.setYaw(getRotation());
+		
+		renderPropertiesMain.setScale(2, 2, 2);
+		renderPropertiesRotorL.setScale(2, 2, 2);
+		renderPropertiesRotorH.setScale(2, 2, 2);
 
 		shader.setUniformMat4f("modelMatrix", renderPropertiesMain.getModelMatrix().asBuffer());
 		texMain.bind(0);
