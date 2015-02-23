@@ -48,7 +48,7 @@ public class Compositer {
 		effectMaskShader.setUniform1i("effectsDepth", 1);
 		effectMaskShader.setUniform1i("effectsTexture", 2);
 
-		RenderHelper.renderFullscreenQuad(screenProperties);
+		RenderHelper.renderFBOFullscreenQuad(screenProperties);
 		effectMaskShader.deactivate();
 
 		//composition
@@ -76,30 +76,30 @@ public class Compositer {
 
 			compositionShader.setUniform2f("resolution", screenProperties.getRenderWidth(), screenProperties.getRenderHeight());
 
-			RenderHelper.renderFullscreenQuad(screenProperties);
+			RenderHelper.renderFBOFullscreenQuad(screenProperties);
 
 			compositionShader.deactivate();
 		} else {
 			renderTargetWorld.getTexture("color").bind();
-			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.0f);
+			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.0f);
 
 			renderTargetWorld.getTexture("normal").bind();
-			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.333f, 0.0f);
+			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.333f, 0.0f);
 
 			renderTargetWorld.getTexture("position").bind();
-			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.666f, 0.0f);
+			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.666f, 0.0f);
 
 			renderTargetWorld.getTexture("ambient").bind();
-			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.333f);
+			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.333f);
 			
 			renderTargetLights.getTexture("light").bind();
-			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.333f, 0.333f);
+			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.333f, 0.333f);
 			
 			renderTargetEffectsMask.getTexture("color").bind();
-			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.666f, 0.333f);
+			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.666f, 0.333f);
 			
 			renderTargetGui.getTexture("color").bind();
-			RenderHelper.renderQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.666f);
+			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.666f);
 		}
 
 	}
