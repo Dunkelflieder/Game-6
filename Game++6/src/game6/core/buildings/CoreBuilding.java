@@ -7,6 +7,7 @@ import java.util.List;
 
 import de.nerogar.engine.UpdateEvent;
 import de.nerogar.render.Shader;
+import de.nerogar.util.Vector3f;
 
 public abstract class CoreBuilding {
 
@@ -22,8 +23,7 @@ public abstract class CoreBuilding {
 
 	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy) {
 		init();
-		if (id > MAX_ID)
-			MAX_ID = id;
+		if (id > MAX_ID) MAX_ID = id;
 		this.id = id;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
@@ -51,6 +51,10 @@ public abstract class CoreBuilding {
 
 	public int getPosX() {
 		return posX;
+	}
+
+	public Vector3f getCenter() {
+		return new Vector3f(getPosX() + 0.5f * getSizeX(), 0.5f, getPosY() + 0.5f * getSizeY());
 	}
 
 	/**

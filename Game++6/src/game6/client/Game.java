@@ -38,7 +38,7 @@ public class Game extends BaseGame {
 
 		Camera camera = new Camera();
 		initProperties(camera);
-		world = new World();
+		world = new World(effectContainer);
 		controller = new Controller(world, camera, effectContainer);
 
 		Guis.init(display, controller);

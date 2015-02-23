@@ -38,7 +38,7 @@ void main(){
 	vec4 worldFinal = worldColor * vec4(worldAmbient.rgb * (worldLight.rgb + sunLight), 1.0);
 
 	//effects
-	vec4 effectsColor = vec4(0);
+	vec4 effectsColor = vec4(0.0);
 	for(float i = -5.0; i <= 5.0; i += 1.0){
 		for(float j = -5.0; j <= 5.0; j += 1.0){
 			effectsColor += texture2D(tex_effectsColor, gl_TexCoord[0].st + vec2(i / resolution.x, j / resolution.y)) * (1.0/(abs(i)+1.0)) * (1.0/(abs(j)+1.0));
@@ -50,6 +50,6 @@ void main(){
 	vec4 guiColor = texture2D(tex_guiColor, gl_TexCoord[0].st);
 
 	//combine
-	vec4 finalCombinedColor =  worldFinal + effectsColor;
+	vec4 finalCombinedColor = worldFinal + effectsColor;
 	gl_FragColor = mix(finalCombinedColor, guiColor, guiColor.a);
 }

@@ -17,7 +17,7 @@ public class LightPillar extends Effect {
 		lifeTime = MAX_LIFETIME;
 
 		this.position = position;
-		color = new Color(0.1f, 0.1f, 1.0f, 1.0f);
+		color = new Color(0.1f, 1.0f, 0.1f, 1.0f);
 	}
 
 	@Override
@@ -26,7 +26,6 @@ public class LightPillar extends Effect {
 
 	@Override
 	public void render(Shader shader) {
-		glLineWidth(4f);
 		setColor(shader, color);
 
 		glBegin(GL_QUADS);
@@ -42,12 +41,10 @@ public class LightPillar extends Effect {
 		glVertex3f(position.getX(), 100f, position.getZ() - 0.1f);
 
 		glEnd();
-		glLineWidth(1f);
 	}
 
 	@Override
 	public void update(float timeDelta) {
-		color = new Color(0.1f, 1.0f, 0.1f, 1.0f);
 		lifeTime -= timeDelta;
 
 		if (lifeTime < 0) kill();

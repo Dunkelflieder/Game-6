@@ -34,7 +34,7 @@ public class Controller {
 	public SoundContext soundMain;
 	public SoundContext soundMusic;
 	public SoundContext soundEffects;
-	
+
 	private World world;
 	private Camera camera;
 	private Faction faction;
@@ -102,7 +102,7 @@ public class Controller {
 		//camera.setPitch(60f / (float) (180f * Math.PI));
 		camera.setPitch(1);
 		camera.setYaw(0f);
-		
+
 		soundMain = new SoundContext();
 		soundMusic = soundMain.createSubContext();
 		soundEffects = soundMain.createSubContext();
@@ -128,7 +128,7 @@ public class Controller {
 			connection.send(new PacketEntityGoalChanged(entity, position));
 		}
 	}
-	
+
 	public void update(float timeDelta) {
 
 		// TODO debug/testing code
@@ -159,10 +159,8 @@ public class Controller {
 					PacketPowerSupply packetPS = (PacketPowerSupply) packet;
 					CoreBuilding start = getWorld().getBuilding(packetPS.source);
 					CoreBuilding dest = getWorld().getBuilding(packetPS.destination);
-					Vector3f from = new Vector3f(start.getPosX() + (0.5f * start.getSizeX()), 0.5f, start.getPosY() + (0.5f * start.getSizeY()));
-					Vector3f to = new Vector3f(dest.getPosX() + (0.5f * dest.getSizeX()), 0.5f, dest.getPosY() + (0.5f * dest.getSizeY()));
 
-					effects.addEffect(new Lightning(from, to));
+					effects.addEffect(new Lightning(start.getCenter(), dest.getCenter()));
 
 				} else if (packet instanceof PacketBuildingUpdate) {
 					PacketBuildingUpdate pbu = (PacketBuildingUpdate) packet;

@@ -1,5 +1,7 @@
 package game6.client.world;
 
+import game6.client.effects.EffectContainer;
+import game6.client.effects.SelectionMarker;
 import game6.core.buildings.CoreBuilding;
 import game6.core.entities.CoreEntity;
 import game6.core.world.CoreWorld;
@@ -21,21 +23,34 @@ public class World extends CoreWorld {
 	private int renderCenterX, renderCenterY;
 	private RenderProperties3f renderProperties;
 	private Shader worldShader;
-	
+
+	private EffectContainer effectContainer;
+
 	private CoreBuilding selectedBuilding;
 	private CoreEntity selectedEntity;
 
-	public World() {
+	private SelectionMarker selectionMarker;
+
+	public World(EffectContainer effectContainer) {
 		super(null);
+		this.effectContainer = effectContainer;
+		selectionMarker = new SelectionMarker(null, 0, 0);
+
 		renderProperties = new RenderProperties3f();
 		worldShader = new Shader("shaders/world.vert", "shaders/world.frag");
 	}
-	
+
 	public CoreBuilding getSelectedBuilding() {
 		return selectedBuilding;
 	}
-	
+
 	public void selectBuilding(CoreBuilding building) {
+		selectionMarker.kill();
+		if (building != null) {
+			selectionMarker = new SelectionMarker(building.getCenter().setY(0.1f), building.getSizeX(), building.getSizeY());
+			effectContainer.addEffect(selectionMarker);
+		}
+
 		selectedBuilding = building;
 		selectedEntity = null;
 	}
@@ -43,12 +58,18 @@ public class World extends CoreWorld {
 	public CoreEntity getSelectedEntity() {
 		return selectedEntity;
 	}
-	
+
 	public void selectEntity(CoreEntity entity) {
+		selectionMarker.kill();
+		if (entity != null) {
+			selectionMarker = new SelectionMarker(entity.getPosition(), 1.0f, 1.0f);
+			effectContainer.addEffect(selectionMarker);
+		}
+
 		selectedEntity = entity;
 		selectedBuilding = null;
 	}
-	
+
 	@Override
 	public void addBuilding(int posX, int posY, CoreBuilding building) {
 		super.addBuilding(posX, posY, building);
@@ -137,7 +158,7 @@ public class World extends CoreWorld {
 			}
 
 		}
-		
+
 		// TODO highlight selectedEntity somehow
 
 		super.render(worldShader);
