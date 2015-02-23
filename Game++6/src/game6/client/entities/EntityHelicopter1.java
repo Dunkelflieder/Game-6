@@ -52,8 +52,8 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 	public void update(float timeDelta, List<UpdateEvent> events) {
 		super.update(timeDelta, events);
 
-		renderPropertiesRotorL.setYaw((renderPropertiesRotorL.getYaw() + 360 * timeDelta) % 360);
-		renderPropertiesRotorH.setYaw((renderPropertiesRotorH.getYaw() - 360 * timeDelta) % 360);
+		renderPropertiesRotorL.setYaw((renderPropertiesRotorL.getYaw() + 8f * timeDelta) % 360);
+		renderPropertiesRotorH.setYaw((renderPropertiesRotorH.getYaw() - 8f * timeDelta) % 360);
 
 	}
 
