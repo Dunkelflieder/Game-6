@@ -24,6 +24,7 @@ public class Goalfinder {
 
 		List<Node> openList = new ArrayList<>();
 		openList.add(start);
+		scope.add(start);
 
 		while (openList.size() > 0) {
 
