@@ -106,5 +106,9 @@ public class Map {
 	public List<Position> getPath(float fromX, float fromY, float toX, float toY) {
 		return getPath((int) Math.floor(fromX), (int) Math.floor(fromY), (int) Math.floor(toX), (int) Math.floor(toY));
 	}
+	
+	public Pathfinder getPathfinder() {
+		return pathfinder;
+	}
 
 }

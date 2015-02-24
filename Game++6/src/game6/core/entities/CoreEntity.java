@@ -110,12 +110,23 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	public void advanceOneGoal() {
 		goals.remove(0);
 		hasNewGoal = true;
-		// test, if path got blocked
-		int depth = 5;
-		for (int i = 0; i < Math.min(goals.size(), depth); i++) {
-			Vector3f pos = goals.get(i);
-			if (getMap().getBuildingAt((int) Math.floor(pos.getX()), (int) Math.floor(pos.getZ())) != null) {
-				// path is blocked! recalculate new one
+		checkPathBlocked();
+		// int depth = 5;
+		// for (int i = 0; i < Math.min(goals.size(), depth); i++) {
+		// Vector3f pos = goals.get(i);
+		// if (getMap().getBuildingAt((int) Math.floor(pos.getX()), (int) Math.floor(pos.getZ())) != null) {
+		// path is blocked! recalculate new one
+		// Vector3f last = goals.get(goals.size() - 1);
+		// move(last);
+		// }
+		// }
+	}
+
+	private void checkPathBlocked() {
+		if (!isFlying() && getNextGoal() != null) {
+			Position currentPosition = new Position((int) Math.floor(getPosition().getX()), (int) Math.floor(getPosition().getZ()));
+			Position nextPosition = new Position((int) Math.floor(getNextGoal().getX()), (int) Math.floor(getNextGoal().getZ()));
+			if (getMap().getPathfinder().intersectsBuilding(currentPosition, nextPosition)) {
 				Vector3f last = goals.get(goals.size() - 1);
 				move(last);
 			}
@@ -126,8 +137,6 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	public void update(float timeDelta, List<UpdateEvent> events) {
 
 		tick++;
-
-		// check if path got invalid somewhen
 
 		float remainingDistance = getSpeed() * timeDelta;
 		while (!goals.isEmpty() && remainingDistance > 0) {
@@ -162,6 +171,10 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			hasNewGoal = true;
 			moved = false;
 		}
+
+		// TODO Don't check this every update maybe.
+		checkPathBlocked();
+
 		// determine the delta this entity needs to turn.
 		float turngoal = rotation - visibleRotation;
 		// fix, if turning > 180°. Reverse the direction

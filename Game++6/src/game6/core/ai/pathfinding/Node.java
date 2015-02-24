@@ -6,13 +6,22 @@ class Node {
 
 	private Node pointer;
 	public int posX, posY;
-	private byte state;
 	private float costCalc;
-	private boolean diagonal;
 
+	private byte state;
 	public static byte STATE_INIT = 0;
 	public static byte STATE_OPEN = 1;
 	public static byte STATE_CLOSED = 2;
+
+	private byte dir;
+	public static byte DIR_UP = 0;
+	public static byte DIR_RIGHT = 1;
+	public static byte DIR_DOWN = 2;
+	public static byte DIR_LEFT = 3;
+	public static byte DIR_UPRIGHT = 4;
+	public static byte DIR_RIGHTDOWN = 5;
+	public static byte DIR_DOWNLEFT = 6;
+	public static byte DIR_LEFTUP = 7;
 
 	public Node(float cost, int posX, int posY) {
 		this.cost = cost;
@@ -20,20 +29,26 @@ class Node {
 		this.posY = posY;
 		reset();
 	}
-	
+
 	public void reset() {
 		pointer = null;
 		state = STATE_INIT;
-		diagonal = false;
+		dir = DIR_UP;
 	}
 
 	public float getTotalCost(int goalX, int goalY) {
 		if (costCalc < 0) {
 			int diffX = Math.abs(goalX - posX);
 			int diffY = Math.abs(goalY - posY);
-			float pointerCost = (pointer == null) ? 0 : pointer.getTotalCost(goalX, goalY);
-			// recursion base ~distance cost path varying sqrt(2)
-			costCalc = pointerCost + (diffX + diffY + cost) * (isDiagonal() ? 1.41421356f : 1);
+			float pointerCost = 0;
+			float dirChangePenality = 0;
+			if (pointer != null) {
+				pointerCost = pointer.getTotalCost(goalX, goalY);
+				if (pointer.getDir() != dir) {
+					dirChangePenality = 0.01f;
+				}
+			}
+			costCalc = pointerCost + dirChangePenality + (diffX * diffX + diffY * diffY) + cost * (isDiagonal() ? 1.41421356f : 1);
 		}
 		return costCalc;
 	}
@@ -56,12 +71,20 @@ class Node {
 	}
 
 	public boolean isDiagonal() {
-		return diagonal;
+		return dir > DIR_LEFT;
 	}
 
-	public void setDiagonal(boolean diagonal) {
-		this.diagonal = diagonal;
+	public byte getDir() {
+		return dir;
+	}
+
+	public void setDir(byte dir) {
+		this.dir = dir;
 		costCalc = -1;
+	}
+	
+	public boolean isWalkable() {
+		return cost >= 0;
 	}
 
 }

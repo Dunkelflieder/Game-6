@@ -226,10 +226,10 @@ public class GuiIngame extends Gui {
 	@Override
 	public void onResize(int screenWidth, int screenHeight) {
 		buttonBuilding.setSize(210, 40);
-		buttonBuilding.setPos(20, 20);
+		buttonBuilding.setPos(700, 30);
 
 		buttonEntity.setSize(210, 40);
-		buttonEntity.setPos(20, 70);
+		buttonEntity.setPos(700, 80);
 
 		buildingPanel.setSize(300, 500);
 		buildingPanel.setPos(screenWidth - 300, 0);
