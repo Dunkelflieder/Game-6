@@ -26,6 +26,7 @@ public class SelectionMarker extends Effect {
 
 	@Override
 	public void initLights(LightContainer lightContainer) {
+		addLight(new Light(color, position, 3.0f, 0.5f), lightContainer);
 	}
 
 	@Override
