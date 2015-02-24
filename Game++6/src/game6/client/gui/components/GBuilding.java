@@ -57,7 +57,7 @@ public class GBuilding extends GComponent implements MouseListener {
 
 	@Override
 	public void render() {
-		image.render();
+		image.render(true);
 	}
 
 	public boolean addClickedListener(ClickedListener listener) {

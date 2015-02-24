@@ -1,6 +1,6 @@
 package game6.server.buildings;
 
-import game6.core.buildings.CoreBuilding;
+import game6.core.ai.goalfinding.Path;
 import game6.core.buildings.CoreBuildingReactor;
 import game6.core.events.EventBuildingUpdate;
 import game6.core.events.EventPowerSupply;
@@ -17,8 +17,6 @@ public class BuildingReactor extends CoreBuildingReactor {
 	private int shockCooldown = 10;
 	// Amount of energy emitted with each pulse
 	private int shockPower = 100;
-	// (quadratic) radius in which the energy can be emitted.
-	private int shockRadius = 10;
 
 	public BuildingReactor() {
 		super(getNextID());
@@ -37,54 +35,33 @@ public class BuildingReactor extends CoreBuildingReactor {
 
 		tick++;
 
-		// Each cooldown-period, start emitting energy
+		// Each cooldown-period start emitting energy
 		if (tick % shockCooldown == 0) {
 
-			// Get all buildings that can get energy
-			List<CoreBuilding> candidates = map.getBuildingsWithin(getPosX(), getPosY(), shockRadius);
-
-			// Modify the candidates.
-			// 1st.: remove self, other factions and buildings without energy need
-			for (Iterator<CoreBuilding> iter = candidates.iterator(); iter.hasNext();) {
-				CoreBuilding building = iter.next();
-				if (building == this || building.getFaction() != faction || !building.canReceiveEnergy()) {
-					iter.remove();
+			List<Path> candidatesPaths = world.getEnergyGoals(this);
+			List<Path> candidates = new ArrayList<>();
+			for (Path path : candidatesPaths) {
+				if (path.getGoal().getFaction() == faction && path.getGoal().canReceiveEnergy()) {
+					candidates.add(path);
 				}
 			}
 
-			// 2nd.: order by energy need
-			candidates.sort((b1, b2) -> (b1.getMaxEnergy() - b1.getEnergy()) - (b2.getMaxEnergy() - b2.getEnergy()));
+			// sort by energy need
+			candidates.sort((p1, p2) -> (p1.getGoal().getMaxEnergy() - p1.getGoal().getEnergy()) - (p2.getGoal().getMaxEnergy() - p2.getGoal().getEnergy()));
 
-			// If no one could receive energy, stop the pulse emission.
-			if (candidates.size() == 0) {
-				return;
-			}
-
-			// Share the available energy between the buildings
-
-			// The amount of energy that is left and needs to be emitted to somewhere
 			int left = shockPower;
-			// The amount of energy each building receives
-			int part = (int) Math.ceil(left / (float) (candidates.size()));
-
-			for (int i = 0; i < candidates.size(); i++) {
-				CoreBuilding building = candidates.get(i);
-
-				// amount of energy the building actually received
-				int given = part - building.addEnergy(part);
-
-				// Remove the given energy from remaining pool
-				left -= given;
-
-				// calculate new energy per building
-				part = (int) Math.ceil(left / (float) (candidates.size() - (i + 1)));
-
-				// If the building received energy, trigger the corresponding events
-				if (given > 0) {
-					events.add(new EventPowerSupply(faction, getID(), building.getID(), given));
-					events.add(new EventBuildingUpdate(building));
+			for (Path path : candidates) {
+				int returned = path.getGoal().addEnergy(left);
+				if (returned < left) {
+					events.add(new EventPowerSupply(faction, this, path, left - returned));
+					events.add(new EventBuildingUpdate(path.getGoal()));
+				}
+				left = returned;
+				if (left == 0) {
+					break;
 				}
 			}
+
 		}
 
 	}

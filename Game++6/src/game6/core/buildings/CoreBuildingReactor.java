@@ -4,7 +4,7 @@ public abstract class CoreBuildingReactor extends CoreBuilding {
 
 	public CoreBuildingReactor(long id) {
 		// Reactor is 2x2 and cannot hold energy itself.
-		super(id, 2, 2, 0);
+		super(id, 2, 2, 0, 10);
 	}
 
 	public String getName() {

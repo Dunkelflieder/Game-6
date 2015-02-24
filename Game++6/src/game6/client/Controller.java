@@ -99,7 +99,7 @@ public class Controller {
 		camera.setY(15f);
 		camera.setX(15f);
 		camera.setZ(15f);
-		//camera.setPitch(60f / (float) (180f * Math.PI));
+		// camera.setPitch(60f / (float) (180f * Math.PI));
 		camera.setPitch(1);
 		camera.setYaw(0f);
 
@@ -157,10 +157,18 @@ public class Controller {
 				} else if (packet instanceof PacketPowerSupply) {
 
 					PacketPowerSupply packetPS = (PacketPowerSupply) packet;
-					CoreBuilding start = getWorld().getBuilding(packetPS.source);
-					CoreBuilding dest = getWorld().getBuilding(packetPS.destination);
 
-					effects.addEffect(new Lightning(start.getCenter(), dest.getCenter()));
+					long[] waypoints = packetPS.waypoints;
+					if (waypoints.length == 0) {
+						System.err.println("Got PacketPowerSupply with empty waypoints array!");
+					} else {
+						CoreBuilding previous = getWorld().getBuilding(waypoints[0]);
+						for (int i = 1; i < waypoints.length; i++) {
+							CoreBuilding target = getWorld().getBuilding(waypoints[i]);
+							effects.addEffect(new Lightning(previous.getCenter(), target.getCenter()));
+							previous = target;
+						}
+					}
 
 				} else if (packet instanceof PacketBuildingUpdate) {
 					PacketBuildingUpdate pbu = (PacketBuildingUpdate) packet;

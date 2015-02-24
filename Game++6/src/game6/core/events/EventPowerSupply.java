@@ -1,5 +1,7 @@
 package game6.core.events;
 
+import game6.core.ai.goalfinding.Path;
+import game6.core.buildings.CoreBuilding;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketPowerSupply;
 
@@ -9,22 +11,23 @@ import de.nerogar.engine.UpdateEventInterface;
 
 public class EventPowerSupply extends Event {
 
-	private long sourceID, destID;
+	private CoreBuilding source;
+	private Path path;
 	private int amount;
 
-	public EventPowerSupply(Faction faction, long sourceID, long destID, int amount) {
+	public EventPowerSupply(Faction faction, CoreBuilding source, Path path, int amount) {
 		super(faction);
-		this.sourceID = sourceID;
-		this.destID = destID;
+		this.source = source;
+		this.path = path;
 		this.amount = amount;
 	}
 
-	public long getSourceID() {
-		return sourceID;
+	public CoreBuilding getSource() {
+		return source;
 	}
 
-	public long getDestID() {
-		return destID;
+	public Path getPath() {
+		return path;
 	}
 
 	public int getAmount() {
@@ -33,7 +36,7 @@ public class EventPowerSupply extends Event {
 
 	@Override
 	public String toString() {
-		return "PowerSupplyEvent(source: " + sourceID + ", dest: " + destID + ", amount: " + amount + ")";
+		return "PowerSupplyEvent(source: " + source + ", path: " + path + ", amount: " + amount + ")";
 	}
 
 	@Override

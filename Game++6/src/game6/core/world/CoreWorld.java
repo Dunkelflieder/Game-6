@@ -1,5 +1,7 @@
 package game6.core.world;
 
+import game6.core.ai.goalfinding.Goalfinder;
+import game6.core.ai.goalfinding.Path;
 import game6.core.buildings.CoreBuilding;
 import game6.core.entities.CoreEntity;
 
@@ -14,12 +16,14 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 
 	private List<CoreBuilding> buildings;
 	private Map map;
+	private Goalfinder goalfinder;
 
 	public CoreWorld(Map map) {
 		super(new Vector3f());
 		isStatic = true;
 		setMap(map);
 		this.buildings = new ArrayList<>();
+		this.goalfinder = new Goalfinder(this);
 	}
 
 	@Override
@@ -47,7 +51,7 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 	public void addBuilding(int posX, int posY, CoreBuilding building) {
 		building.setPosX(posX);
 		building.setPosY(posY);
-		building.setMap(map);
+		building.setWorld(this);
 		this.buildings.add(building);
 		this.buildings.sort((a, b) -> (int) (a.getID() - b.getID()));
 		map.addBuilding(building);
@@ -76,6 +80,10 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 
 	public List<CoreBuilding> getBuildings() {
 		return buildings;
+	}
+
+	public List<Path> getEnergyGoals(CoreBuilding start) {
+		return goalfinder.search(start);
 	}
 
 	@Override

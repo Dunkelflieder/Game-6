@@ -1,7 +1,7 @@
 package game6.core.buildings;
 
 import game6.core.faction.Faction;
-import game6.core.world.Map;
+import game6.core.world.CoreWorld;
 
 import java.util.List;
 
@@ -17,19 +17,22 @@ public abstract class CoreBuilding {
 
 	private int energy;
 	private int maxEnergy;
+	private int range;
 
-	protected Map map;
+	protected CoreWorld world;
 	protected Faction faction;
 
-	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy) {
+	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy, int range) {
 		init();
-		if (id > MAX_ID) MAX_ID = id;
+		if (id > MAX_ID)
+			MAX_ID = id;
 		this.id = id;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.posX = 0;
 		this.posY = 0;
 		this.maxEnergy = maxEnergy;
+		this.range = range;
 	}
 
 	public abstract void init();
@@ -51,6 +54,10 @@ public abstract class CoreBuilding {
 
 	public int getPosX() {
 		return posX;
+	}
+
+	public int getRange() {
+		return range;
 	}
 
 	public Vector3f getCenter() {
@@ -111,7 +118,7 @@ public abstract class CoreBuilding {
 	 */
 	private int getEnergyOverflow() {
 		if (this.energy > maxEnergy) {
-			int overflow = maxEnergy - this.energy;
+			int overflow = this.energy - maxEnergy;
 			this.energy = maxEnergy;
 			return overflow;
 		}
@@ -164,12 +171,12 @@ public abstract class CoreBuilding {
 	}
 
 	/**
-	 * Sets the map-instance this building is added to.
-	 * Is or should be used while this instance is added to the map.
-	 * @param map
+	 * Sets the world-instance this building is added to.
+	 * Is or should be used while this instance is added to the world.
+	 * @param world
 	 */
-	public void setMap(Map map) {
-		this.map = map;
+	public void setWorld(CoreWorld world) {
+		this.world = world;
 	}
 
 	/**

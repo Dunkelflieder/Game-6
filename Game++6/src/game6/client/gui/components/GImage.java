@@ -1,7 +1,5 @@
 package game6.client.gui.components;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import java.awt.image.BufferedImage;
 
 import de.nerogar.render.*;
@@ -34,27 +32,20 @@ public class GImage extends GComponent {
 
 	@Override
 	public void render() {
-		// TODO don't hardcode OpenGL here
+		render(false);
+	}
+
+	public void render(boolean fbo) {
 		texture.bind();
 
 		int x = getPosX() + getOffsetX();
 		int y = getPosY() + getOffsetY();
 
-		glBegin(GL_QUADS);
-
-		glTexCoord2f(0, 1);
-		glVertex3f(x, y, -1);
-
-		glTexCoord2f(1, 1);
-		glVertex3f(x + getSizeX(), y, -1);
-
-		glTexCoord2f(1, 0);
-		glVertex3f(x + getSizeX(), y + getSizeY(), -1);
-
-		glTexCoord2f(0, 0);
-		glVertex3f(x, y + getSizeY(), -1);
-
-		glEnd();
+		if (fbo) {
+			RenderHelper.renderFBOQuadAbsolute(getSizeX(), getSizeY(), x, y);
+		} else {
+			RenderHelper.renderTextureQuadAbsolute(getSizeX(), getSizeY(), x, y);
+		}
 	}
 
 	@Override

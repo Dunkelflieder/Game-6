@@ -50,8 +50,8 @@ public class Map {
 	public List<CoreBuilding> getBuildingsWithin(int posX, int posY, int radius) {
 		// TODO give back a list sorted by distance
 		Set<CoreBuilding> closeBuildings = new HashSet<>();
-		for (int x = posX - radius; x < posX + radius; x++) {
-			for (int y = posY - radius; y < posY + radius; y++) {
+		for (int x = posX - radius; x <= posX + radius; x++) {
+			for (int y = posY - radius; y <= posY + radius; y++) {
 				CoreBuilding b = getBuildingAt(x, y);
 				if (b != null && !closeBuildings.contains(b)) {
 					closeBuildings.add(b);
