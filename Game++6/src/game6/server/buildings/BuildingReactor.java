@@ -47,7 +47,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 			}
 
 			// sort by energy need
-			candidates.sort((p1, p2) -> (p1.getGoal().getMaxEnergy() - p1.getGoal().getEnergy()) - (p2.getGoal().getMaxEnergy() - p2.getGoal().getEnergy()));
+			candidates.sort((p1, p2) -> (p2.getGoal().getMaxEnergy() - p2.getGoal().getEnergy()) - (p1.getGoal().getMaxEnergy() - p1.getGoal().getEnergy()));
 
 			int left = shockPower;
 			for (Path path : candidates) {
