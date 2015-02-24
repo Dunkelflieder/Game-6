@@ -21,12 +21,13 @@ public class Server {
 
 	public Server(int port) {
 
-		initServer(port);
-		start();
+		if (initServer(port)) {
+			start();
+		}
 
 	}
 
-	private void initServer(int port) {
+	private boolean initServer(int port) {
 
 		// init the Server Socket
 		try {
@@ -34,8 +35,10 @@ public class Server {
 		} catch (BindException e) {
 			System.err.println("Could not start server. Port binding failed");
 			e.printStackTrace();
-			Thread.currentThread().interrupt();
+			return false;
 		}
+
+		return true;
 
 	}
 
