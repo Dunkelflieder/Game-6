@@ -26,8 +26,10 @@ public class Minimap {
 			img = new BufferedImage(map.getSizeX(), map.getSizeY(), BufferedImage.TYPE_INT_ARGB);
 			update(0, 0, map.getSizeX(), map.getSizeY());
 		} else {
-			tex.cleanup();
-			tex = null;
+			if (tex != null) {
+				tex.cleanup();
+				tex = null;
+			}
 		}
 	}
 
