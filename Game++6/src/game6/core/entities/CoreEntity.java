@@ -192,6 +192,11 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		}
 		float delta = MathHelper.clamp(turngoal, -rotationSpeed * timeDelta, rotationSpeed * timeDelta);
 		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
+		
+		
+		if(getFightingObject().getTarget()!=null){
+			if(goals.isEmpty())move(getFightingObject().getTarget().getPosition());
+		}
 	}
 
 	private void playDeathAnimation() {
@@ -255,6 +260,12 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	public void setFightingObject(FightingObject fightingObject) {
 		this.fightingObject = fightingObject;
+	}
+
+	public void attack(FightingObject target) {
+		getFightingObject().setTarget(target);
+
+		move(target.getPosition());		
 	}
 
 	public abstract String getName();

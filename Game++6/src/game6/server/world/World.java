@@ -60,6 +60,14 @@ public class World extends CoreWorld {
 					CoreEntity entity = (CoreEntity) getEntityList().getEntity(pegc.id);
 					// TODO check if movement is valid
 					entity.move(pegc.goal);
+				} else if (packet instanceof PacketCombatTargetSet) {
+					PacketCombatTargetSet pcts = (PacketCombatTargetSet) packet;
+					CoreEntity sourceEntity = (CoreEntity) getEntityList().getEntity(pcts.sourceID);
+					if (pcts.targetType == PacketCombatTargetSet.ENTITIY) {
+						CoreEntity targetEntity = (CoreEntity) getEntityList().getEntity(pcts.targetID);
+						sourceEntity.attack(targetEntity.getFightingObject());
+					}
+
 				}
 			}
 		}

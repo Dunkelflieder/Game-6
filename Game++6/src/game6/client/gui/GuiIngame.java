@@ -68,6 +68,21 @@ public class GuiIngame extends Gui {
 
 			@Override
 			public boolean mouseClicked(GComponent source, int button) {
+				// TODO don't hardcode fov
+				World world = controller.getWorld();
+				if (!world.isLoaded()) return false;
+
+				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
+				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
+				RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
+				Vector2f mapIntersection = controller.getWorld().getMap().getIntersection(mouseRay);
+
+				CoreBuilding clickedBuilding = null;
+				CoreEntity clickedEntity = null;
+
+				if (mapIntersection != null) clickedBuilding = controller.getWorld().getMap().getBuildingAt((int) mapIntersection.getX(), (int) mapIntersection.getY());
+				if (intersection != null) clickedEntity = (CoreEntity) intersection.intersectingBody;
+
 				if (button == 0) {
 
 					if (selectionPanel.getBuilding() != null) {
@@ -77,31 +92,12 @@ public class GuiIngame extends Gui {
 					} else {
 						// Else, try to select a building on the map
 
-						World world = controller.getWorld();
-						if (!world.isLoaded()) {
-							return false;
-						}
+						if (clickedEntity == null) {
+							// No intersection with mouse ray. Select building...
 
-						// TODO don't hardcode fov
-						controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
-						Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
-						RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
-
-						if (intersection == null) {
-
-							// No intersection with mouse ray. Trying to select building...
-							Vector2f mapIntersection = controller.getWorld().getMap().getIntersection(mouseRay);
-							if (mapIntersection != null) {
-								// If there is a building, select it
-								CoreBuilding building = controller.getWorld().getMap().getBuildingAt((int) mapIntersection.getX(), (int) mapIntersection.getY());
-								world.selectBuilding(building);
-							}
-
+							world.selectBuilding(clickedBuilding);
 						} else {
-
-							CoreEntity entity = (CoreEntity) intersection.intersectingBody;
-							world.selectEntity(entity);
-
+							world.selectEntity(clickedEntity);
 						}
 					}
 
@@ -114,7 +110,13 @@ public class GuiIngame extends Gui {
 
 					CoreEntity selectedEntity = controller.getWorld().getSelectedEntity();
 					if (selectedEntity != null) {
-						controller.moveEntity(selectedEntity, new Vector3f(mapPosition.getX(), selectedEntity.getPosition().getY(), mapPosition.getY()));
+						if (clickedBuilding != null) {
+							controller.setEntityTarget(selectedEntity, clickedBuilding);
+						} else if (clickedEntity != null) {
+							controller.setEntityTarget(selectedEntity, clickedEntity);
+						} else {
+							controller.moveEntity(selectedEntity, new Vector3f(mapPosition.getX(), selectedEntity.getPosition().getY(), mapPosition.getY()));
+						}
 					}
 				}
 				return false;
@@ -125,7 +127,7 @@ public class GuiIngame extends Gui {
 
 				World world = controller.getWorld();
 				if (!world.isLoaded()) {
-					return false;
+				return false;
 				}
 
 				// TODO don't hardcode fov
@@ -161,7 +163,7 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseClicked(GComponent source, int button) {
 				if (button < 2) {
-					return true;
+				return true;
 				}
 				return false;
 			}
@@ -184,9 +186,7 @@ public class GuiIngame extends Gui {
 	 */
 	public void updateCenterOfRendering() {
 
-		if (!controller.getWorld().isLoaded()) {
-			return;
-		}
+		if (!controller.getWorld().isLoaded()) { return; }
 
 		// Decrease the pitch angle for the calculation to get a center point further away.
 		// Because of perspective, the actual center point is not a good center point for rendering.

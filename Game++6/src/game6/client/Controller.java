@@ -129,6 +129,20 @@ public class Controller {
 		}
 	}
 
+	// TODO debug method
+	public void setEntityTarget(CoreEntity sourceEntity, CoreEntity targetEntity) {
+		if (isConnected()) {
+			connection.send(new PacketCombatTargetSet(PacketCombatTargetSet.ENTITIY, sourceEntity.getID(), PacketCombatTargetSet.ENTITIY, targetEntity.getID()));
+		}
+	}
+
+	// TODO debug method
+	public void setEntityTarget(CoreEntity sourceEntity, CoreBuilding targetBuilding) {
+		if (isConnected()) {
+			connection.send(new PacketCombatTargetSet(PacketCombatTargetSet.ENTITIY, sourceEntity.getID(), PacketCombatTargetSet.BUILDING, targetBuilding.getID()));
+		}
+	}
+
 	public void update(float timeDelta) {
 
 		// TODO debug/testing code
