@@ -6,7 +6,7 @@ import de.nerogar.util.Vector3f;
 public abstract class CoreEntityHelicopter1 extends CoreEntity {
 
 	public CoreEntityHelicopter1(long id, Vector3f position) {
-		super(id, new BoundingAABB<Vector3f>(new Vector3f(-0.3f, 0f, -0.3f), new Vector3f(0.3f, 0.3f, 0.3f)), position, 5, true);
+		super(id, new BoundingAABB<Vector3f>(new Vector3f(-0.3f, 0f, -0.3f), new Vector3f(0.3f, 0.3f, 0.3f)), position, 5, true, 10);
 	}
 
 	public String getName() {

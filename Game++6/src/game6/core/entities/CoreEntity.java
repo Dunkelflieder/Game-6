@@ -1,6 +1,7 @@
 package game6.core.entities;
 
 import game6.core.ai.pathfinding.Pathfinder.Position;
+import game6.core.combat.FightingObject;
 import game6.core.events.EventEntityGoalChanged;
 import game6.core.events.EventEntityMoved;
 import game6.core.faction.Faction;
@@ -29,23 +30,29 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	private boolean moved = false;
 	private boolean hasNewGoal = false;
 
+	private FightingObject fightingObject;
+
 	// maximum movement speed in m/s
 	private float speed;
 	private boolean flying;
 
-	public CoreEntity(long id, BoundingAABB<Vector3f> bounding, Vector3f position, float speed, boolean flying) {
+	public CoreEntity(long id, BoundingAABB<Vector3f> bounding, Vector3f position, float speed, boolean flying, int maxHealth) {
 		super(id, bounding, position);
 		this.speed = speed;
 		this.flying = flying;
+
 		this.tick = 0;
 		this.rotation = 0;
 		goals = new ArrayList<Vector3f>();
+
+		setFightingObject(new FightingObject(maxHealth, getPosition(), () -> {
+			playDeathAnimation();
+			removeFromWorld();
+		}));
 	}
 
 	public Vector3f getNextGoal() {
-		if (goals.size() == 0) {
-			return null;
-		}
+		if (goals.size() == 0) { return null; }
 		return goals.get(0);
 	}
 
@@ -86,9 +93,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	public void updateRotation() {
 		Vector3f goal = getNextGoal();
-		if (goal == null) {
-			return;
-		}
+		if (goal == null) { return; }
 		Vector3f dir = goal.subtracted(getPosition());
 
 		// If moving on x-axis, set direction manually
@@ -176,6 +181,10 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
 	}
 
+	private void playDeathAnimation() {
+		//TODO implement
+	}
+
 	protected float getVisibleRotation() {
 		return visibleRotation;
 	}
@@ -225,6 +234,14 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
+	}
+
+	public FightingObject getFightingObject() {
+		return fightingObject;
+	}
+
+	public void setFightingObject(FightingObject fightingObject) {
+		this.fightingObject = fightingObject;
 	}
 
 	public abstract String getName();
