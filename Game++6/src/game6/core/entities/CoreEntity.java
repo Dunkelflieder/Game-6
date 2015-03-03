@@ -27,6 +27,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	private Faction faction;
 
 	private List<Vector3f> goals;
+	private float stopDistanceSquared;
 	private boolean moved = false;
 	private boolean hasNewGoal = false;
 
@@ -49,6 +50,8 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			playDeathAnimation();
 			removeFromWorld();
 		}));
+
+		getFightingObject().setReach(5);
 	}
 
 	public Vector3f getNextGoal() {
@@ -65,15 +68,22 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	}
 
 	public void move(Vector3f to) {
+		getFightingObject().setTarget(null);
+		setTarget(to, 0);
+	}
+
+	private void setTarget(Vector3f targetPos, float stopDistance) {
+		this.stopDistanceSquared = stopDistance * stopDistance;
+
 		goals.clear();
-		if (to != null) {
+		if (targetPos != null) {
 			if (isFlying()) {
 				// Just add the goal
-				goals.add(to.added(new Vector3f(0.5f, 0f, 0.5f)));
+				goals.add(targetPos.added(new Vector3f(0.5f, 0f, 0.5f)));
 			} else {
-				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), to.getX(), to.getZ());
+				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), targetPos.getX(), targetPos.getZ());
 				if (path == null) {
-					System.err.println("NO PATH FOUND to: " + to + ", from: " + getPosition());
+					System.err.println("NO PATH FOUND to: " + targetPos + ", from: " + getPosition());
 				} else if (path.size() == 0) {
 					System.err.println("EMPTY PATH FOUND!");
 				} else {
@@ -84,7 +94,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 					if (goals.size() > 0) {
 						goals.remove(goals.size() - 1);
 					}
-					goals.add(to);
+					goals.add(targetPos.clone());
 				}
 			}
 		}
@@ -143,24 +153,27 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		tick++;
 
-		float remainingDistance = getSpeed() * timeDelta;
-		while (!goals.isEmpty() && remainingDistance > 0) {
-			Vector3f moveDelta = getNextGoal().subtracted(getPosition());
-			float moveDistance = moveDelta.getValue();
+		if (!goals.isEmpty() && goals.get(goals.size() - 1).subtracted(getPosition()).getSquaredValue() > stopDistanceSquared) {
 
-			if (moveDistance > remainingDistance) {
-				// goal is too far away to reach in this tick.
-				// limit the travelled distance to maximum distance
-				moveDelta.setValue(remainingDistance);
-				remainingDistance = 0;
-			} else {
-				// goal is reached with this tick
-				advanceOneGoal();
-				remainingDistance -= moveDistance;
+			float remainingDistance = getSpeed() * timeDelta;
+			while (!goals.isEmpty() && remainingDistance > 0) {
+				Vector3f moveDelta = getNextGoal().subtracted(getPosition());
+				float moveDistance = moveDelta.getValue();
+
+				if (moveDistance > remainingDistance) {
+					// goal is too far away to reach in this tick.
+					// limit the travelled distance to maximum distance
+					moveDelta.setValue(remainingDistance);
+					remainingDistance = 0;
+				} else {
+					// goal is reached with this tick
+					advanceOneGoal();
+					remainingDistance -= moveDistance;
+				}
+
+				teleportRelative(moveDelta);
+				moved = true;
 			}
-
-			teleportRelative(moveDelta);
-			moved = true;
 		}
 
 		if (hasNewGoal) {
@@ -192,10 +205,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		}
 		float delta = MathHelper.clamp(turngoal, -rotationSpeed * timeDelta, rotationSpeed * timeDelta);
 		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
-		
-		
-		if(getFightingObject().getTarget()!=null){
-			if(goals.isEmpty())move(getFightingObject().getTarget().getPosition());
+
+		if (getFightingObject().getTarget() != null) {
+			if (tick % 10 == 0) setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
 		}
 	}
 
@@ -265,7 +277,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	public void attack(FightingObject target) {
 		getFightingObject().setTarget(target);
 
-		move(target.getPosition());		
+		setTarget(target.getPosition(), getFightingObject().getReach());
 	}
 
 	public abstract String getName();

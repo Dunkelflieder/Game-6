@@ -6,6 +6,8 @@ public class FightingObject {
 
 	private int maxHealth;
 	private int health;
+	private float reach;
+
 	private Vector3f position;
 	private FightingObject target;
 
@@ -49,6 +51,14 @@ public class FightingObject {
 
 	public FightingObject getTarget() {
 		return target;
+	}
+
+	public void setReach(float reach){
+		this.reach = reach;
+	}
+	
+	public float getReach() {
+		return reach;
 	}
 
 }
