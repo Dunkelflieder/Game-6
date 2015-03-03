@@ -91,8 +91,6 @@ public class Pathfinder {
 
 	public List<Position> getRawPath(int fromX, int fromY, int goalX, int goalY) {
 
-		long t1 = System.nanoTime();
-
 		ArrayList<Node> openList = new ArrayList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
 
@@ -112,9 +110,6 @@ public class Pathfinder {
 
 		Position[] newPos = new Position[8];
 
-		long t2 = System.nanoTime();
-		System.out.println("Before loop: " + (t2 - t1));
-
 		// try finding a path, but abort if it's too expensive (thats the limit for)
 		for (int i = 0; i < maxDepth; i++) {
 
@@ -131,7 +126,6 @@ public class Pathfinder {
 			if (current.posX == goalX && current.posY == goalY) {
 				ArrayList<Position> path = nodeToArraylist(current);
 				reset(openList, closedList);
-				System.out.println("Iterations: " + i);
 				return path;
 			}
 
@@ -219,17 +213,6 @@ public class Pathfinder {
 	}
 
 	private static void addNodeSorted(ArrayList<Node> list, Node node, int goalX, int goalY) {
-		float cost = node.getTotalCost(goalX, goalY);
-		for (int i = 0; i < list.size(); i++) {
-			if (cost < list.get(i).getTotalCost(goalX, goalY)) {
-				list.add(i, node);
-				return;
-			}
-		}
-		list.add(node);
-	}
-
-	/*private static void addNodeSorted(ArrayList<Node> list, Node node, int goalX, int goalY) {
 		int il = 0;
 		int ir = list.size();
 		int mid = 0;
@@ -241,9 +224,8 @@ public class Pathfinder {
 			}
 			mid = (il + ir) / 2;
 		}
-		System.out.println("il "+il);
 		list.add(il, node);
-	}*/
+	}
 
 	/**
 	 * Bresenham-based supercover line algorithm.
