@@ -47,10 +47,12 @@ public class GuiIngame extends Gui {
 
 		buttonEntity = new GButton("100 entities");
 		buttonEntity.addClickedListener(source -> {
-			for (int i = 0; i < 100; i++) {
-				controller.requestEntity(EntityType.getRandom(), new Vector3f((int) (200 * Math.random()), 0, (int) (200 * Math.random())));
+			//for (int i = 0; i < 100; i++) {
+			//	controller.requestEntity(EntityType.getRandom(), new Vector3f((int) (200 * Math.random()), 0, (int) (200 * Math.random())));
 				// controller.requestEntity(EntityType.getRandom(), new Vector3f((float) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), 1, (float) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2))));
-			}
+			//}
+			controller.requestEntity(EntityType.getRandom(), new Vector3f(10, 0, 10));
+			controller.requestEntity(EntityType.getRandom(), new Vector3f(10, 0, 10));
 		});
 
 		// Panel, that represents the Info-Panel for a selected building. Very basic and generic for all buildings for now

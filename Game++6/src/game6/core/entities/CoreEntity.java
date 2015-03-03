@@ -76,18 +76,26 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		this.stopDistanceSquared = stopDistance * stopDistance;
 
 		goals.clear();
+
 		if (targetPos != null) {
+			targetPos = targetPos.clone();
 			if (isFlying()) {
 				// Just add the goal
+
 				goals.add(targetPos.added(new Vector3f(0.5f, 0f, 0.5f)));
+
+				goals.add(targetPos);
 			} else {
 				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), targetPos.getX(), targetPos.getZ());
 				if (path == null) {
+
 					System.err.println("NO PATH FOUND to: " + targetPos + ", from: " + getPosition());
 				} else if (path.size() == 0) {
 					System.err.println("EMPTY PATH FOUND!");
+
+					System.err.println("NO PATH FOUND to: " + targetPos + ", from: " + getPosition());
+
 				} else {
-					path.remove(0);
 					for (Position node : path) {
 						goals.add(new Vector3f(node.x + 0.5f, 0, node.y + 0.5f));
 					}
@@ -209,10 +217,11 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		if (getFightingObject().getTarget() != null) {
 			if (tick % 10 == 0) setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
 		}
+
 	}
 
 	private void playDeathAnimation() {
-		//TODO implement
+		// TODO implement
 	}
 
 	protected float getVisibleRotation() {

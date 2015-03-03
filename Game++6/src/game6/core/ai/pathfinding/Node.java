@@ -37,18 +37,22 @@ class Node {
 	}
 
 	public float getTotalCost(int goalX, int goalY) {
+		int diffX = Math.abs(goalX - posX);
+		int diffY = Math.abs(goalY - posY);
+		return getWayCost() + (diffX + diffY);
+	}
+
+	public float getWayCost() {
 		if (costCalc < 0) {
-			int diffX = Math.abs(goalX - posX);
-			int diffY = Math.abs(goalY - posY);
 			float pointerCost = 0;
 			float dirChangePenality = 0;
 			if (pointer != null) {
-				pointerCost = pointer.getTotalCost(goalX, goalY);
+				pointerCost = pointer.getWayCost();
 				if (pointer.getDir() != dir) {
 					dirChangePenality = 0.01f;
 				}
 			}
-			costCalc = pointerCost + dirChangePenality + (diffX * diffX + diffY * diffY) + cost * (isDiagonal() ? 1.41421356f : 1);
+			costCalc = pointerCost + dirChangePenality + cost * (isDiagonal() ? 1.41421356f : 1);
 		}
 		return costCalc;
 	}
@@ -82,7 +86,7 @@ class Node {
 		this.dir = dir;
 		costCalc = -1;
 	}
-	
+
 	public boolean isWalkable() {
 		return cost >= 0;
 	}
