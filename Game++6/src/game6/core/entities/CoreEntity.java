@@ -52,7 +52,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	}
 
 	public Vector3f getNextGoal() {
-		if (goals.size() == 0) { return null; }
+		if (goals.size() == 0) {
+			return null;
+		}
 		return goals.get(0);
 	}
 
@@ -67,17 +69,15 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	public void move(Vector3f to) {
 		goals.clear();
 		if (to != null) {
+			to = to.clone();
 			if (isFlying()) {
 				// Just add the goal
-				goals.add(to.added(new Vector3f(0.5f, 0f, 0.5f)));
+				goals.add(to);
 			} else {
 				List<Position> path = getMap().getPath(getPosition().getX(), getPosition().getZ(), to.getX(), to.getZ());
 				if (path == null) {
 					System.err.println("NO PATH FOUND to: " + to + ", from: " + getPosition());
-				} else if (path.size() == 0) {
-					System.err.println("EMPTY PATH FOUND!");
 				} else {
-					path.remove(0);
 					for (Position node : path) {
 						goals.add(new Vector3f(node.x + 0.5f, 0, node.y + 0.5f));
 					}
@@ -93,7 +93,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	public void updateRotation() {
 		Vector3f goal = getNextGoal();
-		if (goal == null) { return; }
+		if (goal == null) {
+			return;
+		}
 		Vector3f dir = goal.subtracted(getPosition());
 
 		// If moving on x-axis, set direction manually
@@ -192,15 +194,15 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		}
 		float delta = MathHelper.clamp(turngoal, -rotationSpeed * timeDelta, rotationSpeed * timeDelta);
 		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
-		
-		
-		if(getFightingObject().getTarget()!=null){
-			if(goals.isEmpty())move(getFightingObject().getTarget().getPosition());
+
+		if (getFightingObject().getTarget() != null) {
+			if (goals.isEmpty())move(getFightingObject().getTarget().getPosition());
 		}
+
 	}
 
 	private void playDeathAnimation() {
-		//TODO implement
+		// TODO implement
 	}
 
 	protected float getVisibleRotation() {
@@ -265,7 +267,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	public void attack(FightingObject target) {
 		getFightingObject().setTarget(target);
 
-		move(target.getPosition());		
+		move(target.getPosition());
 	}
 
 	public abstract String getName();

@@ -2,8 +2,7 @@ package game6.core.ai.pathfinding;
 
 import game6.core.world.Map;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Pathfinder {
 
@@ -69,6 +68,11 @@ public class Pathfinder {
 		}
 
 		List<Position> smoothedPath = new ArrayList<>();
+
+		if (path.size() == 0) {
+			return smoothedPath;
+		}
+
 		Position prev = path.get(0);
 		smoothedPath.add(prev);
 
@@ -87,6 +91,8 @@ public class Pathfinder {
 
 	public List<Position> getRawPath(int fromX, int fromY, int goalX, int goalY) {
 
+		long t1 = System.nanoTime();
+
 		ArrayList<Node> openList = new ArrayList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
 
@@ -104,8 +110,14 @@ public class Pathfinder {
 		current.setState(Node.STATE_OPEN);
 		openList.add(current);
 
+		Position[] newPos = new Position[8];
+
+		long t2 = System.nanoTime();
+		System.out.println("Before loop: " + (t2 - t1));
+
 		// try finding a path, but abort if it's too expensive (thats the limit for)
 		for (int i = 0; i < maxDepth; i++) {
+
 			// no path possible
 			if (openList.size() == 0) {
 				reset(openList, closedList);
@@ -119,10 +131,10 @@ public class Pathfinder {
 			if (current.posX == goalX && current.posY == goalY) {
 				ArrayList<Position> path = nodeToArraylist(current);
 				reset(openList, closedList);
+				System.out.println("Iterations: " + i);
 				return path;
 			}
 
-			Position[] newPos = new Position[8];
 			newPos[Node.DIR_UP] = new Position(current.posX, current.posY - 1); // up
 			newPos[Node.DIR_RIGHT] = new Position(current.posX + 1, current.posY); // right
 			newPos[Node.DIR_DOWN] = new Position(current.posX, current.posY + 1); // down
@@ -192,20 +204,32 @@ public class Pathfinder {
 	private static ArrayList<Position> nodeToArraylist(Node node) {
 		ArrayList<Position> a = new ArrayList<Position>();
 		a.add(new Position(node.posX, node.posY));
-		byte lastDir = -1;
+		byte prevDir = -1;
 		while (node.getPointer() != null) {
 			node = node.getPointer();
-			// Skip points on straight lines. They don't affect the path.
-			if (node.getDir() == lastDir) {
-				continue;
+			// Skip points on straight lines.
+			if (node.getDir() == prevDir) {
+				// continue;
 			}
 			a.add(0, new Position(node.posX, node.posY));
-			lastDir = node.getDir();
+			prevDir = node.getDir();
 		}
+		a.remove(0);
 		return a;
 	}
 
 	private static void addNodeSorted(ArrayList<Node> list, Node node, int goalX, int goalY) {
+		float cost = node.getTotalCost(goalX, goalY);
+		for (int i = 0; i < list.size(); i++) {
+			if (cost < list.get(i).getTotalCost(goalX, goalY)) {
+				list.add(i, node);
+				return;
+			}
+		}
+		list.add(node);
+	}
+
+	/*private static void addNodeSorted(ArrayList<Node> list, Node node, int goalX, int goalY) {
 		int il = 0;
 		int ir = list.size();
 		int mid = 0;
@@ -217,8 +241,9 @@ public class Pathfinder {
 			}
 			mid = (il + ir) / 2;
 		}
+		System.out.println("il "+il);
 		list.add(il, node);
-	}
+	}*/
 
 	/**
 	 * Bresenham-based supercover line algorithm.
