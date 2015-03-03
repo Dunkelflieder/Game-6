@@ -62,6 +62,30 @@ public class Pathfinder {
 	}
 
 	public List<Position> getPath(int fromX, int fromY, int goalX, int goalY) {
+		List<Position> path = getRawPath(fromX, fromY, goalX, goalY);
+
+		if (path == null) {
+			return null;
+		}
+
+		List<Position> smoothedPath = new ArrayList<>();
+		Position prev = path.get(0);
+		smoothedPath.add(prev);
+
+		int i = 1;
+		while (i < path.size()) {
+			while (i + 1 < path.size() && !intersectsBuilding(prev, path.get(i + 1))) {
+				i++;
+			}
+			prev = path.get(i);
+			smoothedPath.add(prev);
+			i++;
+		}
+
+		return smoothedPath;
+	}
+
+	public List<Position> getRawPath(int fromX, int fromY, int goalX, int goalY) {
 
 		ArrayList<Node> openList = new ArrayList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
@@ -73,7 +97,7 @@ public class Pathfinder {
 		if (current == null || to == null) {
 			return null;
 		}
-		if (current.cost < 0 || to.cost < 0) {
+		if (!current.isWalkable() || !to.isWalkable()) {
 			return null;
 		}
 
@@ -99,52 +123,50 @@ public class Pathfinder {
 			}
 
 			Position[] newPos = new Position[8];
-			newPos[0] = new Position(current.posX, current.posY - 1); // up
-			newPos[1] = new Position(current.posX + 1, current.posY); // right
-			newPos[2] = new Position(current.posX, current.posY + 1); // down
-			newPos[3] = new Position(current.posX - 1, current.posY); // left
-			newPos[4] = new Position(current.posX + 1, current.posY - 1); // up-right
-			newPos[5] = new Position(current.posX + 1, current.posY + 1); // right-down
-			newPos[6] = new Position(current.posX - 1, current.posY + 1); // down-left
-			newPos[7] = new Position(current.posX - 1, current.posY - 1); // left-up
+			newPos[Node.DIR_UP] = new Position(current.posX, current.posY - 1); // up
+			newPos[Node.DIR_RIGHT] = new Position(current.posX + 1, current.posY); // right
+			newPos[Node.DIR_DOWN] = new Position(current.posX, current.posY + 1); // down
+			newPos[Node.DIR_LEFT] = new Position(current.posX - 1, current.posY); // left
+			newPos[Node.DIR_UPRIGHT] = new Position(current.posX + 1, current.posY - 1); // up-right
+			newPos[Node.DIR_RIGHTDOWN] = new Position(current.posX + 1, current.posY + 1); // right-down
+			newPos[Node.DIR_DOWNLEFT] = new Position(current.posX - 1, current.posY + 1); // down-left
+			newPos[Node.DIR_LEFTUP] = new Position(current.posX - 1, current.posY - 1); // left-up
 
 			// remember if the nodes up, right, down and left were walkable (initialized with false)
-			boolean[] walkable = new boolean[4];
-			for (int j = 0; j < newPos.length; j++) {
+			// boolean[] walkable = new boolean[4];
+			for (byte j = 0; j < newPos.length; j++) {
 
-				if (j > 3) {
-					// skip this diagonal nodes if the 2 corresponding straight nodes were not walkable
-					if (!(walkable[j - 4] && walkable[j == 7 ? 0 : j - 3])) {
-						// example: j = 4: up-right
-						// j-4 = 0 => up
-						// j-3 = 1 => right
+				// if (j > 3) {
+				// skip this diagonal nodes if the 2 corresponding straight nodes were not walkable
+				// if (!(walkable[j - 4] && walkable[j == 7 ? 0 : j - 3])) {
+				// example: j = 4: up-right
+				// j-4 = 0 => up
+				// j-3 = 1 => right
 
-						// example: j = 7: left-up
-						// j-4 = 3 => left
-						// j-3 = 4 => Out of Bounds => j==7: 0 => up
-						// continue;
-					}
-				}
+				// example: j = 7: left-up
+				// j-4 = 3 => left
+				// j-3 = 4 => Out of Bounds => j==7: 0 => up
+				// continue;
+				// }
+				// }
 
 				Node node = getNodeAt(newPos[j].x, newPos[j].y);
 
 				// no such node OR node already in open or closed list OR node not walkable
-				if (node == null || node.getState() > Node.STATE_INIT || node.cost < 0) {
+				if (node == null || node.getState() > Node.STATE_INIT || !node.isWalkable()) {
 					continue;
 				}
 
 				node.setPointer(current);
-				if (j > 3) {
-					node.setDiagonal(true);
-				}
+				node.setDir(j);
 
 				// add to openList at the correct place (openList stays sorted)
 				addNodeSorted(openList, node, goalX, goalY);
 				node.setState(Node.STATE_OPEN);
 
-				if (j < 4) {
-					walkable[j] = true;
-				}
+				// if (j < 4) {
+				// walkable[j] = true;
+				// }
 			}
 
 			// remove processed node from open list and add to pseudo closed list
@@ -170,9 +192,15 @@ public class Pathfinder {
 	private static ArrayList<Position> nodeToArraylist(Node node) {
 		ArrayList<Position> a = new ArrayList<Position>();
 		a.add(new Position(node.posX, node.posY));
+		byte lastDir = -1;
 		while (node.getPointer() != null) {
 			node = node.getPointer();
+			// Skip points on straight lines. They don't affect the path.
+			if (node.getDir() == lastDir) {
+				continue;
+			}
 			a.add(0, new Position(node.posX, node.posY));
+			lastDir = node.getDir();
 		}
 		return a;
 	}
@@ -190,6 +218,95 @@ public class Pathfinder {
 			mid = (il + ir) / 2;
 		}
 		list.add(il, node);
+	}
+
+	/**
+	 * Bresenham-based supercover line algorithm.
+	 * Inspired by: http://lifc.univ-fcomte.fr/~dedu/projects/bresenham/index.html
+	 * @param p1 Point 1 of line
+	 * @param p2 Point 2 of line
+	 * @return true, if the line intersects any building. false, if the line has no obstacles.
+	 */
+	public boolean intersectsBuilding(Position p1, Position p2) {
+
+		int dx = p2.x - p1.x;
+		int dy = p2.y - p1.y;
+
+		int signumX = signum(dx);
+		int signumY = signum(dy);
+
+		if (dx < 0) {
+			dx = -dx;
+		}
+		if (dy < 0) {
+			dy = -dy;
+		}
+
+		int stepX, stepY;
+		int errorSlow, errorFast;
+		if (dx > dy) {
+			stepX = signumX;
+			stepY = 0;
+			errorSlow = dx;
+			errorFast = dy;
+		} else {
+			stepX = 0;
+			stepY = signumY;
+			errorSlow = dy;
+			errorFast = dx;
+		}
+
+		int x = p1.x;
+		int y = p1.y;
+
+		int error = errorSlow / 2;
+		int errorPrev = error;
+
+		for (int i = 0; i < errorSlow; i++) {
+
+			error -= errorFast;
+
+			if (error < 0) {
+
+				error += errorSlow;
+
+				x += signumX;
+				y += signumY;
+
+				if (error + errorPrev < dx) {
+					if (!isFree(x, y - signumY)) {
+						return true;
+					}
+				} else if (error + errorPrev > dx) {
+					if (!isFree(x - signumX, y)) {
+						return true;
+					}
+				}
+
+			} else {
+
+				x += stepX;
+				y += stepY;
+
+			}
+
+			if (!isFree(x, y)) {
+				return true;
+			}
+
+			errorPrev = error;
+
+		}
+
+		return false;
+	}
+
+	private static int signum(int x) {
+		return x > 0 ? 1 : (x < 0 ? -1 : 0);
+	}
+
+	private boolean isFree(int x, int y) {
+		return getNodeAt(x, y).isWalkable();
 	}
 
 }
