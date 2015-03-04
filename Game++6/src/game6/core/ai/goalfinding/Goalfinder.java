@@ -14,6 +14,31 @@ public class Goalfinder {
 		this.world = world;
 	}
 
+	private class Node {
+
+		public CoreBuilding building;
+		public Node origin;
+
+		public Node(CoreBuilding building, Node origin) {
+			this.building = building;
+			this.origin = origin;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof Node) {
+				return ((Node) obj).building == building;
+			}
+			return false;
+		}
+
+		@Override
+		public int hashCode() {
+			return (int) building.getID();
+		}
+
+	}
+
 	public List<Path> search(CoreBuilding startBuilding) {
 
 		List<Path> paths = new ArrayList<>();
@@ -42,7 +67,7 @@ public class Goalfinder {
 				}
 			}
 		}
-		
+
 		return paths;
 	}
 

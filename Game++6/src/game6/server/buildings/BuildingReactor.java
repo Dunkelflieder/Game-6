@@ -14,7 +14,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 
 	private int tick = 0;
 	// Ticks between each energy pulse
-	private int shockCooldown = 10;
+	private int shockCooldown = 50;
 	// Amount of energy emitted with each pulse
 	private int shockPower = 100;
 

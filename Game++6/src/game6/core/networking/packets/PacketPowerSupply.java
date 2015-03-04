@@ -10,7 +10,7 @@ import de.nerogar.network.packets.Packet;
 public class PacketPowerSupply extends Packet {
 
 	public long[] waypoints;
-	private int amount;
+	public int amount;
 
 	public PacketPowerSupply() {
 

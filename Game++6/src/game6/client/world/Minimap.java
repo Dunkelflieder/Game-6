@@ -34,7 +34,7 @@ public class Minimap {
 	}
 
 	public void update(int fromX, int fromY, int sizeX, int sizeY) {
-		for (int x = fromX; x < fromX + sizeX; x++) {
+		/*for (int x = fromX; x < fromX + sizeX; x++) {
 			for (int y = fromY; y < fromY + sizeY; y++) {
 				// TODO don't reload the whole image on each update!
 				img.setRGB(x, y, map.getTile(x, y).getColor().getARGB());
@@ -43,7 +43,7 @@ public class Minimap {
 		if (tex != null) {
 			tex.cleanup();
 		}
-		tex = TextureLoader.loadTexture(img, "minimap", InterpolationType.NEAREST);
+		tex = TextureLoader.loadTexture(img, "minimap", InterpolationType.NEAREST);*/
 	}
 
 }

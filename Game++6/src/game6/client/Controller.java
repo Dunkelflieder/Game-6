@@ -13,7 +13,8 @@ import game6.core.networking.packets.*;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.List;
+import java.util.*;
+import java.util.Map.Entry;
 
 import de.nerogar.network.Connection;
 import de.nerogar.network.Packets;
@@ -157,6 +158,30 @@ public class Controller {
 				}
 			}
 
+			class LightningLine {
+				long a, b;
+
+				public LightningLine(long a, long b, int amount) {
+					this.a = a;
+					this.b = b;
+				}
+
+				@Override
+				public boolean equals(Object obj) {
+					if (!(obj instanceof LightningLine)) {
+						return false;
+					}
+					LightningLine l = (LightningLine) obj;
+					return l.a == a && l.b == b || l.a == b && l.b == a;
+				}
+
+				@Override
+				public int hashCode() {
+					return (int) (a + b);
+				}
+			}
+			HashMap<LightningLine, Integer> lightnings = new HashMap<>();
+
 			// TODO Don't process the packets here
 			packets = connection.get(PacketList.BUILDINGS);
 			for (Packet packet : packets) {
@@ -175,11 +200,13 @@ public class Controller {
 					if (waypoints.length == 0) {
 						System.err.println("Got PacketPowerSupply with empty waypoints array!");
 					} else {
-						CoreBuilding previous = getWorld().getBuilding(waypoints[0]);
 						for (int i = 1; i < waypoints.length; i++) {
-							CoreBuilding target = getWorld().getBuilding(waypoints[i]);
-							effects.addEffect(new Lightning(previous.getCenter(), target.getCenter()));
-							previous = target;
+							LightningLine line = new LightningLine(waypoints[i - 1], waypoints[i], packetPS.amount);
+							if (lightnings.containsKey(line)) {
+								lightnings.put(line, lightnings.get(line) + packetPS.amount);
+							} else {
+								lightnings.put(line, packetPS.amount);
+							}
 						}
 					}
 
@@ -188,6 +215,12 @@ public class Controller {
 					getWorld().getBuilding(pbu.id).setEnergy(pbu.energy);
 
 				}
+			}
+
+			for (Entry<LightningLine, Integer> entry : lightnings.entrySet()) {
+				CoreBuilding building1 = getWorld().getBuilding(entry.getKey().a);
+				CoreBuilding building2 = getWorld().getBuilding(entry.getKey().b);
+				effects.addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
 			}
 
 			packets = connection.get(PacketList.ENTITIES);
