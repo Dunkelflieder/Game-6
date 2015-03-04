@@ -161,26 +161,31 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		tick++;
 
-		if (!goals.isEmpty() && goals.get(goals.size() - 1).subtracted(getPosition()).getSquaredValue() > stopDistanceSquared) {
+		if (!goals.isEmpty()) {
+			float squaredDistanceToTarget = goals.get(goals.size() - 1).subtracted(getPosition()).getSquaredValue();
+			if (squaredDistanceToTarget > stopDistanceSquared) {
 
-			float remainingDistance = getSpeed() * timeDelta;
-			while (!goals.isEmpty() && remainingDistance > 0) {
-				Vector3f moveDelta = getNextGoal().subtracted(getPosition());
-				float moveDistance = moveDelta.getValue();
+				float remainingDistance = getSpeed() * timeDelta;
+				while (!goals.isEmpty() && remainingDistance > 0) {
+					Vector3f moveDelta = getNextGoal().subtracted(getPosition());
+					float moveDistance = moveDelta.getValue();
 
-				if (moveDistance > remainingDistance) {
-					// goal is too far away to reach in this tick.
-					// limit the travelled distance to maximum distance
-					moveDelta.setValue(remainingDistance);
-					remainingDistance = 0;
-				} else {
-					// goal is reached with this tick
-					advanceOneGoal();
-					remainingDistance -= moveDistance;
+					if (moveDistance > remainingDistance) {
+						// goal is too far away to reach in this tick.
+						// limit the travelled distance to maximum distance
+						moveDelta.setValue(remainingDistance);
+						remainingDistance = 0;
+					} else {
+						// goal is reached with this tick
+						advanceOneGoal();
+						remainingDistance -= moveDistance;
+					}
+
+					teleportRelative(moveDelta);
+					moved = true;
 				}
-
-				teleportRelative(moveDelta);
-				moved = true;
+			} else if (squaredDistanceToTarget <= stopDistanceSquared) {
+				setTarget(null, 0);
 			}
 		}
 
