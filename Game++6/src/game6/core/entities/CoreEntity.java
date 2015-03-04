@@ -50,8 +50,6 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			playDeathAnimation();
 			removeFromWorld();
 		}));
-
-		getFightingObject().setReach(5);
 	}
 
 	public Vector3f getNextGoal() {
@@ -223,6 +221,8 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			if (tick % 10 == 0) setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
 		}
 
+		getFightingObject().update(events);
+		
 	}
 
 	private void playDeathAnimation() {

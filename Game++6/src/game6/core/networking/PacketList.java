@@ -18,7 +18,8 @@ public class PacketList {
 		Packets.addPacket(ENTITIES, PacketSpawnEntity.class);
 		Packets.addPacket(ENTITIES, PacketEntityMoved.class);
 		Packets.addPacket(ENTITIES, PacketEntityGoalChanged.class);
-		Packets.addPacket(ENTITIES, PacketCombatTargetSet.class);		
+		Packets.addPacket(ENTITIES, PacketCombatTargetSet.class);	
+		Packets.addPacket(ENTITIES, PacketAttackEffect.class);	
 	}
 
 }

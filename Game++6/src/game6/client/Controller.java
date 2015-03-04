@@ -1,7 +1,6 @@
 package game6.client;
 
-import game6.client.effects.EffectContainer;
-import game6.client.effects.Lightning;
+import game6.client.effects.*;
 import game6.client.sound.SoundContext;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
@@ -212,6 +211,11 @@ public class Controller {
 					PacketEntityGoalChanged packetEntity = (PacketEntityGoalChanged) packet;
 					((CoreEntity) world.getEntityList().getEntity(packetEntity.id)).setGoal(packetEntity.goal);
 
+				} else if (packet instanceof PacketAttackEffect) {
+
+					PacketAttackEffect packetEntity = (PacketAttackEffect) packet;
+
+					effects.addEffect(new LaserBullet(packetEntity.sourcePos, packetEntity.targetPos));
 				}
 			}
 		}
