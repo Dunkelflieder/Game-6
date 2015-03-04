@@ -101,7 +101,7 @@ public class Pathfinder {
 		if (current == null || to == null) {
 			return null;
 		}
-		if (!current.isWalkable() || !to.isWalkable()) {
+		if (!to.isWalkable()) {
 			return null;
 		}
 
