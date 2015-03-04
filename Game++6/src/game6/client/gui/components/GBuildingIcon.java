@@ -16,14 +16,14 @@ import de.nerogar.render.GameDisplay;
  * @author Felk
  *
  */
-public class GBuilding extends GComponent implements MouseListener {
+public class GBuildingIcon extends GComponent implements MouseListener {
 
 	private List<ClickedListener> clickedListener = new ArrayList<>();
 
 	private GImage image;
 	private BuildingType type;
 
-	public GBuilding(GameDisplay display, BuildingType type) {
+	public GBuildingIcon(GameDisplay display, BuildingType type) {
 		this.type = type;
 		image = new GImage(BuildingImageRenderer.render(display, type.getClientBuilding(0)));
 	}

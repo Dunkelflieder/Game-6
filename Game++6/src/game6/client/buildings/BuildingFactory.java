@@ -13,8 +13,11 @@ public class BuildingFactory extends CoreBuildingFactory {
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
+	private BuildingGui gui;
+
 	public BuildingFactory(long id) {
 		super(id);
+		gui = new BuildingGuiEnergy(this);
 	}
 
 	@Override
@@ -37,6 +40,11 @@ public class BuildingFactory extends CoreBuildingFactory {
 
 	@Override
 	public void update(List<UpdateEvent> events) {
+	}
+
+	@Override
+	public BuildingGui getGui() {
+		return gui;
 	}
 
 }

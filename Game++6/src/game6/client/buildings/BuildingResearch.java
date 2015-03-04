@@ -13,8 +13,11 @@ public class BuildingResearch extends CoreBuildingResearch {
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
+	private BuildingGui gui;
+
 	public BuildingResearch(long id) {
 		super(id);
+		gui = new BuildingGuiEnergy(this);
 	}
 
 	@Override
@@ -37,6 +40,11 @@ public class BuildingResearch extends CoreBuildingResearch {
 
 	@Override
 	public void update(List<UpdateEvent> events) {
+	}
+
+	@Override
+	public BuildingGui getGui() {
+		return gui;
 	}
 
 }

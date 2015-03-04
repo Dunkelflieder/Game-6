@@ -1,5 +1,6 @@
 package game6.core.buildings;
 
+import game6.client.buildings.BuildingGui;
 import game6.core.faction.Faction;
 import game6.core.world.CoreWorld;
 
@@ -93,10 +94,16 @@ public abstract class CoreBuilding {
 	public abstract void update(List<UpdateEvent> events);
 
 	/**
-	 * Should be implemented by client subclasses
+	 * Should be implemented by client subclasses.
 	 * @param shader the currently active shader
 	 */
 	public abstract void render(Shader shader);
+
+	/**
+	 * Should be implemented by client subclasses.
+	 * @return A BuildingGuiPanel, derived from GPanel, which represents the Building's unique GUI
+	 */
+	public abstract BuildingGui getGui();
 
 	/**
 	 * Returns a human-readable name for this building.

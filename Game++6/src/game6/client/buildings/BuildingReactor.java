@@ -13,8 +13,11 @@ public class BuildingReactor extends CoreBuildingReactor {
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
+	private BuildingGui gui;
+
 	public BuildingReactor(long id) {
 		super(id);
+		gui = new BuildingGuiDefault(this);
 	}
 
 	@Override
@@ -37,6 +40,11 @@ public class BuildingReactor extends CoreBuildingReactor {
 
 	@Override
 	public void update(List<UpdateEvent> events) {
+	}
+
+	@Override
+	public BuildingGui getGui() {
+		return gui;
 	}
 
 }

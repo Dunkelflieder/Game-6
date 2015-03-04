@@ -28,7 +28,6 @@ public class GuiIngame extends Gui {
 	private GButton buttonEntity;
 
 	private GPanelEntityInfo entityPanel;
-	private GPanelBuildingInfo buildingPanel;
 	private GPanelBuildingSelection selectionPanel;
 
 	private GImage minimap;
@@ -47,16 +46,13 @@ public class GuiIngame extends Gui {
 
 		buttonEntity = new GButton("100 entities");
 		buttonEntity.addClickedListener(source -> {
-			//for (int i = 0; i < 100; i++) {
-			//	controller.requestEntity(EntityType.getRandom(), new Vector3f((int) (200 * Math.random()), 0, (int) (200 * Math.random())));
-				// controller.requestEntity(EntityType.getRandom(), new Vector3f((float) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), 1, (float) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2))));
-			//}
-			controller.requestEntity(EntityType.getRandom(), new Vector3f(10, 0, 10));
-			controller.requestEntity(EntityType.getRandom(), new Vector3f(10, 0, 10));
-		});
-
-		// Panel, that represents the Info-Panel for a selected building. Very basic and generic for all buildings for now
-		buildingPanel = new GPanelBuildingInfo(controller);
+			// for (int i = 0; i < 100; i++) {
+			// controller.requestEntity(EntityType.getRandom(), new Vector3f((int) (200 * Math.random()), 0, (int) (200 * Math.random())));
+			// controller.requestEntity(EntityType.getRandom(), new Vector3f((float) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), 1, (float) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2))));
+			// }
+				controller.requestEntity(EntityType.getRandom(), new Vector3f(10, 0, 10));
+				controller.requestEntity(EntityType.getRandom(), new Vector3f(10, 0, 10));
+			});
 
 		entityPanel = new GPanelEntityInfo(controller);
 
@@ -72,7 +68,8 @@ public class GuiIngame extends Gui {
 			public boolean mouseClicked(GComponent source, int button) {
 				// TODO don't hardcode fov
 				World world = controller.getWorld();
-				if (!world.isLoaded()) return false;
+				if (!world.isLoaded())
+					return false;
 
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
 				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
@@ -82,8 +79,10 @@ public class GuiIngame extends Gui {
 				CoreBuilding clickedBuilding = null;
 				CoreEntity clickedEntity = null;
 
-				if (mapIntersection != null) clickedBuilding = controller.getWorld().getMap().getBuildingAt((int) mapIntersection.getX(), (int) mapIntersection.getY());
-				if (intersection != null) clickedEntity = (CoreEntity) intersection.intersectingBody;
+				if (mapIntersection != null)
+					clickedBuilding = controller.getWorld().getMap().getBuildingAt((int) mapIntersection.getX(), (int) mapIntersection.getY());
+				if (intersection != null)
+					clickedEntity = (CoreEntity) intersection.intersectingBody;
 
 				if (button == 0) {
 
@@ -98,6 +97,7 @@ public class GuiIngame extends Gui {
 							// No intersection with mouse ray. Select building...
 
 							world.selectBuilding(clickedBuilding);
+							repositionBuildingGui();
 						} else {
 							world.selectEntity(clickedEntity);
 						}
@@ -129,7 +129,7 @@ public class GuiIngame extends Gui {
 
 				World world = controller.getWorld();
 				if (!world.isLoaded()) {
-				return false;
+					return false;
 				}
 
 				// TODO don't hardcode fov
@@ -165,7 +165,7 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseClicked(GComponent source, int button) {
 				if (button < 2) {
-				return true;
+					return true;
 				}
 				return false;
 			}
@@ -175,7 +175,6 @@ public class GuiIngame extends Gui {
 		minimap.setPos(8, 8);
 		minimap.setSize(256, 256);
 
-		add(buildingPanel);
 		add(entityPanel);
 		add(buttonBuilding);
 		add(buttonEntity);
@@ -188,7 +187,9 @@ public class GuiIngame extends Gui {
 	 */
 	public void updateCenterOfRendering() {
 
-		if (!controller.getWorld().isLoaded()) { return; }
+		if (!controller.getWorld().isLoaded()) {
+			return;
+		}
 
 		// Decrease the pitch angle for the calculation to get a center point further away.
 		// Because of perspective, the actual center point is not a good center point for rendering.
@@ -233,10 +234,6 @@ public class GuiIngame extends Gui {
 		buttonEntity.setSize(210, 40);
 		buttonEntity.setPos(700, 80);
 
-		buildingPanel.setSize(300, 500);
-		buildingPanel.setPos(screenWidth - 300, 0);
-		buildingPanel.resize();
-
 		entityPanel.setSize(300, 500);
 		entityPanel.setPos(screenWidth - 300, 0);
 		entityPanel.resize();
@@ -244,6 +241,31 @@ public class GuiIngame extends Gui {
 		selectionPanel.setSize(screenWidth, 170);
 		selectionPanel.setPos(0, 0);
 		selectionPanel.resize();
+
+		repositionBuildingGui();
+	}
+
+	@Override
+	public void render() {
+		super.render();
+		if (controller.getWorld().getSelectedBuilding() != null) {
+			controller.getWorld().getSelectedBuilding().getGui().render();
+		}
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		if (controller.getWorld().getSelectedBuilding() != null) {
+			controller.getWorld().getSelectedBuilding().getGui().update();
+		}
+	}
+
+	private void repositionBuildingGui() {
+		CoreBuilding building = controller.getWorld().getSelectedBuilding();
+		if (building != null) {
+			building.getGui().setPos(panel.getSizeX() - building.getGui().getSizeX(), selectionPanel.getSizeY());
+		}
 	}
 
 	public void reset() {

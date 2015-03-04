@@ -20,7 +20,7 @@ public class GPanelBuildingSelection extends GPanel {
 
 	private Controller controller;
 
-	private List<GBuilding> buildings;
+	private List<GBuildingIcon> buildings;
 	private BuildingType selectedBuilding;
 	private CoreBuilding buildingPreview;
 
@@ -60,11 +60,11 @@ public class GPanelBuildingSelection extends GPanel {
 		add(buildingHighlight);
 
 		for (BuildingType type : BuildingType.values()) {
-			GBuilding gBuilding = new GBuilding(display, type);
+			GBuildingIcon gBuilding = new GBuildingIcon(display, type);
 			buildings.add(gBuilding);
 			add(gBuilding);
 			gBuilding.addClickedListener(source -> {
-				selectBuilding(((GBuilding) source).getBuildingType());
+				selectBuilding(((GBuildingIcon) source).getBuildingType());
 			});
 		}
 	}
@@ -93,7 +93,7 @@ public class GPanelBuildingSelection extends GPanel {
 		if (selectedBuilding == null) {
 			buildingHighlight.setPos(-9999, -9999);
 		} else {
-			for (GBuilding building : buildings) {
+			for (GBuildingIcon building : buildings) {
 				if (building.getBuildingType() == selectedBuilding) {
 					buildingHighlight.setPos(building.getPosX() - 5, building.getPosY() - 5);
 					return;
@@ -121,7 +121,7 @@ public class GPanelBuildingSelection extends GPanel {
 	 */
 	public void resize() {
 		for (int index = 0; index < buildings.size(); index++) {
-			GBuilding building = buildings.get(index);
+			GBuildingIcon building = buildings.get(index);
 			building.setSize(64, 64);
 			building.setPos(getPositionXForIndex(index), getPositionYForIndex(index));
 		}

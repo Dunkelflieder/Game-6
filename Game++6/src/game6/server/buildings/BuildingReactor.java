@@ -1,11 +1,13 @@
 package game6.server.buildings;
 
+import game6.client.buildings.BuildingGui;
 import game6.core.ai.goalfinding.Path;
 import game6.core.buildings.CoreBuildingReactor;
 import game6.core.events.EventBuildingUpdate;
 import game6.core.events.EventPowerSupply;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.nerogar.engine.UpdateEvent;
 import de.nerogar.render.Shader;
@@ -72,6 +74,11 @@ public class BuildingReactor extends CoreBuildingReactor {
 
 	public int getShockPower() {
 		return shockPower;
+	}
+
+	@Override
+	public BuildingGui getGui() {
+		return null;
 	}
 
 }
