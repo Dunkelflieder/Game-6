@@ -76,7 +76,6 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		goals.clear();
 
 		if (targetPos != null) {
-			targetPos = targetPos.clone();
 			if (isFlying()) {
 				// Just add the goal
 
@@ -88,11 +87,6 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 				if (path == null) {
 
 					System.err.println("NO PATH FOUND to: " + targetPos + ", from: " + getPosition());
-				} else if (path.size() == 0) {
-					System.err.println("EMPTY PATH FOUND!");
-
-					System.err.println("NO PATH FOUND to: " + targetPos + ", from: " + getPosition());
-
 				} else {
 					for (Position node : path) {
 						goals.add(new Vector3f(node.x + 0.5f, 0, node.y + 0.5f));
