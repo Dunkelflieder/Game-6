@@ -41,15 +41,17 @@ void main(){
 	vec4 effectsColor = vec4(0.0);
 	for(float i = -5.0; i <= 5.0; i += 1.0){
 		for(float j = -5.0; j <= 5.0; j += 1.0){
-			effectsColor += texture2D(tex_effectsColor, gl_TexCoord[0].st + vec2(i / resolution.x, j / resolution.y)) * (1.0/(abs(i)+1.0)) * (1.0/(abs(j)+1.0));
+			vec4 effectsTexel = texture2D(tex_effectsColor, gl_TexCoord[0].st + vec2(i / resolution.x, j / resolution.y));
+		
+			effectsColor += effectsTexel * (1.0/(abs(i)+1.0)) * (1.0/(abs(j)+1.0));
 		}
 	}
-	effectsColor = (effectsColor) * 0.8;
+	effectsColor = (effectsColor) * 0.5;
 
 	//gui
 	vec4 guiColor = texture2D(tex_guiColor, gl_TexCoord[0].st);
 
 	//combine
-	vec4 finalCombinedColor = worldFinal + effectsColor;
+	vec4 finalCombinedColor = mix(worldFinal, effectsColor, effectsColor.a);
 	gl_FragColor = mix(finalCombinedColor, guiColor, guiColor.a);
 }

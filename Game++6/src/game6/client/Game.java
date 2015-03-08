@@ -109,11 +109,11 @@ public class Game extends BaseGame {
 		display.setScreenProperties(worldProperties, true);
 		world.render(null);
 
-		display.setScreenProperties(lightProperties, true);
-		lightContainer.render(lightProperties);
-
 		display.setScreenProperties(effectProperties, true);
 		effectContainer.render();
+
+		display.setScreenProperties(lightProperties, true);
+		lightContainer.render(lightProperties);
 
 		display.setScreenProperties(guiProperties, true);
 		GL11.glEnable(GL11.GL_BLEND);
