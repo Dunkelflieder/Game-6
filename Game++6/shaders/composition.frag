@@ -52,6 +52,7 @@ void main(){
 	vec4 guiColor = texture2D(tex_guiColor, gl_TexCoord[0].st);
 
 	//combine
-	vec4 finalCombinedColor = mix(worldFinal, effectsColor, effectsColor.a);
+	//vec4 finalCombinedColor = mix(worldFinal, effectsColor, effectsColor.a);
+	vec4 finalCombinedColor = worldFinal + effectsColor;
 	gl_FragColor = mix(finalCombinedColor, guiColor, guiColor.a);
 }
