@@ -1,6 +1,7 @@
 package game6.client.gui;
 
 import game6.client.Controller;
+import game6.client.Game;
 import game6.client.gui.components.*;
 import game6.client.gui.listener.KeyboardAdapter;
 import game6.client.gui.listener.MouseAdapter;
@@ -37,14 +38,14 @@ public class GuiIngame extends Gui {
 	@Override
 	public void initComponents() {
 
-		buttonBuilding = new GButton("100 buildings");
+		buttonBuilding = new GButton(Game.langFile.getString("gui.ingame.button.spawnBuildingDebug"));
 		buttonBuilding.addClickedListener(source -> {
 			for (int i = 0; i < 100; i++) {
 				controller.placeBuilding(BuildingType.getRandom(), (int) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), (int) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2)));
 			}
 		});
 
-		buttonEntity = new GButton("100 entities");
+		buttonEntity = new GButton(Game.langFile.getString("gui.ingame.button.spawnEntityDebug"));
 		buttonEntity.addClickedListener(source -> {
 			// for (int i = 0; i < 100; i++) {
 			// controller.requestEntity(EntityType.getRandom(), new Vector3f((int) (200 * Math.random()), 0, (int) (200 * Math.random())));

@@ -17,6 +17,8 @@ import de.nerogar.render.Texture2D.InterpolationType;
 
 public class Game extends BaseGame {
 
+	public static LanguageFile langFile;
+
 	private Controller controller;
 	private World world;
 	private ScreenProperties worldProperties;
@@ -33,6 +35,9 @@ public class Game extends BaseGame {
 	public void startup() {
 		PacketList.init();
 		Keyboard.enableRepeatEvents(true);
+
+		langFile = new LanguageFile();
+		langFile.load("lang/de_DE.lang");
 
 		compositer = new Compositer();
 

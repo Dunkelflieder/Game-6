@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import org.lwjgl.input.Keyboard;
 
+import game6.client.Game;
 import game6.client.gui.components.*;
 import game6.client.gui.listener.KeyboardAdapter;
 
@@ -26,10 +27,10 @@ public class GuiPause extends Gui {
 		background.setPos(0, 0);
 		background.setSize(99999, 99999);
 
-		text = new GLabel("Menü");
+		text = new GLabel(Game.langFile.getString("gui.pause.label.menu"));
 		text.setAlignment(Font.CENTER);
-		resume = new GButton("Fortfahren");
-		exit = new GButton("Beenden");
+		resume = new GButton(Game.langFile.getString("gui.pause.button.continue"));
+		exit = new GButton(Game.langFile.getString("gui.pause.button.exit"));
 
 		resume.addClickedListener(source -> Guis.select(Guis.INGAME));
 

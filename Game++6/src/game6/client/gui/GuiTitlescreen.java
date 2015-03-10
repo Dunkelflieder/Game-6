@@ -1,5 +1,6 @@
 package game6.client.gui;
 
+import game6.client.Game;
 import game6.client.gui.components.GButton;
 import game6.client.gui.components.GColorfield;
 import game6.client.gui.components.GInput;
@@ -28,16 +29,16 @@ public class GuiTitlescreen extends Gui {
 	public void initComponents() {
 		background = new GColorfield(new Color(0, 0, 0));
 
-		title = new GLabel("Dies ist der Titelbildschirm");
+		title = new GLabel(Game.langFile.getString("gui.main.label.title"));
 		title.setAlignment(Font.CENTER);
 
-		label = new GLabel("Host und Port:");
+		label = new GLabel(Game.langFile.getString("gui.main.label.host"));
 		label.setAlignment(Font.RIGHT);
 
 		host = new GInput("localhost");
 		port = new GInputNumber(4200);
 
-		connectButton = new GButton("Verbinden");
+		connectButton = new GButton(Game.langFile.getString("gui.main.button.connect"));
 		connectButton.addClickedListener(source -> {
 			if (controller.connect(host.getText(), port.getNumber())) {
 				Guis.select(Guis.INGAME);

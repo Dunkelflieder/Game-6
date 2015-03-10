@@ -23,7 +23,7 @@ public class LaserBullet extends Effect {
 		this.end = end;
 		position = start.clone();
 		direction = end.subtracted(start);
-		speed = 50f;
+		speed = 80f;
 
 		MAX_LIFETIME = direction.getValue() / speed;
 		lifeTime = MAX_LIFETIME;

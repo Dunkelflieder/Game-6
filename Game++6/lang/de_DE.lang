@@ -1,0 +1,10 @@
+gui.main.label.title=Dies ist der Titelbildschirm
+gui.main.label.host=Host und Port:
+gui.main.button.connect=Verbinden
+
+gui.pause.label.menu=Menü
+gui.pause.button.continue=Fortfahren
+gui.pause.button.exit=Beenden
+
+gui.ingame.button.spawnEntityDebug = 100 Entities
+gui.ingame.button.spawnBuildingDebug = 100 Gebäude
