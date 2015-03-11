@@ -261,6 +261,9 @@ public class Controller {
 
 						//entity.playDeathAnimation();
 					}
+					if (getWorld().getSelectedEntity() != null && pre.id == getWorld().getSelectedEntity().getID()) {
+						getWorld().selectEntity(null);
+					}
 					entity.removeFromWorld();
 
 				}
