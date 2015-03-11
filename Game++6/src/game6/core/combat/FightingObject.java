@@ -21,7 +21,10 @@ public class FightingObject {
 	}
 
 	public void update() {
-		if (attackEvent != null && target != null) attackEvent.onAttack(target);
+		if (attackEvent != null && target != null && target.getPosition().subtracted(getPosition()).getSquaredValue() <= reach * reach) {
+			if (target.isDead()) target = null;
+			attackEvent.onAttack(target);
+		}
 	}
 
 	public void heal(int healAmount) {
@@ -33,9 +36,13 @@ public class FightingObject {
 	public void damage(int damage) {
 		health -= damage;
 
-		if (health <= 0) {
+		if (isDead()) {
 			dieEvent.onDie();
 		}
+	}
+
+	public boolean isDead() {
+		return health <= 0;
 	}
 
 	public int getMaxhealth() {

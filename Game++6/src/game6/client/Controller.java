@@ -168,9 +168,7 @@ public class Controller {
 
 				@Override
 				public boolean equals(Object obj) {
-					if (!(obj instanceof LightningLine)) {
-						return false;
-					}
+					if (!(obj instanceof LightningLine)) { return false; }
 					LightningLine l = (LightningLine) obj;
 					return l.a == a && l.b == b || l.a == b && l.b == a;
 				}
@@ -255,10 +253,16 @@ public class Controller {
 
 					effects.addEffect(new LaserBullet(packetEntity.sourcePos, packetEntity.targetPos));
 				} else if (packet instanceof PacketRemoveEntity) {
-					
+
 					PacketRemoveEntity pre = (PacketRemoveEntity) packet;
-					getWorld().getEntityList().getEntity(pre.id).removeFromWorld();
-					
+					CoreEntity entity = (CoreEntity) getWorld().getEntityList().getEntity(pre.id);
+					if (pre.killed) {
+						effects.addEffect(new Explosion(entity.getPosition()));
+
+						//entity.playDeathAnimation();
+					}
+					entity.removeFromWorld();
+
 				}
 			}
 		}

@@ -25,17 +25,7 @@ public class EffectContainer {
 		effect.initLights(lightContainer);
 	}
 
-	float runtime;
-
 	public void update(float timeDelta) {
-		runtime += timeDelta;
-
-		if (runtime > 2.0f) {
-			runtime = 0;
-			addEffect(new Explosion(new Vector3f(10.0f, 0.0f, 10.0f)));
-			addEffect(new LaserBullet(new Vector3f(0.0f, 1.0f, 0.0f), new Vector3f(10.0f, 0.0f, 10.0f) ));
-		}
-
 		for (Effect effect : effects) {
 			effect.update(timeDelta);
 		}

@@ -17,7 +17,7 @@ public class EntityTank1 extends CoreEntityTank1 {
 
 	private void onAttack(FightingObject target) {
 		if (tick % 10 == 0) {
-			target.damage(10);
+			target.damage(8);
 			Faction.broadcastAll(new PacketAttackEffect(getFightingObject().getPosition(), target.getPosition()));
 		}
 	}

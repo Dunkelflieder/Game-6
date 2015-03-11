@@ -47,7 +47,7 @@ public class LaserBullet extends Effect {
 		glBegin(GL_LINES);
 
 		glVertex3f(position.getX(), position.getY(), position.getZ());
-		glVertex3f(position.getX() + direction.getX(), position.getY() + direction.getY(), position.getZ() + direction.getZ());
+		glVertex3f(position.getX() - direction.getX(), position.getY() - direction.getY(), position.getZ() - direction.getZ());
 
 		glEnd();
 		glLineWidth(1f);

@@ -45,8 +45,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		goals = new ArrayList<Vector3f>();
 
 		setFightingObject(new FightingObject(maxHealth, getPosition(), () -> {
-			playDeathAnimation();
-			Faction.broadcastAll(new PacketRemoveEntity(this.getID()));
+			Faction.broadcastAll(new PacketRemoveEntity(this.getID(), true));
 			removeFromWorld();
 			System.out.println("ded");
 		}));
@@ -216,7 +215,8 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		float delta = MathHelper.clamp(turngoal, -rotationSpeed * timeDelta, rotationSpeed * timeDelta);
 		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
 
-		if (getFightingObject().getTarget() != null) {
+		//follow target
+		if (getFightingObject().getTarget() != null ) {
 			if (tick % 10 == 0)
 				setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
 		}
@@ -225,7 +225,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	}
 
-	private void playDeathAnimation() {
+	public void playDeathAnimation() {
 		// TODO implement
 	}
 
