@@ -20,6 +20,7 @@ public class PacketList {
 		Packets.addPacket(ENTITIES, PacketEntityGoalChanged.class);
 		Packets.addPacket(ENTITIES, PacketCombatTargetSet.class);	
 		Packets.addPacket(ENTITIES, PacketAttackEffect.class);	
+		Packets.addPacket(ENTITIES, PacketRemoveEntity.class);
 		
 		Packets.addPacket(BUILDINGS, PacketEnabledBuildingsList.class);
 	}

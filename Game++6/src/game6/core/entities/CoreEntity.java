@@ -3,8 +3,7 @@ package game6.core.entities;
 import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.combat.FightingObject;
 import game6.core.faction.Faction;
-import game6.core.networking.packets.PacketEntityGoalChanged;
-import game6.core.networking.packets.PacketEntityMoved;
+import game6.core.networking.packets.*;
 import game6.core.world.Map;
 
 import java.util.ArrayList;
@@ -47,7 +46,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		setFightingObject(new FightingObject(maxHealth, getPosition(), () -> {
 			playDeathAnimation();
+			Faction.broadcastAll(new PacketRemoveEntity(this.getID()));
 			removeFromWorld();
+			System.out.println("ded");
 		}));
 	}
 

@@ -254,6 +254,11 @@ public class Controller {
 					PacketAttackEffect packetEntity = (PacketAttackEffect) packet;
 
 					effects.addEffect(new LaserBullet(packetEntity.sourcePos, packetEntity.targetPos));
+				} else if (packet instanceof PacketRemoveEntity) {
+					
+					PacketRemoveEntity pre = (PacketRemoveEntity) packet;
+					getWorld().getEntityList().getEntity(pre.id).removeFromWorld();
+					
 				}
 			}
 		}
