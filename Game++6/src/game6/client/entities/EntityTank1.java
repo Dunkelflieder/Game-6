@@ -28,11 +28,5 @@ public class EntityTank1 extends CoreEntityTank1 {
 		renderProperties.setScale(2, 2, 2);
 
 		renderer.render(shader, renderProperties.getModelMatrix());
-
-		Vector3f goal = getNextGoal();
-		if (goal != null) {
-			renderer.render(shader, new RenderProperties3f(0, 0, 0, goal.getX(), goal.getY() + 0.1f, goal.getZ()).getModelMatrix());
-		}
-
 	}
 }
