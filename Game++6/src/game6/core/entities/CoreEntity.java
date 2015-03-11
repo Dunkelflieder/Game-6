@@ -2,9 +2,9 @@ package game6.core.entities;
 
 import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.combat.FightingObject;
-import game6.core.events.EventEntityGoalChanged;
-import game6.core.events.EventEntityMoved;
 import game6.core.faction.Faction;
+import game6.core.networking.packets.PacketEntityGoalChanged;
+import game6.core.networking.packets.PacketEntityMoved;
 import game6.core.world.Map;
 
 import java.util.ArrayList;
@@ -52,7 +52,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	}
 
 	public Vector3f getNextGoal() {
-		if (goals.size() == 0) { return null; }
+		if (goals.size() == 0) {
+			return null;
+		}
 		return goals.get(0);
 	}
 
@@ -102,7 +104,9 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	public void updateRotation() {
 		Vector3f goal = getNextGoal();
-		if (goal == null) { return; }
+		if (goal == null) {
+			return;
+		}
 		Vector3f dir = goal.subtracted(getPosition());
 
 		// If moving on x-axis, set direction manually
@@ -182,13 +186,14 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		if (hasNewGoal) {
 			updateRotation();
-			events.add(new EventEntityGoalChanged(this));
+			Faction.broadcastAll(new PacketEntityGoalChanged(this));
 			moved = true;
 			hasNewGoal = false;
 		}
 
 		if (moved && tick % 50 == 0) {
-			events.add(new EventEntityMoved(this));
+			// update position: prevents major desyncs
+			Faction.broadcastAll(new PacketEntityMoved(this));
 			// Force update somewhen
 			hasNewGoal = true;
 			moved = false;
@@ -211,11 +216,12 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
 
 		if (getFightingObject().getTarget() != null) {
-			if (tick % 10 == 0) setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
+			if (tick % 10 == 0)
+				setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
 		}
 
 		getFightingObject().update();
-		
+
 	}
 
 	private void playDeathAnimation() {

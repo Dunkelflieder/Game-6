@@ -2,7 +2,7 @@ package game6.core.faction;
 
 import game6.core.buildings.BuildingType;
 import game6.core.buildings.CoreBuilding;
-import game6.core.events.EventEnabledBuildingsChanged;
+import game6.core.networking.packets.PacketEnabledBuildingsList;
 import game6.core.networking.packets.PacketPlayerInfo;
 
 import java.util.*;
@@ -92,11 +92,11 @@ public enum Faction {
 			faction.update();
 		}
 	}
-	
+
 	public void update() {
 		if (updateEnabledBuildings) {
 			updateEnabledBuildings = false;
-			events.add(new EventEnabledBuildingsChanged(this, buildableBuildings));
+			broadcast(new PacketEnabledBuildingsList(buildableBuildings));
 		}
 	}
 

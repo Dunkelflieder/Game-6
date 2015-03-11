@@ -3,8 +3,9 @@ package game6.server.buildings;
 import game6.client.buildings.BuildingGui;
 import game6.core.ai.goalfinding.Path;
 import game6.core.buildings.CoreBuildingReactor;
-import game6.core.events.EventBuildingUpdate;
-import game6.core.events.EventPowerSupply;
+import game6.core.faction.Faction;
+import game6.core.networking.packets.PacketBuildingUpdate;
+import game6.core.networking.packets.PacketPowerSupply;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +54,10 @@ public class BuildingReactor extends CoreBuildingReactor {
 			for (Path path : candidates) {
 				int returned = path.getGoal().addEnergy(left);
 				if (returned < left) {
-					events.add(new EventPowerSupply(faction, this, path, left - returned));
-					events.add(new EventBuildingUpdate(path.getGoal()));
+					// visible lightnings
+					Faction.broadcastAll(new PacketPowerSupply(this, path, left - returned));
+					// update energy values and stuff
+					faction.broadcast(new PacketBuildingUpdate(path.getGoal()));
 				}
 				left = returned;
 				if (left == 0) {
