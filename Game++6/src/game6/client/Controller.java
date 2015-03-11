@@ -257,7 +257,7 @@ public class Controller {
 					PacketRemoveEntity pre = (PacketRemoveEntity) packet;
 					CoreEntity entity = (CoreEntity) getWorld().getEntityList().getEntity(pre.id);
 					if (pre.killed) {
-						effects.addEffect(new Explosion(entity.getPosition()));
+						effects.addEffect(new Explosion(entity.getPosition().clone()));
 
 						//entity.playDeathAnimation();
 					}

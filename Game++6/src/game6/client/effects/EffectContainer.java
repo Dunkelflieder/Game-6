@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nerogar.render.Shader;
-import de.nerogar.util.Vector3f;
 
 public class EffectContainer {
 

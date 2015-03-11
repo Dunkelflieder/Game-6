@@ -40,8 +40,6 @@ public class Explosion extends Effect {
 
 		shader.deactivate();
 
-		position.setY(lifeTime * 2f);
-
 		explosionShader.activate();
 		explosionShader.setUniform1f("offset", lifeTime * 2f);
 		explosionShader.setUniform1f("size", lifeTime * 0.3f + 0.1f);
@@ -58,6 +56,8 @@ public class Explosion extends Effect {
 	@Override
 	public void update(float timeDelta) {
 		lifeTime += timeDelta;
+
+		position.addY(timeDelta * 2.0f);
 
 		light.intensity = (1f - lifeTime) * 1.5f;
 		if (lifeTime > 1f) kill();
