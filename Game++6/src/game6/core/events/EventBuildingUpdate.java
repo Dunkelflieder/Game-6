@@ -2,7 +2,6 @@ package game6.core.events;
 
 import game6.core.buildings.CoreBuilding;
 import game6.core.networking.packets.PacketBuildingUpdate;
-import game6.server.world.Player;
 
 import java.util.List;
 
@@ -23,12 +22,7 @@ public class EventBuildingUpdate extends Event {
 
 	@Override
 	public void process(List<UpdateEventInterface> players) {
-		for (UpdateEventInterface i : players) {
-			Player p = (Player) i;
-			if (p.getFaction() == faction) {
-				p.getConnection().send(new PacketBuildingUpdate(building));
-			}
-		}
+		faction.broadcast(new PacketBuildingUpdate(building));
 	}
 
 }

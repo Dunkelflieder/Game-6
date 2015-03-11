@@ -214,6 +214,9 @@ public class Controller {
 					PacketBuildingUpdate pbu = (PacketBuildingUpdate) packet;
 					getWorld().getBuilding(pbu.id).setEnergy(pbu.energy);
 
+				} else if (packet instanceof PacketEnabledBuildingsList) {
+					PacketEnabledBuildingsList pebl = (PacketEnabledBuildingsList) packet;
+					
 				}
 			}
 

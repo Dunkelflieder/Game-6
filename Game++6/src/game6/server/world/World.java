@@ -5,54 +5,50 @@ import game6.core.buildings.CoreBuilding;
 import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
+import game6.core.faction.Player;
 import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.nerogar.engine.UpdateEvent;
 import de.nerogar.engine.entity.BaseEntity;
-import de.nerogar.network.Connection;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
 
 public class World extends CoreWorld {
 
-	private List<Player> players;
-
 	public World(Map map) {
 		super(map);
-		this.players = new ArrayList<>();
 	}
 
 	@Override
 	public List<UpdateEvent> update(float timeDelta) {
 		// check for building placement request.
 		// TODO this is sample code btw.
-		for (Player player : players) {
-			for (Packet packet : player.getConnection().get(PacketList.BUILDINGS)) {
+		for (Faction faction : Faction.values()) {
+			for (Packet packet : faction.get(PacketList.BUILDINGS)) {
 				if (packet instanceof PacketPlaceBuilding) {
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
 					CoreBuilding building = ppb.building.getServerBuilding();
-					building.setFaction(player.getFaction());
+					building.setFaction(faction);
 					if (getMap().canAddBuilding(ppb.posX, ppb.posY, building)) {
 						addBuilding(ppb.posX, ppb.posY, building);
-						broadcast(new PacketPlaceBuilding(ppb.building, player.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
+						Faction.broadcastAll(new PacketPlaceBuilding(ppb.building, faction, building.getID(), building.getPosX(), building.getPosY()));
 					}
 				}
 			}
-			for (Packet packet : player.getConnection().get(PacketList.ENTITIES)) {
+			for (Packet packet : faction.get(PacketList.ENTITIES)) {
 				if (packet instanceof PacketSpawnEntity) {
 					PacketSpawnEntity pse = (PacketSpawnEntity) packet;
 					CoreEntity entity = pse.entity.getServerEntity();
-					entity.setFaction(player.getFaction());
+					entity.setFaction(faction);
 					if (canAddEntity(pse.position, entity)) {
 						pse.position.setY(entity.isFlying() ? 2 : 0);
 						spawnEntity(entity, pse.position);
-						broadcast(new PacketSpawnEntity(pse.entity, player.getFaction(), entity.getID(), entity.getPosition()));
+						Faction.broadcastAll(new PacketSpawnEntity(pse.entity, faction, entity.getID(), entity.getPosition()));
 						entity.move(new Vector3f(1, entity.getPosition().getY(), 1));
 					}
 				} else if (packet instanceof PacketEntityGoalChanged) {
@@ -79,27 +75,20 @@ public class World extends CoreWorld {
 		return position.getX() >= 0 && position.getY() >= 0 && position.getX() < getMap().getSizeX() && position.getY() < getMap().getSizeY();
 	}
 
-	public void addPlayer(Connection connection) {
-		connection.send(new PacketMap(getMap()));
-		Faction faction = Faction.getRandom();
-		connection.send(new PacketPlayerInfo(faction));
+	/**
+	 * Send a freshly connected player all needed data (the map, buildings, entities etc.)
+	 * @param player Player-Object
+	 */
+	public void initNewPlayer(Player player) {
+		player.getConnection().send(new PacketMap(getMap()));
+
 		for (CoreBuilding building : getBuildings()) {
-			connection.send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
+			player.getConnection().send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
 		}
+
 		for (BaseEntity<Vector3f> entity : getEntityList().getEntities()) {
 			CoreEntity coreEntity = (CoreEntity) entity;
-			connection.send(new PacketSpawnEntity(EntityType.fromServerClass(coreEntity.getClass()), coreEntity.getFaction(), coreEntity.getID(), coreEntity.getPosition()));
-		}
-		players.add(new Player(connection, faction));
-	}
-
-	public List<Player> getPlayers() {
-		return players;
-	}
-
-	private void broadcast(Packet packet) {
-		for (Player player : players) {
-			player.getConnection().send(packet);
+			player.getConnection().send(new PacketSpawnEntity(EntityType.fromServerClass(coreEntity.getClass()), coreEntity.getFaction(), coreEntity.getID(), coreEntity.getPosition()));
 		}
 	}
 

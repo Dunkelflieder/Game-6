@@ -1,5 +1,7 @@
 package game6.server;
 
+import game6.core.faction.Faction;
+import game6.core.faction.Player;
 import game6.core.world.WorldGenerator;
 import game6.server.world.World;
 
@@ -61,13 +63,14 @@ public class Server {
 	private void update() {
 
 		for (Connection conn : serverThread.getNewConnections()) {
-			world.addPlayer(conn);
+			Player player = new Player(conn);
+			// TODO don't add player to random faction
+			Faction.getRandom().addPlayer(player);
+			world.initNewPlayer(player);
 		}
 
 		List<UpdateEvent> events = world.update(1f / timer.TICKRATE);
-
 		List<UpdateEventInterface> ps = new ArrayList<>();
-		ps.addAll(world.getPlayers());
 		for (UpdateEvent event : events) {
 			event.process(ps);
 		}
