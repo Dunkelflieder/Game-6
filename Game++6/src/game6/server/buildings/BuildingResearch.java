@@ -2,10 +2,6 @@ package game6.server.buildings;
 
 import game6.client.buildings.BuildingGui;
 import game6.core.buildings.CoreBuildingResearch;
-
-import java.util.List;
-
-import de.nerogar.engine.UpdateEvent;
 import de.nerogar.render.Shader;
 
 public class BuildingResearch extends CoreBuildingResearch {
@@ -23,7 +19,7 @@ public class BuildingResearch extends CoreBuildingResearch {
 	}
 
 	@Override
-	public void update(List<UpdateEvent> events) {
+	public void update() {
 	}
 
 	@Override

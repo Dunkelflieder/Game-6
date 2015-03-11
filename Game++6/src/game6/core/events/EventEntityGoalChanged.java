@@ -6,8 +6,6 @@ import game6.core.networking.packets.PacketEntityGoalChanged;
 
 import java.util.List;
 
-import de.nerogar.engine.UpdateEventInterface;
-
 public class EventEntityGoalChanged extends Event {
 
 	private CoreEntity entity;

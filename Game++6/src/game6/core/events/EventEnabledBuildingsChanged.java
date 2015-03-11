@@ -7,8 +7,6 @@ import game6.core.networking.packets.PacketEnabledBuildingsList;
 import java.util.HashSet;
 import java.util.List;
 
-import de.nerogar.engine.UpdateEventInterface;
-
 public class EventEnabledBuildingsChanged extends Event {
 
 	private HashSet<BuildingType> buildings;

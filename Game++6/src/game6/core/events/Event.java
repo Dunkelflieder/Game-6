@@ -1,10 +1,8 @@
 package game6.core.events;
 
-import java.util.List;
-
 import game6.core.faction.Faction;
-import de.nerogar.engine.UpdateEvent;
-import de.nerogar.engine.UpdateEventInterface;
+
+import java.util.List;
 
 public abstract class Event implements UpdateEvent {
 	

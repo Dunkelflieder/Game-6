@@ -10,7 +10,6 @@ import game6.core.world.Map;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nerogar.engine.UpdateEvent;
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.physics.BoundingAABB;
 import de.nerogar.util.MathHelper;
@@ -149,7 +148,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	}
 
 	@Override
-	public void update(float timeDelta, List<UpdateEvent> events) {
+	public void update(float timeDelta) {
 
 		tick++;
 
@@ -200,11 +199,11 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		// determine the delta this entity needs to turn.
 		float turngoal = rotation - visibleRotation;
-		// fix, if turning > 180°. Reverse the direction
+		// fix, if turning > 180ï¿½. Reverse the direction
 		if (turngoal > Math.PI) {
 			turngoal -= 2 * Math.PI;
 		}
-		// fix, if turning < -180°. Reverse the direction
+		// fix, if turning < -180ï¿½. Reverse the direction
 		if (turngoal < -Math.PI) {
 			turngoal += 2 * Math.PI;
 		}
@@ -215,7 +214,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			if (tick % 10 == 0) setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
 		}
 
-		getFightingObject().update(events);
+		getFightingObject().update();
 		
 	}
 

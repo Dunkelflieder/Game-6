@@ -4,8 +4,7 @@ import game6.core.world.Map;
 
 import java.awt.image.BufferedImage;
 
-import de.nerogar.render.*;
-import de.nerogar.render.Texture2D.InterpolationType;
+import de.nerogar.render.Texture2D;
 
 public class Minimap {
 

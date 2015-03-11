@@ -3,10 +3,6 @@ package game6.core.buildings;
 import game6.client.buildings.BuildingGui;
 import game6.core.faction.Faction;
 import game6.core.world.CoreWorld;
-
-import java.util.List;
-
-import de.nerogar.engine.UpdateEvent;
 import de.nerogar.render.Shader;
 import de.nerogar.util.Vector3f;
 
@@ -89,9 +85,8 @@ public abstract class CoreBuilding {
 
 	/**
 	 * Updates the logic and can cause (network) events, that are added to the supplied list
-	 * @param events list of events, where new events can be appended
 	 */
-	public abstract void update(List<UpdateEvent> events);
+	public abstract void update();
 
 	/**
 	 * Should be implemented by client subclasses.

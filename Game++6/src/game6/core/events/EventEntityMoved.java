@@ -6,8 +6,6 @@ import game6.core.networking.packets.PacketEntityMoved;
 
 import java.util.List;
 
-import de.nerogar.engine.UpdateEventInterface;
-
 public class EventEntityMoved extends Event {
 
 	private CoreEntity entity;

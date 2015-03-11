@@ -9,7 +9,6 @@ import game6.core.events.EventPowerSupply;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nerogar.engine.UpdateEvent;
 import de.nerogar.render.Shader;
 
 public class BuildingReactor extends CoreBuildingReactor {
@@ -33,8 +32,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 	}
 
 	@Override
-	public void update(List<UpdateEvent> events) {
-
+	public void update() {
 		tick++;
 
 		// Each cooldown-period start emitting energy

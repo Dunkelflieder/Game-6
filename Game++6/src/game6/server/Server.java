@@ -6,11 +6,7 @@ import game6.core.world.WorldGenerator;
 import game6.server.world.World;
 
 import java.net.BindException;
-import java.util.ArrayList;
-import java.util.List;
 
-import de.nerogar.engine.UpdateEvent;
-import de.nerogar.engine.UpdateEventInterface;
 import de.nerogar.network.Connection;
 import de.nerogar.network.ServerThread;
 
@@ -69,13 +65,8 @@ public class Server {
 			world.initNewPlayer(player);
 		}
 
-		List<UpdateEvent> events = world.update(1f / timer.TICKRATE);
-		List<UpdateEventInterface> ps = new ArrayList<>();
-		Faction.updateAll(events);
-		for (UpdateEvent event : events) {
-			event.process(ps);
-		}
-		
+		world.update(1f / timer.TICKRATE);
+		Faction.updateAll();
 
 	}
 

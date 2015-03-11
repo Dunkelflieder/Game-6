@@ -10,10 +10,6 @@ import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
-
-import java.util.List;
-
-import de.nerogar.engine.UpdateEvent;
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
@@ -25,7 +21,7 @@ public class World extends CoreWorld {
 	}
 
 	@Override
-	public List<UpdateEvent> update(float timeDelta) {
+	public void update(float timeDelta) {
 		// check for building placement request.
 		// TODO this is sample code btw.
 		for (Faction faction : Faction.values()) {
@@ -67,8 +63,8 @@ public class World extends CoreWorld {
 				}
 			}
 		}
-
-		return super.update(timeDelta);
+		
+		super.update(timeDelta);
 	}
 
 	public boolean canAddEntity(Vector3f position, CoreEntity entity) {

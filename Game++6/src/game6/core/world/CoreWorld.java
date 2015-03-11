@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nerogar.engine.BaseWorld;
-import de.nerogar.engine.UpdateEvent;
 import de.nerogar.util.Vector3f;
 
 public class CoreWorld extends BaseWorld<Vector3f> {
@@ -27,12 +26,12 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 	}
 
 	@Override
-	public List<UpdateEvent> update(float timeDelta) {
-		List<UpdateEvent> events = super.update(timeDelta);
+	public void update(float timeDelta) {
+		super.update(timeDelta);
+
 		for (CoreBuilding building : buildings) {
-			building.update(events);
+			building.update();
 		}
-		return events;
 	}
 
 	public Map getMap() {
@@ -65,8 +64,7 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 		while (l <= r) {
 			p = (l + r) / 2;
 
-			if (buildings.get(p).getID() == id)
-				return buildings.get(p);
+			if (buildings.get(p).getID() == id) return buildings.get(p);
 			if (buildings.get(p).getID() < id) {
 				l = p + 1;
 			} else {

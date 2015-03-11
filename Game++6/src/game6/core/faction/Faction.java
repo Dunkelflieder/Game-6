@@ -7,7 +7,6 @@ import game6.core.networking.packets.PacketPlayerInfo;
 
 import java.util.*;
 
-import de.nerogar.engine.UpdateEvent;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Color;
 
@@ -88,13 +87,13 @@ public enum Faction {
 		}
 	}
 
-	public static void updateAll(List<UpdateEvent> events) {
+	public static void updateAll() {
 		for (Faction faction : values()) {
-			faction.update(events);
+			faction.update();
 		}
 	}
 	
-	public void update(List<UpdateEvent> events) {
+	public void update() {
 		if (updateEnabledBuildings) {
 			updateEnabledBuildings = false;
 			events.add(new EventEnabledBuildingsChanged(this, buildableBuildings));

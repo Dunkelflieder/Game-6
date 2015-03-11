@@ -5,8 +5,6 @@ import game6.core.networking.packets.PacketBuildingUpdate;
 
 import java.util.List;
 
-import de.nerogar.engine.UpdateEventInterface;
-
 public class EventBuildingUpdate extends Event {
 
 	private CoreBuilding building;

@@ -1,8 +1,5 @@
 package game6.core.combat;
 
-import java.util.List;
-
-import de.nerogar.engine.UpdateEvent;
 import de.nerogar.util.Vector3f;
 
 public class FightingObject {
@@ -23,8 +20,8 @@ public class FightingObject {
 		this.dieEvent = dieEvent;
 	}
 
-	public void update(List<UpdateEvent> events) {
-		if (attackEvent != null && target != null) attackEvent.onAttack(events, target);
+	public void update() {
+		if (attackEvent != null && target != null) attackEvent.onAttack(target);
 	}
 
 	public void heal(int healAmount) {

@@ -1,13 +1,10 @@
 package game6.core.events;
 
-import de.nerogar.engine.UpdateEvent;
 import game6.core.combat.FightingObject;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketAttackEffect;
 
 import java.util.List;
-
-import de.nerogar.engine.UpdateEventInterface;
 
 public class EventAttackEffect implements UpdateEvent {
 
