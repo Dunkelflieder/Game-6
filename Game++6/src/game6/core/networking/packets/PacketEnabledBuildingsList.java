@@ -9,7 +9,7 @@ import de.nerogar.network.packets.Packet;
 
 public class PacketEnabledBuildingsList extends Packet {
 
-	HashSet<BuildingType> buildings;
+	public HashSet<BuildingType> buildings;
 
 	public PacketEnabledBuildingsList() {
 	}

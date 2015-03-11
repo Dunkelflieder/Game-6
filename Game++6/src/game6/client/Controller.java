@@ -216,7 +216,9 @@ public class Controller {
 
 				} else if (packet instanceof PacketEnabledBuildingsList) {
 					PacketEnabledBuildingsList pebl = (PacketEnabledBuildingsList) packet;
-					
+					for (BuildingType building : pebl.buildings) {
+						System.out.println(building);
+					}
 				}
 			}
 

@@ -71,9 +71,11 @@ public class Server {
 
 		List<UpdateEvent> events = world.update(1f / timer.TICKRATE);
 		List<UpdateEventInterface> ps = new ArrayList<>();
+		Faction.updateAll(events);
 		for (UpdateEvent event : events) {
 			event.process(ps);
 		}
+		
 
 	}
 

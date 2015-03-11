@@ -47,6 +47,8 @@ public enum Faction {
 		players.add(player);
 		// tell the new player, which faction he is in.
 		player.getConnection().send(new PacketPlayerInfo(this));
+		// update other stuff too
+		updateEnabledBuildings = true;
 	}
 
 	public static Faction getRandom() {
@@ -86,6 +88,12 @@ public enum Faction {
 		}
 	}
 
+	public static void updateAll(List<UpdateEvent> events) {
+		for (Faction faction : values()) {
+			faction.update(events);
+		}
+	}
+	
 	public void update(List<UpdateEvent> events) {
 		if (updateEnabledBuildings) {
 			updateEnabledBuildings = false;
