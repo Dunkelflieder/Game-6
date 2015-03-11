@@ -10,8 +10,10 @@ import game6.core.world.Map;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.render.*;
 import de.nerogar.util.Color;
+import de.nerogar.util.Vector3f;
 
 public class World extends CoreWorld {
 
@@ -37,7 +39,7 @@ public class World extends CoreWorld {
 		this.effectContainer = effectContainer;
 		selectionMarker = new SelectionMarker(null, 0, 0);
 		renderProperties = new RenderProperties3f();
-		worldShader = new Shader("shaders/world.vert", "shaders/world.frag");
+		worldShader = new Shader("shaders/world/world.vert", "shaders/world/world.frag");
 		minimap = new Minimap();
 	}
 
@@ -157,8 +159,9 @@ public class World extends CoreWorld {
 			// render buildings
 
 			// TODO highlight selectedBuilding somehow
+			Color factionColor = new Color(0);
 			for (CoreBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {
-				Color factionColor = new Color(0);
+
 				if (building.getFaction() != null) {
 					factionColor = building.getFaction().color;
 				}
@@ -166,11 +169,16 @@ public class World extends CoreWorld {
 				building.render(worldShader);
 			}
 
+			for (BaseEntity<Vector3f> entity : entityList.getEntities()) {
+				CoreEntity coreEntity = (CoreEntity) entity;
+				if (coreEntity.getFaction() != null) {
+					factionColor = coreEntity.getFaction().color;
+				}
+				worldShader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
+				entity.render(worldShader);
+			}
+
 		}
-
-		// TODO highlight selectedEntity somehow
-
-		super.render(worldShader);
 
 		worldShader.deactivate();
 	}

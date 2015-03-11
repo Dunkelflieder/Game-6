@@ -27,7 +27,7 @@ public class Explosion extends Effect {
 
 	@Override
 	public void initLights(LightContainer lightContainer) {
-		light = new Light(new Color(1.0f, 0.2f, 0.2f, 1.0f), position, 5.0f, 1.2f);
+		light = new Light(new Color(1.0f, 0.2f, 0.2f, 1.0f), position, 8.0f, 1.0f);
 		addLight(light, lightContainer);
 	}
 
@@ -59,7 +59,7 @@ public class Explosion extends Effect {
 	public void update(float timeDelta) {
 		lifeTime += timeDelta;
 
-		light.intensity = 1f - lifeTime + 0.2f;
+		light.intensity = (1f - lifeTime) * 1.5f;
 		if (lifeTime > 1f) kill();
 	}
 

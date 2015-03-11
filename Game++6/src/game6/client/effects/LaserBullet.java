@@ -36,7 +36,7 @@ public class LaserBullet extends Effect {
 
 	@Override
 	public void initLights(LightContainer lightContainer) {
-		addLight(new Light(color, position, 10.0f, 5.0f), lightContainer);
+		addLight(new Light(color, position, 5.0f, 1.0f), lightContainer);
 	}
 
 	@Override
