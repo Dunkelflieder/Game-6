@@ -204,11 +204,11 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 		// determine the delta this entity needs to turn.
 		float turngoal = rotation - visibleRotation;
-		// fix, if turning > 180�. Reverse the direction
+		// fix, if turning > 180°. Reverse the direction
 		if (turngoal > Math.PI) {
 			turngoal -= 2 * Math.PI;
 		}
-		// fix, if turning < -180�. Reverse the direction
+		// fix, if turning < -180°. Reverse the direction
 		if (turngoal < -Math.PI) {
 			turngoal += 2 * Math.PI;
 		}
