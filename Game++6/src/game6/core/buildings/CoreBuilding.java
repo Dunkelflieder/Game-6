@@ -21,8 +21,9 @@ public abstract class CoreBuilding {
 
 	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy, int range) {
 		init();
-		if (id > MAX_ID)
+		if (id > MAX_ID) {
 			MAX_ID = id;
+		}
 		this.id = id;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;

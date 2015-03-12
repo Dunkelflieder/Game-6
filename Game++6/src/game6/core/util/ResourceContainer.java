@@ -18,6 +18,11 @@ public class ResourceContainer {
 		contents = new int[Resource.values().length];
 	}
 
+	public ResourceContainer(int stuff) {
+		this();
+		addResource(Resource.STUFF, stuff);
+	}
+	
 	private void reloadFilled() {
 		filled = 0;
 		for (int load : contents) {
@@ -32,7 +37,7 @@ public class ResourceContainer {
 		return filled;
 	}
 
-	public void setCallback(ChangeCallback callback) {
+	public void setChangeCallback(ChangeCallback callback) {
 		changeCallback = callback;
 	}
 

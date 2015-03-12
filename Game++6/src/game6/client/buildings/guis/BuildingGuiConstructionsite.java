@@ -1,6 +1,6 @@
 package game6.client.buildings.guis;
 
-import game6.client.buildings.BuildingStorage;
+import game6.client.buildings.Constructionsite;
 import game6.client.gui.Font;
 import game6.client.gui.components.GColorfield;
 import game6.client.gui.components.GLabel;
@@ -8,13 +8,13 @@ import game6.core.util.Resource;
 
 import java.awt.Color;
 
-public class BuildingGuiStorage extends BuildingGui<BuildingStorage> {
+public class BuildingGuiConstructionsite extends BuildingGui<Constructionsite> {
 
 	private GLabel text;
 	private GLabel stuff;
 	private GColorfield background;
 
-	public BuildingGuiStorage(BuildingStorage building) {
+	public BuildingGuiConstructionsite(Constructionsite building) {
 		super(building);
 	}
 
@@ -43,7 +43,7 @@ public class BuildingGuiStorage extends BuildingGui<BuildingStorage> {
 
 	@Override
 	protected void updateComponents() {
-		stuff.setText(Resource.STUFF.getName() + ": " + building.getResources().getAmount(Resource.STUFF) + "/" + building.getResources().getTotalCapacity());
+		stuff.setText(Resource.STUFF.getName() + " needed: " + building.getCostRemaining().getAmount(Resource.STUFF));
 	}
 
 }

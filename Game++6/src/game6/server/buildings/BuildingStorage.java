@@ -13,7 +13,7 @@ public class BuildingStorage extends CoreBuildingStorage {
 
 	public BuildingStorage() {
 		super(getNextID());
-		getResources().setCallback(this::resourcesChanged);
+		getResources().setChangeCallback(this::resourcesChanged);
 	}
 
 	private void resourcesChanged() {

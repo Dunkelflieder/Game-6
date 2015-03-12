@@ -1,22 +1,26 @@
 package game6.core.buildings;
 
+import game6.core.util.ResourceContainer;
+
 import java.lang.reflect.InvocationTargetException;
 
 public enum BuildingType {
-	REACTOR(1, game6.client.buildings.BuildingReactor.class, game6.server.buildings.BuildingReactor.class),
-	RESEARCH(2, game6.client.buildings.BuildingResearch.class, game6.server.buildings.BuildingResearch.class),
-	TOWER(3, game6.client.buildings.BuildingTower.class, game6.server.buildings.BuildingTower.class),
-	FACTORY(4, game6.client.buildings.BuildingFactory.class, game6.server.buildings.BuildingFactory.class),
-	STORAGE(5, game6.client.buildings.BuildingStorage.class, game6.server.buildings.BuildingStorage.class),
+	REACTOR(1, new ResourceContainer(10), game6.client.buildings.BuildingReactor.class, game6.server.buildings.BuildingReactor.class),
+	RESEARCH(2, new ResourceContainer(10), game6.client.buildings.BuildingResearch.class, game6.server.buildings.BuildingResearch.class),
+	TOWER(3, new ResourceContainer(10), game6.client.buildings.BuildingTower.class, game6.server.buildings.BuildingTower.class),
+	FACTORY(4, new ResourceContainer(10), game6.client.buildings.BuildingFactory.class, game6.server.buildings.BuildingFactory.class),
+	STORAGE(5, new ResourceContainer(10), game6.client.buildings.BuildingStorage.class, game6.server.buildings.BuildingStorage.class),
 
-	ROCK(100, game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
+	ROCK(100, null, game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
 
 	private int typeID;
+	private ResourceContainer buildingCost;
 	private Class<? extends CoreBuilding> clientClass;
 	private Class<? extends CoreBuilding> serverClass;
 
-	BuildingType(int typeID, Class<? extends CoreBuilding> clientClass, Class<? extends CoreBuilding> serverClass) {
+	BuildingType(int typeID, ResourceContainer buildingCost, Class<? extends CoreBuilding> clientClass, Class<? extends CoreBuilding> serverClass) {
 		this.typeID = typeID;
+		this.buildingCost = buildingCost;
 		this.clientClass = clientClass;
 		this.serverClass = serverClass;
 	}
@@ -28,6 +32,13 @@ public enum BuildingType {
 	 */
 	public int getTypeID() {
 		return typeID;
+	}
+
+	/**
+	 * @return the building type's cost for construction.
+	 */
+	public ResourceContainer getBuildingCost() {
+		return buildingCost;
 	}
 
 	/**
