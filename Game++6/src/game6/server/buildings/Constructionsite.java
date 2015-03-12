@@ -3,6 +3,10 @@ package game6.server.buildings;
 import game6.client.buildings.guis.BuildingGui;
 import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreConstructionsite;
+import game6.core.faction.Faction;
+import game6.core.networking.packets.PacketFinishConstruction;
+import game6.core.networking.packets.PacketUpdateConstructionsite;
+import game6.core.util.Resource;
 import game6.core.util.ResourceContainer;
 import de.nerogar.render.Shader;
 
@@ -15,6 +19,11 @@ public class Constructionsite extends CoreConstructionsite {
 
 	public Constructionsite(CoreBuilding building, ResourceContainer constructionCost) {
 		super(building, constructionCost);
+		getCostRemaining().setChangeCallback(this::remainingCostChanged);
+	}
+
+	private void remainingCostChanged() {
+		faction.broadcast(new PacketUpdateConstructionsite(getID(), getCostRemaining()));
 	}
 
 	@Override
@@ -27,6 +36,15 @@ public class Constructionsite extends CoreConstructionsite {
 
 	@Override
 	public void update() {
+		if (isFinished()) {
+			world.finishConstructionsite(this);
+			Faction.broadcastAll(new PacketFinishConstruction(getID()));
+		}
+
+		// TODO for debugging. remove later
+		if (Math.random() < 0.2f) {
+			getCostRemaining().removeResource(Resource.STUFF, 1);
+		}
 	}
 
 	@Override

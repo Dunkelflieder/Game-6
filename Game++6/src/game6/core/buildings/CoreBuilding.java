@@ -181,6 +181,10 @@ public abstract class CoreBuilding {
 	public void setWorld(CoreWorld world) {
 		this.world = world;
 	}
+	
+	public CoreWorld getWorld() {
+		return world;
+	}
 
 	/**
 	 * Sets the faction this building belongs to.

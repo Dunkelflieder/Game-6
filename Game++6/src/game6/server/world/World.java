@@ -1,7 +1,6 @@
 package game6.server.world;
 
-import game6.core.buildings.BuildingType;
-import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.*;
 import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
@@ -10,6 +9,7 @@ import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
+import game6.server.buildings.Constructionsite;
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
@@ -27,12 +27,24 @@ public class World extends CoreWorld {
 		for (Faction faction : Faction.values()) {
 			for (Packet packet : faction.get(PacketList.BUILDINGS)) {
 				if (packet instanceof PacketPlaceBuilding) {
+					// TODO this packet is not used for buildings anymore. Use PacketStartConstruction instead
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
 					CoreBuilding building = ppb.building.getServerBuilding();
 					building.setFaction(faction);
 					if (getMap().canAddBuilding(ppb.posX, ppb.posY, building)) {
 						addBuilding(ppb.posX, ppb.posY, building);
 						Faction.broadcastAll(new PacketPlaceBuilding(ppb.building, faction, building.getID(), building.getPosX(), building.getPosY()));
+					}
+				} else if (packet instanceof PacketStartConstruction) {
+					PacketStartConstruction psc = (PacketStartConstruction) packet;
+					CoreBuilding building = psc.building.getServerBuilding();
+					building.setFaction(faction);
+
+					if (getMap().canAddBuilding(psc.posX, psc.posY, building)) {
+						// wrap in construction
+						CoreConstructionsite constructionsite = new Constructionsite(building, psc.building.getBuildingCost());
+						addBuilding(psc.posX, psc.posY, constructionsite);
+						Faction.broadcastAll(new PacketStartConstruction(psc.building, faction, building.getID(), building.getPosX(), building.getPosY()));
 					}
 				}
 			}
@@ -63,7 +75,7 @@ public class World extends CoreWorld {
 				}
 			}
 		}
-		
+
 		super.update(timeDelta);
 	}
 

@@ -3,6 +3,7 @@ package game6.core.world;
 import game6.core.ai.goalfinding.Goalfinder;
 import game6.core.ai.goalfinding.Path;
 import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.CoreConstructionsite;
 import game6.core.entities.CoreEntity;
 
 import java.util.ArrayList;
@@ -56,7 +57,23 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 		map.addBuilding(building);
 	}
 
+	public void finishConstructionsite(CoreConstructionsite constructionsite) {
+		map.finishConstructionsize(constructionsite);
+		buildings.set(getBuildingArrayPosition(constructionsite.getID()), constructionsite.getBuilding());
+	}
+
 	public CoreBuilding getBuilding(long id) {
+
+		int pos = getBuildingArrayPosition(id);
+		if (pos < 0) {
+			return null;
+		}
+
+		return buildings.get(pos);
+
+	}
+
+	private int getBuildingArrayPosition(long id) {
 
 		int l = 0;
 		int r = buildings.size() - 1;
@@ -64,7 +81,9 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 		while (l <= r) {
 			p = (l + r) / 2;
 
-			if (buildings.get(p).getID() == id) return buildings.get(p);
+			if (buildings.get(p).getID() == id) {
+				return p;
+			}
 			if (buildings.get(p).getID() < id) {
 				l = p + 1;
 			} else {
@@ -72,7 +91,7 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 			}
 		}
 
-		return null;
+		return -1;
 
 	}
 

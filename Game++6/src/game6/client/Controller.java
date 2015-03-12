@@ -1,5 +1,6 @@
 package game6.client;
 
+import game6.client.buildings.Constructionsite;
 import game6.client.effects.*;
 import game6.client.sound.SoundContext;
 import game6.client.world.World;
@@ -110,7 +111,9 @@ public class Controller {
 	// TODO debug method
 	public void placeBuilding(BuildingType type, int posX, int posY) {
 		if (isConnected()) {
-			connection.send(new PacketPlaceBuilding(type, faction, -1, posX, posY));
+			// Instead, use PacketStartConstruction!
+			// connection.send(new PacketPlaceBuilding(type, faction, -1, posX, posY));
+			connection.send(new PacketStartConstruction(type, faction, -1, posX, posY));
 		}
 	}
 
@@ -167,7 +170,9 @@ public class Controller {
 
 				@Override
 				public boolean equals(Object obj) {
-					if (!(obj instanceof LightningLine)) { return false; }
+					if (!(obj instanceof LightningLine)) {
+						return false;
+					}
 					LightningLine l = (LightningLine) obj;
 					return l.a == a && l.b == b || l.a == b && l.b == a;
 				}
@@ -188,6 +193,12 @@ public class Controller {
 					CoreBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
 					building.setFaction(packetBuilding.faction);
 					world.addBuilding(packetBuilding.posX, packetBuilding.posY, building);
+				} else if (packet instanceof PacketStartConstruction) {
+
+					PacketStartConstruction packetBuilding = (PacketStartConstruction) packet;
+					CoreBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
+					building.setFaction(packetBuilding.faction);
+					world.addBuilding(packetBuilding.posX, packetBuilding.posY, new Constructionsite(building, packetBuilding.building.getBuildingCost()));
 
 				} else if (packet instanceof PacketPowerSupply) {
 
@@ -221,6 +232,14 @@ public class Controller {
 					CoreBuildingStorage1 building = (CoreBuildingStorage1) getWorld().getBuilding(pus.buildingID);
 					building.getResources().setResources(pus.resources);
 					building.getResources().setCapacity(pus.resources.getTotalCapacity());
+				} else if (packet instanceof PacketUpdateConstructionsite) {
+					PacketUpdateConstructionsite puc = (PacketUpdateConstructionsite) packet;
+					CoreConstructionsite building = (CoreConstructionsite) getWorld().getBuilding(puc.buildingID);
+					building.getCostRemaining().setResources(puc.resources);
+				} else if (packet instanceof PacketFinishConstruction) {
+					PacketFinishConstruction pfc = (PacketFinishConstruction) packet;
+					CoreConstructionsite constructionsize = (CoreConstructionsite) world.getBuilding(pfc.buildingID);
+					world.finishConstructionsite(constructionsize);
 				}
 			}
 
@@ -263,7 +282,7 @@ public class Controller {
 					if (pre.killed) {
 						effects.addEffect(new Explosion(entity.getPosition().clone()));
 
-						//entity.playDeathAnimation();
+						// entity.playDeathAnimation();
 					}
 					if (getWorld().getSelectedEntity() != null && pre.id == getWorld().getSelectedEntity().getID()) {
 						getWorld().selectEntity(null);

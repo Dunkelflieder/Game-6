@@ -3,6 +3,7 @@ package game6.core.world;
 import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.CoreConstructionsite;
 
 import java.util.*;
 
@@ -38,6 +39,14 @@ public class Map {
 			}
 		}
 		pathfinder.update(this, building.getPosX(), building.getPosY(), building.getPosX() + building.getSizeX(), building.getPosY() + building.getSizeY());
+	}
+
+	public void finishConstructionsize(CoreConstructionsite constructionsite) {
+		for (int x = constructionsite.getPosX(); x < constructionsite.getPosX() + constructionsite.getSizeX(); x++) {
+			for (int y = constructionsite.getPosY(); y < constructionsite.getPosY() + constructionsite.getSizeY(); y++) {
+				buildingMap[x][y] = constructionsite.getBuilding();
+			}
+		}
 	}
 
 	public CoreBuilding getBuildingAt(int x, int y) {
@@ -102,11 +111,11 @@ public class Map {
 	public List<Position> getPath(int fromX, int fromY, int toX, int toY) {
 		return pathfinder.getPath(fromX, fromY, toX, toY);
 	}
-	
+
 	public List<Position> getPath(float fromX, float fromY, float toX, float toY) {
 		return getPath((int) Math.floor(fromX), (int) Math.floor(fromY), (int) Math.floor(toX), (int) Math.floor(toY));
 	}
-	
+
 	public Pathfinder getPathfinder() {
 		return pathfinder;
 	}

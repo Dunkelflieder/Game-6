@@ -3,6 +3,7 @@ package game6.client.world;
 import game6.client.effects.EffectContainer;
 import game6.client.effects.SelectionMarker;
 import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.CoreConstructionsite;
 import game6.core.entities.CoreEntity;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
@@ -84,6 +85,14 @@ public class World extends CoreWorld {
 		minimap.update(posX, posY, building.getSizeX(), building.getSizeY());
 	}
 
+	@Override
+	public void finishConstructionsite(CoreConstructionsite constructionsite) {
+		super.finishConstructionsite(constructionsite);
+		if (selectedBuilding == constructionsite) {
+			selectBuilding(null);
+		}
+	}
+	
 	public void setCenterOfRendering(int x, int z) {
 		this.renderCenterX = x;
 		this.renderCenterY = z;

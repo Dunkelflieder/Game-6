@@ -13,7 +13,7 @@ public enum BuildingType {
 	ENERGY1(6, new ResourceContainer(10), game6.client.buildings.BuildingEnergy1.class, game6.server.buildings.BuildingEnergy1.class),
 	LIVING1(7, new ResourceContainer(10), game6.client.buildings.BuildingLiving1.class, game6.server.buildings.BuildingLiving1.class),
 
-	ROCK(100, null, game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
+	ROCK(100, new ResourceContainer(0), game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
 
 	private int typeID;
 	private ResourceContainer buildingCost;

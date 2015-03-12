@@ -16,6 +16,7 @@ public class Constructionsite extends CoreConstructionsite {
 
 	public Constructionsite(CoreBuilding building, ResourceContainer constructionCost) {
 		super(building, constructionCost);
+		renderProperties.setScale(building.getSizeX() * 0.5f, 0.1f, building.getSizeY() * 0.5f);
 		gui = new BuildingGuiConstructionsite(this);
 	}
 
