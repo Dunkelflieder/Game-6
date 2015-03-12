@@ -3,18 +3,18 @@ package game6.client.buildings.guis;
 import game6.client.gui.Font;
 import game6.client.gui.components.GColorfield;
 import game6.client.gui.components.GLabel;
-import game6.core.buildings.CoreBuildingStorage;
+import game6.core.buildings.CoreBuildingStorage1;
 import game6.core.util.Resource;
 
 import java.awt.Color;
 
-public class BuildingGuiStorage extends BuildingGui<CoreBuildingStorage> {
+public class BuildingGuiStorage extends BuildingGui<CoreBuildingStorage1> {
 
 	private GLabel text;
 	private GLabel stuff;
 	private GColorfield background;
 
-	public BuildingGuiStorage(CoreBuildingStorage building) {
+	public BuildingGuiStorage(CoreBuildingStorage1 building) {
 		super(building);
 	}
 

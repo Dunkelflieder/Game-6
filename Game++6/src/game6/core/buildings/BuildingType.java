@@ -7,7 +7,9 @@ public enum BuildingType {
 	RESEARCH(2, game6.client.buildings.BuildingResearch.class, game6.server.buildings.BuildingResearch.class),
 	TOWER(3, game6.client.buildings.BuildingTower.class, game6.server.buildings.BuildingTower.class),
 	FACTORY(4, game6.client.buildings.BuildingFactory.class, game6.server.buildings.BuildingFactory.class),
-	STORAGE(5, game6.client.buildings.BuildingStorage.class, game6.server.buildings.BuildingStorage.class),
+	STORAGE(5, game6.client.buildings.BuildingStorage1.class, game6.server.buildings.BuildingStorage1.class),
+	ENERGY1(6, game6.client.buildings.BuildingEnergy1.class, game6.server.buildings.BuildingEnergy1.class),
+	LIVING1(7, game6.client.buildings.BuildingLiving1.class, game6.server.buildings.BuildingLiving1.class),
 
 	ROCK(100, game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
 
