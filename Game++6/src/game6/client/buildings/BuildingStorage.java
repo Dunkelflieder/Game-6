@@ -1,28 +1,28 @@
 package game6.client.buildings;
 
 import game6.client.ObjectRenderer;
-import game6.client.buildings.guis.BuildingGuiDefault;
-import game6.core.buildings.CoreBuildingRock;
+import game6.client.buildings.guis.BuildingGuiStorage;
+import game6.core.buildings.CoreBuildingStorage;
 import de.nerogar.render.*;
 
-public class BuildingRock extends CoreBuildingRock {
+public class BuildingStorage extends CoreBuildingStorage {
 
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
-	private BuildingGuiDefault gui;
+	private BuildingGuiStorage gui;
 
-	public BuildingRock(long id) {
+	public BuildingStorage(long id) {
 		super(id);
-		gui = new BuildingGuiDefault(this);
+		gui = new BuildingGuiStorage(this);
 	}
 
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/buildings/rock/color.png"),
-				Texture2DLoader.loadTexture("res/buildings/rock/light.png"),
-				Texture2DLoader.loadTexture("res/buildings/rock/faction.png"),
+				TextureLoader.loadTexture("res/buildings/rock/color.png"),
+				TextureLoader.loadTexture("res/buildings/rock/light.png"),
+				TextureLoader.loadTexture("res/buildings/rock/faction.png"),
 				WavefrontLoader.loadObject("res/buildings/rock/mesh.obj")
 				);
 
@@ -31,6 +31,7 @@ public class BuildingRock extends CoreBuildingRock {
 
 	@Override
 	public void render(Shader shader) {
+		renderProperties.setScale(2, 2, 2);
 		renderProperties.setXYZ(getPosX(), 0, getPosY());
 		renderer.render(shader, renderProperties.getModelMatrix());
 	}
@@ -40,7 +41,7 @@ public class BuildingRock extends CoreBuildingRock {
 	}
 
 	@Override
-	public BuildingGuiDefault getGui() {
+	public BuildingGuiStorage getGui() {
 		return gui;
 	}
 

@@ -3,8 +3,7 @@ package game6.client;
 import game6.client.effects.*;
 import game6.client.sound.SoundContext;
 import game6.client.world.World;
-import game6.core.buildings.BuildingType;
-import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.*;
 import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
@@ -217,6 +216,11 @@ public class Controller {
 					for (BuildingType building : pebl.buildings) {
 						System.out.println(building);
 					}
+				} else if (packet instanceof PacketUpdateStorage) {
+					PacketUpdateStorage pus = (PacketUpdateStorage) packet;
+					CoreBuildingStorage building = (CoreBuildingStorage) getWorld().getBuilding(pus.buildingID);
+					building.getResources().setResources(pus.resources);
+					building.getResources().setCapacity(pus.resources.getTotalCapacity());
 				}
 			}
 

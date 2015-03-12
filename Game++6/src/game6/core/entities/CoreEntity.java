@@ -47,7 +47,6 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		setFightingObject(new FightingObject(maxHealth, getPosition(), () -> {
 			Faction.broadcastAll(new PacketRemoveEntity(this.getID(), true));
 			removeFromWorld();
-			System.out.println("ded");
 		}));
 	}
 

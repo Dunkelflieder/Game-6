@@ -1,6 +1,7 @@
 package game6.client.buildings;
 
 import game6.client.ObjectRenderer;
+import game6.client.buildings.guis.BuildingGuiEnergy;
 import game6.core.buildings.CoreBuildingFactory;
 import de.nerogar.render.*;
 
@@ -9,7 +10,7 @@ public class BuildingFactory extends CoreBuildingFactory {
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
-	private BuildingGui gui;
+	private BuildingGuiEnergy gui;
 
 	public BuildingFactory(long id) {
 		super(id);
@@ -39,7 +40,7 @@ public class BuildingFactory extends CoreBuildingFactory {
 	}
 
 	@Override
-	public BuildingGui getGui() {
+	public BuildingGuiEnergy getGui() {
 		return gui;
 	}
 
