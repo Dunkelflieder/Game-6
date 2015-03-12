@@ -7,8 +7,9 @@ public enum BuildingType {
 	RESEARCH(2, game6.client.buildings.BuildingResearch.class, game6.server.buildings.BuildingResearch.class),
 	TOWER(3, game6.client.buildings.BuildingTower.class, game6.server.buildings.BuildingTower.class),
 	FACTORY(4, game6.client.buildings.BuildingFactory.class, game6.server.buildings.BuildingFactory.class),
+	STORAGE(5, game6.client.buildings.BuildingStorage.class, game6.server.buildings.BuildingStorage.class),
 
-	ROCK(5, game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
+	ROCK(100, game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
 
 	private int typeID;
 	private Class<? extends CoreBuilding> clientClass;

@@ -104,14 +104,14 @@ public class GPanelBuildingSelection extends GPanel {
 
 	private int getPositionXForIndex(int index) {
 		int x = 256 + 18;
-		x += 69 * (index % 5);
+		x += 69 * (index % 6);
 		return x;
 	}
 
 	private int getPositionYForIndex(int index) {
 		int y = 78;
 		if (index > 5) {
-			y += 80;
+			y -= 69;
 		}
 		return y;
 	}

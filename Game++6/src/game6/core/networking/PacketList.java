@@ -8,6 +8,7 @@ public class PacketList {
 	public static final int INIT = 100;
 	public static final int BUILDINGS = 200;
 	public static final int ENTITIES = 300;
+	public static final int FACTION = 400;
 	
 	public static void init() {
 		Packets.addPacket(BUILDINGS, PacketBuildingUpdate.class);
@@ -21,8 +22,9 @@ public class PacketList {
 		Packets.addPacket(ENTITIES, PacketCombatTargetSet.class);	
 		Packets.addPacket(ENTITIES, PacketAttackEffect.class);	
 		Packets.addPacket(ENTITIES, PacketRemoveEntity.class);
+		Packets.addPacket(BUILDINGS, PacketUpdateStorage.class);
 		
-		Packets.addPacket(BUILDINGS, PacketEnabledBuildingsList.class);
+		Packets.addPacket(FACTION, PacketEnabledBuildingsList.class);
 	}
 
 }

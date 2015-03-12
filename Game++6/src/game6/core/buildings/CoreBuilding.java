@@ -101,7 +101,7 @@ public abstract class CoreBuilding {
 	public abstract BuildingGui getGui();
 
 	/**
-	 * Returns a human-readable name for this building.
+	 * Returns a human-readable name for this building. Not for actual use, mostly debugging.
 	 * @return String with human readable name
 	 */
 	public abstract String getName();
