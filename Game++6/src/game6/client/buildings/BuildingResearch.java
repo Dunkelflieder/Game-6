@@ -1,6 +1,7 @@
 package game6.client.buildings;
 
 import game6.client.ObjectRenderer;
+import game6.client.buildings.guis.BuildingGuiEnergy;
 import game6.core.buildings.CoreBuildingResearch;
 import de.nerogar.render.*;
 
@@ -9,7 +10,7 @@ public class BuildingResearch extends CoreBuildingResearch {
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
-	private BuildingGui gui;
+	private BuildingGuiEnergy gui;
 
 	public BuildingResearch(long id) {
 		super(id);
@@ -39,7 +40,7 @@ public class BuildingResearch extends CoreBuildingResearch {
 	}
 
 	@Override
-	public BuildingGui getGui() {
+	public BuildingGuiEnergy getGui() {
 		return gui;
 	}
 

@@ -1,6 +1,6 @@
 package game6.core.buildings;
 
-import game6.client.buildings.BuildingGui;
+import game6.client.buildings.guis.BuildingGui;
 import game6.core.faction.Faction;
 import game6.core.world.CoreWorld;
 import de.nerogar.render.Shader;
@@ -98,7 +98,7 @@ public abstract class CoreBuilding {
 	 * Should be implemented by client subclasses.
 	 * @return A BuildingGuiPanel, derived from GPanel, which represents the Building's unique GUI
 	 */
-	public abstract BuildingGui getGui();
+	public abstract BuildingGui<? extends CoreBuilding> getGui();
 
 	/**
 	 * Returns a human-readable name for this building. Not for actual use, mostly debugging.

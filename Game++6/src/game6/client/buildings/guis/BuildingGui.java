@@ -1,13 +1,13 @@
-package game6.client.buildings;
+package game6.client.buildings.guis;
 
 import game6.client.gui.components.GPanel;
 import game6.core.buildings.CoreBuilding;
 
-public abstract class BuildingGui extends GPanel {
+public abstract class BuildingGui<T extends CoreBuilding> extends GPanel {
 
-	protected CoreBuilding building;
+	protected T building;
 
-	public BuildingGui(CoreBuilding building) {
+	public BuildingGui(T building) {
 		this.building = building;
 		initComponents();
 	}

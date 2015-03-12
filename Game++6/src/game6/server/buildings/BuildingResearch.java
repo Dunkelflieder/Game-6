@@ -1,6 +1,7 @@
 package game6.server.buildings;
 
-import game6.client.buildings.BuildingGui;
+import game6.client.buildings.guis.BuildingGui;
+import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreBuildingResearch;
 import de.nerogar.render.Shader;
 
@@ -23,7 +24,7 @@ public class BuildingResearch extends CoreBuildingResearch {
 	}
 
 	@Override
-	public BuildingGui getGui() {
+	public BuildingGui<CoreBuilding> getGui() {
 		return null;
 	}
 

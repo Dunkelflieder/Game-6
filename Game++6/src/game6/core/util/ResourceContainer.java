@@ -1,6 +1,5 @@
 package game6.core.util;
 
-import game6.core.world.Resource;
 
 public class ResourceContainer {
 
@@ -9,7 +8,7 @@ public class ResourceContainer {
 	private int[] contents;
 	private ChangeCallback changeCallback;
 
-	private interface ChangeCallback {
+	public interface ChangeCallback {
 		public void onChange();
 	}
 
@@ -69,6 +68,16 @@ public class ResourceContainer {
 
 	public boolean isEmpty() {
 		return getFilled() == 0;
+	}
+	
+	/**
+	 * Empties the contents of this resource container.
+	 */
+	public void empty() {
+		for (int i = 0; i < contents.length; i++) {
+			contents[i] = 0;
+		}
+		reloadFilled();
 	}
 
 	/**

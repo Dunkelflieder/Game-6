@@ -1,19 +1,20 @@
-package game6.client.buildings;
-
-import java.awt.Color;
+package game6.client.buildings.guis;
 
 import game6.client.gui.Font;
 import game6.client.gui.components.GColorfield;
 import game6.client.gui.components.GLabel;
-import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.CoreBuildingStorage;
+import game6.core.util.Resource;
 
-public class BuildingGuiEnergy extends BuildingGui {
+import java.awt.Color;
+
+public class BuildingGuiStorage extends BuildingGui<CoreBuildingStorage> {
 
 	private GLabel text;
-	private GLabel energy;
+	private GLabel stuff;
 	private GColorfield background;
 
-	public BuildingGuiEnergy(CoreBuilding building) {
+	public BuildingGuiStorage(CoreBuildingStorage building) {
 		super(building);
 	}
 
@@ -26,10 +27,10 @@ public class BuildingGuiEnergy extends BuildingGui {
 		text.setAlignment(Font.CENTER);
 		text.setSize(300, 40);
 
-		energy = new GLabel();
-		energy.setPos(0, 20);
-		energy.setAlignment(Font.CENTER);
-		energy.setSize(300, 30);
+		stuff = new GLabel();
+		stuff.setPos(0, 20);
+		stuff.setAlignment(Font.CENTER);
+		stuff.setSize(300, 30);
 
 		background = new GColorfield(new Color(0, 0, 0, 0.5f));
 		background.setPos(0, 0);
@@ -37,12 +38,12 @@ public class BuildingGuiEnergy extends BuildingGui {
 
 		add(background);
 		add(text);
-		add(energy);
+		add(stuff);
 	}
 
 	@Override
 	protected void updateComponents() {
-		energy.setText("Energie: " + building.getEnergy() + "/" + building.getMaxEnergy());
+		stuff.setText(Resource.STUFF.getName() + ": " + building.getResources().getAmount(Resource.STUFF) + "/" + building.getResources().getTotalCapacity());
 	}
 
 }

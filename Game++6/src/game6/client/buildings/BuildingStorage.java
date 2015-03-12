@@ -1,6 +1,7 @@
 package game6.client.buildings;
 
 import game6.client.ObjectRenderer;
+import game6.client.buildings.guis.BuildingGuiStorage;
 import game6.core.buildings.CoreBuildingStorage;
 import de.nerogar.render.*;
 
@@ -9,11 +10,11 @@ public class BuildingStorage extends CoreBuildingStorage {
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
-	private BuildingGui gui;
+	private BuildingGuiStorage gui;
 
 	public BuildingStorage(long id) {
 		super(id);
-		gui = new BuildingGuiDefault(this);
+		gui = new BuildingGuiStorage(this);
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class BuildingStorage extends CoreBuildingStorage {
 	}
 
 	@Override
-	public BuildingGui getGui() {
+	public BuildingGuiStorage getGui() {
 		return gui;
 	}
 
