@@ -2,16 +2,16 @@ package game6.server.buildings;
 
 import game6.client.buildings.guis.BuildingGui;
 import game6.core.buildings.CoreBuilding;
-import game6.core.buildings.CoreBuildingStorage;
+import game6.core.buildings.CoreBuildingStorage1;
 import game6.core.networking.packets.PacketUpdateStorage;
 import game6.core.util.Resource;
 import de.nerogar.render.Shader;
 
-public class BuildingStorage extends CoreBuildingStorage {
+public class BuildingStorage1 extends CoreBuildingStorage1 {
 
 	private int tick;
 
-	public BuildingStorage() {
+	public BuildingStorage1() {
 		super(getNextID());
 		getResources().setChangeCallback(this::resourcesChanged);
 	}

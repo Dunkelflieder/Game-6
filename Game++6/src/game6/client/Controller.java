@@ -218,7 +218,7 @@ public class Controller {
 					}
 				} else if (packet instanceof PacketUpdateStorage) {
 					PacketUpdateStorage pus = (PacketUpdateStorage) packet;
-					CoreBuildingStorage building = (CoreBuildingStorage) getWorld().getBuilding(pus.buildingID);
+					CoreBuildingStorage1 building = (CoreBuildingStorage1) getWorld().getBuilding(pus.buildingID);
 					building.getResources().setResources(pus.resources);
 					building.getResources().setCapacity(pus.resources.getTotalCapacity());
 				}
