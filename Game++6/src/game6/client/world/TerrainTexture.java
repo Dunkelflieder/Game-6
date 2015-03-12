@@ -34,7 +34,7 @@ public class TerrainTexture {
 			// If the next tile texture lies out of stitching-image range, raise an exception
 			if (y == ROWCOUNT) {
 				throw new RuntimeException("Too many terrain textures! " +
-						"Unable to stitch " + Tile.values().length + " " + TEXSIZE + "² textures on a " + (ROWCOUNT * TEXSIZE) + "² texture.");
+						"Unable to stitch " + Tile.values().length + " " + TEXSIZE + "ï¿½ textures on a " + (ROWCOUNT * TEXSIZE) + "ï¿½ texture.");
 			}
 
 			// Read the tile texture and put it into the big stitching texture
@@ -48,7 +48,7 @@ public class TerrainTexture {
 		}
 
 		// create texture out of the image
-		texture = TextureLoader.loadTexture(img, "terrain", InterpolationType.NEAREST);
+		texture = Texture2DLoader.loadTexture(img, "terrain", InterpolationType.NEAREST);
 	}
 
 	/**

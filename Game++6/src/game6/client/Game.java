@@ -94,6 +94,8 @@ public class Game extends BaseGame {
 		compositer.renderTargetGui = new RenderTarget(false, new Texture2D("color", 0, 0));
 		guiProperties.setRenderTarget(compositer.renderTargetGui);
 
+		compositer.camera = camera;
+		
 		compositionProperties = new ScreenProperties(0, true);
 		compositionProperties.setDepthTest(false);
 		compositionProperties.setScreenDimension(1280, 720);

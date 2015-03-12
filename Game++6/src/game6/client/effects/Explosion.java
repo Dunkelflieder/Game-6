@@ -45,7 +45,7 @@ public class Explosion extends Effect {
 		explosionShader.setUniform1f("size", lifeTime * 0.3f + 0.1f);
 		explosionShader.setUniform1f("heat", 1f - lifeTime);
 
-		TextureLoader.loadTexture("res/colors/fire3.png").bind();
+		Texture2DLoader.loadTexture("res/colors/fire3.png").bind();
 		renderProperties.setXYZ(position);
 		explosionMesh.render(renderProperties);
 		explosionShader.deactivate();

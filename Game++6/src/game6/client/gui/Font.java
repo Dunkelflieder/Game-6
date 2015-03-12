@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
 
 import de.nerogar.render.Texture2D;
 import de.nerogar.render.Texture2D.InterpolationType;
-import de.nerogar.render.TextureLoader;
+import de.nerogar.render.Texture2DLoader;
 
 public class Font {
 
@@ -46,7 +46,7 @@ public class Font {
 	private boolean debug_saveDefaultFontIfNotExists = true;
 
 	public Font(String filename) {
-		fontTexture = TextureLoader.loadTexture(filename + ".png", "defaultFont", InterpolationType.LINEAR);
+		fontTexture = Texture2DLoader.loadTexture(filename + ".png", "defaultFont", InterpolationType.LINEAR);
 		File widthsFile = new File(filename + ".widths");
 		if (fontTexture == null || widthsFile.isDirectory() || !widthsFile.exists()) {
 
@@ -68,7 +68,7 @@ public class Font {
 				}
 			}
 
-			fontTexture = TextureLoader.loadTexture(defaultFont, "defaultFont", InterpolationType.LINEAR);
+			fontTexture = Texture2DLoader.loadTexture(defaultFont, "defaultFont", InterpolationType.LINEAR);
 			this.widths = widths;
 		} else {
 			widths = new int[charRowNum * charRowNum];
@@ -96,7 +96,7 @@ public class Font {
 	}
 
 	public Font(String name, int style) {
-		fontTexture = TextureLoader.loadTexture(makeFontmapFromAwt(name, style), "defaultFont", InterpolationType.LINEAR);
+		fontTexture = Texture2DLoader.loadTexture(makeFontmapFromAwt(name, style), "defaultFont", InterpolationType.LINEAR);
 	}
 
 	private String getStringFromUnicode(int unicode) {

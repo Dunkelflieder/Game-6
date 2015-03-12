@@ -15,11 +15,11 @@ public class GImage extends GComponent {
 	private Texture2D texture;
 
 	public GImage(String filename) {
-		texture = TextureLoader.loadTexture(filename);
+		texture = Texture2DLoader.loadTexture(filename);
 	}
 
 	public GImage(BufferedImage image, String name) {
-		texture = TextureLoader.loadTexture(image, name, InterpolationType.NEAREST);
+		texture = Texture2DLoader.loadTexture(image, name, InterpolationType.NEAREST);
 	}
 
 	public GImage(Texture2D texture) {

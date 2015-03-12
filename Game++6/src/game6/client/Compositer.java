@@ -17,6 +17,10 @@ public class Compositer {
 
 	private ScreenProperties effectMaskProperties;
 
+	private TextureCubeMap cubeMap;
+
+	public Camera camera;
+
 	public Compositer() {
 		compositionShader = new Shader("shaders/composition.vert", "shaders/composition.frag");
 		effectMaskShader = new Shader("shaders/effectsMask.vert", "shaders/effectsMask.frag");
@@ -25,6 +29,14 @@ public class Compositer {
 		effectMaskProperties.setScreenDimension(1280, 720);
 		renderTargetEffectsMask = new RenderTarget(false, new Texture2D("color", 0, 0));
 		effectMaskProperties.setRenderTarget(renderTargetEffectsMask);
+
+		cubeMap = TextureCubeMapLoader.loadTexture(
+				"res/colors/skybox/right.png",
+				"res/colors/skybox/left.png",
+				"res/colors/skybox/bottom.png",
+				"res/colors/skybox/top.png",
+				"res/colors/skybox/back.png",
+				"res/colors/skybox/front.png");
 	}
 
 	public void render(GameDisplay display, ScreenProperties screenProperties) {
@@ -74,7 +86,11 @@ public class Compositer {
 			compositionShader.setUniform1i("tex_effectsColor", 5);
 			compositionShader.setUniform1i("tex_guiColor", 6);
 
+			cubeMap.bind(7);
+			compositionShader.setUniform1i("tex_cube_sky", 7);
+			
 			compositionShader.setUniform2f("resolution", screenProperties.getRenderWidth(), screenProperties.getRenderHeight());
+			compositionShader.setUniform3f("cameraPosition", camera.getX(), camera.getY(), camera.getZ());
 
 			RenderHelper.renderFBOFullscreenQuad(screenProperties);
 
@@ -91,13 +107,13 @@ public class Compositer {
 
 			renderTargetWorld.getTexture("ambient").bind();
 			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.333f);
-			
+
 			renderTargetLights.getTexture("light").bind();
 			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.333f, 0.333f);
-			
+
 			renderTargetEffectsMask.getTexture("color").bind();
 			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.666f, 0.333f);
-			
+
 			renderTargetGui.getTexture("color").bind();
 			RenderHelper.renderFBOQuad(screenProperties, 0.333f, 0.333f, 0.0f, 0.666f);
 		}

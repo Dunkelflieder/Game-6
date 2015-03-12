@@ -19,9 +19,9 @@ public class BuildingReactor extends CoreBuildingReactor {
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				TextureLoader.loadTexture("res/buildings/reactor/color.png"),
-				TextureLoader.loadTexture("res/buildings/reactor/light.png"),
-				TextureLoader.loadTexture("res/buildings/reactor/faction.png"),
+				Texture2DLoader.loadTexture("res/buildings/reactor/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/reactor/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/reactor/faction.png"),
 				WavefrontLoader.loadObject("res/buildings/reactor/mesh.obj")
 				);
 

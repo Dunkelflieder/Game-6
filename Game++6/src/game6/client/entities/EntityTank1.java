@@ -13,9 +13,9 @@ public class EntityTank1 extends CoreEntityTank1 {
 	public EntityTank1(long id) {
 		super(id, new Vector3f());
 
-		renderer = new ObjectRenderer(TextureLoader.loadTexture("res/entities/tank1/color.png"),
-				TextureLoader.loadTexture("res/entities/tank1/light.png"),
-				TextureLoader.loadTexture("res/entities/tank1/faction.png"),
+		renderer = new ObjectRenderer(Texture2DLoader.loadTexture("res/entities/tank1/color.png"),
+				Texture2DLoader.loadTexture("res/entities/tank1/light.png"),
+				Texture2DLoader.loadTexture("res/entities/tank1/faction.png"),
 				WavefrontLoader.loadObject("res/entities/tank1/mesh.obj"));
 
 		renderProperties = new RenderProperties3f();

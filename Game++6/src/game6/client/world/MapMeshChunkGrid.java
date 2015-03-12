@@ -19,7 +19,7 @@ public class MapMeshChunkGrid extends Renderable {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 
-		this.texture = TextureLoader.loadTexture("res/terrain/transparents.png", InterpolationType.NEAREST);
+		this.texture = Texture2DLoader.loadTexture("res/terrain/transparents.png", InterpolationType.NEAREST);
 		this.map = map;
 
 		reload();

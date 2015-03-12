@@ -19,9 +19,9 @@ public class BuildingRock extends CoreBuildingRock {
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				TextureLoader.loadTexture("res/buildings/rock/color.png"),
-				TextureLoader.loadTexture("res/buildings/rock/light.png"),
-				TextureLoader.loadTexture("res/buildings/rock/faction.png"),
+				Texture2DLoader.loadTexture("res/buildings/rock/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/rock/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/rock/faction.png"),
 				WavefrontLoader.loadObject("res/buildings/rock/mesh.obj")
 				);
 

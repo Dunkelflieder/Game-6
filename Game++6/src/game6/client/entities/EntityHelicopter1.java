@@ -18,16 +18,16 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 		super(id, new Vector3f());
 
 		rendererMain = new ObjectRenderer(
-				TextureLoader.loadTexture("res/entities/helicopter1/colorMain.png"),
-				TextureLoader.loadTexture("res/entities/helicopter1/lightMain.png"),
-				TextureLoader.loadTexture("res/entities/helicopter1/factionMain.png"),
+				Texture2DLoader.loadTexture("res/entities/helicopter1/colorMain.png"),
+				Texture2DLoader.loadTexture("res/entities/helicopter1/lightMain.png"),
+				Texture2DLoader.loadTexture("res/entities/helicopter1/factionMain.png"),
 				WavefrontLoader.loadObject("res/entities/helicopter1/mesh.obj")
 				);
 
 		rendererRotor = new ObjectRenderer(
-				TextureLoader.loadTexture("res/entities/helicopter1/colorRotor.png"),
-				TextureLoader.loadTexture("res/entities/helicopter1/lightRotor.png"),
-				TextureLoader.loadTexture("res/entities/helicopter1/factionRotor.png"),
+				Texture2DLoader.loadTexture("res/entities/helicopter1/colorRotor.png"),
+				Texture2DLoader.loadTexture("res/entities/helicopter1/lightRotor.png"),
+				Texture2DLoader.loadTexture("res/entities/helicopter1/factionRotor.png"),
 				WavefrontLoader.loadObject("res/entities/helicopter1/meshRotorL.obj"),
 				WavefrontLoader.loadObject("res/entities/helicopter1/meshRotorH.obj")
 				);

@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 import de.nerogar.render.Texture2D;
-import de.nerogar.render.TextureLoader;
+import de.nerogar.render.Texture2DLoader;
 
 /**
  * Gui-Component, that displays a part of a texture. The underlying texture is interpreted as a grid of images.
@@ -21,7 +21,7 @@ public class GMultiimage extends GComponent {
 	private int texX, texY;
 
 	public GMultiimage(String filename, int cols, int rows) {
-		texture = TextureLoader.loadTexture(filename);
+		texture = Texture2DLoader.loadTexture(filename);
 		this.cols = cols;
 		this.rows = rows;
 	}

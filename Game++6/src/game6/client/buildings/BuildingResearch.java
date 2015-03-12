@@ -19,9 +19,9 @@ public class BuildingResearch extends CoreBuildingResearch {
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				TextureLoader.loadTexture("res/buildings/research/color.png"),
-				TextureLoader.loadTexture("res/buildings/research/light.png"),
-				TextureLoader.loadTexture("res/buildings/research/faction.png"),
+				Texture2DLoader.loadTexture("res/buildings/research/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/research/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/research/faction.png"),
 				WavefrontLoader.loadObject("res/buildings/research/mesh.obj")
 				);
 

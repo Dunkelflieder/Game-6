@@ -26,7 +26,7 @@ void main(){
 		out_ambient = textureAmbient;
 	}else{
 		out_color = texture2D(colorTex, gl_TexCoord[0].st);
-		out_ambient = vec4(1.0);
+		out_ambient = vec4(1.0, 0.0, 0.0, 1.0);
 	}
 
 	out_normal = vec4(normalize(normal), 1.0);

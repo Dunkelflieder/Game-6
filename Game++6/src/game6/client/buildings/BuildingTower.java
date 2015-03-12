@@ -19,9 +19,9 @@ public class BuildingTower extends CoreBuildingTower {
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				TextureLoader.loadTexture("res/buildings/tower/color.png"),
-				TextureLoader.loadTexture("res/buildings/tower/light.png"),
-				TextureLoader.loadTexture("res/buildings/tower/faction.png"),
+				Texture2DLoader.loadTexture("res/buildings/tower/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/tower/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/tower/faction.png"),
 				WavefrontLoader.loadObject("res/buildings/tower/mesh.obj")
 				);
 

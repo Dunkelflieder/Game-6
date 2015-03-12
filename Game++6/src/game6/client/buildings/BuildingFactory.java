@@ -19,9 +19,9 @@ public class BuildingFactory extends CoreBuildingFactory {
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				TextureLoader.loadTexture("res/buildings/factory/color.png"),
-				TextureLoader.loadTexture("res/buildings/factory/light.png"),
-				TextureLoader.loadTexture("res/buildings/factory/faction.png"),
+				Texture2DLoader.loadTexture("res/buildings/factory/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/factory/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/factory/faction.png"),
 				WavefrontLoader.loadObject("res/buildings/factory/mesh.obj")
 				);
 
