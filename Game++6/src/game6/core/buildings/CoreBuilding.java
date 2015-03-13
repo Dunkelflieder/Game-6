@@ -3,187 +3,90 @@ package game6.core.buildings;
 import game6.core.faction.Faction;
 import de.nerogar.util.Vector3f;
 
-public abstract class CoreBuilding implements ICoreBuilding {
+public interface CoreBuilding {
 
-	private static long MAX_ID;
-	private long id;
-	private int sizeX, sizeY, posX, posY;
-
-	private int energy;
-	private int maxEnergy;
-	private int range;
-
-	private Faction faction;
-
-	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy, int range) {
-		init();
-		if (id > MAX_ID) {
-			MAX_ID = id;
-		}
-		this.id = id;
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
-		this.posX = 0;
-		this.posY = 0;
-		this.maxEnergy = maxEnergy;
-		this.range = range;
-	}
-
-	public abstract void init();
+	public void init();
 
 	/**
 	 * @return Unique Building-ID of this instance
 	 */
-	public long getID() {
-		return id;
-	}
+	public long getID();
 
-	public int getSizeX() {
-		return sizeX;
-	}
+	public int getSizeX();
 
-	public int getSizeY() {
-		return sizeY;
-	}
+	public int getSizeY();
 
-	public int getPosX() {
-		return posX;
-	}
+	public int getPosX();
 
-	public int getRange() {
-		return range;
-	}
+	public int getRange();
 
-	public Vector3f getCenter() {
-		return new Vector3f(getPosX() + 0.5f * getSizeX(), 0.5f, getPosY() + 0.5f * getSizeY());
-	}
+	public Vector3f getCenter();
 
 	/**
 	 * Sets the x-position of this building on the map.
 	 * Is or should be used while this instance is added to the map.
 	 * @param posX x-Position on the map
 	 */
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
+	public void setPosX(int posX);
 
-	public int getPosY() {
-		return posY;
-	}
+	public int getPosY();
 
 	/**
 	 * Sets the y-position of this building on the map.
 	 * Is or should be used while this instance is added to the map.
 	 * @param posY y-Position on the map
 	 */
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
+	public void setPosY(int posY);
 
 	/**
-	 * Updates the logic and can cause (network) events, that are added to the supplied list
+	 * Basic update function. If used for network events, then should be overwritten in server class.
 	 */
-	public abstract void update();
+	public void update();
 
 	/**
 	 * Returns a human-readable name for this building. Not for actual use, mostly debugging.
 	 * @return String with human readable name
 	 */
-	public abstract String getName();
+	public String getName();
 
 	/**
 	 * Returns the current energy this building has.
 	 * @return energy
 	 */
-	public int getEnergy() {
-		return energy;
-	}
+	public int getEnergy();
 
-	/**
-	 * Fixes energy overflowing over the max. Caps energy at max.
-	 * @return The amount of energy that was overflowing or 0 if none was overflowing;
-	 */
-	private int getEnergyOverflow() {
-		if (this.energy > maxEnergy) {
-			int overflow = this.energy - maxEnergy;
-			this.energy = maxEnergy;
-			return overflow;
-		}
-		return 0;
-	}
-
-	/**
-	 * Fixes energy underflowing below 0
-	 * @return The amount of energy that was underflowing or 0 if none was underflowing;
-	 */
-	private int getEnergyUnderflow() {
-		if (this.energy < 0) {
-			int underflow = -this.energy;
-			this.energy = 0;
-			return underflow;
-		}
-		return 0;
-	}
-
-	public void setEnergy(int energy) {
-		this.energy = energy;
-	}
+	public void setEnergy(int energy);
 
 	/**
 	 * Adds energy to the building
 	 * @param energy added energy
 	 * @return amount of energy that was not added due to overflowing
 	 */
-	public int addEnergy(int energy) {
-		this.energy += energy;
-		return getEnergyOverflow();
-	}
+	public int addEnergy(int energy);
 
 	/**
 	 * Subtracts energy from the building
 	 * @param energy subtracted energy
 	 * @return amount of energy that was not subtracted due to underflowing
 	 */
-	public int subtractEnergy(int energy) {
-		this.energy -= energy;
-		return getEnergyUnderflow();
-	}
+	public int subtractEnergy(int energy);
 
-	public int getMaxEnergy() {
-		return maxEnergy;
-	}
+	public int getMaxEnergy();
 
-	public void setMaxEnergy(int maxEnergy) {
-		this.maxEnergy = maxEnergy;
-	}
+	public void setMaxEnergy(int maxEnergy);
 
 	/**
 	 * Sets the faction this building belongs to.
 	 * @param faction Faction-enum
 	 */
-	public void setFaction(Faction faction) {
-		this.faction = faction;
-	}
+	public void setFaction(Faction faction);
 
-	public Faction getFaction() {
-		return faction;
-	}
-
-	/**
-	 * Returns the next unique-Instance-ID.
-	 * @return unique building-instance-ID
-	 */
-	protected static long getNextID() {
-		MAX_ID++;
-		return MAX_ID;
-	}
+	public Faction getFaction();
 
 	/**
 	 * Returns whether the building can receive energy or not.
 	 * @return true, if the building can receive energy and is not full. False otherwise.
 	 */
-	public boolean canReceiveEnergy() {
-		return energy < maxEnergy;
-	}
+	public boolean canReceiveEnergy();
 	
 }

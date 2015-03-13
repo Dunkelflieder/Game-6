@@ -2,7 +2,7 @@ package game6.core.buildings;
 
 import game6.core.util.ResourceContainer;
 
-public abstract class CoreBuildingStorage1 extends CoreBuilding {
+public abstract class CoreBuildingStorage1 extends DefaultCoreBuilding {
 
 	private ResourceContainer resources;
 

@@ -4,9 +4,9 @@ import game6.core.buildings.CoreBuildingFactory;
 import game6.core.networking.packets.PacketBuildingUpdate;
 import game6.server.world.World;
 
-public class BuildingFactory extends CoreBuildingFactory implements IServerBuilding {
+public class BuildingFactory extends CoreBuildingFactory implements ServerBuilding {
 
-	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
+	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
 
 	public BuildingFactory() {
 		super(getNextID());

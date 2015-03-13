@@ -1,6 +1,6 @@
 package game6.core.buildings;
 
-public abstract class CoreBuildingResearch extends CoreBuilding {
+public abstract class CoreBuildingResearch extends DefaultCoreBuilding {
 
 	public CoreBuildingResearch(long id) {
 		super(id, 2, 2, 50, 0);

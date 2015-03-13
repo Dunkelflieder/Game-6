@@ -10,14 +10,14 @@ import game6.core.networking.packets.*;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 import game6.server.buildings.Constructionsite;
-import game6.server.buildings.IServerBuilding;
+import game6.server.buildings.ServerBuilding;
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
 
-public class World extends CoreWorld<IServerBuilding> {
+public class World extends CoreWorld<ServerBuilding> {
 
-	public World(Map<IServerBuilding> map) {
+	public World(Map<ServerBuilding> map) {
 		super(map);
 	}
 
@@ -30,7 +30,7 @@ public class World extends CoreWorld<IServerBuilding> {
 				if (packet instanceof PacketPlaceBuilding) {
 					// TODO this packet is not used for buildings anymore. Use PacketStartConstruction instead
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
-					IServerBuilding building = ppb.building.getServerBuilding();
+					ServerBuilding building = ppb.building.getServerBuilding();
 					building.setFaction(faction);
 					if (getMap().canAddBuilding(ppb.posX, ppb.posY, building)) {
 						addBuilding(ppb.posX, ppb.posY, building);
@@ -38,7 +38,7 @@ public class World extends CoreWorld<IServerBuilding> {
 					}
 				} else if (packet instanceof PacketStartConstruction) {
 					PacketStartConstruction psc = (PacketStartConstruction) packet;
-					IServerBuilding building = psc.building.getServerBuilding();
+					ServerBuilding building = psc.building.getServerBuilding();
 					building.setFaction(faction);
 
 					if (getMap().canAddBuilding(psc.posX, psc.posY, building)) {
@@ -81,7 +81,7 @@ public class World extends CoreWorld<IServerBuilding> {
 	}
 
 	@Override
-	public void addBuilding(int posX, int posY, IServerBuilding building) {
+	public void addBuilding(int posX, int posY, ServerBuilding building) {
 		building.setWorld(this);
 		super.addBuilding(posX, posY, building);
 	}
@@ -97,7 +97,7 @@ public class World extends CoreWorld<IServerBuilding> {
 	public void initNewPlayer(Player player) {
 		player.getConnection().send(new PacketMap(getMap()));
 
-		for (IServerBuilding building : getBuildings()) {
+		for (ServerBuilding building : getBuildings()) {
 			player.getConnection().send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
 		}
 

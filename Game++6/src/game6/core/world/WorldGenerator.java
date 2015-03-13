@@ -1,6 +1,6 @@
 package game6.core.world;
 
-import game6.server.buildings.IServerBuilding;
+import game6.server.buildings.ServerBuilding;
 import game6.server.world.World;
 
 public class WorldGenerator {
@@ -23,7 +23,7 @@ public class WorldGenerator {
 			}
 		}
 
-		return new World(new Map<IServerBuilding>(tiles));
+		return new World(new Map<ServerBuilding>(tiles));
 
 	}
 

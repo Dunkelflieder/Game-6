@@ -12,16 +12,16 @@ import de.nerogar.render.*;
  * It also does not have the necessary long-only constructor.
  * @author Felk
  */
-public class Constructionsite extends CoreConstructionsite<IClientBuilding> implements IClientBuilding {
+public class Constructionsite extends CoreConstructionsite<ClientBuilding> implements ClientBuilding {
 
-	private ClientBehaviourDefault defaultBehaviour = new ClientBehaviourDefault();
+	private DefaultClientBehaviour defaultBehaviour = new DefaultClientBehaviour();
 	
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
 	private BuildingGuiConstructionsite gui;
 
-	public Constructionsite(IClientBuilding building, ResourceContainer constructionCost) {
+	public Constructionsite(ClientBuilding building, ResourceContainer constructionCost) {
 		super(building, constructionCost);
 		renderProperties.setScale(building.getSizeX() * 0.5f, 0.1f, building.getSizeY() * 0.5f);
 		gui = new BuildingGuiConstructionsite(this);

@@ -5,9 +5,9 @@ import game6.core.networking.packets.PacketUpdateStorage;
 import game6.core.util.Resource;
 import game6.server.world.World;
 
-public class BuildingStorage1 extends CoreBuildingStorage1 implements IServerBuilding {
+public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuilding {
 
-	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
+	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
 
 	private int tick;
 

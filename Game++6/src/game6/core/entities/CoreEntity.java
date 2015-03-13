@@ -2,7 +2,7 @@ package game6.core.entities;
 
 import game6.client.entities.guis.EntityGui;
 import game6.core.ai.pathfinding.Pathfinder.Position;
-import game6.core.buildings.ICoreBuilding;
+import game6.core.buildings.CoreBuilding;
 import game6.core.combat.FightingObject;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.*;
@@ -23,7 +23,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 	private float visibleRotation;
 	private static final float rotationSpeed = 6;
 
-	private Map<? extends ICoreBuilding> map;
+	private Map<? extends CoreBuilding> map;
 	private Faction faction;
 
 	private List<Vector3f> goals;
@@ -240,11 +240,11 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		return !goals.isEmpty();
 	}
 
-	public void setMap(Map<? extends ICoreBuilding> map) {
+	public void setMap(Map<? extends CoreBuilding> map) {
 		this.map = map;
 	}
 
-	public Map<? extends ICoreBuilding> getMap() {
+	public Map<? extends CoreBuilding> getMap() {
 		return map;
 	}
 

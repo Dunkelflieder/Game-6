@@ -139,7 +139,7 @@ public class Controller {
 	}
 
 	// TODO debug method
-	public void setEntityTarget(CoreEntity sourceEntity, IClientBuilding targetBuilding) {
+	public void setEntityTarget(CoreEntity sourceEntity, ClientBuilding targetBuilding) {
 		if (isConnected()) {
 			connection.send(new PacketCombatTargetSet(PacketCombatTargetSet.ENTITIY, sourceEntity.getID(), PacketCombatTargetSet.BUILDING, targetBuilding.getID()));
 		}
@@ -190,13 +190,13 @@ public class Controller {
 				if (packet instanceof PacketPlaceBuilding) {
 
 					PacketPlaceBuilding packetBuilding = (PacketPlaceBuilding) packet;
-					IClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
+					ClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
 					building.setFaction(packetBuilding.faction);
 					world.addBuilding(packetBuilding.posX, packetBuilding.posY, building);
 				} else if (packet instanceof PacketStartConstruction) {
 
 					PacketStartConstruction packetBuilding = (PacketStartConstruction) packet;
-					IClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
+					ClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
 					building.setFaction(packetBuilding.faction);
 					world.addBuilding(packetBuilding.posX, packetBuilding.posY, new Constructionsite(building, packetBuilding.building.getBuildingCost()));
 
@@ -244,8 +244,8 @@ public class Controller {
 			}
 
 			for (Entry<LightningLine, Integer> entry : lightnings.entrySet()) {
-				IClientBuilding building1 = getWorld().getBuilding(entry.getKey().a);
-				IClientBuilding building2 = getWorld().getBuilding(entry.getKey().b);
+				ClientBuilding building1 = getWorld().getBuilding(entry.getKey().a);
+				ClientBuilding building2 = getWorld().getBuilding(entry.getKey().b);
 				effects.addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
 			}
 

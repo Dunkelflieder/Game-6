@@ -8,7 +8,7 @@ public class BuildingImageRenderer {
 	private static ScreenProperties screenProperties;
 	private static Camera guiTextureCam;
 
-	public static Texture2D render(GameDisplay display, IClientBuilding building) {
+	public static Texture2D render(GameDisplay display, ClientBuilding building) {
 		guiTextureCam = new Camera();
 		guiTextureCam.setX(building.getSizeX() / 2f);
 		guiTextureCam.setY(0.5f);

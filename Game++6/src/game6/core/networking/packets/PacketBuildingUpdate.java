@@ -1,6 +1,6 @@
 package game6.core.networking.packets;
 
-import game6.core.buildings.ICoreBuilding;
+import game6.core.buildings.CoreBuilding;
 
 import java.nio.ByteBuffer;
 
@@ -14,7 +14,7 @@ public class PacketBuildingUpdate extends Packet {
 	public PacketBuildingUpdate() {
 	}
 
-	public PacketBuildingUpdate(ICoreBuilding building) {
+	public PacketBuildingUpdate(CoreBuilding building) {
 		this.id = building.getID();
 		this.energy = building.getEnergy();
 	}

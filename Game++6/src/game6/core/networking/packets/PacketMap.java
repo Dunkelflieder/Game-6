@@ -1,10 +1,10 @@
 package game6.core.networking.packets;
 
-import game6.client.buildings.IClientBuilding;
-import game6.core.buildings.ICoreBuilding;
+import game6.client.buildings.ClientBuilding;
+import game6.core.buildings.CoreBuilding;
 import game6.core.world.Map;
 import game6.core.world.Tile;
-import game6.server.buildings.IServerBuilding;
+import game6.server.buildings.ServerBuilding;
 
 import java.nio.ByteBuffer;
 
@@ -12,18 +12,18 @@ import de.nerogar.network.packets.Packet;
 
 public class PacketMap extends Packet {
 
-	public Map<? extends ICoreBuilding> map;
+	public Map<? extends CoreBuilding> map;
 
 	public PacketMap() {
 	}
 
-	public PacketMap(Map<IServerBuilding> map) {
+	public PacketMap(Map<ServerBuilding> map) {
 		this.map = map;
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<IClientBuilding> getClientMap() {
-		return (Map<IClientBuilding>) map;
+	public Map<ClientBuilding> getClientMap() {
+		return (Map<ClientBuilding>) map;
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class PacketMap extends Packet {
 			}
 		}
 
-		map = new Map<IClientBuilding>(tiles);
+		map = new Map<ClientBuilding>(tiles);
 	}
 
 	@Override

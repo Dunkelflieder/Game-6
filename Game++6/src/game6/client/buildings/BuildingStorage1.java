@@ -6,9 +6,9 @@ import game6.client.world.World;
 import game6.core.buildings.CoreBuildingStorage1;
 import de.nerogar.render.*;
 
-public class BuildingStorage1 extends CoreBuildingStorage1 implements IClientBuilding {
+public class BuildingStorage1 extends CoreBuildingStorage1 implements ClientBuilding {
 
-	private ClientBehaviourDefault defaultBehaviour = new ClientBehaviourDefault();
+	private DefaultClientBehaviour defaultBehaviour = new DefaultClientBehaviour();
 
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;

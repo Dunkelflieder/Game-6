@@ -1,6 +1,6 @@
 package game6.client.world;
 
-import game6.client.buildings.IClientBuilding;
+import game6.client.buildings.ClientBuilding;
 import game6.client.effects.EffectContainer;
 import game6.client.effects.SelectionMarker;
 import game6.core.buildings.CoreConstructionsite;
@@ -17,11 +17,11 @@ import de.nerogar.render.Shader;
 import de.nerogar.util.Color;
 import de.nerogar.util.Vector3f;
 
-public class World extends CoreWorld<IClientBuilding> {
+public class World extends CoreWorld<ClientBuilding> {
 
 	private MapMesh mesh;
 
-	private IClientBuilding preview;
+	private ClientBuilding preview;
 
 	private int renderCenterX, renderCenterY;
 	private RenderProperties3f renderProperties;
@@ -29,7 +29,7 @@ public class World extends CoreWorld<IClientBuilding> {
 
 	private EffectContainer effectContainer;
 
-	private IClientBuilding selectedBuilding;
+	private ClientBuilding selectedBuilding;
 	private CoreEntity selectedEntity;
 
 	private SelectionMarker selectionMarker;
@@ -45,7 +45,7 @@ public class World extends CoreWorld<IClientBuilding> {
 		minimap = new Minimap();
 	}
 
-	public IClientBuilding getSelectedBuilding() {
+	public ClientBuilding getSelectedBuilding() {
 		return selectedBuilding;
 	}
 
@@ -53,7 +53,7 @@ public class World extends CoreWorld<IClientBuilding> {
 		return minimap;
 	}
 
-	public void selectBuilding(IClientBuilding building) {
+	public void selectBuilding(ClientBuilding building) {
 		selectionMarker.kill();
 		if (building != null) {
 			selectionMarker = new SelectionMarker(building.getCenter().setY(0.1f), building.getSizeX(), building.getSizeY());
@@ -80,7 +80,7 @@ public class World extends CoreWorld<IClientBuilding> {
 	}
 
 	@Override
-	public void addBuilding(int posX, int posY, IClientBuilding building) {
+	public void addBuilding(int posX, int posY, ClientBuilding building) {
 		building.setWorld(this);
 		super.addBuilding(posX, posY, building);
 		mesh.reload(posX, posY, building.getSizeX(), building.getSizeY());
@@ -88,7 +88,7 @@ public class World extends CoreWorld<IClientBuilding> {
 	}
 
 	@Override
-	public void finishConstructionsite(CoreConstructionsite<IClientBuilding> constructionsite) {
+	public void finishConstructionsite(CoreConstructionsite<ClientBuilding> constructionsite) {
 		super.finishConstructionsite(constructionsite);
 		if (selectedBuilding == constructionsite) {
 			selectBuilding(null);
@@ -108,12 +108,12 @@ public class World extends CoreWorld<IClientBuilding> {
 		mesh.setGridActivated(is);
 	}
 
-	public void setBuildingPreview(IClientBuilding preview) {
+	public void setBuildingPreview(ClientBuilding preview) {
 		this.preview = preview;
 	}
 
 	@Override
-	public void setMap(Map<IClientBuilding> map) {
+	public void setMap(Map<ClientBuilding> map) {
 		super.setMap(map);
 		if (minimap != null) {
 			minimap.setMap(map);
@@ -171,7 +171,7 @@ public class World extends CoreWorld<IClientBuilding> {
 
 			// TODO highlight selectedBuilding somehow
 			Color factionColor = new Color(0);
-			for (IClientBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {
+			for (ClientBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {
 
 				if (building.getFaction() != null) {
 					factionColor = building.getFaction().color;

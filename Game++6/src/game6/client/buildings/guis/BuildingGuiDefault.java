@@ -1,18 +1,18 @@
 package game6.client.buildings.guis;
 
-import game6.client.buildings.IClientBuilding;
+import game6.client.buildings.ClientBuilding;
 import game6.client.gui.Font;
 import game6.client.gui.components.GColorfield;
 import game6.client.gui.components.GLabel;
 
 import java.awt.Color;
 
-public class BuildingGuiDefault extends BuildingGui<IClientBuilding> {
+public class BuildingGuiDefault extends BuildingGui<ClientBuilding> {
 
 	private GLabel text;
 	private GColorfield background;
 
-	public BuildingGuiDefault(IClientBuilding building) {
+	public BuildingGuiDefault(ClientBuilding building) {
 		super(building);
 	}
 

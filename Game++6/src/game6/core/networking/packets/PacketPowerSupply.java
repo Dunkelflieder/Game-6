@@ -1,7 +1,7 @@
 package game6.core.networking.packets;
 
 import game6.core.ai.goalfinding.Path;
-import game6.core.buildings.ICoreBuilding;
+import game6.core.buildings.CoreBuilding;
 
 import java.nio.ByteBuffer;
 
@@ -16,11 +16,11 @@ public class PacketPowerSupply extends Packet {
 
 	}
 
-	public PacketPowerSupply(ICoreBuilding source, Path path, int amount) {
+	public PacketPowerSupply(CoreBuilding source, Path path, int amount) {
 		waypoints = new long[path.size() + 1];
 		waypoints[0] = source.getID();
 		int i = 1;
-		for (ICoreBuilding building : path.getWaypoints()) {
+		for (CoreBuilding building : path.getWaypoints()) {
 			waypoints[i] = building.getID();
 			i++;
 		}

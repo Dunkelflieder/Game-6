@@ -1,6 +1,6 @@
 package game6.core.buildings;
 
-public abstract class CoreBuildingReactor extends CoreBuilding {
+public abstract class CoreBuildingReactor extends DefaultCoreBuilding {
 
 	public CoreBuildingReactor(long id) {
 		// Reactor is 2x2 and cannot hold energy itself.

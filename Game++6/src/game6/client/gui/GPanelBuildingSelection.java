@@ -1,7 +1,7 @@
 package game6.client.gui;
 
 import game6.client.Controller;
-import game6.client.buildings.IClientBuilding;
+import game6.client.buildings.ClientBuilding;
 import game6.client.gui.components.*;
 import game6.client.gui.listener.MouseAdapter;
 import game6.core.buildings.BuildingType;
@@ -22,7 +22,7 @@ public class GPanelBuildingSelection extends GPanel {
 
 	private List<GBuildingIcon> buildings;
 	private BuildingType selectedBuilding;
-	private IClientBuilding buildingPreview;
+	private ClientBuilding buildingPreview;
 
 	private GImage buildingBackground;
 	private GImage buildingHighlight;
@@ -73,7 +73,7 @@ public class GPanelBuildingSelection extends GPanel {
 		return selectedBuilding;
 	}
 
-	public IClientBuilding getPreview() {
+	public ClientBuilding getPreview() {
 		return buildingPreview;
 	}
 

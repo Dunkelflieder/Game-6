@@ -13,11 +13,11 @@ import game6.server.world.World;
  * It also does not have the necessary long-only constructor.
  * @author Felk
  */
-public class Constructionsite extends CoreConstructionsite<IServerBuilding> implements IServerBuilding {
+public class Constructionsite extends CoreConstructionsite<ServerBuilding> implements ServerBuilding {
 
-	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
+	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
 	
-	public Constructionsite(IServerBuilding building, ResourceContainer constructionCost) {
+	public Constructionsite(ServerBuilding building, ResourceContainer constructionCost) {
 		super(building, constructionCost);
 		getCostRemaining().setChangeCallback(this::remainingCostChanged);
 	}

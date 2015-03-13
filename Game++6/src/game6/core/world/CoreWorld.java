@@ -3,7 +3,7 @@ package game6.core.world;
 import game6.core.ai.goalfinding.Goalfinder;
 import game6.core.ai.goalfinding.Path;
 import game6.core.buildings.CoreConstructionsite;
-import game6.core.buildings.ICoreBuilding;
+import game6.core.buildings.CoreBuilding;
 import game6.core.entities.CoreEntity;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 import de.nerogar.engine.BaseWorld;
 import de.nerogar.util.Vector3f;
 
-public abstract class CoreWorld<T extends ICoreBuilding> extends BaseWorld<Vector3f> {
+public abstract class CoreWorld<T extends CoreBuilding> extends BaseWorld<Vector3f> {
 
 	private List<T> buildings;
 	private Map<T> map;

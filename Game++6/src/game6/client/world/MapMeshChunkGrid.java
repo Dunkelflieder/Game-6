@@ -1,6 +1,6 @@
 package game6.client.world;
 
-import game6.client.buildings.IClientBuilding;
+import game6.client.buildings.ClientBuilding;
 import game6.core.world.Map;
 import de.nerogar.render.*;
 import de.nerogar.render.Texture2D.InterpolationType;
@@ -8,12 +8,12 @@ import de.nerogar.render.Texture2D.InterpolationType;
 public class MapMeshChunkGrid extends Renderable {
 
 	private Texture2D texture;
-	private Map<IClientBuilding> map;
+	private Map<ClientBuilding> map;
 	private boolean vboDirty = true;
 
 	private int posX, posY, sizeX, sizeY;
 
-	public MapMeshChunkGrid(Map<IClientBuilding> map, int posX, int posY, int sizeX, int sizeY) {
+	public MapMeshChunkGrid(Map<ClientBuilding> map, int posX, int posY, int sizeX, int sizeY) {
 
 		this.posX = posX;
 		this.posY = posY;

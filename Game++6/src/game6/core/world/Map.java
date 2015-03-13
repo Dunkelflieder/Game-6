@@ -3,21 +3,21 @@ package game6.core.world;
 import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.buildings.CoreConstructionsite;
-import game6.core.buildings.ICoreBuilding;
+import game6.core.buildings.CoreBuilding;
 
 import java.util.*;
 
 import de.nerogar.util.*;
 
-public class Map<T extends ICoreBuilding> {
+public class Map<T extends CoreBuilding> {
 
 	private Tile[][] tiles;
-	private ICoreBuilding[][] buildingMap;
+	private CoreBuilding[][] buildingMap;
 	private Pathfinder pathfinder;
 
 	public Map(Tile[][] tiles) {
 		this.tiles = tiles;
-		this.buildingMap = new ICoreBuilding[getSizeX()][getSizeY()];
+		this.buildingMap = new CoreBuilding[getSizeX()][getSizeY()];
 		this.pathfinder = new Pathfinder(this);
 	}
 

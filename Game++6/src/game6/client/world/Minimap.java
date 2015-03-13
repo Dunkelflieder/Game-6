@@ -1,6 +1,6 @@
 package game6.client.world;
 
-import game6.client.buildings.IClientBuilding;
+import game6.client.buildings.ClientBuilding;
 import game6.core.world.Map;
 
 import java.awt.image.BufferedImage;
@@ -11,7 +11,7 @@ public class Minimap {
 
 	private Texture2D tex;
 	private BufferedImage img;
-	private Map<IClientBuilding> map;
+	private Map<ClientBuilding> map;
 
 	public Minimap() {
 	}
@@ -20,7 +20,7 @@ public class Minimap {
 		return tex;
 	}
 
-	public void setMap(Map<IClientBuilding> map) {
+	public void setMap(Map<ClientBuilding> map) {
 		this.map = map;
 		if (map != null) {
 			img = new BufferedImage(map.getSizeX(), map.getSizeY(), BufferedImage.TYPE_INT_ARGB);

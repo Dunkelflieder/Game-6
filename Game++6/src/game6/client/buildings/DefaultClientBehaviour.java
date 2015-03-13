@@ -4,7 +4,7 @@ import game6.client.buildings.guis.BuildingGui;
 import game6.client.world.World;
 import de.nerogar.render.Shader;
 
-public class ClientBehaviourDefault implements IClientBehaviour {
+public class DefaultClientBehaviour implements ClientBehaviour {
 
 	private World world;
 	
@@ -14,7 +14,7 @@ public class ClientBehaviourDefault implements IClientBehaviour {
 	}
 
 	@Override
-	public BuildingGui<? extends IClientBuilding> getGui() {
+	public BuildingGui<? extends ClientBuilding> getGui() {
 		// TODO Auto-generated method stub
 		return null;
 	}

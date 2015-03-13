@@ -1,9 +1,9 @@
 package game6.client.buildings.guis;
 
-import game6.client.buildings.IClientBuilding;
+import game6.client.buildings.ClientBuilding;
 import game6.client.gui.components.GPanel;
 
-public abstract class BuildingGui<T extends IClientBuilding> extends GPanel {
+public abstract class BuildingGui<T extends ClientBuilding> extends GPanel {
 
 	protected T building;
 

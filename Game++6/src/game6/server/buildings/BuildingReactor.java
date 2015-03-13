@@ -10,9 +10,9 @@ import game6.server.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingReactor extends CoreBuildingReactor implements IServerBuilding {
+public class BuildingReactor extends CoreBuildingReactor implements ServerBuilding {
 
-	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
+	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
 
 	private int tick = 0;
 	// Ticks between each energy pulse

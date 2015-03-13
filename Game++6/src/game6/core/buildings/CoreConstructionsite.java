@@ -8,7 +8,7 @@ import game6.core.util.ResourceContainer;
  * It also does not have the necessary long-only constructor.
  * @author Felk
  */
-public abstract class CoreConstructionsite<T extends ICoreBuilding> extends CoreBuilding {
+public abstract class CoreConstructionsite<T extends CoreBuilding> extends DefaultCoreBuilding {
 
 	private T building;
 	private ResourceContainer constructionCost;

@@ -2,7 +2,7 @@ package game6.server.buildings;
 
 import game6.server.world.World;
 
-public interface IServerBehaviour {
+public interface ServerBehaviour {
 
 	public World getWorld();
 	

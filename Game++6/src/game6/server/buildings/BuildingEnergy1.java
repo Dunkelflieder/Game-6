@@ -3,9 +3,9 @@ package game6.server.buildings;
 import game6.core.buildings.CoreBuildingEnergy1;
 import game6.server.world.World;
 
-public class BuildingEnergy1 extends CoreBuildingEnergy1 implements IServerBuilding {
+public class BuildingEnergy1 extends CoreBuildingEnergy1 implements ServerBuilding {
 
-	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
+	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
 
 	public BuildingEnergy1() {
 		super(getNextID());
