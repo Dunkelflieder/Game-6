@@ -7,6 +7,11 @@ import game6.core.buildings.CoreConstructionsite;
 import game6.core.util.ResourceContainer;
 import de.nerogar.render.*;
 
+/**
+ * Don't add this to the building type list. It's a special building representing a construction site.
+ * It also does not have the necessary long-only constructor.
+ * @author Felk
+ */
 public class Constructionsite extends CoreConstructionsite {
 
 	private RenderProperties3f renderProperties;
@@ -36,6 +41,7 @@ public class Constructionsite extends CoreConstructionsite {
 	public void render(Shader shader) {
 		renderProperties.setXYZ(getPosX(), 0, getPosY());
 		renderer.render(shader, renderProperties.getModelMatrix());
+		getBuilding().render(shader);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package game6.core.entities;
 
+import game6.client.entities.guis.EntityGui;
 import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.combat.FightingObject;
 import game6.core.faction.Faction;
@@ -79,7 +80,7 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 			if (isFlying()) {
 				// Just add the goal
 
-				goals.add(targetPos.added(new Vector3f(0.5f, 0f, 0.5f)));
+				// goals.add(targetPos.added(new Vector3f(0.5f, 0f, 0.5f)));
 
 				goals.add(targetPos);
 			} else {
@@ -214,8 +215,8 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 		float delta = MathHelper.clamp(turngoal, -rotationSpeed * timeDelta, rotationSpeed * timeDelta);
 		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
 
-		//follow target
-		if (getFightingObject().getTarget() != null ) {
+		// follow target
+		if (getFightingObject().getTarget() != null) {
 			if (tick % 10 == 0)
 				setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
 		}
@@ -224,9 +225,11 @@ public abstract class CoreEntity extends BaseEntity<Vector3f> {
 
 	}
 
-	public void playDeathAnimation() {
-		// TODO implement
-	}
+	/**
+	 * Should be implemented by client subclasses.
+	 * @return An EntityGui, derived from GPanel, which represents the Entitie's unique GUI
+	 */
+	public abstract EntityGui<? extends CoreEntity> getGui();
 
 	protected float getVisibleRotation() {
 		return visibleRotation;

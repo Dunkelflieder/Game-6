@@ -1,6 +1,5 @@
 package game6.core.util;
 
-
 public class ResourceContainer {
 
 	private int capacity;
@@ -22,7 +21,7 @@ public class ResourceContainer {
 		this();
 		addResource(Resource.STUFF, stuff);
 	}
-	
+
 	private void reloadFilled() {
 		filled = 0;
 		for (int load : contents) {
@@ -74,7 +73,7 @@ public class ResourceContainer {
 	public boolean isEmpty() {
 		return getFilled() == 0;
 	}
-	
+
 	/**
 	 * Empties the contents of this resource container.
 	 */

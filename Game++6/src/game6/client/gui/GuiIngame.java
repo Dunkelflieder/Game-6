@@ -28,7 +28,6 @@ public class GuiIngame extends Gui {
 	private GButton buttonBuilding;
 	private GButton buttonEntity;
 
-	private GPanelEntityInfo entityPanel;
 	private GPanelBuildingSelection selectionPanel;
 
 	private GImage minimap;
@@ -54,8 +53,6 @@ public class GuiIngame extends Gui {
 				controller.requestEntity(EntityType.getRandom(), new Vector3f(10, 0, 10));
 				controller.requestEntity(EntityType.getRandom(), new Vector3f(10, 0, 10));
 			});
-
-		entityPanel = new GPanelEntityInfo(controller);
 
 		// Add manager for camera movement
 		CameraMovementManager camManager = new CameraMovementManager(controller.getCamera());
@@ -101,6 +98,7 @@ public class GuiIngame extends Gui {
 							repositionBuildingGui();
 						} else {
 							world.selectEntity(clickedEntity);
+							repositionEntityGui();
 						}
 					}
 
@@ -176,7 +174,6 @@ public class GuiIngame extends Gui {
 		minimap.setPos(8, 8);
 		minimap.setSize(256, 256);
 
-		add(entityPanel);
 		add(buttonBuilding);
 		add(buttonEntity);
 		add(minimap);
@@ -235,10 +232,6 @@ public class GuiIngame extends Gui {
 		buttonEntity.setSize(210, 40);
 		buttonEntity.setPos(700, 80);
 
-		entityPanel.setSize(300, 500);
-		entityPanel.setPos(screenWidth - 300, 0);
-		entityPanel.resize();
-
 		selectionPanel.setSize(screenWidth, 170);
 		selectionPanel.setPos(0, 0);
 		selectionPanel.resize();
@@ -251,6 +244,9 @@ public class GuiIngame extends Gui {
 		super.render();
 		if (controller.getWorld().getSelectedBuilding() != null) {
 			controller.getWorld().getSelectedBuilding().getGui().render();
+		}
+		if (controller.getWorld().getSelectedEntity() != null) {
+			controller.getWorld().getSelectedEntity().getGui().render();
 		}
 	}
 
@@ -266,6 +262,13 @@ public class GuiIngame extends Gui {
 		CoreBuilding building = controller.getWorld().getSelectedBuilding();
 		if (building != null) {
 			building.getGui().setPos(panel.getSizeX() - building.getGui().getSizeX(), selectionPanel.getSizeY());
+		}
+	}
+
+	private void repositionEntityGui() {
+		CoreEntity entity = controller.getWorld().getSelectedEntity();
+		if (entity != null) {
+			entity.getGui().setPos(panel.getSizeX() - entity.getGui().getSizeX(), selectionPanel.getSizeY());
 		}
 	}
 

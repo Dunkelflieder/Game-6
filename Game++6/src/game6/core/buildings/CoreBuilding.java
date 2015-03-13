@@ -97,7 +97,7 @@ public abstract class CoreBuilding {
 
 	/**
 	 * Should be implemented by client subclasses.
-	 * @return A BuildingGuiPanel, derived from GPanel, which represents the Building's unique GUI
+	 * @return A BuildingGui, derived from GPanel, which represents the Building's unique GUI
 	 */
 	public abstract BuildingGui<? extends CoreBuilding> getGui();
 

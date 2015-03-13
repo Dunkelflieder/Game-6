@@ -1,6 +1,7 @@
 package game6.client.entities;
 
 import game6.client.ObjectRenderer;
+import game6.client.entities.guis.EntityGuiDefault;
 import game6.core.entities.CoreEntityHelicopter1;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
@@ -13,6 +14,8 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 
 	private ObjectRenderer rendererMain;
 	private ObjectRenderer rendererRotor;
+
+	private EntityGuiDefault gui;
 
 	public EntityHelicopter1(long id) {
 		super(id, new Vector3f());
@@ -35,6 +38,8 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 		renderPropertiesMain = new RenderProperties3f();
 		renderPropertiesRotorL = new RenderProperties3f();
 		renderPropertiesRotorH = new RenderProperties3f();
+
+		gui = new EntityGuiDefault(this);
 	}
 
 	@Override
@@ -59,6 +64,11 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 
 		rendererMain.render(shader, renderPropertiesMain.getModelMatrix());
 		rendererRotor.render(shader, renderPropertiesRotorL.getModelMatrix(), renderPropertiesRotorH.getModelMatrix());
+	}
+
+	@Override
+	public EntityGuiDefault getGui() {
+		return gui;
 	}
 
 }

@@ -1,6 +1,8 @@
 package game6.server.entities;
 
+import game6.client.entities.guis.EntityGui;
 import game6.core.combat.FightingObject;
+import game6.core.entities.CoreEntity;
 import game6.core.entities.CoreEntityTank1;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketAttackEffect;
@@ -24,6 +26,11 @@ public class EntityTank1 extends CoreEntityTank1 {
 
 	@Override
 	public void render(Shader shader) {
+	}
+
+	@Override
+	public EntityGui<CoreEntity> getGui() {
+		return null;
 	}
 
 }

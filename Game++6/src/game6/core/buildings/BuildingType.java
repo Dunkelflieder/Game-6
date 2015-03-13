@@ -22,6 +22,7 @@ public enum BuildingType {
 
 	BuildingType(int typeID, ResourceContainer buildingCost, Class<? extends CoreBuilding> clientClass, Class<? extends CoreBuilding> serverClass) {
 		this.typeID = typeID;
+		buildingCost.setCapacity(buildingCost.getFilled());
 		this.buildingCost = buildingCost;
 		this.clientClass = clientClass;
 		this.serverClass = serverClass;
