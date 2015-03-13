@@ -1,7 +1,8 @@
 package game6.core.util;
 
 public enum Resource {
-	STUFF("Stuff");
+	WOOD("Holz"),
+	METAL("Metall");
 
 	private String name;
 

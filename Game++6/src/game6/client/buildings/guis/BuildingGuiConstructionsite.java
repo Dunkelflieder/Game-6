@@ -43,7 +43,7 @@ public class BuildingGuiConstructionsite extends BuildingGui<Constructionsite> {
 
 	@Override
 	protected void updateComponents() {
-		stuff.setText(Resource.STUFF.getName() + " needed: " + building.getCostRemaining().getAmount(Resource.STUFF));
+		stuff.setText(Resource.WOOD.getName() + " needed: " + building.getCostRemaining().getAmount(Resource.WOOD));
 	}
 
 }

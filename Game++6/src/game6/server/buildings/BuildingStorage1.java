@@ -34,7 +34,7 @@ public class BuildingStorage1 extends CoreBuildingStorage1 {
 
 		// TODO testing. remove later.
 		if (tick % 10 == 0) {
-			getResources().addResource(Resource.STUFF, 5);
+			getResources().addResource(Resource.WOOD, 5);
 		}
 	}
 

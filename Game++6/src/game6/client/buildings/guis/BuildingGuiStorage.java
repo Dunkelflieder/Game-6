@@ -43,7 +43,7 @@ public class BuildingGuiStorage extends BuildingGui<BuildingStorage1> {
 
 	@Override
 	protected void updateComponents() {
-		stuff.setText(Resource.STUFF.getName() + ": " + building.getResources().getAmount(Resource.STUFF) + "/" + building.getResources().getTotalCapacity());
+		stuff.setText(Resource.WOOD.getName() + ": " + building.getResources().getAmount(Resource.WOOD) + "/" + building.getResources().getTotalCapacity());
 	}
 
 }

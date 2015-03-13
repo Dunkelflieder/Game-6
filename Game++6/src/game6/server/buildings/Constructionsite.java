@@ -43,7 +43,7 @@ public class Constructionsite extends CoreConstructionsite {
 
 		// TODO for debugging. remove later
 		if (Math.random() < 0.2f) {
-			getCostRemaining().removeResource(Resource.STUFF, 1);
+			getCostRemaining().removeResource(Resource.WOOD, 1);
 		}
 	}
 

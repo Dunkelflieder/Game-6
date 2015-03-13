@@ -16,10 +16,16 @@ public class ResourceContainer {
 		this.filled = 0;
 		contents = new int[Resource.values().length];
 	}
-
-	public ResourceContainer(int stuff) {
+	
+	public ResourceContainer(int capacity) {
 		this();
-		addResource(Resource.STUFF, stuff);
+		setCapacity(capacity);
+	}
+
+	public ResourceContainer(int wood, int metal) {
+		this();
+		addResource(Resource.WOOD, wood);
+		addResource(Resource.METAL, metal);
 	}
 
 	private void reloadFilled() {
