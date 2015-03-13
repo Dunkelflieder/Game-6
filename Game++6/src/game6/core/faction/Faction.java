@@ -1,7 +1,7 @@
 package game6.core.faction;
 
 import game6.core.buildings.BuildingType;
-import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.ICoreBuilding;
 import game6.core.networking.packets.PacketEnabledBuildingsList;
 import game6.core.networking.packets.PacketPlayerInfo;
 
@@ -20,14 +20,14 @@ public enum Faction {
 	private List<Player> players;
 
 	// TODO change to private (later)
-	public List<CoreBuilding> ownBuildings;
+	public List<ICoreBuilding> ownBuildings;
 	public Color color;
 	private HashSet<BuildingType> buildableBuildings;
 
 	private boolean updateEnabledBuildings;
 
 	private Faction(int id, Color color) {
-		ownBuildings = new ArrayList<CoreBuilding>();
+		ownBuildings = new ArrayList<ICoreBuilding>();
 		this.id = id;
 		this.players = new ArrayList<>();
 		this.color = color;

@@ -1,5 +1,6 @@
 package game6.core.ai.pathfinding;
 
+import game6.core.buildings.ICoreBuilding;
 import game6.core.world.Map;
 
 import java.util.*;
@@ -21,7 +22,7 @@ public class Pathfinder {
 		}
 	}
 
-	public Pathfinder(Map map) {
+	public Pathfinder(Map<? extends ICoreBuilding> map) {
 		sizeX = map.getSizeX();
 		sizeY = map.getSizeY();
 		nodes = new Node[sizeX * sizeY];
@@ -36,7 +37,7 @@ public class Pathfinder {
 		this.maxDepth = maxDepth;
 	}
 
-	public void update(Map map, int fromX, int fromY, int toX, int toY) {
+	public void update(Map<? extends ICoreBuilding> map, int fromX, int fromY, int toX, int toY) {
 		if (fromX < 0 || fromY < 0 || toX > sizeX || toY > sizeY || fromX > toX || fromY > toY) {
 			throw new RuntimeException("Tried to update an invalid portion of the Pathfinder");
 		}

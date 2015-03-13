@@ -2,12 +2,12 @@ package game6.client.gui;
 
 import game6.client.Controller;
 import game6.client.Game;
+import game6.client.buildings.IClientBuilding;
 import game6.client.gui.components.*;
 import game6.client.gui.listener.KeyboardAdapter;
 import game6.client.gui.listener.MouseAdapter;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
-import game6.core.buildings.CoreBuilding;
 import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 
@@ -74,7 +74,7 @@ public class GuiIngame extends Gui {
 				RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
 				Vector2f mapIntersection = controller.getWorld().getMap().getIntersection(mouseRay);
 
-				CoreBuilding clickedBuilding = null;
+				IClientBuilding clickedBuilding = null;
 				CoreEntity clickedEntity = null;
 
 				if (mapIntersection != null)
@@ -259,7 +259,7 @@ public class GuiIngame extends Gui {
 	}
 
 	private void repositionBuildingGui() {
-		CoreBuilding building = controller.getWorld().getSelectedBuilding();
+		IClientBuilding building = controller.getWorld().getSelectedBuilding();
 		if (building != null) {
 			building.getGui().setPos(panel.getSizeX() - building.getGui().getSizeX(), selectionPanel.getSizeY());
 		}

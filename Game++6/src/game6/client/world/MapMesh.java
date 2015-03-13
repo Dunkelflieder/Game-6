@@ -2,6 +2,7 @@ package game6.client.world;
 
 import org.lwjgl.opengl.GL11;
 
+import game6.client.buildings.IClientBuilding;
 import game6.core.world.Map;
 
 public class MapMesh {
@@ -14,7 +15,7 @@ public class MapMesh {
 	public static final int CHUNKSIZE = 32;
 	public static final int CHUNK_RENDER_RADIUS = 6;
 
-	public MapMesh(Map map) {
+	public MapMesh(Map<IClientBuilding> map) {
 		int numX = (int) Math.ceil(map.getSizeX() / (float) CHUNKSIZE);
 		int numY = (int) Math.ceil(map.getSizeY() / (float) CHUNKSIZE);
 		chunks = new MapMeshChunk[numX][numY];

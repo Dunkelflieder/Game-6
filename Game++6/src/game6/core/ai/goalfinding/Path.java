@@ -1,18 +1,18 @@
 package game6.core.ai.goalfinding;
 
-import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.ICoreBuilding;
 
 import java.util.List;
 
 public class Path {
 
-	private List<CoreBuilding> waypoints;
+	private List<ICoreBuilding> waypoints;
 
-	public Path(List<CoreBuilding> waypoints) {
+	public Path(List<ICoreBuilding> waypoints) {
 		this.waypoints = waypoints;
 	}
 
-	public CoreBuilding getGoal() {
+	public ICoreBuilding getGoal() {
 		if (waypoints.size() == 0) {
 			return null;
 		}
@@ -23,7 +23,7 @@ public class Path {
 		return waypoints.size();
 	}
 	
-	public List<CoreBuilding> getWaypoints() {
+	public List<ICoreBuilding> getWaypoints() {
 		return waypoints;
 	}
 

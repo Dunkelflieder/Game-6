@@ -2,19 +2,18 @@ package game6.core.buildings;
 
 import game6.core.faction.Faction;
 import game6.core.util.ResourceContainer;
-import game6.core.world.CoreWorld;
 
 /**
  * Don't add this to the building type list. It's a special building representing a construction site.
  * It also does not have the necessary long-only constructor.
  * @author Felk
  */
-public abstract class CoreConstructionsite extends CoreBuilding {
+public abstract class CoreConstructionsite<T extends ICoreBuilding> extends CoreBuilding {
 
-	private CoreBuilding building;
+	private T building;
 	private ResourceContainer constructionCost;
 
-	public CoreConstructionsite(CoreBuilding building, ResourceContainer constructionCost) {
+	public CoreConstructionsite(T building, ResourceContainer constructionCost) {
 		super(building.getID(), 1, 1, 0, 0);
 		this.building = building;
 		this.constructionCost = constructionCost.clone();
@@ -44,18 +43,12 @@ public abstract class CoreConstructionsite extends CoreBuilding {
 	}
 
 	@Override
-	public void setWorld(CoreWorld world) {
-		super.setWorld(world);
-		building.setWorld(world);
-	}
-
-	@Override
 	public void setFaction(Faction faction) {
 		super.setFaction(faction);
 		building.setFaction(faction);
 	}
 
-	public CoreBuilding getBuilding() {
+	public T getBuilding() {
 		return building;
 	}
 

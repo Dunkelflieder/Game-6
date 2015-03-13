@@ -1,10 +1,10 @@
 package game6.client;
 
-import game6.client.buildings.Constructionsite;
+import game6.client.buildings.*;
 import game6.client.effects.*;
 import game6.client.sound.SoundContext;
 import game6.client.world.World;
-import game6.core.buildings.*;
+import game6.core.buildings.BuildingType;
 import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
@@ -139,7 +139,7 @@ public class Controller {
 	}
 
 	// TODO debug method
-	public void setEntityTarget(CoreEntity sourceEntity, CoreBuilding targetBuilding) {
+	public void setEntityTarget(CoreEntity sourceEntity, IClientBuilding targetBuilding) {
 		if (isConnected()) {
 			connection.send(new PacketCombatTargetSet(PacketCombatTargetSet.ENTITIY, sourceEntity.getID(), PacketCombatTargetSet.BUILDING, targetBuilding.getID()));
 		}
@@ -156,7 +156,7 @@ public class Controller {
 					faction = packetInfo.faction;
 				} else if (packet instanceof PacketMap) {
 					PacketMap packetMap = (PacketMap) packet;
-					world.setMap(packetMap.map);
+					world.setMap(packetMap.getClientMap());
 				}
 			}
 
@@ -190,13 +190,13 @@ public class Controller {
 				if (packet instanceof PacketPlaceBuilding) {
 
 					PacketPlaceBuilding packetBuilding = (PacketPlaceBuilding) packet;
-					CoreBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
+					IClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
 					building.setFaction(packetBuilding.faction);
 					world.addBuilding(packetBuilding.posX, packetBuilding.posY, building);
 				} else if (packet instanceof PacketStartConstruction) {
 
 					PacketStartConstruction packetBuilding = (PacketStartConstruction) packet;
-					CoreBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
+					IClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
 					building.setFaction(packetBuilding.faction);
 					world.addBuilding(packetBuilding.posX, packetBuilding.posY, new Constructionsite(building, packetBuilding.building.getBuildingCost()));
 
@@ -229,23 +229,23 @@ public class Controller {
 					}
 				} else if (packet instanceof PacketUpdateStorage) {
 					PacketUpdateStorage pus = (PacketUpdateStorage) packet;
-					CoreBuildingStorage1 building = (CoreBuildingStorage1) getWorld().getBuilding(pus.buildingID);
+					BuildingStorage1 building = (BuildingStorage1) getWorld().getBuilding(pus.buildingID);
 					building.getResources().setResources(pus.resources);
 					building.getResources().setCapacity(pus.resources.getTotalCapacity());
 				} else if (packet instanceof PacketUpdateConstructionsite) {
 					PacketUpdateConstructionsite puc = (PacketUpdateConstructionsite) packet;
-					CoreConstructionsite building = (CoreConstructionsite) getWorld().getBuilding(puc.buildingID);
+					Constructionsite building = (Constructionsite) getWorld().getBuilding(puc.buildingID);
 					building.getCostRemaining().setResources(puc.resources);
 				} else if (packet instanceof PacketFinishConstruction) {
 					PacketFinishConstruction pfc = (PacketFinishConstruction) packet;
-					CoreConstructionsite constructionsize = (CoreConstructionsite) world.getBuilding(pfc.buildingID);
+					Constructionsite constructionsize = (Constructionsite) world.getBuilding(pfc.buildingID);
 					world.finishConstructionsite(constructionsize);
 				}
 			}
 
 			for (Entry<LightningLine, Integer> entry : lightnings.entrySet()) {
-				CoreBuilding building1 = getWorld().getBuilding(entry.getKey().a);
-				CoreBuilding building2 = getWorld().getBuilding(entry.getKey().b);
+				IClientBuilding building1 = getWorld().getBuilding(entry.getKey().a);
+				IClientBuilding building2 = getWorld().getBuilding(entry.getKey().b);
 				effects.addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
 			}
 

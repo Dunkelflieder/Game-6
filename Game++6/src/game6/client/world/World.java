@@ -1,8 +1,8 @@
 package game6.client.world;
 
+import game6.client.buildings.IClientBuilding;
 import game6.client.effects.EffectContainer;
 import game6.client.effects.SelectionMarker;
-import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreConstructionsite;
 import game6.core.entities.CoreEntity;
 import game6.core.world.CoreWorld;
@@ -12,15 +12,16 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import de.nerogar.engine.entity.BaseEntity;
-import de.nerogar.render.*;
+import de.nerogar.render.RenderProperties3f;
+import de.nerogar.render.Shader;
 import de.nerogar.util.Color;
 import de.nerogar.util.Vector3f;
 
-public class World extends CoreWorld {
+public class World extends CoreWorld<IClientBuilding> {
 
 	private MapMesh mesh;
 
-	private CoreBuilding preview;
+	private IClientBuilding preview;
 
 	private int renderCenterX, renderCenterY;
 	private RenderProperties3f renderProperties;
@@ -28,7 +29,7 @@ public class World extends CoreWorld {
 
 	private EffectContainer effectContainer;
 
-	private CoreBuilding selectedBuilding;
+	private IClientBuilding selectedBuilding;
 	private CoreEntity selectedEntity;
 
 	private SelectionMarker selectionMarker;
@@ -44,7 +45,7 @@ public class World extends CoreWorld {
 		minimap = new Minimap();
 	}
 
-	public CoreBuilding getSelectedBuilding() {
+	public IClientBuilding getSelectedBuilding() {
 		return selectedBuilding;
 	}
 
@@ -52,7 +53,7 @@ public class World extends CoreWorld {
 		return minimap;
 	}
 
-	public void selectBuilding(CoreBuilding building) {
+	public void selectBuilding(IClientBuilding building) {
 		selectionMarker.kill();
 		if (building != null) {
 			selectionMarker = new SelectionMarker(building.getCenter().setY(0.1f), building.getSizeX(), building.getSizeY());
@@ -79,20 +80,21 @@ public class World extends CoreWorld {
 	}
 
 	@Override
-	public void addBuilding(int posX, int posY, CoreBuilding building) {
+	public void addBuilding(int posX, int posY, IClientBuilding building) {
+		building.setWorld(this);
 		super.addBuilding(posX, posY, building);
 		mesh.reload(posX, posY, building.getSizeX(), building.getSizeY());
 		minimap.update(posX, posY, building.getSizeX(), building.getSizeY());
 	}
 
 	@Override
-	public void finishConstructionsite(CoreConstructionsite constructionsite) {
+	public void finishConstructionsite(CoreConstructionsite<IClientBuilding> constructionsite) {
 		super.finishConstructionsite(constructionsite);
 		if (selectedBuilding == constructionsite) {
 			selectBuilding(null);
 		}
 	}
-	
+
 	public void setCenterOfRendering(int x, int z) {
 		this.renderCenterX = x;
 		this.renderCenterY = z;
@@ -106,12 +108,12 @@ public class World extends CoreWorld {
 		mesh.setGridActivated(is);
 	}
 
-	public void setBuildingPreview(CoreBuilding preview) {
+	public void setBuildingPreview(IClientBuilding preview) {
 		this.preview = preview;
 	}
 
 	@Override
-	public void setMap(Map map) {
+	public void setMap(Map<IClientBuilding> map) {
 		super.setMap(map);
 		if (minimap != null) {
 			minimap.setMap(map);
@@ -169,7 +171,7 @@ public class World extends CoreWorld {
 
 			// TODO highlight selectedBuilding somehow
 			Color factionColor = new Color(0);
-			for (CoreBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {
+			for (IClientBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {
 
 				if (building.getFaction() != null) {
 					factionColor = building.getFaction().color;

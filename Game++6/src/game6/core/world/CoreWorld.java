@@ -2,8 +2,8 @@ package game6.core.world;
 
 import game6.core.ai.goalfinding.Goalfinder;
 import game6.core.ai.goalfinding.Path;
-import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreConstructionsite;
+import game6.core.buildings.ICoreBuilding;
 import game6.core.entities.CoreEntity;
 
 import java.util.ArrayList;
@@ -12,13 +12,13 @@ import java.util.List;
 import de.nerogar.engine.BaseWorld;
 import de.nerogar.util.Vector3f;
 
-public class CoreWorld extends BaseWorld<Vector3f> {
+public abstract class CoreWorld<T extends ICoreBuilding> extends BaseWorld<Vector3f> {
 
-	private List<CoreBuilding> buildings;
-	private Map map;
+	private List<T> buildings;
+	private Map<T> map;
 	private Goalfinder goalfinder;
 
-	public CoreWorld(Map map) {
+	public CoreWorld(Map<T> map) {
 		super(new Vector3f());
 		isStatic = true;
 		setMap(map);
@@ -30,16 +30,16 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 	public void update(float timeDelta) {
 		super.update(timeDelta);
 
-		for (CoreBuilding building : buildings) {
+		for (T building : buildings) {
 			building.update();
 		}
 	}
 
-	public Map getMap() {
+	public Map<T> getMap() {
 		return map;
 	}
 
-	public void setMap(Map map) {
+	public void setMap(Map<T> map) {
 		this.map = map;
 	}
 
@@ -48,21 +48,20 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 		super.spawnEntity(entity, position);
 	}
 
-	public void addBuilding(int posX, int posY, CoreBuilding building) {
+	public void addBuilding(int posX, int posY, T building) {
 		building.setPosX(posX);
 		building.setPosY(posY);
-		building.setWorld(this);
 		this.buildings.add(building);
 		this.buildings.sort((a, b) -> (int) (a.getID() - b.getID()));
 		map.addBuilding(building);
 	}
 
-	public void finishConstructionsite(CoreConstructionsite constructionsite) {
+	public void finishConstructionsite(CoreConstructionsite<T> constructionsite) {
 		map.finishConstructionsize(constructionsite);
 		buildings.set(getBuildingArrayPosition(constructionsite.getID()), constructionsite.getBuilding());
 	}
 
-	public CoreBuilding getBuilding(long id) {
+	public T getBuilding(long id) {
 
 		int pos = getBuildingArrayPosition(id);
 		if (pos < 0) {
@@ -95,11 +94,11 @@ public class CoreWorld extends BaseWorld<Vector3f> {
 
 	}
 
-	public List<CoreBuilding> getBuildings() {
+	public List<T> getBuildings() {
 		return buildings;
 	}
 
-	public List<Path> getEnergyGoals(CoreBuilding start) {
+	public List<Path> getEnergyGoals(T start) {
 		return goalfinder.search(start);
 	}
 

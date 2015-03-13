@@ -1,12 +1,9 @@
 package game6.core.buildings;
 
-import game6.client.buildings.guis.BuildingGui;
 import game6.core.faction.Faction;
-import game6.core.world.CoreWorld;
-import de.nerogar.render.Shader;
 import de.nerogar.util.Vector3f;
 
-public abstract class CoreBuilding {
+public abstract class CoreBuilding implements ICoreBuilding {
 
 	private static long MAX_ID;
 	private long id;
@@ -16,8 +13,7 @@ public abstract class CoreBuilding {
 	private int maxEnergy;
 	private int range;
 
-	protected CoreWorld world;
-	protected Faction faction;
+	private Faction faction;
 
 	public CoreBuilding(long id, int sizeX, int sizeY, int maxEnergy, int range) {
 		init();
@@ -88,18 +84,6 @@ public abstract class CoreBuilding {
 	 * Updates the logic and can cause (network) events, that are added to the supplied list
 	 */
 	public abstract void update();
-
-	/**
-	 * Should be implemented by client subclasses.
-	 * @param shader the currently active shader
-	 */
-	public abstract void render(Shader shader);
-
-	/**
-	 * Should be implemented by client subclasses.
-	 * @return A BuildingGui, derived from GPanel, which represents the Building's unique GUI
-	 */
-	public abstract BuildingGui<? extends CoreBuilding> getGui();
 
 	/**
 	 * Returns a human-readable name for this building. Not for actual use, mostly debugging.
@@ -174,19 +158,6 @@ public abstract class CoreBuilding {
 	}
 
 	/**
-	 * Sets the world-instance this building is added to.
-	 * Is or should be used while this instance is added to the world.
-	 * @param world
-	 */
-	public void setWorld(CoreWorld world) {
-		this.world = world;
-	}
-	
-	public CoreWorld getWorld() {
-		return world;
-	}
-
-	/**
 	 * Sets the faction this building belongs to.
 	 * @param faction Faction-enum
 	 */
@@ -214,5 +185,5 @@ public abstract class CoreBuilding {
 	public boolean canReceiveEnergy() {
 		return energy < maxEnergy;
 	}
-
+	
 }

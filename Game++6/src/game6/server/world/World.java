@@ -1,6 +1,6 @@
 package game6.server.world;
 
-import game6.core.buildings.*;
+import game6.core.buildings.BuildingType;
 import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
@@ -10,13 +10,14 @@ import game6.core.networking.packets.*;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 import game6.server.buildings.Constructionsite;
+import game6.server.buildings.IServerBuilding;
 import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
 
-public class World extends CoreWorld {
+public class World extends CoreWorld<IServerBuilding> {
 
-	public World(Map map) {
+	public World(Map<IServerBuilding> map) {
 		super(map);
 	}
 
@@ -29,7 +30,7 @@ public class World extends CoreWorld {
 				if (packet instanceof PacketPlaceBuilding) {
 					// TODO this packet is not used for buildings anymore. Use PacketStartConstruction instead
 					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
-					CoreBuilding building = ppb.building.getServerBuilding();
+					IServerBuilding building = ppb.building.getServerBuilding();
 					building.setFaction(faction);
 					if (getMap().canAddBuilding(ppb.posX, ppb.posY, building)) {
 						addBuilding(ppb.posX, ppb.posY, building);
@@ -37,12 +38,12 @@ public class World extends CoreWorld {
 					}
 				} else if (packet instanceof PacketStartConstruction) {
 					PacketStartConstruction psc = (PacketStartConstruction) packet;
-					CoreBuilding building = psc.building.getServerBuilding();
+					IServerBuilding building = psc.building.getServerBuilding();
 					building.setFaction(faction);
 
 					if (getMap().canAddBuilding(psc.posX, psc.posY, building)) {
 						// wrap in construction
-						CoreConstructionsite constructionsite = new Constructionsite(building, psc.building.getBuildingCost());
+						Constructionsite constructionsite = new Constructionsite(building, psc.building.getBuildingCost());
 						addBuilding(psc.posX, psc.posY, constructionsite);
 						Faction.broadcastAll(new PacketStartConstruction(psc.building, faction, building.getID(), building.getPosX(), building.getPosY()));
 					}
@@ -79,6 +80,12 @@ public class World extends CoreWorld {
 		super.update(timeDelta);
 	}
 
+	@Override
+	public void addBuilding(int posX, int posY, IServerBuilding building) {
+		building.setWorld(this);
+		super.addBuilding(posX, posY, building);
+	}
+	
 	public boolean canAddEntity(Vector3f position, CoreEntity entity) {
 		return position.getX() >= 0 && position.getY() >= 0 && position.getX() < getMap().getSizeX() && position.getY() < getMap().getSizeY();
 	}
@@ -90,7 +97,7 @@ public class World extends CoreWorld {
 	public void initNewPlayer(Player player) {
 		player.getConnection().send(new PacketMap(getMap()));
 
-		for (CoreBuilding building : getBuildings()) {
+		for (IServerBuilding building : getBuildings()) {
 			player.getConnection().send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
 		}
 

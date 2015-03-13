@@ -1,12 +1,12 @@
 package game6.server.buildings;
 
-import game6.client.buildings.guis.BuildingGui;
-import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreBuildingFactory;
 import game6.core.networking.packets.PacketBuildingUpdate;
-import de.nerogar.render.Shader;
+import game6.server.world.World;
 
-public class BuildingFactory extends CoreBuildingFactory {
+public class BuildingFactory extends CoreBuildingFactory implements IServerBuilding {
+
+	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
 
 	public BuildingFactory() {
 		super(getNextID());
@@ -17,19 +17,20 @@ public class BuildingFactory extends CoreBuildingFactory {
 	}
 
 	@Override
-	public void render(Shader shader) {
-	}
-
-	@Override
 	public void update() {
 		if (subtractEnergy(3) != 3) {
-			faction.broadcast(new PacketBuildingUpdate(this));
+			getFaction().broadcast(new PacketBuildingUpdate(this));
 		}
 	}
 
 	@Override
-	public BuildingGui<CoreBuilding> getGui() {
-		return null;
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
+	}
+
+	@Override
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
 	}
 
 }

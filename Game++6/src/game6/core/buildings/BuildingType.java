@@ -1,6 +1,8 @@
 package game6.core.buildings;
 
+import game6.client.buildings.IClientBuilding;
 import game6.core.util.ResourceContainer;
+import game6.server.buildings.IServerBuilding;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -17,10 +19,10 @@ public enum BuildingType {
 
 	private int typeID;
 	private ResourceContainer buildingCost;
-	private Class<? extends CoreBuilding> clientClass;
-	private Class<? extends CoreBuilding> serverClass;
+	private Class<? extends IClientBuilding> clientClass;
+	private Class<? extends IServerBuilding> serverClass;
 
-	BuildingType(int typeID, ResourceContainer buildingCost, Class<? extends CoreBuilding> clientClass, Class<? extends CoreBuilding> serverClass) {
+	BuildingType(int typeID, ResourceContainer buildingCost, Class<? extends IClientBuilding> clientClass, Class<? extends IServerBuilding> serverClass) {
 		this.typeID = typeID;
 		buildingCost.setCapacity(buildingCost.getFilled());
 		this.buildingCost = buildingCost;
@@ -49,7 +51,7 @@ public enum BuildingType {
 	 * @param id The unique ID of the instance.
 	 * @return Building instance for client
 	 */
-	public CoreBuilding getClientBuilding(long id) {
+	public IClientBuilding getClientBuilding(long id) {
 		try {
 			return clientClass.getConstructor(long.class).newInstance(id);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -63,7 +65,7 @@ public enum BuildingType {
 	 * Returns an server-class-instance of the building type 
 	 * @return Building instance for server
 	 */
-	public CoreBuilding getServerBuilding() {
+	public IServerBuilding getServerBuilding() {
 		try {
 			return serverClass.getConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -92,7 +94,7 @@ public enum BuildingType {
 	 * @param clazz Class of the instance
 	 * @return corresponding enum
 	 */
-	public static BuildingType fromServerClass(Class<? extends CoreBuilding> clazz) {
+	public static BuildingType fromServerClass(Class<? extends IServerBuilding> clazz) {
 		for (BuildingType type : values()) {
 			if (type.serverClass.equals(clazz)) {
 				return type;

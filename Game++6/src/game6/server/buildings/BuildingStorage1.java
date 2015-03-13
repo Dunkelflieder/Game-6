@@ -1,13 +1,13 @@
 package game6.server.buildings;
 
-import game6.client.buildings.guis.BuildingGui;
-import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreBuildingStorage1;
 import game6.core.networking.packets.PacketUpdateStorage;
 import game6.core.util.Resource;
-import de.nerogar.render.Shader;
+import game6.server.world.World;
 
-public class BuildingStorage1 extends CoreBuildingStorage1 {
+public class BuildingStorage1 extends CoreBuildingStorage1 implements IServerBuilding {
+
+	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
 
 	private int tick;
 
@@ -17,15 +17,11 @@ public class BuildingStorage1 extends CoreBuildingStorage1 {
 	}
 
 	private void resourcesChanged() {
-		faction.broadcast(new PacketUpdateStorage(getID(), getResources()));
+		getFaction().broadcast(new PacketUpdateStorage(getID(), getResources()));
 	}
 
 	@Override
 	public void init() {
-	}
-
-	@Override
-	public void render(Shader shader) {
 	}
 
 	@Override
@@ -39,8 +35,13 @@ public class BuildingStorage1 extends CoreBuildingStorage1 {
 	}
 
 	@Override
-	public BuildingGui<CoreBuilding> getGui() {
-		return null;
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
+	}
+
+	@Override
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
 	}
 
 }

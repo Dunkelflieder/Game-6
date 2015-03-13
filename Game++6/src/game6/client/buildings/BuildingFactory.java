@@ -2,10 +2,13 @@ package game6.client.buildings;
 
 import game6.client.ObjectRenderer;
 import game6.client.buildings.guis.BuildingGuiEnergy;
+import game6.client.world.World;
 import game6.core.buildings.CoreBuildingFactory;
 import de.nerogar.render.*;
 
-public class BuildingFactory extends CoreBuildingFactory {
+public class BuildingFactory extends CoreBuildingFactory implements IClientBuilding {
+
+	private ClientBehaviourDefault defaultBehaviour = new ClientBehaviourDefault();
 
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
@@ -42,6 +45,16 @@ public class BuildingFactory extends CoreBuildingFactory {
 	@Override
 	public BuildingGuiEnergy getGui() {
 		return gui;
+	}
+
+	@Override
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
+	}
+
+	@Override
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
 	}
 
 }

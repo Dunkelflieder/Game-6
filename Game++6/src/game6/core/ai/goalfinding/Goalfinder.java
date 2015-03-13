@@ -1,25 +1,25 @@
 package game6.core.ai.goalfinding;
 
-import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreBuildingTower;
+import game6.core.buildings.ICoreBuilding;
 import game6.core.world.CoreWorld;
 
 import java.util.*;
 
 public class Goalfinder {
 
-	private CoreWorld world;
+	private CoreWorld<? extends ICoreBuilding> world;
 
-	public Goalfinder(CoreWorld world) {
+	public Goalfinder(CoreWorld<? extends ICoreBuilding> world) {
 		this.world = world;
 	}
 
 	private class Node {
 
-		public CoreBuilding building;
+		public ICoreBuilding building;
 		public Node origin;
 
-		public Node(CoreBuilding building, Node origin) {
+		public Node(ICoreBuilding building, Node origin) {
 			this.building = building;
 			this.origin = origin;
 		}
@@ -39,7 +39,7 @@ public class Goalfinder {
 
 	}
 
-	public List<Path> search(CoreBuilding startBuilding) {
+	public List<Path> search(ICoreBuilding startBuilding) {
 
 		List<Path> paths = new ArrayList<>();
 
@@ -54,8 +54,8 @@ public class Goalfinder {
 		while (openList.size() > 0) {
 
 			Node check = openList.remove(0);
-			List<CoreBuilding> candidates = world.getMap().getBuildingsWithin(check.building.getPosX(), check.building.getPosY(), check.building.getRange());
-			for (CoreBuilding building : candidates) {
+			List<? extends ICoreBuilding> candidates = world.getMap().getBuildingsWithin(check.building.getPosX(), check.building.getPosY(), check.building.getRange());
+			for (ICoreBuilding building : candidates) {
 
 				Node newNode = new Node(building, check);
 				if (building.canReceiveEnergy()) {
@@ -72,7 +72,7 @@ public class Goalfinder {
 	}
 
 	private Path nodeToPath(Node node) {
-		List<CoreBuilding> path = new ArrayList<>();
+		List<ICoreBuilding> path = new ArrayList<>();
 		while (node != null) {
 			path.add(0, node.building);
 			node = node.origin;

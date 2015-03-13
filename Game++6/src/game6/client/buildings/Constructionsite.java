@@ -2,7 +2,7 @@ package game6.client.buildings;
 
 import game6.client.ObjectRenderer;
 import game6.client.buildings.guis.BuildingGuiConstructionsite;
-import game6.core.buildings.CoreBuilding;
+import game6.client.world.World;
 import game6.core.buildings.CoreConstructionsite;
 import game6.core.util.ResourceContainer;
 import de.nerogar.render.*;
@@ -12,14 +12,16 @@ import de.nerogar.render.*;
  * It also does not have the necessary long-only constructor.
  * @author Felk
  */
-public class Constructionsite extends CoreConstructionsite {
+public class Constructionsite extends CoreConstructionsite<IClientBuilding> implements IClientBuilding {
 
+	private ClientBehaviourDefault defaultBehaviour = new ClientBehaviourDefault();
+	
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
 	private BuildingGuiConstructionsite gui;
 
-	public Constructionsite(CoreBuilding building, ResourceContainer constructionCost) {
+	public Constructionsite(IClientBuilding building, ResourceContainer constructionCost) {
 		super(building, constructionCost);
 		renderProperties.setScale(building.getSizeX() * 0.5f, 0.1f, building.getSizeY() * 0.5f);
 		gui = new BuildingGuiConstructionsite(this);
@@ -52,5 +54,16 @@ public class Constructionsite extends CoreConstructionsite {
 	public BuildingGuiConstructionsite getGui() {
 		return gui;
 	}
+	
+	@Override
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
+	}
 
+	@Override
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
+		getBuilding().setWorld(world);
+	}
+	
 }

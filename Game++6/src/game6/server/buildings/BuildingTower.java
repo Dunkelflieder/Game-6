@@ -1,11 +1,11 @@
 package game6.server.buildings;
 
-import game6.client.buildings.guis.BuildingGui;
-import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreBuildingTower;
-import de.nerogar.render.Shader;
+import game6.server.world.World;
 
-public class BuildingTower extends CoreBuildingTower {
+public class BuildingTower extends CoreBuildingTower implements IServerBuilding {
+
+	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
 
 	public BuildingTower() {
 		super(getNextID());
@@ -16,16 +16,17 @@ public class BuildingTower extends CoreBuildingTower {
 	}
 
 	@Override
-	public void render(Shader shader) {
-	}
-
-	@Override
 	public void update() {
 	}
 
 	@Override
-	public BuildingGui<CoreBuilding> getGui() {
-		return null;
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
+	}
+
+	@Override
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
 	}
 
 }

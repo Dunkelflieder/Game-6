@@ -1,19 +1,18 @@
 package game6.server.buildings;
 
-import game6.client.buildings.guis.BuildingGui;
 import game6.core.ai.goalfinding.Path;
-import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreBuildingReactor;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketBuildingUpdate;
 import game6.core.networking.packets.PacketPowerSupply;
+import game6.server.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nerogar.render.Shader;
+public class BuildingReactor extends CoreBuildingReactor implements IServerBuilding {
 
-public class BuildingReactor extends CoreBuildingReactor {
+	private ServerBehaviourDefault defaultBehaviour = new ServerBehaviourDefault();
 
 	private int tick = 0;
 	// Ticks between each energy pulse
@@ -30,20 +29,16 @@ public class BuildingReactor extends CoreBuildingReactor {
 	}
 
 	@Override
-	public void render(Shader shader) {
-	}
-
-	@Override
 	public void update() {
 		tick++;
 
 		// Each cooldown-period start emitting energy
 		if (tick % shockCooldown == 0) {
 
-			List<Path> candidatesPaths = world.getEnergyGoals(this);
+			List<Path> candidatesPaths = getWorld().getEnergyGoals(this);
 			List<Path> candidates = new ArrayList<>();
 			for (Path path : candidatesPaths) {
-				if (path.getGoal().getFaction() == faction && path.getGoal().canReceiveEnergy()) {
+				if (path.getGoal().getFaction() == getFaction() && path.getGoal().canReceiveEnergy()) {
 					candidates.add(path);
 				}
 			}
@@ -58,7 +53,7 @@ public class BuildingReactor extends CoreBuildingReactor {
 					// visible lightnings
 					Faction.broadcastAll(new PacketPowerSupply(this, path, left - returned));
 					// update energy values and stuff
-					faction.broadcast(new PacketBuildingUpdate(path.getGoal()));
+					getFaction().broadcast(new PacketBuildingUpdate(path.getGoal()));
 				}
 				left = returned;
 				if (left == 0) {
@@ -79,8 +74,13 @@ public class BuildingReactor extends CoreBuildingReactor {
 	}
 
 	@Override
-	public BuildingGui<CoreBuilding> getGui() {
-		return null;
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
+	}
+
+	@Override
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
 	}
 
 }
