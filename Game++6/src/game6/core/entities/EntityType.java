@@ -1,5 +1,8 @@
 package game6.core.entities;
 
+import game6.client.entities.ClientEntity;
+import game6.server.entities.ServerEntity;
+
 import java.lang.reflect.InvocationTargetException;
 
 public enum EntityType {
@@ -7,10 +10,10 @@ public enum EntityType {
 	TANK1(2, game6.client.entities.EntityTank1.class, game6.server.entities.EntityTank1.class);
 
 	private int typeID;
-	private Class<? extends CoreEntity> clientClass;
-	private Class<? extends CoreEntity> serverClass;
+	private Class<? extends ClientEntity> clientClass;
+	private Class<? extends ServerEntity> serverClass;
 
-	EntityType(int typeID, Class<? extends CoreEntity> clientClass, Class<? extends CoreEntity> serverClass) {
+	EntityType(int typeID, Class<? extends ClientEntity> clientClass, Class<? extends ServerEntity> serverClass) {
 		this.typeID = typeID;
 		this.clientClass = clientClass;
 		this.serverClass = serverClass;
@@ -30,7 +33,7 @@ public enum EntityType {
 	 * @param id The unique ID of the instance.
 	 * @return Entity instance for client
 	 */
-	public CoreEntity getClientEntity(long id) {
+	public ClientEntity getClientEntity(long id) {
 		try {
 			return clientClass.getConstructor(long.class).newInstance(id);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -44,7 +47,7 @@ public enum EntityType {
 	 * Returns an server-class-instance of the entity type 
 	 * @return Entity instance for server
 	 */
-	public CoreEntity getServerEntity() {
+	public ServerEntity getServerEntity() {
 		try {
 			return serverClass.getConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -73,7 +76,7 @@ public enum EntityType {
 	 * @param clazz Class of the instance
 	 * @return corresponding enum
 	 */
-	public static EntityType fromServerClass(Class<? extends CoreEntity> clazz) {
+	public static EntityType fromServerClass(Class<? extends ServerEntity> clazz) {
 		for (EntityType type : values()) {
 			if (type.serverClass.equals(clazz)) {
 				return type;

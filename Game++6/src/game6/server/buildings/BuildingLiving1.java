@@ -5,7 +5,7 @@ import game6.server.world.World;
 
 public class BuildingLiving1 extends CoreBuildingLiving1 implements ServerBuilding {
 
-	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
+	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
 	public BuildingLiving1() {
 		super(getNextID());

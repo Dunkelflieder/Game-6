@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BuildingReactor extends CoreBuildingReactor implements ServerBuilding {
 
-	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
+	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
 	private int tick = 0;
 	// Ticks between each energy pulse

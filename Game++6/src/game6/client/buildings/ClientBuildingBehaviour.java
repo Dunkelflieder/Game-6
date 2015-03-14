@@ -4,7 +4,7 @@ import game6.client.buildings.guis.BuildingGui;
 import game6.client.world.World;
 import de.nerogar.render.Shader;
 
-public interface ClientBehaviour {
+public interface ClientBuildingBehaviour {
 
 	/**
 	 * @param shader the currently active shader

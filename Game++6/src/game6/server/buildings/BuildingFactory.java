@@ -6,7 +6,7 @@ import game6.server.world.World;
 
 public class BuildingFactory extends CoreBuildingFactory implements ServerBuilding {
 
-	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
+	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
 	public BuildingFactory() {
 		super(getNextID());

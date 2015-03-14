@@ -1,8 +1,8 @@
 package game6.server.world;
 
 import game6.core.buildings.BuildingType;
-import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
+import game6.core.entities.MovementAir;
 import game6.core.faction.Faction;
 import game6.core.faction.Player;
 import game6.core.networking.PacketList;
@@ -11,11 +11,11 @@ import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 import game6.server.buildings.Constructionsite;
 import game6.server.buildings.ServerBuilding;
-import de.nerogar.engine.entity.BaseEntity;
+import game6.server.entities.ServerEntity;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
 
-public class World extends CoreWorld<ServerBuilding> {
+public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 
 	public World(Map<ServerBuilding> map) {
 		super(map);
@@ -52,25 +52,26 @@ public class World extends CoreWorld<ServerBuilding> {
 			for (Packet packet : faction.get(PacketList.ENTITIES)) {
 				if (packet instanceof PacketSpawnEntity) {
 					PacketSpawnEntity pse = (PacketSpawnEntity) packet;
-					CoreEntity entity = pse.entity.getServerEntity();
+					ServerEntity entity = pse.entity.getServerEntity();
 					entity.setFaction(faction);
 					if (canAddEntity(pse.position, entity)) {
-						pse.position.setY(entity.isFlying() ? 2 : 0);
-						spawnEntity(entity, pse.position);
+						pse.position.setY(entity instanceof MovementAir ? 2 : 0);
+						addEntity(entity);
 						Faction.broadcastAll(new PacketSpawnEntity(pse.entity, faction, entity.getID(), entity.getPosition()));
 						entity.move(new Vector3f(1, entity.getPosition().getY(), 1));
 					}
 				} else if (packet instanceof PacketEntityGoalChanged) {
 					PacketEntityGoalChanged pegc = (PacketEntityGoalChanged) packet;
-					CoreEntity entity = (CoreEntity) getEntityList().getEntity(pegc.id);
+					ServerEntity entity = (ServerEntity) getEntity(pegc.id);
 					// TODO check if movement is valid
 					entity.move(pegc.goal);
 				} else if (packet instanceof PacketCombatTargetSet) {
 					PacketCombatTargetSet pcts = (PacketCombatTargetSet) packet;
-					CoreEntity sourceEntity = (CoreEntity) getEntityList().getEntity(pcts.sourceID);
+					ServerEntity sourceEntity = (ServerEntity) getEntity(pcts.sourceID);
 					if (pcts.targetType == PacketCombatTargetSet.ENTITIY) {
-						CoreEntity targetEntity = (CoreEntity) getEntityList().getEntity(pcts.targetID);
-						sourceEntity.attack(targetEntity.getFightingObject());
+						ServerEntity targetEntity = (ServerEntity) getEntity(pcts.targetID);
+						// TODO reimplement fighting
+						// sourceEntity.attack(targetEntity.getFightingObject());
 					}
 
 				}
@@ -85,8 +86,8 @@ public class World extends CoreWorld<ServerBuilding> {
 		building.setWorld(this);
 		super.addBuilding(posX, posY, building);
 	}
-	
-	public boolean canAddEntity(Vector3f position, CoreEntity entity) {
+
+	public boolean canAddEntity(Vector3f position, ServerEntity entity) {
 		return position.getX() >= 0 && position.getY() >= 0 && position.getX() < getMap().getSizeX() && position.getY() < getMap().getSizeY();
 	}
 
@@ -101,10 +102,16 @@ public class World extends CoreWorld<ServerBuilding> {
 			player.getConnection().send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
 		}
 
-		for (BaseEntity<Vector3f> entity : getEntityList().getEntities()) {
-			CoreEntity coreEntity = (CoreEntity) entity;
-			player.getConnection().send(new PacketSpawnEntity(EntityType.fromServerClass(coreEntity.getClass()), coreEntity.getFaction(), coreEntity.getID(), coreEntity.getPosition()));
+		for (ServerEntity entity : getEntities()) {
+			ServerEntity serverEntity = (ServerEntity) entity;
+			player.getConnection().send(new PacketSpawnEntity(EntityType.fromServerClass(serverEntity.getClass()), serverEntity.getFaction(), serverEntity.getID(), serverEntity.getPosition()));
 		}
+	}
+	
+	@Override
+	public void addEntity(ServerEntity entity) {
+		entity.setWorld(this);
+		super.addEntity(entity);
 	}
 
 }

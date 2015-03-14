@@ -3,21 +3,19 @@ package game6.client.world;
 import game6.client.buildings.ClientBuilding;
 import game6.client.effects.EffectContainer;
 import game6.client.effects.SelectionMarker;
+import game6.client.entities.ClientEntity;
 import game6.core.buildings.CoreConstructionsite;
-import game6.core.entities.CoreEntity;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import de.nerogar.engine.entity.BaseEntity;
 import de.nerogar.render.RenderProperties3f;
 import de.nerogar.render.Shader;
 import de.nerogar.util.Color;
-import de.nerogar.util.Vector3f;
 
-public class World extends CoreWorld<ClientBuilding> {
+public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 
 	private MapMesh mesh;
 
@@ -30,7 +28,7 @@ public class World extends CoreWorld<ClientBuilding> {
 	private EffectContainer effectContainer;
 
 	private ClientBuilding selectedBuilding;
-	private CoreEntity selectedEntity;
+	private ClientEntity selectedEntity;
 
 	private SelectionMarker selectionMarker;
 
@@ -64,11 +62,11 @@ public class World extends CoreWorld<ClientBuilding> {
 		selectedEntity = null;
 	}
 
-	public CoreEntity getSelectedEntity() {
+	public ClientEntity getSelectedEntity() {
 		return selectedEntity;
 	}
 
-	public void selectEntity(CoreEntity entity) {
+	public void selectEntity(ClientEntity entity) {
 		selectionMarker.kill();
 		if (entity != null) {
 			selectionMarker = new SelectionMarker(entity.getPosition(), 1.0f, 1.0f);
@@ -128,11 +126,6 @@ public class World extends CoreWorld<ClientBuilding> {
 		}
 	}
 
-	public void unloadMap() {
-		setMap(null);
-	}
-
-	@Override
 	public void render(Shader shader) {
 		worldShader.activate();
 
@@ -180,10 +173,9 @@ public class World extends CoreWorld<ClientBuilding> {
 				building.render(worldShader);
 			}
 
-			for (BaseEntity<Vector3f> entity : entityList.getEntities()) {
-				CoreEntity coreEntity = (CoreEntity) entity;
-				if (coreEntity.getFaction() != null) {
-					factionColor = coreEntity.getFaction().color;
+			for (ClientEntity entity : getEntities()) {
+				if (entity.getFaction() != null) {
+					factionColor = entity.getFaction().color;
 				}
 				worldShader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
 				entity.render(worldShader);
@@ -194,24 +186,14 @@ public class World extends CoreWorld<ClientBuilding> {
 		worldShader.deactivate();
 	}
 
-	@Override
-	public void load() {
-
-	}
-
-	@Override
-	public void save() {
-
-	}
-
 	public boolean isLoaded() {
 		return getMap() != null;
 	}
-
-	public void cleanup() {
-		unloadMap();
-		getBuildings().clear();
-		getEntityList().clear();
+	
+	@Override
+	public void addEntity(ClientEntity entity) {
+		entity.setWorld(this);
+		super.addEntity(entity);
 	}
 
 }

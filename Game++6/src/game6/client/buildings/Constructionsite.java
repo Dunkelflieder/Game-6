@@ -14,7 +14,7 @@ import de.nerogar.render.*;
  */
 public class Constructionsite extends CoreConstructionsite<ClientBuilding> implements ClientBuilding {
 
-	private DefaultClientBehaviour defaultBehaviour = new DefaultClientBehaviour();
+	private DefaultClientBuildingBehaviour defaultBehaviour = new DefaultClientBuildingBehaviour();
 	
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;

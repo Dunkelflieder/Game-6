@@ -8,7 +8,7 @@ import de.nerogar.render.*;
 
 public class BuildingLiving1 extends CoreBuildingLiving1 implements ClientBuilding {
 
-	private DefaultClientBehaviour defaultBehaviour = new DefaultClientBehaviour();
+	private DefaultClientBuildingBehaviour defaultBehaviour = new DefaultClientBuildingBehaviour();
 
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;

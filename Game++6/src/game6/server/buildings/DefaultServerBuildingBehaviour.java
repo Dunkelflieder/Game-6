@@ -2,7 +2,7 @@ package game6.server.buildings;
 
 import game6.server.world.World;
 
-public class DefaultServerBehaviour implements ServerBehaviour {
+public class DefaultServerBuildingBehaviour implements ServerBuildingBehaviour {
 
 	private World world;
 

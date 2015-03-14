@@ -2,15 +2,16 @@ package game6.core.ai.goalfinding;
 
 import game6.core.buildings.CoreBuildingTower;
 import game6.core.buildings.CoreBuilding;
+import game6.core.entities.CoreEntity;
 import game6.core.world.CoreWorld;
 
 import java.util.*;
 
 public class Goalfinder {
 
-	private CoreWorld<? extends CoreBuilding> world;
+	private CoreWorld<? extends CoreBuilding, ? extends CoreEntity> world;
 
-	public Goalfinder(CoreWorld<? extends CoreBuilding> world) {
+	public Goalfinder(CoreWorld<? extends CoreBuilding, ? extends CoreEntity> world) {
 		this.world = world;
 	}
 

@@ -2,10 +2,10 @@ package game6.client;
 
 import game6.client.buildings.*;
 import game6.client.effects.*;
+import game6.client.entities.ClientEntity;
 import game6.client.sound.SoundContext;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
-import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
 import game6.core.networking.PacketList;
@@ -125,21 +125,21 @@ public class Controller {
 	}
 
 	// TODO debug method
-	public void moveEntity(CoreEntity entity, Vector3f position) {
+	public void moveEntity(ClientEntity entity, Vector3f position) {
 		if (isConnected()) {
 			connection.send(new PacketEntityGoalChanged(entity, position));
 		}
 	}
 
 	// TODO debug method
-	public void setEntityTarget(CoreEntity sourceEntity, CoreEntity targetEntity) {
+	public void setEntityTarget(ClientEntity sourceEntity, ClientEntity targetEntity) {
 		if (isConnected()) {
 			connection.send(new PacketCombatTargetSet(PacketCombatTargetSet.ENTITIY, sourceEntity.getID(), PacketCombatTargetSet.ENTITIY, targetEntity.getID()));
 		}
 	}
 
 	// TODO debug method
-	public void setEntityTarget(CoreEntity sourceEntity, ClientBuilding targetBuilding) {
+	public void setEntityTarget(ClientEntity sourceEntity, ClientBuilding targetBuilding) {
 		if (isConnected()) {
 			connection.send(new PacketCombatTargetSet(PacketCombatTargetSet.ENTITIY, sourceEntity.getID(), PacketCombatTargetSet.BUILDING, targetBuilding.getID()));
 		}
@@ -254,21 +254,23 @@ public class Controller {
 				if (packet instanceof PacketSpawnEntity) {
 
 					PacketSpawnEntity packetEntity = (PacketSpawnEntity) packet;
-					CoreEntity entity = packetEntity.entity.getClientEntity(packetEntity.id);
+					ClientEntity entity = packetEntity.entity.getClientEntity(packetEntity.id);
 					entity.setFaction(packetEntity.faction);
-					world.spawnEntity(entity, packetEntity.position);
+					entity.teleport(packetEntity.position);
+					world.addEntity(entity);
 
 				} else if (packet instanceof PacketEntityMoved) {
 
 					PacketEntityMoved packetEntity = (PacketEntityMoved) packet;
-					CoreEntity entity = (CoreEntity) world.getEntityList().getEntity(packetEntity.id);
+					ClientEntity entity = world.getEntity(packetEntity.id);
 					entity.teleport(packetEntity.position);
 					entity.setRotation(packetEntity.rotation);
 
 				} else if (packet instanceof PacketEntityGoalChanged) {
 
-					PacketEntityGoalChanged packetEntity = (PacketEntityGoalChanged) packet;
-					((CoreEntity) world.getEntityList().getEntity(packetEntity.id)).setGoal(packetEntity.goal);
+					// TODO add path updating instead of goal updating
+					//PacketEntityGoalChanged packetEntity = (PacketEntityGoalChanged) packet;
+					//world.getEntity(packetEntity.id).setGoal(packetEntity.goal);
 
 				} else if (packet instanceof PacketAttackEffect) {
 
@@ -278,7 +280,7 @@ public class Controller {
 				} else if (packet instanceof PacketRemoveEntity) {
 
 					PacketRemoveEntity pre = (PacketRemoveEntity) packet;
-					CoreEntity entity = (CoreEntity) getWorld().getEntityList().getEntity(pre.id);
+					ClientEntity entity = getWorld().getEntity(pre.id);
 					if (pre.killed) {
 						effects.addEffect(new Explosion(entity.getPosition().clone()));
 
@@ -287,7 +289,7 @@ public class Controller {
 					if (getWorld().getSelectedEntity() != null && pre.id == getWorld().getSelectedEntity().getID()) {
 						getWorld().selectEntity(null);
 					}
-					entity.removeFromWorld();
+					entity.remove();
 
 				}
 			}

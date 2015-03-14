@@ -1,18 +1,25 @@
 package game6.core.entities;
 
-import de.nerogar.physics.BoundingAABB;
+import game6.core.engine.BoundingAABB;
 import de.nerogar.util.Vector3f;
 
-public abstract class CoreEntityTank1 extends CoreEntity {
+public abstract class CoreEntityTank1 extends DefaultCoreEntity implements MovementGround {
 
 	public CoreEntityTank1(long id, Vector3f position) {
-		super(id, new BoundingAABB<Vector3f>(new Vector3f(-0.3f, 0f, -0.3f), new Vector3f(0.3f, 0.3f, 0.3f)), position, 2, false, 30);
-		
-		getFightingObject().setReach(15);
+		super(id, position, new BoundingAABB(-0.3f, 0f, -0.3f, 0.3f, 0.3f, 0.3f));
+
+		// TODO enable fighting again
+		// getFightingObject().setReach(15);
 	}
 
+	@Override
 	public String getName() {
 		return "Tank";
+	}
+
+	@Override
+	public float getSpeed() {
+		return 2;
 	}
 
 }

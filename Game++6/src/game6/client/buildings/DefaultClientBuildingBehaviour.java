@@ -4,7 +4,7 @@ import game6.client.buildings.guis.BuildingGui;
 import game6.client.world.World;
 import de.nerogar.render.Shader;
 
-public class DefaultClientBehaviour implements ClientBehaviour {
+public class DefaultClientBuildingBehaviour implements ClientBuildingBehaviour {
 
 	private World world;
 	

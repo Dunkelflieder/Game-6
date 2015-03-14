@@ -3,13 +3,15 @@ package game6.client.gui;
 import game6.client.Controller;
 import game6.client.Game;
 import game6.client.buildings.ClientBuilding;
+import game6.client.entities.ClientEntity;
 import game6.client.gui.components.*;
 import game6.client.gui.listener.KeyboardAdapter;
 import game6.client.gui.listener.MouseAdapter;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
-import game6.core.entities.CoreEntity;
 import game6.core.entities.EntityType;
+import game6.core.world.IntersectionHelper;
+import game6.core.world.RayIntersection;
 
 import org.lwjgl.input.Keyboard;
 
@@ -71,16 +73,17 @@ public class GuiIngame extends Gui {
 
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
 				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
-				RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
+				//RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
+				RayIntersection intersection = IntersectionHelper.getIntersecting(world.getEntities(), mouseRay);
 				Vector2f mapIntersection = controller.getWorld().getMap().getIntersection(mouseRay);
 
 				ClientBuilding clickedBuilding = null;
-				CoreEntity clickedEntity = null;
+				ClientEntity clickedEntity = null;
 
 				if (mapIntersection != null)
 					clickedBuilding = controller.getWorld().getMap().getBuildingAt((int) mapIntersection.getX(), (int) mapIntersection.getY());
 				if (intersection != null)
-					clickedEntity = (CoreEntity) intersection.intersectingBody;
+					clickedEntity = (ClientEntity) intersection.intersectingBody;
 
 				if (button == 0) {
 
@@ -109,7 +112,7 @@ public class GuiIngame extends Gui {
 						return true;
 					}
 
-					CoreEntity selectedEntity = controller.getWorld().getSelectedEntity();
+					ClientEntity selectedEntity = controller.getWorld().getSelectedEntity();
 					if (selectedEntity != null) {
 						if (clickedBuilding != null) {
 							controller.setEntityTarget(selectedEntity, clickedBuilding);
@@ -266,7 +269,7 @@ public class GuiIngame extends Gui {
 	}
 
 	private void repositionEntityGui() {
-		CoreEntity entity = controller.getWorld().getSelectedEntity();
+		ClientEntity entity = controller.getWorld().getSelectedEntity();
 		if (entity != null) {
 			entity.getGui().setPos(panel.getSizeX() - entity.getGui().getSizeX(), selectionPanel.getSizeY());
 		}

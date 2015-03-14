@@ -61,6 +61,10 @@ public class Pathfinder {
 		return nodes[posX + sizeX * posY];
 	}
 
+	public List<Position> getPath(float fromX, float fromY, float goalX, float goalY) {
+		return getPath((int) fromX, (int) fromY, (int) goalX, (int) goalY);
+	}
+	
 	public List<Position> getPath(int fromX, int fromY, int goalX, int goalY) {
 		List<Position> path = getRawPath(fromX, fromY, goalX, goalY);
 

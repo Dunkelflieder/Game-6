@@ -5,7 +5,7 @@ import game6.server.world.World;
 
 public class BuildingEnergy1 extends CoreBuildingEnergy1 implements ServerBuilding {
 
-	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
+	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
 	public BuildingEnergy1() {
 		super(getNextID());

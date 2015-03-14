@@ -5,7 +5,7 @@ import game6.server.world.World;
 
 public class BuildingResearch extends CoreBuildingResearch implements ServerBuilding {
 
-	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
+	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
 	public BuildingResearch() {
 		super(getNextID());

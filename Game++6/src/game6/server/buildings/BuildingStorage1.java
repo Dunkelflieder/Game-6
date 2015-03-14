@@ -7,7 +7,7 @@ import game6.server.world.World;
 
 public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuilding {
 
-	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
+	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
 	private int tick;
 

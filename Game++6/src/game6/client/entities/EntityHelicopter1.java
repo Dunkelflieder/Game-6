@@ -2,11 +2,15 @@ package game6.client.entities;
 
 import game6.client.ObjectRenderer;
 import game6.client.entities.guis.EntityGuiDefault;
+import game6.client.world.World;
+import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.entities.CoreEntityHelicopter1;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
 
-public class EntityHelicopter1 extends CoreEntityHelicopter1 {
+public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEntity {
+
+	private DefaultClientEntityBehaviour defaultBehaviour = new DefaultClientEntityBehaviour(this);
 
 	private RenderProperties3f renderPropertiesMain;
 	private RenderProperties3f renderPropertiesRotorL;
@@ -45,7 +49,8 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 	@Override
 	public void update(float timeDelta) {
 		super.update(timeDelta);
-
+		defaultBehaviour.updateVisibleRotation(timeDelta);
+		
 		renderPropertiesRotorL.setYaw((renderPropertiesRotorL.getYaw() + 8f * timeDelta) % 360);
 		renderPropertiesRotorH.setYaw((renderPropertiesRotorH.getYaw() - 8f * timeDelta) % 360);
 
@@ -69,6 +74,26 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 {
 	@Override
 	public EntityGuiDefault getGui() {
 		return gui;
+	}
+
+	@Override
+	public Pathfinder getPathfinder() {
+		return defaultBehaviour.getPathfinder();
+	}
+
+	@Override
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
+	}
+
+	@Override
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
+	}
+
+	@Override
+	public float getVisibleRotation() {
+		return defaultBehaviour.getVisibleRotation();
 	}
 
 }

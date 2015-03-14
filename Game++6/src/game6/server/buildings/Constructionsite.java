@@ -15,7 +15,7 @@ import game6.server.world.World;
  */
 public class Constructionsite extends CoreConstructionsite<ServerBuilding> implements ServerBuilding {
 
-	private DefaultServerBehaviour defaultBehaviour = new DefaultServerBehaviour();
+	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 	
 	public Constructionsite(ServerBuilding building, ResourceContainer constructionCost) {
 		super(building, constructionCost);

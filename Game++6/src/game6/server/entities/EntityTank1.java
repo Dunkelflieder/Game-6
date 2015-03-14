@@ -1,36 +1,40 @@
 package game6.server.entities;
 
-import game6.client.entities.guis.EntityGui;
-import game6.core.combat.FightingObject;
-import game6.core.entities.CoreEntity;
+import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.entities.CoreEntityTank1;
-import game6.core.faction.Faction;
-import game6.core.networking.packets.PacketAttackEffect;
-import de.nerogar.render.Shader;
+import game6.server.world.World;
 import de.nerogar.util.Vector3f;
 
-public class EntityTank1 extends CoreEntityTank1 {
+public class EntityTank1 extends CoreEntityTank1 implements ServerEntity {
+
+	private DefaultServerEntityBehaviour defaultBehaviour = new DefaultServerEntityBehaviour();
 
 	public EntityTank1() {
-		super(getNextID(), new Vector3f());
+		super(DefaultServerEntityBehaviour.getNextID(), new Vector3f());
 
-		getFightingObject().setAttackEvent(this::onAttack);
+		// TODO enable fighting again
+		// getFightingObject().setAttackEvent(this::onAttack);
 	}
 
-	private void onAttack(FightingObject target) {
+	/*private void onAttack(FightingObject target) {
 		if (tick % 10 == 0) {
 			target.damage(8);
 			Faction.broadcastAll(new PacketAttackEffect(getFightingObject().getPosition(), target.getPosition()));
 		}
+	}*/
+
+	@Override
+	public Pathfinder getPathfinder() {
+		return defaultBehaviour.getPathfinder();
 	}
 
 	@Override
-	public void render(Shader shader) {
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public EntityGui<CoreEntity> getGui() {
-		return null;
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
 	}
-
 }

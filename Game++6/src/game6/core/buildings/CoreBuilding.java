@@ -1,16 +1,12 @@
 package game6.core.buildings;
 
+import game6.core.engine.IDList.UniqueID;
 import game6.core.faction.Faction;
 import de.nerogar.util.Vector3f;
 
-public interface CoreBuilding {
+public interface CoreBuilding extends UniqueID {
 
 	public void init();
-
-	/**
-	 * @return Unique Building-ID of this instance
-	 */
-	public long getID();
 
 	public int getSizeX();
 

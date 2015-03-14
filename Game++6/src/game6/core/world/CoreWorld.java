@@ -2,112 +2,99 @@ package game6.core.world;
 
 import game6.core.ai.goalfinding.Goalfinder;
 import game6.core.ai.goalfinding.Path;
-import game6.core.buildings.CoreConstructionsite;
 import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.CoreConstructionsite;
+import game6.core.engine.IDList;
 import game6.core.entities.CoreEntity;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import de.nerogar.engine.BaseWorld;
-import de.nerogar.util.Vector3f;
+public abstract class CoreWorld<B extends CoreBuilding, E extends CoreEntity> implements Updateable {
 
-public abstract class CoreWorld<T extends CoreBuilding> extends BaseWorld<Vector3f> {
-
-	private List<T> buildings;
-	private Map<T> map;
+	private Map<B> map;
 	private Goalfinder goalfinder;
 
-	public CoreWorld(Map<T> map) {
-		super(new Vector3f());
-		isStatic = true;
+	private IDList<E> entities;
+	private IDList<B> buildings;
+	
+	public CoreWorld(Map<B> map) {
 		setMap(map);
-		this.buildings = new ArrayList<>();
 		this.goalfinder = new Goalfinder(this);
+		
+		buildings = new IDList<>();
+		entities = new IDList<>();
 	}
 
 	@Override
 	public void update(float timeDelta) {
-		super.update(timeDelta);
-
-		for (T building : buildings) {
+		
+		for (Iterator<E> iter = entities.iterator(); iter.hasNext();) {
+			E entity = iter.next();
+			if (entity.isRemovalMarked()) {
+				iter.remove();
+			} else {
+				entity.update(timeDelta);
+			}
+		}
+		
+		for (B building : buildings) {
 			building.update();
 		}
 	}
-
-	public Map<T> getMap() {
+	
+	public void addEntity(E entity) {
+		entities.add(entity);
+	}
+	
+	public Map<B> getMap() {
 		return map;
 	}
 
-	public void setMap(Map<T> map) {
+	public void setMap(Map<B> map) {
 		this.map = map;
 	}
 
-	public void spawnEntity(CoreEntity entity, Vector3f position) {
-		entity.setMap(getMap());
-		super.spawnEntity(entity, position);
-	}
-
-	public void addBuilding(int posX, int posY, T building) {
+	public void addBuilding(int posX, int posY, B building) {
 		building.setPosX(posX);
 		building.setPosY(posY);
-		this.buildings.add(building);
-		this.buildings.sort((a, b) -> (int) (a.getID() - b.getID()));
+		buildings.add(building);
 		map.addBuilding(building);
 	}
 
-	public void finishConstructionsite(CoreConstructionsite<T> constructionsite) {
+	public void finishConstructionsite(CoreConstructionsite<B> constructionsite) {
 		map.finishConstructionsize(constructionsite);
-		buildings.set(getBuildingArrayPosition(constructionsite.getID()), constructionsite.getBuilding());
+		buildings.replace(constructionsite.getID(), constructionsite.getBuilding());
 	}
 
-	public T getBuilding(long id) {
-
-		int pos = getBuildingArrayPosition(id);
-		if (pos < 0) {
-			return null;
-		}
-
-		return buildings.get(pos);
-
+	public B getBuilding(long id) {
+		return buildings.get(id);
 	}
 
-	private int getBuildingArrayPosition(long id) {
-
-		int l = 0;
-		int r = buildings.size() - 1;
-		int p;
-		while (l <= r) {
-			p = (l + r) / 2;
-
-			if (buildings.get(p).getID() == id) {
-				return p;
-			}
-			if (buildings.get(p).getID() < id) {
-				l = p + 1;
-			} else {
-				r = p - 1;
-			}
-		}
-
-		return -1;
-
-	}
-
-	public List<T> getBuildings() {
+	public IDList<B> getBuildings() {
 		return buildings;
 	}
+	
+	public E getEntity(long id) {
+		return entities.get(id);
+	}
+	
+	public IDList<E> getEntities() {
+		return entities;
+	}
 
-	public List<Path> getEnergyGoals(T start) {
+	public List<Path> getEnergyGoals(B start) {
 		return goalfinder.search(start);
 	}
 
-	@Override
-	public void load() {
+	public void unloadMap() {
+		setMap(null);
 	}
-
-	@Override
-	public void save() {
+	
+	public void cleanup() {
+		unloadMap();
+		entities.clear();
+		buildings.clear();
 	}
-
+	
 }

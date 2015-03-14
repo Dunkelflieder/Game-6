@@ -1,16 +1,22 @@
 package game6.core.entities;
 
-import de.nerogar.physics.BoundingAABB;
+import game6.core.engine.BoundingAABB;
 import de.nerogar.util.Vector3f;
 
-public abstract class CoreEntityHelicopter1 extends CoreEntity {
+public abstract class CoreEntityHelicopter1 extends DefaultCoreEntity implements MovementAir {
 
 	public CoreEntityHelicopter1(long id, Vector3f position) {
-		super(id, new BoundingAABB<Vector3f>(new Vector3f(-0.3f, 0f, -0.3f), new Vector3f(0.3f, 0.3f, 0.3f)), position, 5, true, 10);
+		super(id, position, new BoundingAABB(-0.3f, 0f, -0.3f, 0.3f, 0.3f, 0.3f));
 	}
 
+	@Override
 	public String getName() {
 		return "Helicopter";
+	}
+
+	@Override
+	public float getSpeed() {
+		return 5;
 	}
 
 }
