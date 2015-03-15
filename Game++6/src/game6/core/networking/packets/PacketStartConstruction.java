@@ -17,12 +17,12 @@ public class PacketStartConstruction extends Packet {
 	public PacketStartConstruction() {
 	}
 
-	public PacketStartConstruction(BuildingType building, Faction faction, long id, int posX, int posY) {
+	public PacketStartConstruction(BuildingType building, Faction faction, int posX, int posY, long id) {
 		this.building = building;
 		this.faction = faction;
-		this.id = id;
 		this.posX = posX;
 		this.posY = posY;
+		this.id = id;
 	}
 
 	@Override

@@ -10,6 +10,9 @@ import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
 import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
+import game6.core.networking.packets.buildings.PacketBuilding;
+import game6.core.networking.packets.entities.PacketEntity;
+import game6.core.networking.packets.entities.PacketEntityMove;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -28,7 +31,6 @@ public class Controller {
 
 	private InputHandler inputHandler;
 	private Connection connection;
-	private EffectContainer effects;
 
 	// TODO public for now. change later
 	public SoundContext soundMain;
@@ -42,7 +44,6 @@ public class Controller {
 	public Controller(World world, Camera camera, EffectContainer effects) {
 		this.world = world;
 		this.camera = camera;
-		this.effects = effects;
 		this.inputHandler = new InputHandler();
 		init();
 	}
@@ -113,7 +114,7 @@ public class Controller {
 		if (isConnected()) {
 			// Instead, use PacketStartConstruction!
 			// connection.send(new PacketPlaceBuilding(type, faction, -1, posX, posY));
-			connection.send(new PacketStartConstruction(type, faction, -1, posX, posY));
+			connection.send(new PacketStartConstruction(type, faction, posX, posY, -1));
 		}
 	}
 
@@ -127,7 +128,7 @@ public class Controller {
 	// TODO debug method
 	public void moveEntity(ClientEntity entity, Vector3f position) {
 		if (isConnected()) {
-			connection.send(new PacketEntityGoalChanged(entity, position));
+			connection.send(new PacketEntityMove(entity, position));
 		}
 	}
 
@@ -185,20 +186,45 @@ public class Controller {
 			HashMap<LightningLine, Integer> lightnings = new HashMap<>();
 
 			// TODO Don't process the packets here
-			packets = connection.get(PacketList.BUILDINGS);
+			packets = connection.get(PacketList.INFO);
 			for (Packet packet : packets) {
-				if (packet instanceof PacketPlaceBuilding) {
+				if (packet instanceof PacketEnabledBuildingsList) {
+					PacketEnabledBuildingsList pebl = (PacketEnabledBuildingsList) packet;
+					for (BuildingType building : pebl.buildings) {
+						System.out.println(building);
+					}
+				}
+			}
 
-					PacketPlaceBuilding packetBuilding = (PacketPlaceBuilding) packet;
-					ClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
-					building.setFaction(packetBuilding.faction);
-					world.addBuilding(packetBuilding.posX, packetBuilding.posY, building);
+			for (Entry<LightningLine, Integer> entry : lightnings.entrySet()) {
+				ClientBuilding building1 = getWorld().getBuilding(entry.getKey().a);
+				ClientBuilding building2 = getWorld().getBuilding(entry.getKey().b);
+				world.getEffectContainer().addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
+			}
+
+			packets = connection.get(PacketList.WORLD);
+			for (Packet packet : packets) {
+				if (packet instanceof PacketSpawnEntity) {
+
+					PacketSpawnEntity packetEntity = (PacketSpawnEntity) packet;
+					ClientEntity entity = packetEntity.entity.getClientEntity(packetEntity.id);
+					entity.setFaction(packetEntity.faction);
+					entity.teleport(packetEntity.position);
+					world.addEntity(entity);
+
 				} else if (packet instanceof PacketStartConstruction) {
 
 					PacketStartConstruction packetBuilding = (PacketStartConstruction) packet;
 					ClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
 					building.setFaction(packetBuilding.faction);
 					world.addBuilding(packetBuilding.posX, packetBuilding.posY, new Constructionsite(building, packetBuilding.building.getBuildingCost()));
+
+				} else if (packet instanceof PacketSpawnBuilding) {
+
+					PacketSpawnBuilding packetBuilding = (PacketSpawnBuilding) packet;
+					ClientBuilding building = packetBuilding.building.getClientBuilding(packetBuilding.id);
+					building.setFaction(packetBuilding.faction);
+					world.addBuilding(packetBuilding.posX, packetBuilding.posY, building);
 
 				} else if (packet instanceof PacketPowerSupply) {
 
@@ -217,81 +243,26 @@ public class Controller {
 							}
 						}
 					}
-
-				} else if (packet instanceof PacketBuildingUpdate) {
-					PacketBuildingUpdate pbu = (PacketBuildingUpdate) packet;
-					getWorld().getBuilding(pbu.id).setEnergy(pbu.energy);
-
-				} else if (packet instanceof PacketEnabledBuildingsList) {
-					PacketEnabledBuildingsList pebl = (PacketEnabledBuildingsList) packet;
-					for (BuildingType building : pebl.buildings) {
-						System.out.println(building);
-					}
-				} else if (packet instanceof PacketUpdateStorage) {
-					PacketUpdateStorage pus = (PacketUpdateStorage) packet;
-					BuildingStorage1 building = (BuildingStorage1) getWorld().getBuilding(pus.buildingID);
-					building.getResources().setResources(pus.resources);
-					building.getResources().setCapacity(pus.resources.getTotalCapacity());
-				} else if (packet instanceof PacketUpdateConstructionsite) {
-					PacketUpdateConstructionsite puc = (PacketUpdateConstructionsite) packet;
-					Constructionsite building = (Constructionsite) getWorld().getBuilding(puc.buildingID);
-					building.getCostRemaining().setResources(puc.resources);
-				} else if (packet instanceof PacketFinishConstruction) {
-					PacketFinishConstruction pfc = (PacketFinishConstruction) packet;
-					Constructionsite constructionsize = (Constructionsite) world.getBuilding(pfc.buildingID);
-					world.finishConstructionsite(constructionsize);
 				}
-			}
+				// TODO reimplement combat
+				/*else if (packet instanceof PacketAttackEffect) {
 
-			for (Entry<LightningLine, Integer> entry : lightnings.entrySet()) {
-				ClientBuilding building1 = getWorld().getBuilding(entry.getKey().a);
-				ClientBuilding building2 = getWorld().getBuilding(entry.getKey().b);
-				effects.addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
+					PacketAttackEffect packetEntity = (PacketAttackEffect) packet;
+
+					world.getEffectContainer().addEffect(new LaserBullet(packetEntity.sourcePos, packetEntity.targetPos));
+				}*/
 			}
 
 			packets = connection.get(PacketList.ENTITIES);
 			for (Packet packet : packets) {
-				if (packet instanceof PacketSpawnEntity) {
+				PacketEntity packetEntity = (PacketEntity) packet;
+				getWorld().getEntity(packetEntity.id).process(packetEntity);
+			}
 
-					PacketSpawnEntity packetEntity = (PacketSpawnEntity) packet;
-					ClientEntity entity = packetEntity.entity.getClientEntity(packetEntity.id);
-					entity.setFaction(packetEntity.faction);
-					entity.teleport(packetEntity.position);
-					world.addEntity(entity);
-
-				} else if (packet instanceof PacketEntityMoved) {
-
-					PacketEntityMoved packetEntity = (PacketEntityMoved) packet;
-					ClientEntity entity = world.getEntity(packetEntity.id);
-					entity.teleport(packetEntity.position);
-					entity.setRotation(packetEntity.rotation);
-
-				} else if (packet instanceof PacketEntityGoalChanged) {
-
-					// TODO add path updating instead of goal updating
-					//PacketEntityGoalChanged packetEntity = (PacketEntityGoalChanged) packet;
-					//world.getEntity(packetEntity.id).setGoal(packetEntity.goal);
-
-				} else if (packet instanceof PacketAttackEffect) {
-
-					PacketAttackEffect packetEntity = (PacketAttackEffect) packet;
-
-					effects.addEffect(new LaserBullet(packetEntity.sourcePos, packetEntity.targetPos));
-				} else if (packet instanceof PacketRemoveEntity) {
-
-					PacketRemoveEntity pre = (PacketRemoveEntity) packet;
-					ClientEntity entity = getWorld().getEntity(pre.id);
-					if (pre.killed) {
-						effects.addEffect(new Explosion(entity.getPosition().clone()));
-
-						// entity.playDeathAnimation();
-					}
-					if (getWorld().getSelectedEntity() != null && pre.id == getWorld().getSelectedEntity().getID()) {
-						getWorld().selectEntity(null);
-					}
-					entity.remove();
-
-				}
+			packets = connection.get(PacketList.BUILDINGS);
+			for (Packet packet : packets) {
+				PacketBuilding packetBuilding = (PacketBuilding) packet;
+				getWorld().getBuilding(packetBuilding.id).process(packetBuilding);
 			}
 		}
 

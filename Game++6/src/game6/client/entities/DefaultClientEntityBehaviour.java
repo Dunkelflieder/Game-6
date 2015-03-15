@@ -9,16 +9,16 @@ import de.nerogar.util.MathHelper;
 public class DefaultClientEntityBehaviour implements ClientEntityBehaviour {
 
 	private static final float rotationSpeed = 6;
-	
+
 	private ClientEntity entity;
-	
+
 	private World world;
 	private float visibleRotation;
 
 	public DefaultClientEntityBehaviour(ClientEntity entity) {
 		this.entity = entity;
 	}
-	
+
 	@Override
 	public void render(Shader shader) {
 		// TODO Auto-generated method stub

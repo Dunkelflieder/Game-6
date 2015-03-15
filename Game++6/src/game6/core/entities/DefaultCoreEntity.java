@@ -48,7 +48,7 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 
 	@Override
 	public void setTarget(Vector3f target, float stopDistanceSquared) {
-		path = getPathTo(target);
+		setPath(getPathTo(target));
 		this.stopDistanceSquared = stopDistanceSquared;
 	}
 

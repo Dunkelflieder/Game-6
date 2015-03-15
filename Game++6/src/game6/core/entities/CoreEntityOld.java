@@ -5,7 +5,7 @@ import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.buildings.CoreBuilding;
 import game6.core.combat.FightingObject;
 import game6.core.faction.Faction;
-import game6.core.networking.packets.*;
+import game6.core.networking.packets.entities.PacketEntityRemove;
 import game6.core.world.Map;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public abstract class CoreEntityOld extends BaseEntity<Vector3f> {
 		goals = new ArrayList<Vector3f>();
 
 		setFightingObject(new FightingObject(maxHealth, getPosition(), () -> {
-			Faction.broadcastAll(new PacketRemoveEntity(this.getID(), true));
+			Faction.broadcastAll(new PacketEntityRemove(this.getID(), true));
 			removeFromWorld();
 		}));
 	}

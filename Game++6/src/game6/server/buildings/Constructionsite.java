@@ -2,8 +2,8 @@ package game6.server.buildings;
 
 import game6.core.buildings.CoreConstructionsite;
 import game6.core.faction.Faction;
-import game6.core.networking.packets.PacketFinishConstruction;
-import game6.core.networking.packets.PacketUpdateConstructionsite;
+import game6.core.networking.packets.buildings.PacketBuildingFinishConstruction;
+import game6.core.networking.packets.buildings.PacketBuildingUpdateInventory;
 import game6.core.util.Resource;
 import game6.core.util.ResourceContainer;
 import game6.server.world.World;
@@ -23,7 +23,7 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 	}
 
 	private void remainingCostChanged() {
-		getFaction().broadcast(new PacketUpdateConstructionsite(getID(), getCostRemaining()));
+		getFaction().broadcast(new PacketBuildingUpdateInventory(getID(), getCostRemaining()));
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 	public void update() {
 		if (isFinished()) {
 			getWorld().finishConstructionsite(this);
-			Faction.broadcastAll(new PacketFinishConstruction(getID()));
+			Faction.broadcastAll(new PacketBuildingFinishConstruction(getID()));
 		}
 
 		// TODO for debugging. remove later

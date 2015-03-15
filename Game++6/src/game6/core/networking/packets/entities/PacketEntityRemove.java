@@ -1,19 +1,16 @@
-package game6.core.networking.packets;
+package game6.core.networking.packets.entities;
 
 import java.nio.ByteBuffer;
 
-import de.nerogar.network.packets.Packet;
+public class PacketEntityRemove extends PacketEntity {
 
-public class PacketRemoveEntity extends Packet {
-
-	public long id;
 	public boolean killed;
 
-	public PacketRemoveEntity() {
+	public PacketEntityRemove() {
 	}
 
-	public PacketRemoveEntity(long id, boolean killed) {
-		this.id = id;
+	public PacketEntityRemove(long id, boolean killed) {
+		super(id);
 		this.killed = killed;
 	}
 

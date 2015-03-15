@@ -1,29 +1,26 @@
-package game6.core.networking.packets;
+package game6.core.networking.packets.buildings;
 
 import game6.core.util.Resource;
 import game6.core.util.ResourceContainer;
 
 import java.nio.ByteBuffer;
 
-import de.nerogar.network.packets.Packet;
+public class PacketBuildingUpdateInventory extends PacketBuilding {
 
-public class PacketUpdateConstructionsite extends Packet {
-
-	public long buildingID;
 	public ResourceContainer resources;
 
-	public PacketUpdateConstructionsite() {
+	public PacketBuildingUpdateInventory() {
 	}
 
-	public PacketUpdateConstructionsite(long buildingID, ResourceContainer resources) {
-		this.buildingID = buildingID;
+	public PacketBuildingUpdateInventory(long id, ResourceContainer resources) {
+		super(id);
 		this.resources = resources;
 	}
 
 	@Override
 	public void fromByteArray(byte[] data) {
 		ByteBuffer buffer = ByteBuffer.wrap(data);
-		buildingID = buffer.getLong();
+		id = buffer.getLong();
 		resources = new ResourceContainer();
 		resources.setCapacity(buffer.getInt());
 		for (Resource resource : Resource.values()) {
@@ -34,7 +31,7 @@ public class PacketUpdateConstructionsite extends Packet {
 	@Override
 	public byte[] toByteArray() {
 		ByteBuffer buffer = ByteBuffer.allocate(8 + 4 + 4 * Resource.values().length);
-		buffer.putLong(buildingID);
+		buffer.putLong(id);
 		buffer.putInt(resources.getTotalCapacity());
 		for (Resource resource : Resource.values()) {
 			buffer.putInt(resources.getAmount(resource));

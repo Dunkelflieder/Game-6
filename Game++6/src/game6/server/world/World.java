@@ -7,11 +7,16 @@ import game6.core.faction.Faction;
 import game6.core.faction.Player;
 import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
+import game6.core.networking.packets.buildings.PacketBuilding;
+import game6.core.networking.packets.entities.PacketEntity;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 import game6.server.buildings.Constructionsite;
 import game6.server.buildings.ServerBuilding;
 import game6.server.entities.ServerEntity;
+
+import java.util.List;
+
 import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
 
@@ -26,30 +31,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 		// check for building placement request.
 		// TODO this is sample code btw.
 		for (Faction faction : Faction.values()) {
-			for (Packet packet : faction.get(PacketList.BUILDINGS)) {
-				if (packet instanceof PacketPlaceBuilding) {
-					// TODO this packet is not used for buildings anymore. Use PacketStartConstruction instead
-					PacketPlaceBuilding ppb = (PacketPlaceBuilding) packet;
-					ServerBuilding building = ppb.building.getServerBuilding();
-					building.setFaction(faction);
-					if (getMap().canAddBuilding(ppb.posX, ppb.posY, building)) {
-						addBuilding(ppb.posX, ppb.posY, building);
-						Faction.broadcastAll(new PacketPlaceBuilding(ppb.building, faction, building.getID(), building.getPosX(), building.getPosY()));
-					}
-				} else if (packet instanceof PacketStartConstruction) {
-					PacketStartConstruction psc = (PacketStartConstruction) packet;
-					ServerBuilding building = psc.building.getServerBuilding();
-					building.setFaction(faction);
-
-					if (getMap().canAddBuilding(psc.posX, psc.posY, building)) {
-						// wrap in construction
-						Constructionsite constructionsite = new Constructionsite(building, psc.building.getBuildingCost());
-						addBuilding(psc.posX, psc.posY, constructionsite);
-						Faction.broadcastAll(new PacketStartConstruction(psc.building, faction, building.getID(), building.getPosX(), building.getPosY()));
-					}
-				}
-			}
-			for (Packet packet : faction.get(PacketList.ENTITIES)) {
+			for (Packet packet : faction.get(PacketList.WORLD)) {
 				if (packet instanceof PacketSpawnEntity) {
 					PacketSpawnEntity pse = (PacketSpawnEntity) packet;
 					ServerEntity entity = pse.entity.getServerEntity();
@@ -60,12 +42,21 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 						Faction.broadcastAll(new PacketSpawnEntity(pse.entity, faction, entity.getID(), entity.getPosition()));
 						entity.move(new Vector3f(1, entity.getPosition().getY(), 1));
 					}
-				} else if (packet instanceof PacketEntityGoalChanged) {
-					PacketEntityGoalChanged pegc = (PacketEntityGoalChanged) packet;
-					ServerEntity entity = (ServerEntity) getEntity(pegc.id);
-					// TODO check if movement is valid
-					entity.move(pegc.goal);
-				} else if (packet instanceof PacketCombatTargetSet) {
+				} else if (packet instanceof PacketStartConstruction) {
+					PacketStartConstruction psc = (PacketStartConstruction) packet;
+					ServerBuilding building = psc.building.getServerBuilding();
+					building.setFaction(faction);
+
+					if (getMap().canAddBuilding(psc.posX, psc.posY, building)) {
+						// wrap in construction
+						Constructionsite constructionsite = new Constructionsite(building, psc.building.getBuildingCost());
+						addBuilding(psc.posX, psc.posY, constructionsite);
+						Faction.broadcastAll(new PacketStartConstruction(psc.building, faction, building.getPosX(), building.getPosY(), building.getID()));
+					}
+				}
+
+				// TODO reimplement combat
+				/* else if (packet instanceof PacketCombatTargetSet) {
 					PacketCombatTargetSet pcts = (PacketCombatTargetSet) packet;
 					ServerEntity sourceEntity = (ServerEntity) getEntity(pcts.sourceID);
 					if (pcts.targetType == PacketCombatTargetSet.ENTITIY) {
@@ -74,6 +65,28 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 						// sourceEntity.attack(targetEntity.getFightingObject());
 					}
 
+				}*/
+			}
+
+			List<Packet> packets = faction.get(PacketList.ENTITIES);
+			for (Packet packet : packets) {
+				PacketEntity packetEntity = (PacketEntity) packet;
+				ServerEntity entity = getEntity(packetEntity.id);
+				if (entity.getFaction() == faction) {
+					getEntity(packetEntity.id).process(packetEntity);
+				} else {
+					System.out.println("HACKING!");
+				}
+			}
+
+			packets = faction.get(PacketList.BUILDINGS);
+			for (Packet packet : packets) {
+				PacketBuilding packetBuilding = (PacketBuilding) packet;
+				ServerBuilding building = getBuilding(packetBuilding.id);
+				if (building.getFaction() == faction) {
+					building.process(packetBuilding);
+				} else {
+					System.out.println("HACKING!");
 				}
 			}
 		}
@@ -99,7 +112,14 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 		player.getConnection().send(new PacketMap(getMap()));
 
 		for (ServerBuilding building : getBuildings()) {
-			player.getConnection().send(new PacketPlaceBuilding(BuildingType.fromServerClass(building.getClass()), building.getFaction(), building.getID(), building.getPosX(), building.getPosY()));
+			if (building instanceof Constructionsite) {
+				Constructionsite constructionsite = (Constructionsite) building;
+				BuildingType type = BuildingType.fromServerClass(constructionsite.getBuilding().getClass());
+				player.getConnection().send(new PacketStartConstruction(type, constructionsite.getFaction(), constructionsite.getPosX(), constructionsite.getPosY(), constructionsite.getID()));
+			} else {
+				BuildingType type = BuildingType.fromServerClass(building.getClass());
+				player.getConnection().send(new PacketSpawnBuilding(type, building.getFaction(), building.getPosX(), building.getPosY(), building.getID()));
+			}
 		}
 
 		for (ServerEntity entity : getEntities()) {
@@ -107,7 +127,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 			player.getConnection().send(new PacketSpawnEntity(EntityType.fromServerClass(serverEntity.getClass()), serverEntity.getFaction(), serverEntity.getID(), serverEntity.getPosition()));
 		}
 	}
-	
+
 	@Override
 	public void addEntity(ServerEntity entity) {
 		entity.setWorld(this);

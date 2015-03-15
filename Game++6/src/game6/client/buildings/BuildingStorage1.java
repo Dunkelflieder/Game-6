@@ -4,6 +4,8 @@ import game6.client.ObjectRenderer;
 import game6.client.buildings.guis.BuildingGuiStorage;
 import game6.client.world.World;
 import game6.core.buildings.CoreBuildingStorage1;
+import game6.core.networking.packets.buildings.PacketBuilding;
+import game6.core.networking.packets.buildings.PacketBuildingUpdateInventory;
 import de.nerogar.render.*;
 
 public class BuildingStorage1 extends CoreBuildingStorage1 implements ClientBuilding {
@@ -55,6 +57,15 @@ public class BuildingStorage1 extends CoreBuildingStorage1 implements ClientBuil
 	@Override
 	public void setWorld(World world) {
 		defaultBehaviour.setWorld(world);
+	}
+
+	@Override
+	public void process(PacketBuilding packet) {
+		ClientBuilding.super.process(packet);
+		if (packet instanceof PacketBuildingUpdateInventory) {
+			getResources().setResources(((PacketBuildingUpdateInventory) packet).resources);
+			getResources().setCapacity(((PacketBuildingUpdateInventory) packet).resources.getTotalCapacity());
+		}
 	}
 
 }

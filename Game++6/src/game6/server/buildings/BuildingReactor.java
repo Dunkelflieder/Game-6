@@ -3,8 +3,8 @@ package game6.server.buildings;
 import game6.core.ai.goalfinding.Path;
 import game6.core.buildings.CoreBuildingReactor;
 import game6.core.faction.Faction;
-import game6.core.networking.packets.PacketBuildingUpdate;
 import game6.core.networking.packets.PacketPowerSupply;
+import game6.core.networking.packets.buildings.PacketBuildingUpdate;
 import game6.server.world.World;
 
 import java.util.ArrayList;

@@ -33,7 +33,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	private SelectionMarker selectionMarker;
 
 	private Minimap minimap;
-
+	
 	public World(EffectContainer effectContainer) {
 		super(null);
 		this.effectContainer = effectContainer;
@@ -43,6 +43,10 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 		minimap = new Minimap();
 	}
 
+	public EffectContainer getEffectContainer() {
+		return effectContainer;
+	}
+	
 	public ClientBuilding getSelectedBuilding() {
 		return selectedBuilding;
 	}

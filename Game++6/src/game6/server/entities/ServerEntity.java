@@ -1,10 +1,13 @@
 package game6.server.entities;
 
+import game6.core.entities.CoreEntity;
+import game6.core.faction.Faction;
+import game6.core.networking.packets.entities.*;
+import game6.server.world.World;
+
 import java.util.List;
 
 import de.nerogar.util.Vector3f;
-import game6.core.entities.CoreEntity;
-import game6.server.world.World;
 
 public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 
@@ -12,11 +15,17 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 	default public void setPath(List<Vector3f> newPath) {
 		getPath().clear();
 		getPath().addAll(newPath);
-		// TODO network update path
+		Faction.broadcastAll(new PacketEntityUpdatePath(this));
 	}
 
 	public World getWorld();
 
 	public void setWorld(World world);
+	
+	default public void process(PacketEntity packet) {
+		if (packet instanceof PacketEntityMove) {
+			move(((PacketEntityMove) packet).position);
+		}
+	}
 
 }

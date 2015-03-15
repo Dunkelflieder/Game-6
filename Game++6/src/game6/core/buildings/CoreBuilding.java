@@ -2,6 +2,7 @@ package game6.core.buildings;
 
 import game6.core.engine.IDList.UniqueID;
 import game6.core.faction.Faction;
+import game6.core.networking.packets.buildings.PacketBuilding;
 import de.nerogar.util.Vector3f;
 
 public interface CoreBuilding extends UniqueID {
@@ -84,5 +85,7 @@ public interface CoreBuilding extends UniqueID {
 	 * @return true, if the building can receive energy and is not full. False otherwise.
 	 */
 	public boolean canReceiveEnergy();
+	
+	public void process(PacketBuilding packet);
 	
 }

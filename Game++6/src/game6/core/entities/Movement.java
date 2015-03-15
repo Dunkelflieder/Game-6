@@ -23,11 +23,11 @@ public interface Movement extends Positionable {
 		setTarget(target, stopDistanceSquared);
 		// TODO stop fight
 	}
-	
+
 	default public void move(Vector3f target) {
 		move(target, 0);
 	}
-	
+
 	public float getStopDistanceSquared();
 
 	default public boolean hasMovementGoal() {
@@ -112,6 +112,8 @@ public interface Movement extends Positionable {
 			teleportRelative(moveDelta);
 
 		}
+
+		updateRotation();
 
 	}
 

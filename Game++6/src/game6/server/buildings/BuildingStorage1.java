@@ -1,7 +1,7 @@
 package game6.server.buildings;
 
 import game6.core.buildings.CoreBuildingStorage1;
-import game6.core.networking.packets.PacketUpdateStorage;
+import game6.core.networking.packets.buildings.PacketBuildingUpdateInventory;
 import game6.core.util.Resource;
 import game6.server.world.World;
 
@@ -17,7 +17,7 @@ public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuil
 	}
 
 	private void resourcesChanged() {
-		getFaction().broadcast(new PacketUpdateStorage(getID(), getResources()));
+		getFaction().broadcast(new PacketBuildingUpdateInventory(getID(), getResources()));
 	}
 
 	@Override

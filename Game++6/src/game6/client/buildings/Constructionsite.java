@@ -4,6 +4,7 @@ import game6.client.ObjectRenderer;
 import game6.client.buildings.guis.BuildingGuiConstructionsite;
 import game6.client.world.World;
 import game6.core.buildings.CoreConstructionsite;
+import game6.core.networking.packets.buildings.*;
 import game6.core.util.ResourceContainer;
 import de.nerogar.render.*;
 
@@ -64,6 +65,17 @@ public class Constructionsite extends CoreConstructionsite<ClientBuilding> imple
 	public void setWorld(World world) {
 		defaultBehaviour.setWorld(world);
 		getBuilding().setWorld(world);
+	}
+	
+	@Override
+	public void process(PacketBuilding packet) {
+		ClientBuilding.super.process(packet);
+		if (packet instanceof PacketBuildingUpdateInventory) {
+			getCostRemaining().setResources(((PacketBuildingUpdateInventory) packet).resources);
+			getCostRemaining().setCapacity(((PacketBuildingUpdateInventory) packet).resources.getTotalCapacity());
+		} else if (packet instanceof PacketBuildingFinishConstruction) {
+			getWorld().finishConstructionsite(this);
+		}
 	}
 	
 }

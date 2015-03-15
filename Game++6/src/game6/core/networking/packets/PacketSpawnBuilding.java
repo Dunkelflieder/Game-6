@@ -7,22 +7,22 @@ import java.nio.ByteBuffer;
 
 import de.nerogar.network.packets.Packet;
 
-public class PacketPlaceBuilding extends Packet {
+public class PacketSpawnBuilding extends Packet {
 
 	public BuildingType building;
 	public Faction faction;
 	public long id;
 	public int posX, posY;
 
-	public PacketPlaceBuilding() {
+	public PacketSpawnBuilding() {
 	}
 
-	public PacketPlaceBuilding(BuildingType building, Faction faction, long id, int posX, int posY) {
+	public PacketSpawnBuilding(BuildingType building, Faction faction, int posX, int posY, long id) {
 		this.building = building;
 		this.faction = faction;
-		this.id = id;
 		this.posX = posX;
 		this.posY = posY;
+		this.id = id;
 	}
 
 	@Override

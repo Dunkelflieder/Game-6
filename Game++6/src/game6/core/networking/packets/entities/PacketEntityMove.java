@@ -1,25 +1,21 @@
-package game6.core.networking.packets;
+package game6.core.networking.packets.entities;
 
 import game6.core.entities.CoreEntity;
 
 import java.nio.ByteBuffer;
 
-import de.nerogar.network.packets.Packet;
 import de.nerogar.util.Vector3f;
 
-public class PacketEntityMoved extends Packet {
+public class PacketEntityMove extends PacketEntity {
 
-	public long id;
 	public Vector3f position;
-	public float rotation;
 
-	public PacketEntityMoved() {
+	public PacketEntityMove() {
 	}
 
-	public PacketEntityMoved(CoreEntity entity) {
-		this.id = entity.getID();
-		this.position = entity.getPosition();
-		this.rotation = entity.getRotation();
+	public PacketEntityMove(CoreEntity entity, Vector3f position) {
+		super(entity.getID());
+		this.position = position;
 	}
 
 	@Override
@@ -27,17 +23,15 @@ public class PacketEntityMoved extends Packet {
 		ByteBuffer buffer = ByteBuffer.wrap(data);
 		id = buffer.getLong();
 		position = new Vector3f(buffer.getFloat(), buffer.getFloat(), buffer.getFloat());
-		rotation = buffer.getFloat();
 	}
 
 	@Override
 	public byte[] toByteArray() {
-		ByteBuffer buffer = ByteBuffer.allocate(24);
+		ByteBuffer buffer = ByteBuffer.allocate(20);
 		buffer.putLong(id);
 		buffer.putFloat(position.getX());
 		buffer.putFloat(position.getY());
 		buffer.putFloat(position.getZ());
-		buffer.putFloat(rotation);
 		return buffer.array();
 	}
 
