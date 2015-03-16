@@ -2,6 +2,7 @@ package game6.client;
 
 import game6.client.effects.EffectContainer;
 import game6.client.effects.LightContainer;
+import game6.client.gui.GuiIngame;
 import game6.client.gui.Guis;
 import game6.client.sound.SoundManager;
 import game6.client.world.World;
@@ -44,9 +45,11 @@ public class Game extends BaseGame {
 		Camera camera = new Camera();
 		initProperties(camera);
 		world = new World(effectContainer);
-		controller = new Controller(world, camera, effectContainer);
+
+		controller = new Controller(world, camera, effectContainer, display);
 
 		Guis.init(display, controller);
+		GuiIngame.instance.reloadBuildingList(display);
 		// Trigger gui resize event once at startup
 		Guis.resize(Display.getWidth(), Display.getHeight());
 		// Trigger gui resize on display resize
@@ -95,7 +98,7 @@ public class Game extends BaseGame {
 		guiProperties.setRenderTarget(compositer.renderTargetGui);
 
 		compositer.camera = camera;
-		
+
 		compositionProperties = new ScreenProperties(0, true);
 		compositionProperties.setDepthTest(false);
 		compositionProperties.setScreenDimension(1280, 720);

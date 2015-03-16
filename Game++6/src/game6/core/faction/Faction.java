@@ -16,6 +16,8 @@ public enum Faction {
 	GREEN(3, new Color(0.1f, 1.0f, 0.3f, 1.0f)),
 	YELLOW(4, new Color(1.0f, 0.5f, 0.1f, 1.0f));
 
+	public static Faction own;
+
 	private int id;
 	private List<Player> players;
 
@@ -73,7 +75,7 @@ public enum Faction {
 		}
 	}
 
-	public List<Packet> get(int channelID) {
+	public List<Packet> getPackets(int channelID) {
 		List<Packet> packets = new ArrayList<>();
 		for (Player player : players) {
 			packets.addAll(player.getConnection().get(channelID));
@@ -112,6 +114,14 @@ public enum Faction {
 
 	public boolean isBuildingEnabled(BuildingType building) {
 		return buildableBuildings.contains(building);
+	}
+
+	public HashSet<BuildingType> getBuildableBuildings() {
+		return buildableBuildings;
+	}
+
+	public void setBuildableBuildings(HashSet<BuildingType> buildings) {
+		this.buildableBuildings = buildings;
 	}
 
 }

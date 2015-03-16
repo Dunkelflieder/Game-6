@@ -1,6 +1,5 @@
 package game6.client.gui;
 
-import game6.client.Controller;
 import game6.client.Game;
 import game6.client.buildings.ClientBuilding;
 import game6.client.entities.ClientEntity;
@@ -73,7 +72,7 @@ public class GuiIngame extends Gui {
 
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
 				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
-				//RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
+				// RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
 				RayIntersection intersection = IntersectionHelper.getIntersecting(world.getEntities(), mouseRay);
 				Vector2f mapIntersection = controller.getWorld().getMap().getIntersection(mouseRay);
 
@@ -163,6 +162,7 @@ public class GuiIngame extends Gui {
 			}
 		});
 
+		selectionPanel = new GPanelBuildingSelection(controller);
 		selectionPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public boolean mouseClicked(GComponent source, int button) {
@@ -180,6 +180,11 @@ public class GuiIngame extends Gui {
 		add(buttonBuilding);
 		add(buttonEntity);
 		add(minimap);
+		add(selectionPanel);
+	}
+
+	public void reloadBuildingList(GameDisplay display) {
+		selectionPanel.reloadBuildingList(display);
 	}
 
 	/**
@@ -207,13 +212,6 @@ public class GuiIngame extends Gui {
 
 		// Revert to the original pitch
 		controller.getCamera().setPitch(pitch);
-	}
-
-	@Override
-	public void init(GameDisplay display, Controller controller) {
-		selectionPanel = new GPanelBuildingSelection(display, controller);
-		add(selectionPanel);
-		super.init(display, controller);
 	}
 
 	@Override

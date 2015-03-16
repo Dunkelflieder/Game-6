@@ -5,6 +5,7 @@ import game6.client.buildings.Constructionsite;
 import game6.client.effects.EffectContainer;
 import game6.client.effects.Lightning;
 import game6.client.entities.ClientEntity;
+import game6.client.gui.GuiIngame;
 import game6.client.sound.SoundContext;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
@@ -24,6 +25,7 @@ import de.nerogar.network.Packets;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.network.packets.PacketConnectionInfo;
 import de.nerogar.render.Camera;
+import de.nerogar.render.GameDisplay;
 import de.nerogar.util.InputHandler;
 import de.nerogar.util.Vector3f;
 
@@ -32,6 +34,8 @@ public class Controller {
 	private InputHandler inputHandler;
 	private Connection connection;
 
+	private GameDisplay display;
+
 	// TODO public for now. change later
 	public SoundContext soundMain;
 	public SoundContext soundMusic;
@@ -39,17 +43,13 @@ public class Controller {
 
 	private World world;
 	private Camera camera;
-	private Faction faction;
 
-	public Controller(World world, Camera camera, EffectContainer effects) {
+	public Controller(World world, Camera camera, EffectContainer effects, GameDisplay display) {
 		this.world = world;
 		this.camera = camera;
+		this.display = display;
 		this.inputHandler = new InputHandler();
 		init();
-	}
-
-	public Faction getFaction() {
-		return faction;
 	}
 
 	public World getWorld() {
@@ -114,14 +114,14 @@ public class Controller {
 		if (isConnected()) {
 			// Instead, use PacketStartConstruction!
 			// connection.send(new PacketPlaceBuilding(type, faction, -1, posX, posY));
-			connection.send(new PacketStartConstruction(type, faction, posX, posY, -1));
+			connection.send(new PacketStartConstruction(type, Faction.own, posX, posY, -1));
 		}
 	}
 
 	// TODO debug method
 	public void requestEntity(EntityType type, Vector3f position) {
 		if (isConnected()) {
-			connection.send(new PacketSpawnEntity(type, faction, -1, position));
+			connection.send(new PacketSpawnEntity(type, Faction.own, -1, position));
 		}
 	}
 
@@ -154,7 +154,7 @@ public class Controller {
 			for (Packet packet : packets) {
 				if (packet instanceof PacketPlayerInfo) {
 					PacketPlayerInfo packetInfo = (PacketPlayerInfo) packet;
-					faction = packetInfo.faction;
+					Faction.own = packetInfo.faction;
 				} else if (packet instanceof PacketMap) {
 					PacketMap packetMap = (PacketMap) packet;
 					world.setMap(packetMap.getClientMap());
@@ -190,9 +190,8 @@ public class Controller {
 			for (Packet packet : packets) {
 				if (packet instanceof PacketEnabledBuildingsList) {
 					PacketEnabledBuildingsList pebl = (PacketEnabledBuildingsList) packet;
-					for (BuildingType building : pebl.buildings) {
-						System.out.println(building);
-					}
+					Faction.own.setBuildableBuildings(pebl.buildings);
+					GuiIngame.instance.reloadBuildingList(display);
 				}
 			}
 

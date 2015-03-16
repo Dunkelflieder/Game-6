@@ -29,7 +29,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 		// check for building placement request.
 		// TODO this is sample code btw.
 		for (Faction faction : Faction.values()) {
-			for (Packet packet : faction.get(PacketList.WORLD)) {
+			for (Packet packet : faction.getPackets(PacketList.WORLD)) {
 				if (packet instanceof PacketSpawnEntity) {
 					PacketSpawnEntity pse = (PacketSpawnEntity) packet;
 					ServerEntity entity = pse.entity.getServerEntity();
@@ -66,7 +66,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 				}*/
 			}
 
-			List<Packet> packets = faction.get(PacketList.ENTITIES);
+			List<Packet> packets = faction.getPackets(PacketList.ENTITIES);
 			for (Packet packet : packets) {
 				PacketUniqueID packetEntity = (PacketUniqueID) packet;
 				ServerEntity entity = getEntity(packetEntity.id);
@@ -77,7 +77,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 				}
 			}
 
-			packets = faction.get(PacketList.BUILDINGS);
+			packets = faction.getPackets(PacketList.BUILDINGS);
 			for (Packet packet : packets) {
 				PacketUniqueID packetBuilding = (PacketUniqueID) packet;
 				ServerBuilding building = getBuilding(packetBuilding.id);

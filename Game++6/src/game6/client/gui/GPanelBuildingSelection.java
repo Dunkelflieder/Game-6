@@ -27,7 +27,7 @@ public class GPanelBuildingSelection extends GPanel {
 	private GImage buildingBackground;
 	private GImage buildingHighlight;
 
-	public GPanelBuildingSelection(GameDisplay display, Controller controller) {
+	public GPanelBuildingSelection(Controller controller) {
 
 		this.controller = controller;
 
@@ -58,7 +58,13 @@ public class GPanelBuildingSelection extends GPanel {
 
 		add(buildingBackground);
 		add(buildingHighlight);
+	}
 
+	public void reloadBuildingList(GameDisplay display) {
+		buildings.clear();
+		removeAll();
+		add(buildingBackground);
+		add(buildingHighlight);
 		for (BuildingType type : BuildingType.values()) {
 			GBuildingIcon gBuilding = new GBuildingIcon(display, type);
 			buildings.add(gBuilding);
