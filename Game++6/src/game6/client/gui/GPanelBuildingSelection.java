@@ -19,7 +19,7 @@ public class GPanelBuildingSelection extends GPanel {
 
 	private Controller controller;
 
-	private List<GBuildingIcon> buildings;
+	private List<GBuildingIcon> buildingIcons;
 	private BuildingType selectedBuilding;
 	private ClientBuilding buildingPreview;
 
@@ -30,7 +30,7 @@ public class GPanelBuildingSelection extends GPanel {
 
 		this.controller = controller;
 
-		buildings = new ArrayList<>();
+		buildingIcons = new ArrayList<>();
 
 		buildingBackground = new GImage("res/gui/ingameBuildings.png");
 		buildingBackground.setPos(0, 0);
@@ -60,13 +60,13 @@ public class GPanelBuildingSelection extends GPanel {
 	}
 
 	public void reloadBuildingList() {
-		buildings.clear();
+		buildingIcons.clear();
 		removeAll();
 		add(buildingBackground);
 		add(buildingHighlight);
 		for (BuildingType type : Faction.own.getBuildableBuildings()) {
 			GBuildingIcon gBuilding = new GBuildingIcon(type);
-			buildings.add(gBuilding);
+			buildingIcons.add(gBuilding);
 			add(gBuilding);
 			gBuilding.addClickedListener(source -> {
 				selectBuilding(((GBuildingIcon) source).getBuildingType());
@@ -99,7 +99,7 @@ public class GPanelBuildingSelection extends GPanel {
 		if (selectedBuilding == null) {
 			buildingHighlight.setPos(-9999, -9999);
 		} else {
-			for (GBuildingIcon building : buildings) {
+			for (GBuildingIcon building : buildingIcons) {
 				if (building.getBuildingType() == selectedBuilding) {
 					buildingHighlight.setPos(building.getPosX() - 5, building.getPosY() - 5);
 					return;
@@ -126,8 +126,8 @@ public class GPanelBuildingSelection extends GPanel {
 	 * Resizes the panel's components to match it's bounds.
 	 */
 	public void resize() {
-		for (int index = 0; index < buildings.size(); index++) {
-			GBuildingIcon building = buildings.get(index);
+		for (int index = 0; index < buildingIcons.size(); index++) {
+			GBuildingIcon building = buildingIcons.get(index);
 			building.setSize(64, 64);
 			building.setPos(getPositionXForIndex(index), getPositionYForIndex(index));
 		}
