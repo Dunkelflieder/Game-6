@@ -176,10 +176,10 @@ public class GuiIngame extends Gui {
 		minimap.setPos(8, 8);
 		minimap.setSize(256, 256);
 
+		add(selectionPanel);
 		add(buttonBuilding);
 		add(buttonEntity);
 		add(minimap);
-		add(selectionPanel);
 	}
 
 	public void reloadBuildingList() {

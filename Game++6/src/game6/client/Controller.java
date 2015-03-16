@@ -191,12 +191,6 @@ public class Controller {
 				}
 			}
 
-			for (Entry<LightningLine, Integer> entry : lightnings.entrySet()) {
-				ClientBuilding building1 = getWorld().getBuilding(entry.getKey().a);
-				ClientBuilding building2 = getWorld().getBuilding(entry.getKey().b);
-				world.getEffectContainer().addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
-			}
-
 			packets = connection.get(PacketList.WORLD);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketSpawnEntity) {
@@ -248,16 +242,32 @@ public class Controller {
 				}*/
 			}
 
+			for (Entry<LightningLine, Integer> entry : lightnings.entrySet()) {
+				ClientBuilding building1 = getWorld().getBuilding(entry.getKey().a);
+				ClientBuilding building2 = getWorld().getBuilding(entry.getKey().b);
+				world.getEffectContainer().addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
+			}
+
 			packets = connection.get(PacketList.ENTITIES);
 			for (Packet packet : packets) {
-				PacketUniqueID packetEntity = (PacketUniqueID) packet;
-				getWorld().getEntity(packetEntity.id).process(packetEntity);
+				PacketUniqueID packetUniqueID = (PacketUniqueID) packet;
+				ClientEntity entity = getWorld().getEntity(packetUniqueID.id);
+				if (entity == null) {
+					System.err.println("Received packet <" + packet + "> for non-existent entity #" + packetUniqueID.id);
+				} else {
+					entity.process(packetUniqueID);
+				}
 			}
 
 			packets = connection.get(PacketList.BUILDINGS);
 			for (Packet packet : packets) {
-				PacketUniqueID packetBuilding = (PacketUniqueID) packet;
-				getWorld().getBuilding(packetBuilding.id).process(packetBuilding);
+				PacketUniqueID packetUniqueID = (PacketUniqueID) packet;
+				ClientBuilding building = getWorld().getBuilding(packetUniqueID.id);
+				if (building == null) {
+					System.err.println("Received packet <" + packet + "> for non-existent building #" + packetUniqueID.id);
+				} else {
+					building.process(packetUniqueID);
+				}
 			}
 		}
 
