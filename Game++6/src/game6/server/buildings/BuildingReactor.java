@@ -30,6 +30,7 @@ public class BuildingReactor extends CoreBuildingReactor implements ServerBuildi
 
 	@Override
 	public void update(float timeDelta) {
+		super.update(timeDelta);
 		tick++;
 
 		// Each cooldown-period start emitting energy

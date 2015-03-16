@@ -26,6 +26,8 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 
 	@Override
 	public void update(float timeDelta) {
+		super.update(timeDelta);
+		
 		// check for building placement request.
 		// TODO this is sample code btw.
 		for (Faction faction : Faction.values()) {
@@ -88,8 +90,6 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 				}
 			}
 		}
-
-		super.update(timeDelta);
 	}
 
 	@Override

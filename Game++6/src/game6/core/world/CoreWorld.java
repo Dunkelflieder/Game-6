@@ -68,7 +68,7 @@ public abstract class CoreWorld<B extends CoreBuilding, E extends CoreEntity> im
 	}
 
 	public void finishConstructionsite(CoreConstructionsite<B> constructionsite) {
-		map.finishConstructionsize(constructionsite);
+		map.finishConstructionsite(constructionsite);
 		buildings.replace(constructionsite.getID(), constructionsite.getBuilding());
 	}
 

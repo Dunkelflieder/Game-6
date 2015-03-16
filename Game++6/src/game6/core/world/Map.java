@@ -41,7 +41,7 @@ public class Map<T extends CoreBuilding> {
 		pathfinder.update(this, building.getPosX(), building.getPosY(), building.getPosX() + building.getSizeX(), building.getPosY() + building.getSizeY());
 	}
 
-	public void finishConstructionsize(CoreConstructionsite<T> constructionsite) {
+	public void finishConstructionsite(CoreConstructionsite<T> constructionsite) {
 		for (int x = constructionsite.getPosX(); x < constructionsite.getPosX() + constructionsite.getSizeX(); x++) {
 			for (int y = constructionsite.getPosY(); y < constructionsite.getPosY() + constructionsite.getSizeY(); y++) {
 				buildingMap[x][y] = constructionsite.getBuilding();

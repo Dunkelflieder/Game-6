@@ -32,6 +32,7 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 
 	@Override
 	public void update(float timeDelta) {
+		super.update(timeDelta);
 		if (isFinished()) {
 			getWorld().finishConstructionsite(this);
 			Faction.broadcastAll(new PacketBuildingFinishConstruction(getID()));

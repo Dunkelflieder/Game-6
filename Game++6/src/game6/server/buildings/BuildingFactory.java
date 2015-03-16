@@ -18,6 +18,7 @@ public class BuildingFactory extends CoreBuildingFactory implements ServerBuildi
 
 	@Override
 	public void update(float timeDelta) {
+		super.update(timeDelta);
 		if (subtractEnergy(3) != 3) {
 			getFaction().broadcast(new PacketBuildingUpdate(this));
 		}
