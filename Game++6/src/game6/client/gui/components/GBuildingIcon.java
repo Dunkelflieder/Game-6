@@ -1,14 +1,12 @@
 package game6.client.gui.components;
 
-import game6.client.buildings.BuildingImageRenderer;
+import game6.client.gui.BuildingIconTextures;
 import game6.client.gui.listener.ClickedListener;
 import game6.client.gui.listener.MouseListener;
 import game6.core.buildings.BuildingType;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.nerogar.render.GameDisplay;
 
 /**
  * Gui-Component, that renders a Building-Type as an Image.
@@ -23,9 +21,9 @@ public class GBuildingIcon extends GComponent implements MouseListener {
 	private GImage image;
 	private BuildingType type;
 
-	public GBuildingIcon(GameDisplay display, BuildingType type) {
+	public GBuildingIcon(BuildingType type) {
 		this.type = type;
-		image = new GImage(BuildingImageRenderer.render(display, type.getClientBuilding(0)));
+		image = new GImage(BuildingIconTextures.get(type));
 	}
 
 	public BuildingType getBuildingType() {

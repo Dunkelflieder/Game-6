@@ -14,7 +14,6 @@ import game6.core.world.RayIntersection;
 
 import org.lwjgl.input.Keyboard;
 
-import de.nerogar.render.GameDisplay;
 import de.nerogar.util.*;
 
 /**
@@ -183,8 +182,8 @@ public class GuiIngame extends Gui {
 		add(selectionPanel);
 	}
 
-	public void reloadBuildingList(GameDisplay display) {
-		selectionPanel.reloadBuildingList(display);
+	public void reloadBuildingList() {
+		selectionPanel.reloadBuildingList();
 	}
 
 	/**

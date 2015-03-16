@@ -42,6 +42,10 @@ public enum Faction {
 		enableBuilding(BuildingType.REACTOR);
 		enableBuilding(BuildingType.RESEARCH);
 		enableBuilding(BuildingType.FACTORY);
+		enableBuilding(BuildingType.LIVING1);
+		enableBuilding(BuildingType.STORAGE);
+		enableBuilding(BuildingType.TOWER);
+		enableBuilding(BuildingType.ENERGY1);
 	}
 
 	public void addPlayer(Player player) {

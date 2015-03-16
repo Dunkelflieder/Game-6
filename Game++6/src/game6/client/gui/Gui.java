@@ -11,8 +11,6 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import de.nerogar.render.GameDisplay;
-
 public abstract class Gui {
 
 	protected Controller controller;
@@ -29,7 +27,7 @@ public abstract class Gui {
 
 	public abstract void initComponents();
 
-	public void init(GameDisplay display, Controller controller) {
+	public void init(Controller controller) {
 		this.controller = controller;
 		initComponents();
 	}

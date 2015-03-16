@@ -1,7 +1,6 @@
 package game6.client.gui;
 
 import game6.client.Controller;
-import de.nerogar.render.GameDisplay;
 
 /**
  * Basically the static Gui-Manager class. Contains all GUIs and offers method to select another GUI
@@ -21,9 +20,9 @@ public enum Guis {
 		this.gui = gui;
 	}
 
-	public static void init(GameDisplay display, Controller controller) {
+	public static void init(Controller controller) {
 		for (Guis gui : values()) {
-			gui.getGui().init(display, controller);
+			gui.getGui().init(controller);
 		}
 	}
 

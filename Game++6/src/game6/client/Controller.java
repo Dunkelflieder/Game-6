@@ -25,7 +25,6 @@ import de.nerogar.network.Packets;
 import de.nerogar.network.packets.Packet;
 import de.nerogar.network.packets.PacketConnectionInfo;
 import de.nerogar.render.Camera;
-import de.nerogar.render.GameDisplay;
 import de.nerogar.util.InputHandler;
 import de.nerogar.util.Vector3f;
 
@@ -33,8 +32,6 @@ public class Controller {
 
 	private InputHandler inputHandler;
 	private Connection connection;
-
-	private GameDisplay display;
 
 	// TODO public for now. change later
 	public SoundContext soundMain;
@@ -44,10 +41,9 @@ public class Controller {
 	private World world;
 	private Camera camera;
 
-	public Controller(World world, Camera camera, EffectContainer effects, GameDisplay display) {
+	public Controller(World world, Camera camera, EffectContainer effects) {
 		this.world = world;
 		this.camera = camera;
-		this.display = display;
 		this.inputHandler = new InputHandler();
 		init();
 	}
@@ -191,7 +187,7 @@ public class Controller {
 				if (packet instanceof PacketEnabledBuildingsList) {
 					PacketEnabledBuildingsList pebl = (PacketEnabledBuildingsList) packet;
 					Faction.own.setBuildableBuildings(pebl.buildings);
-					GuiIngame.instance.reloadBuildingList(display);
+					GuiIngame.instance.reloadBuildingList();
 				}
 			}
 

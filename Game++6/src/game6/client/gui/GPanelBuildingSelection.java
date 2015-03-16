@@ -5,11 +5,10 @@ import game6.client.buildings.ClientBuilding;
 import game6.client.gui.components.*;
 import game6.client.gui.listener.MouseAdapter;
 import game6.core.buildings.BuildingType;
+import game6.core.faction.Faction;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.nerogar.render.GameDisplay;
 
 /**
  * Panel, that contains a set of building which can be selected
@@ -60,19 +59,20 @@ public class GPanelBuildingSelection extends GPanel {
 		add(buildingHighlight);
 	}
 
-	public void reloadBuildingList(GameDisplay display) {
+	public void reloadBuildingList() {
 		buildings.clear();
 		removeAll();
 		add(buildingBackground);
 		add(buildingHighlight);
-		for (BuildingType type : BuildingType.values()) {
-			GBuildingIcon gBuilding = new GBuildingIcon(display, type);
+		for (BuildingType type : Faction.own.getBuildableBuildings()) {
+			GBuildingIcon gBuilding = new GBuildingIcon(type);
 			buildings.add(gBuilding);
 			add(gBuilding);
 			gBuilding.addClickedListener(source -> {
 				selectBuilding(((GBuildingIcon) source).getBuildingType());
 			});
 		}
+		resize();
 	}
 
 	public BuildingType getBuilding() {
