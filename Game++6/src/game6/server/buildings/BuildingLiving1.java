@@ -16,10 +16,6 @@ public class BuildingLiving1 extends CoreBuildingLiving1 implements ServerBuildi
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public World getWorld() {
 		return defaultBehaviour.getWorld();
 	}

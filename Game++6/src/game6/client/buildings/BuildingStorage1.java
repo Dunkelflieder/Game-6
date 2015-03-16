@@ -41,10 +41,6 @@ public class BuildingStorage1 extends CoreBuildingStorage1 implements ClientBuil
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public BuildingGuiStorage getGui() {
 		return gui;
 	}

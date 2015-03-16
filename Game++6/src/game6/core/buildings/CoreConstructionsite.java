@@ -14,7 +14,7 @@ public abstract class CoreConstructionsite<T extends CoreBuilding> extends Defau
 	private ResourceContainer constructionCost;
 
 	public CoreConstructionsite(T building, ResourceContainer constructionCost) {
-		super(building.getID(), 1, 1, 0, 0);
+		super(building.getID(), 1, 1, 0, 0, 100);
 		this.building = building;
 		this.constructionCost = constructionCost.clone();
 		setFaction(building.getFaction());

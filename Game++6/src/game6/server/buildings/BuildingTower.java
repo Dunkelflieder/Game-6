@@ -16,10 +16,6 @@ public class BuildingTower extends CoreBuildingTower implements ServerBuilding {
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public World getWorld() {
 		return defaultBehaviour.getWorld();
 	}

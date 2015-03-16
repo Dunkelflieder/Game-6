@@ -39,10 +39,6 @@ public class BuildingRock extends CoreBuildingRock implements ClientBuilding {
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public BuildingGuiDefault getGui() {
 		return gui;
 	}

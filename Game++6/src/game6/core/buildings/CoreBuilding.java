@@ -1,11 +1,14 @@
 package game6.core.buildings;
 
-import game6.core.engine.IDList.UniqueID;
 import game6.core.faction.Faction;
+import game6.core.interfaces.IHealth;
 import game6.core.networking.packets.buildings.PacketBuilding;
+import game6.core.world.Removable;
+import game6.core.world.Updateable;
+import game6.core.world.IDList.UniqueID;
 import de.nerogar.util.Vector3f;
 
-public interface CoreBuilding extends UniqueID {
+public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable {
 
 	public void init();
 
@@ -34,11 +37,6 @@ public interface CoreBuilding extends UniqueID {
 	 * @param posY y-Position on the map
 	 */
 	public void setPosY(int posY);
-
-	/**
-	 * Basic update function. If used for network events, then should be overwritten in server class.
-	 */
-	public void update();
 
 	/**
 	 * Returns a human-readable name for this building. Not for actual use, mostly debugging.
@@ -85,7 +83,11 @@ public interface CoreBuilding extends UniqueID {
 	 * @return true, if the building can receive energy and is not full. False otherwise.
 	 */
 	public boolean canReceiveEnergy();
-	
+
 	public void process(PacketBuilding packet);
 	
+	@Override
+	default void update(float timeDelta) {
+	}
+
 }

@@ -39,10 +39,6 @@ public class BuildingTower extends CoreBuildingTower implements ClientBuilding {
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public BuildingGuiDefault getGui() {
 		return gui;
 	}

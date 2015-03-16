@@ -1,13 +1,13 @@
 package game6.core.entities;
 
 import game6.core.ai.pathfinding.Pathfinder;
-import game6.core.engine.Positionable;
+import game6.core.interfaces.IPosition;
 
 import java.util.List;
 
 import de.nerogar.util.Vector3f;
 
-public interface Movement extends Positionable {
+public interface Movement extends IPosition {
 
 	List<Vector3f> getPathTo(Vector3f target);
 

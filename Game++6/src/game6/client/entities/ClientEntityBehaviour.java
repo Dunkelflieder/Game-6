@@ -13,7 +13,9 @@ public interface ClientEntityBehaviour {
 	public World getWorld();
 
 	public void setWorld(World world);
-	
+
 	public float getVisibleRotation();
+
+	public void setVisibleRotation(float rotation);
 
 }

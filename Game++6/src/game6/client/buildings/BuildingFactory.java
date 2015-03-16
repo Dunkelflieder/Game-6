@@ -39,10 +39,6 @@ public class BuildingFactory extends CoreBuildingFactory implements ClientBuildi
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public BuildingGuiEnergy getGui() {
 		return gui;
 	}

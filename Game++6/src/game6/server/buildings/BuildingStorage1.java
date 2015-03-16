@@ -25,7 +25,7 @@ public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuil
 	}
 
 	@Override
-	public void update() {
+	public void update(float timeDelta) {
 		tick++;
 
 		// TODO testing. remove later.

@@ -1,4 +1,4 @@
-package game6.core.engine;
+package game6.core.interfaces;
 
 import de.nerogar.util.Vector3f;
 

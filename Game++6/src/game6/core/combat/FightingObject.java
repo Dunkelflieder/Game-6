@@ -1,56 +1,26 @@
 package game6.core.combat;
 
+import game6.core.interfaces.ICombat;
+import game6.core.interfaces.IHealth;
 import de.nerogar.util.Vector3f;
 
-public class FightingObject {
-
-	private int maxHealth;
-	private int health;
-	private float reach;
+public abstract class FightingObject implements IHealth, ICombat {
 
 	private Vector3f position;
 	private FightingObject target;
 
-	private DieEvent dieEvent;
 	private AttackEvent attackEvent;
 
-	public FightingObject(int maxHealth, Vector3f position, DieEvent dieEvent) {
-		this.health = maxHealth;
+	public FightingObject(int maxHealth, Vector3f position) {
 		this.position = position;
-		this.dieEvent = dieEvent;
 	}
 
 	public void update() {
+		int reach = 0; // get rid of compile error
 		if (attackEvent != null && target != null && target.getPosition().subtracted(getPosition()).getSquaredValue() <= reach * reach) {
 			if (target.isDead()) target = null;
 			attackEvent.onAttack(target);
 		}
-	}
-
-	public void heal(int healAmount) {
-		health += healAmount;
-
-		if (health > maxHealth) health = maxHealth;
-	}
-
-	public void damage(int damage) {
-		health -= damage;
-
-		if (isDead()) {
-			dieEvent.onDie();
-		}
-	}
-
-	public boolean isDead() {
-		return health <= 0;
-	}
-
-	public int getMaxhealth() {
-		return maxHealth;
-	}
-
-	public int getHealth() {
-		return health;
 	}
 
 	public Vector3f getPosition() {
@@ -59,18 +29,6 @@ public class FightingObject {
 
 	public void setTarget(FightingObject target) {
 		this.target = target;
-	}
-
-	public FightingObject getTarget() {
-		return target;
-	}
-
-	public void setReach(float reach) {
-		this.reach = reach;
-	}
-
-	public float getReach() {
-		return reach;
 	}
 
 	public void setAttackEvent(AttackEvent attackEvent) {

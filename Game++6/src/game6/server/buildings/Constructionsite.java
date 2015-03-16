@@ -16,7 +16,7 @@ import game6.server.world.World;
 public class Constructionsite extends CoreConstructionsite<ServerBuilding> implements ServerBuilding {
 
 	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
-	
+
 	public Constructionsite(ServerBuilding building, ResourceContainer constructionCost) {
 		super(building, constructionCost);
 		getCostRemaining().setChangeCallback(this::remainingCostChanged);
@@ -31,7 +31,7 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 	}
 
 	@Override
-	public void update() {
+	public void update(float timeDelta) {
 		if (isFinished()) {
 			getWorld().finishConstructionsite(this);
 			Faction.broadcastAll(new PacketBuildingFinishConstruction(getID()));
@@ -43,7 +43,7 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 			getCostRemaining().removeResource(Resource.METAL, 1);
 		}
 	}
-	
+
 	@Override
 	public World getWorld() {
 		return defaultBehaviour.getWorld();
@@ -54,5 +54,5 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 		defaultBehaviour.setWorld(world);
 		getBuilding().setWorld(world);
 	}
-	
+
 }

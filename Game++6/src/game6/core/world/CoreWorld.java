@@ -4,7 +4,6 @@ import game6.core.ai.goalfinding.Goalfinder;
 import game6.core.ai.goalfinding.Path;
 import game6.core.buildings.CoreBuilding;
 import game6.core.buildings.CoreConstructionsite;
-import game6.core.engine.IDList;
 import game6.core.entities.CoreEntity;
 
 import java.util.Iterator;
@@ -17,18 +16,18 @@ public abstract class CoreWorld<B extends CoreBuilding, E extends CoreEntity> im
 
 	private IDList<E> entities;
 	private IDList<B> buildings;
-	
+
 	public CoreWorld(Map<B> map) {
 		setMap(map);
 		this.goalfinder = new Goalfinder(this);
-		
+
 		buildings = new IDList<>();
 		entities = new IDList<>();
 	}
 
 	@Override
 	public void update(float timeDelta) {
-		
+
 		for (Iterator<E> iter = entities.iterator(); iter.hasNext();) {
 			E entity = iter.next();
 			if (entity.isRemovalMarked()) {
@@ -37,16 +36,22 @@ public abstract class CoreWorld<B extends CoreBuilding, E extends CoreEntity> im
 				entity.update(timeDelta);
 			}
 		}
-		
-		for (B building : buildings) {
-			building.update();
+
+		for (Iterator<B> iter = buildings.iterator(); iter.hasNext();) {
+			B building = iter.next();
+			if (building.isRemovalMarked()) {
+				iter.remove();
+			} else {
+				building.update(timeDelta);
+			}
 		}
+
 	}
 	
 	public void addEntity(E entity) {
 		entities.add(entity);
 	}
-	
+
 	public Map<B> getMap() {
 		return map;
 	}
@@ -74,11 +79,11 @@ public abstract class CoreWorld<B extends CoreBuilding, E extends CoreEntity> im
 	public IDList<B> getBuildings() {
 		return buildings;
 	}
-	
+
 	public E getEntity(long id) {
 		return entities.get(id);
 	}
-	
+
 	public IDList<E> getEntities() {
 		return entities;
 	}
@@ -90,11 +95,11 @@ public abstract class CoreWorld<B extends CoreBuilding, E extends CoreEntity> im
 	public void unloadMap() {
 		setMap(null);
 	}
-	
+
 	public void cleanup() {
 		unloadMap();
 		entities.clear();
 		buildings.clear();
 	}
-	
+
 }

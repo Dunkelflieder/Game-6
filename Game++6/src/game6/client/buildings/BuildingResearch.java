@@ -39,10 +39,6 @@ public class BuildingResearch extends CoreBuildingResearch implements ClientBuil
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public BuildingGuiEnergy getGui() {
 		return gui;
 	}

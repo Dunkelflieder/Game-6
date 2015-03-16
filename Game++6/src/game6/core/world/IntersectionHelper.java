@@ -1,6 +1,5 @@
 package game6.core.world;
 
-import game6.core.engine.IDList;
 import game6.core.entities.CoreEntity;
 import de.nerogar.util.Ray;
 import de.nerogar.util.Vector3f;

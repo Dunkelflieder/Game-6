@@ -3,7 +3,7 @@ package game6.core.buildings;
 public abstract class CoreBuildingEnergy1 extends DefaultCoreBuilding {
 
 	public CoreBuildingEnergy1(long id) {
-		super(id, 2, 2, 50, 0);
+		super(id, 2, 2, 50, 0, 100);
 	}
 
 	public String getName() {

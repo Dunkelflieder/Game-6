@@ -14,8 +14,12 @@ public abstract class DefaultCoreBuilding implements CoreBuilding {
 	private int range;
 
 	private Faction faction;
+	private boolean removalMarked;
 
-	public DefaultCoreBuilding(long id, int sizeX, int sizeY, int maxEnergy, int range) {
+	private int health;
+	private int maxHealth;
+
+	public DefaultCoreBuilding(long id, int sizeX, int sizeY, int maxEnergy, int range, int maxHealth) {
 		init();
 		if (id > MAX_ID) {
 			MAX_ID = id;
@@ -27,13 +31,12 @@ public abstract class DefaultCoreBuilding implements CoreBuilding {
 		this.posY = 0;
 		this.maxEnergy = maxEnergy;
 		this.range = range;
+		this.maxHealth = maxHealth;
+		this.health = maxHealth;
 	}
 
 	public abstract void init();
 
-	/**
-	 * @return Unique Building-ID of this instance
-	 */
 	public long getID() {
 		return id;
 	}
@@ -58,11 +61,6 @@ public abstract class DefaultCoreBuilding implements CoreBuilding {
 		return new Vector3f(getPosX() + 0.5f * getSizeX(), 0.5f, getPosY() + 0.5f * getSizeY());
 	}
 
-	/**
-	 * Sets the x-position of this building on the map.
-	 * Is or should be used while this instance is added to the map.
-	 * @param posX x-Position on the map
-	 */
 	public void setPosX(int posX) {
 		this.posX = posX;
 	}
@@ -71,38 +69,16 @@ public abstract class DefaultCoreBuilding implements CoreBuilding {
 		return posY;
 	}
 
-	/**
-	 * Sets the y-position of this building on the map.
-	 * Is or should be used while this instance is added to the map.
-	 * @param posY y-Position on the map
-	 */
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
 
-	/**
-	 * Updates the logic and can cause (network) events, that are added to the supplied list
-	 */
-	public abstract void update();
-
-	/**
-	 * Returns a human-readable name for this building. Not for actual use, mostly debugging.
-	 * @return String with human readable name
-	 */
 	public abstract String getName();
 
-	/**
-	 * Returns the current energy this building has.
-	 * @return energy
-	 */
 	public int getEnergy() {
 		return energy;
 	}
 
-	/**
-	 * Fixes energy overflowing over the max. Caps energy at max.
-	 * @return The amount of energy that was overflowing or 0 if none was overflowing;
-	 */
 	private int getEnergyOverflow() {
 		if (this.energy > maxEnergy) {
 			int overflow = this.energy - maxEnergy;
@@ -129,21 +105,11 @@ public abstract class DefaultCoreBuilding implements CoreBuilding {
 		this.energy = energy;
 	}
 
-	/**
-	 * Adds energy to the building
-	 * @param energy added energy
-	 * @return amount of energy that was not added due to overflowing
-	 */
 	public int addEnergy(int energy) {
 		this.energy += energy;
 		return getEnergyOverflow();
 	}
 
-	/**
-	 * Subtracts energy from the building
-	 * @param energy subtracted energy
-	 * @return amount of energy that was not subtracted due to underflowing
-	 */
 	public int subtractEnergy(int energy) {
 		this.energy -= energy;
 		return getEnergyUnderflow();
@@ -157,10 +123,6 @@ public abstract class DefaultCoreBuilding implements CoreBuilding {
 		this.maxEnergy = maxEnergy;
 	}
 
-	/**
-	 * Sets the faction this building belongs to.
-	 * @param faction Faction-enum
-	 */
 	public void setFaction(Faction faction) {
 		this.faction = faction;
 	}
@@ -169,21 +131,38 @@ public abstract class DefaultCoreBuilding implements CoreBuilding {
 		return faction;
 	}
 
-	/**
-	 * Returns the next unique-Instance-ID.
-	 * @return unique building-instance-ID
-	 */
 	protected static long getNextID() {
 		MAX_ID++;
 		return MAX_ID;
 	}
 
-	/**
-	 * Returns whether the building can receive energy or not.
-	 * @return true, if the building can receive energy and is not full. False otherwise.
-	 */
 	public boolean canReceiveEnergy() {
 		return energy < maxEnergy;
 	}
-	
+
+	@Override
+	public void remove() {
+		removalMarked = true;
+	}
+
+	@Override
+	public boolean isRemovalMarked() {
+		return removalMarked;
+	}
+
+	@Override
+	public int getHealth() {
+		return health;
+	}
+
+	@Override
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	@Override
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
 }

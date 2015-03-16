@@ -39,10 +39,6 @@ public class BuildingLiving1 extends CoreBuildingLiving1 implements ClientBuildi
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public BuildingGuiEnergy getGui() {
 		return gui;
 	}

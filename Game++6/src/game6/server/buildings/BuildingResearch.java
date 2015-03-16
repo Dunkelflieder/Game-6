@@ -16,10 +16,6 @@ public class BuildingResearch extends CoreBuildingResearch implements ServerBuil
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public World getWorld() {
 		return defaultBehaviour.getWorld();
 	}

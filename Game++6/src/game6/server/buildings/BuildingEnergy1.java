@@ -16,10 +16,6 @@ public class BuildingEnergy1 extends CoreBuildingEnergy1 implements ServerBuildi
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public World getWorld() {
 		return defaultBehaviour.getWorld();
 	}

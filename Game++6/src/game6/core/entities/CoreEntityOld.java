@@ -5,7 +5,6 @@ import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.buildings.CoreBuilding;
 import game6.core.combat.FightingObject;
 import game6.core.faction.Faction;
-import game6.core.networking.packets.entities.PacketEntityRemove;
 import game6.core.world.Map;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public abstract class CoreEntityOld extends BaseEntity<Vector3f> {
 	private float speed;
 	private boolean flying;
 
-	public CoreEntityOld(long id, BoundingAABB<Vector3f> bounding, Vector3f position, float speed, boolean flying, int maxHealth) {
+	public CoreEntityOld(long id, BoundingAABB<Vector3f> bounding, Vector3f position, float speed, boolean flying) {
 		super(id, bounding, position);
 		this.speed = speed;
 		this.flying = flying;
@@ -45,11 +44,6 @@ public abstract class CoreEntityOld extends BaseEntity<Vector3f> {
 		this.tick = 0;
 		this.rotation = 0;
 		goals = new ArrayList<Vector3f>();
-
-		setFightingObject(new FightingObject(maxHealth, getPosition(), () -> {
-			Faction.broadcastAll(new PacketEntityRemove(this.getID(), true));
-			removeFromWorld();
-		}));
 	}
 
 	public Vector3f getNextGoal() {
@@ -68,7 +62,7 @@ public abstract class CoreEntityOld extends BaseEntity<Vector3f> {
 	}
 
 	public void move(Vector3f to) {
-		getFightingObject().setTarget(null);
+		getFightingObject().setCombatTarget(null);
 		setTarget(to, 0);
 	}
 
@@ -217,9 +211,9 @@ public abstract class CoreEntityOld extends BaseEntity<Vector3f> {
 		visibleRotation = (float) ((visibleRotation + delta) % (2 * Math.PI));
 
 		// follow target
-		if (getFightingObject().getTarget() != null) {
+		if (getFightingObject().getCombatTarget() != null) {
 			if (tick % 10 == 0)
-				setTarget(getFightingObject().getTarget().getPosition(), getFightingObject().getReach());
+				setTarget(getFightingObject().getCombatTarget().getPosition(), getFightingObject().getReach());
 		}
 
 		getFightingObject().update();

@@ -1,7 +1,7 @@
 package game6.core.entities;
 
-import game6.core.engine.BoundingAABB;
 import game6.core.faction.Faction;
+import game6.core.interfaces.BoundingAABB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +18,15 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	private float stopDistanceSquared;
 	private boolean removalMarked = false;
 	private Faction faction;
+	private int health;
+	private int maxHealth;
 
-	public DefaultCoreEntity(long id, Vector3f position, BoundingAABB bounding) {
+	public DefaultCoreEntity(long id, Vector3f position, BoundingAABB bounding, int maxHealth) {
 		this.id = id;
 		this.position = position;
 		this.bounding = bounding;
+		this.maxHealth = maxHealth;
+		this.health = maxHealth;
 		path = new ArrayList<>();
 	}
 
@@ -71,25 +75,40 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
 	}
-	
+
 	@Override
 	public void remove() {
 		removalMarked = true;
 	}
-	
+
 	@Override
 	public boolean isRemovalMarked() {
 		return removalMarked;
 	}
-	
+
 	@Override
 	public void setFaction(Faction faction) {
 		this.faction = faction;
 	}
-	
+
 	@Override
 	public Faction getFaction() {
 		return faction;
+	}
+
+	@Override
+	public int getHealth() {
+		return health;
+	}
+
+	@Override
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	@Override
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 
 }

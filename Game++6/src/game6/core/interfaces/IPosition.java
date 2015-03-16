@@ -1,8 +1,8 @@
-package game6.core.engine;
+package game6.core.interfaces;
 
 import de.nerogar.util.Vector3f;
 
-public interface Positionable {
+public interface IPosition {
 
 	public Vector3f getPosition();
 

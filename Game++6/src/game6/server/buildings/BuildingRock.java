@@ -16,10 +16,6 @@ public class BuildingRock extends CoreBuildingRock implements ServerBuilding {
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public World getWorld() {
 		return defaultBehaviour.getWorld();
 	}

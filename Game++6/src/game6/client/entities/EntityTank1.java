@@ -3,14 +3,13 @@ package game6.client.entities;
 import game6.client.ObjectRenderer;
 import game6.client.entities.guis.EntityGuiDefault;
 import game6.client.world.World;
-import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.entities.CoreEntityTank1;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
 
 public class EntityTank1 extends CoreEntityTank1 implements ClientEntity {
 
-	private DefaultClientEntityBehaviour defaultBehaviour = new DefaultClientEntityBehaviour(this);
+	private DefaultClientEntityBehaviour defaultBehaviour = new DefaultClientEntityBehaviour();
 
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
@@ -38,21 +37,10 @@ public class EntityTank1 extends CoreEntityTank1 implements ClientEntity {
 
 		renderer.render(shader, renderProperties.getModelMatrix());
 	}
-	
-	@Override
-	public void update(float timeDelta) {
-		super.update(timeDelta);
-		defaultBehaviour.updateVisibleRotation(timeDelta);
-	}
 
 	@Override
 	public EntityGuiDefault getGui() {
 		return gui;
-	}
-
-	@Override
-	public Pathfinder getPathfinder() {
-		return defaultBehaviour.getPathfinder();
 	}
 
 	@Override
@@ -69,4 +57,10 @@ public class EntityTank1 extends CoreEntityTank1 implements ClientEntity {
 	public float getVisibleRotation() {
 		return defaultBehaviour.getVisibleRotation();
 	}
+
+	@Override
+	public void setVisibleRotation(float rotation) {
+		defaultBehaviour.setVisibleRotation(rotation);
+	}
+
 }

@@ -27,5 +27,11 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 			move(((PacketEntityMove) packet).position);
 		}
 	}
+	
+	@Override
+	default public void kill() {
+		Faction.broadcastAll(new PacketEntityRemove(getID(), true));
+		remove();
+	}
 
 }

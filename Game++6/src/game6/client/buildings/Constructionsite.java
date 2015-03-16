@@ -48,10 +48,6 @@ public class Constructionsite extends CoreConstructionsite<ClientBuilding> imple
 	}
 
 	@Override
-	public void update() {
-	}
-
-	@Override
 	public BuildingGuiConstructionsite getGui() {
 		return gui;
 	}
