@@ -7,8 +7,6 @@ import game6.core.faction.Faction;
 import game6.core.faction.Player;
 import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
-import game6.core.networking.packets.buildings.PacketBuilding;
-import game6.core.networking.packets.entities.PacketEntity;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
 import game6.server.buildings.Constructionsite;
@@ -70,7 +68,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 
 			List<Packet> packets = faction.get(PacketList.ENTITIES);
 			for (Packet packet : packets) {
-				PacketEntity packetEntity = (PacketEntity) packet;
+				PacketUniqueID packetEntity = (PacketUniqueID) packet;
 				ServerEntity entity = getEntity(packetEntity.id);
 				if (entity.getFaction() == faction) {
 					getEntity(packetEntity.id).process(packetEntity);
@@ -81,7 +79,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 
 			packets = faction.get(PacketList.BUILDINGS);
 			for (Packet packet : packets) {
-				PacketBuilding packetBuilding = (PacketBuilding) packet;
+				PacketUniqueID packetBuilding = (PacketUniqueID) packet;
 				ServerBuilding building = getBuilding(packetBuilding.id);
 				if (building.getFaction() == faction) {
 					building.process(packetBuilding);

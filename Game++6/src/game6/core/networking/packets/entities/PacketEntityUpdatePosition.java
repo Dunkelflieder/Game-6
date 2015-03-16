@@ -1,12 +1,13 @@
 package game6.core.networking.packets.entities;
 
 import game6.core.entities.CoreEntity;
+import game6.core.networking.packets.PacketUniqueID;
 
 import java.nio.ByteBuffer;
 
 import de.nerogar.util.Vector3f;
 
-public class PacketEntityUpdatePosition extends PacketEntity {
+public class PacketEntityUpdatePosition extends PacketUniqueID {
 
 	public Vector3f position;
 	public float rotation;

@@ -1,6 +1,7 @@
 package game6.core.networking.packets.entities;
 
 import game6.core.entities.CoreEntity;
+import game6.core.networking.packets.PacketUniqueID;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 
 import de.nerogar.util.Vector3f;
 
-public class PacketEntityUpdatePath extends PacketEntity {
+public class PacketEntityUpdatePath extends PacketUniqueID {
 
 	public List<Vector3f> path;
 

@@ -1,6 +1,5 @@
 package game6.server.entities;
 
-import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.entities.CoreEntityTank1;
 import game6.server.world.World;
 import de.nerogar.util.Vector3f;
@@ -22,11 +21,6 @@ public class EntityTank1 extends CoreEntityTank1 implements ServerEntity {
 			Faction.broadcastAll(new PacketAttackEffect(getFightingObject().getPosition(), target.getPosition()));
 		}
 	}*/
-
-	@Override
-	public Pathfinder getPathfinder() {
-		return defaultBehaviour.getPathfinder();
-	}
 
 	@Override
 	public World getWorld() {

@@ -1,7 +1,9 @@
 package game6.client;
 
-import game6.client.buildings.*;
-import game6.client.effects.*;
+import game6.client.buildings.ClientBuilding;
+import game6.client.buildings.Constructionsite;
+import game6.client.effects.EffectContainer;
+import game6.client.effects.Lightning;
 import game6.client.entities.ClientEntity;
 import game6.client.sound.SoundContext;
 import game6.client.world.World;
@@ -10,8 +12,6 @@ import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
 import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
-import game6.core.networking.packets.buildings.PacketBuilding;
-import game6.core.networking.packets.entities.PacketEntity;
 import game6.core.networking.packets.entities.PacketEntityMove;
 
 import java.io.IOException;
@@ -255,13 +255,13 @@ public class Controller {
 
 			packets = connection.get(PacketList.ENTITIES);
 			for (Packet packet : packets) {
-				PacketEntity packetEntity = (PacketEntity) packet;
+				PacketUniqueID packetEntity = (PacketUniqueID) packet;
 				getWorld().getEntity(packetEntity.id).process(packetEntity);
 			}
 
 			packets = connection.get(PacketList.BUILDINGS);
 			for (Packet packet : packets) {
-				PacketBuilding packetBuilding = (PacketBuilding) packet;
+				PacketUniqueID packetBuilding = (PacketUniqueID) packet;
 				getWorld().getBuilding(packetBuilding.id).process(packetBuilding);
 			}
 		}

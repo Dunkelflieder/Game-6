@@ -1,8 +1,10 @@
 package game6.core.networking.packets.buildings;
 
+import game6.core.networking.packets.PacketUniqueID;
+
 import java.nio.ByteBuffer;
 
-public class PacketBuildingRemove extends PacketBuilding {
+public class PacketBuildingRemove extends PacketUniqueID {
 
 	public boolean killed;
 

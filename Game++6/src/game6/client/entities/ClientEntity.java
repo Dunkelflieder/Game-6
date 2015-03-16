@@ -3,6 +3,7 @@ package game6.client.entities;
 import game6.client.effects.Explosion;
 import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.entities.CoreEntity;
+import game6.core.networking.packets.PacketUniqueID;
 import game6.core.networking.packets.entities.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface ClientEntity extends CoreEntity, ClientEntityBehaviour {
 		getPath().addAll(newPath);
 	}
 
-	default public void process(PacketEntity packet) {
+	default public void process(PacketUniqueID packet) {
 		if (packet instanceof PacketEntityUpdatePath) {
 			setPath(((PacketEntityUpdatePath) packet).path);
 		} else if (packet instanceof PacketEntityUpdatePosition) {

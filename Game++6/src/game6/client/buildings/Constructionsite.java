@@ -4,6 +4,7 @@ import game6.client.ObjectRenderer;
 import game6.client.buildings.guis.BuildingGuiConstructionsite;
 import game6.client.world.World;
 import game6.core.buildings.CoreConstructionsite;
+import game6.core.networking.packets.PacketUniqueID;
 import game6.core.networking.packets.buildings.*;
 import game6.core.util.ResourceContainer;
 import de.nerogar.render.*;
@@ -64,7 +65,7 @@ public class Constructionsite extends CoreConstructionsite<ClientBuilding> imple
 	}
 	
 	@Override
-	public void process(PacketBuilding packet) {
+	public void process(PacketUniqueID packet) {
 		ClientBuilding.super.process(packet);
 		if (packet instanceof PacketBuildingUpdateInventory) {
 			getCostRemaining().setResources(((PacketBuildingUpdateInventory) packet).resources);

@@ -2,13 +2,12 @@ package game6.core.buildings;
 
 import game6.core.faction.Faction;
 import game6.core.interfaces.IHealth;
-import game6.core.networking.packets.buildings.PacketBuilding;
-import game6.core.world.Removable;
-import game6.core.world.Updateable;
+import game6.core.interfaces.IProcessPackets;
 import game6.core.world.IDList.UniqueID;
+import game6.core.world.*;
 import de.nerogar.util.Vector3f;
 
-public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable {
+public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable, IProcessPackets {
 
 	public void init();
 
@@ -84,8 +83,6 @@ public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable {
 	 */
 	public boolean canReceiveEnergy();
 
-	public void process(PacketBuilding packet);
-	
 	@Override
 	default void update(float timeDelta) {
 	}

@@ -1,11 +1,12 @@
 package game6.core.networking.packets.buildings;
 
+import game6.core.networking.packets.PacketUniqueID;
 import game6.core.util.Resource;
 import game6.core.util.ResourceContainer;
 
 import java.nio.ByteBuffer;
 
-public class PacketBuildingUpdateInventory extends PacketBuilding {
+public class PacketBuildingUpdateInventory extends PacketUniqueID {
 
 	public ResourceContainer resources;
 

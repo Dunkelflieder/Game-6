@@ -1,8 +1,10 @@
 package game6.core.networking.packets.buildings;
 
+import game6.core.networking.packets.PacketUniqueID;
+
 import java.nio.ByteBuffer;
 
-public class PacketBuildingFinishConstruction extends PacketBuilding {
+public class PacketBuildingFinishConstruction extends PacketUniqueID {
 
 	public PacketBuildingFinishConstruction() {
 	}

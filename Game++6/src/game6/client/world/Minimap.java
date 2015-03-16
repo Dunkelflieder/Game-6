@@ -2,16 +2,14 @@ package game6.client.world;
 
 import game6.client.buildings.ClientBuilding;
 import game6.core.world.Map;
-
-import java.awt.image.BufferedImage;
-
 import de.nerogar.render.Texture2D;
 
 public class Minimap {
 
 	private Texture2D tex;
-	private BufferedImage img;
-	private Map<ClientBuilding> map;
+
+	// private BufferedImage img;
+	// private Map<ClientBuilding> map;
 
 	public Minimap() {
 	}
@@ -21,7 +19,7 @@ public class Minimap {
 	}
 
 	public void setMap(Map<ClientBuilding> map) {
-		this.map = map;
+		/*this.map = map;
 		if (map != null) {
 			img = new BufferedImage(map.getSizeX(), map.getSizeY(), BufferedImage.TYPE_INT_ARGB);
 			update(0, 0, map.getSizeX(), map.getSizeY());
@@ -30,7 +28,7 @@ public class Minimap {
 				tex.cleanup();
 				tex = null;
 			}
-		}
+		}*/
 	}
 
 	public void update(int fromX, int fromY, int sizeX, int sizeY) {

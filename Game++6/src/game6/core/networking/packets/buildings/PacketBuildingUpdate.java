@@ -1,10 +1,11 @@
 package game6.core.networking.packets.buildings;
 
 import game6.core.buildings.CoreBuilding;
+import game6.core.networking.packets.PacketUniqueID;
 
 import java.nio.ByteBuffer;
 
-public class PacketBuildingUpdate extends PacketBuilding {
+public class PacketBuildingUpdate extends PacketUniqueID {
 
 	public int energy;
 
