@@ -3,7 +3,8 @@ package game6.client.buildings;
 import game6.client.effects.Explosion;
 import game6.core.buildings.CoreBuilding;
 import game6.core.networking.packets.PacketUniqueID;
-import game6.core.networking.packets.buildings.*;
+import game6.core.networking.packets.buildings.PacketBuildingRemove;
+import game6.core.networking.packets.buildings.PacketBuildingUpdate;
 import de.nerogar.util.Vector3f;
 
 public interface ClientBuilding extends CoreBuilding, ClientBuildingBehaviour {

@@ -1,10 +1,11 @@
 package game6.server.entities;
 
 import game6.core.entities.CoreEntityHelicopter1;
+import game6.core.util.Resource;
 import game6.server.world.World;
 import de.nerogar.util.Vector3f;
 
-public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ServerEntity {
+public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ServerEntity, ServerEntityInventory {
 
 	private DefaultServerEntityBehaviour defaultBehaviour = new DefaultServerEntityBehaviour();
 
@@ -20,6 +21,12 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ServerEn
 	@Override
 	public void setWorld(World world) {
 		defaultBehaviour.setWorld(world);
+	}
+
+	@Override
+	public void update(float timeDelta) {
+		super.update(timeDelta);
+		addResource(Resource.getRandom(), 1);
 	}
 
 }

@@ -1,11 +1,10 @@
 package game6.server.buildings;
 
 import game6.core.buildings.CoreBuildingStorage1;
-import game6.core.networking.packets.buildings.PacketBuildingUpdateInventory;
 import game6.core.util.Resource;
 import game6.server.world.World;
 
-public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuilding {
+public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuilding, ServerBuildingInventory {
 
 	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
@@ -13,11 +12,6 @@ public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuil
 
 	public BuildingStorage1() {
 		super(getNextID());
-		getResources().setChangeCallback(this::resourcesChanged);
-	}
-
-	private void resourcesChanged() {
-		getFaction().broadcast(new PacketBuildingUpdateInventory(getID(), getResources()));
 	}
 
 	@Override
@@ -31,7 +25,10 @@ public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuil
 
 		// TODO testing. remove later.
 		if (tick % 10 == 0) {
-			getResources().addResource(Resource.WOOD, 5);
+			addResource(Resource.WOOD, 5);
+		}
+		if (tick % 10 == 5) {
+			addResource(Resource.METAL, 5);
 		}
 	}
 

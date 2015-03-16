@@ -2,10 +2,9 @@ package game6.server.buildings;
 
 import game6.core.buildings.CoreConstructionsite;
 import game6.core.faction.Faction;
+import game6.core.interfaces.ResourceContainer;
 import game6.core.networking.packets.buildings.PacketBuildingFinishConstruction;
-import game6.core.networking.packets.buildings.PacketBuildingUpdateInventory;
 import game6.core.util.Resource;
-import game6.core.util.ResourceContainer;
 import game6.server.world.World;
 
 /**
@@ -13,17 +12,12 @@ import game6.server.world.World;
  * It also does not have the necessary long-only constructor.
  * @author Felk
  */
-public class Constructionsite extends CoreConstructionsite<ServerBuilding> implements ServerBuilding {
+public class Constructionsite extends CoreConstructionsite<ServerBuilding> implements ServerBuilding, ServerBuildingInventory {
 
 	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
 	public Constructionsite(ServerBuilding building, ResourceContainer constructionCost) {
 		super(building, constructionCost);
-		getCostRemaining().setChangeCallback(this::remainingCostChanged);
-	}
-
-	private void remainingCostChanged() {
-		getFaction().broadcast(new PacketBuildingUpdateInventory(getID(), getCostRemaining()));
 	}
 
 	@Override
@@ -40,8 +34,8 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 
 		// TODO for debugging. remove later
 		if (Math.random() < 0.2f) {
-			getCostRemaining().removeResource(Resource.WOOD, 1);
-			getCostRemaining().removeResource(Resource.METAL, 1);
+			removeResource(Resource.WOOD, 1);
+			removeResource(Resource.METAL, 1);
 		}
 	}
 

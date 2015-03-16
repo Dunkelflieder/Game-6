@@ -32,6 +32,7 @@ public class PacketList {
 		Packets.addPacket(ENTITIES, PacketEntityUpdatePath.class);
 		Packets.addPacket(ENTITIES, PacketEntityMove.class);
 		Packets.addPacket(ENTITIES, PacketEntityRemove.class);
+		Packets.addPacket(ENTITIES, PacketEntityUpdateInventory.class);
 
 		// the new building specific packets
 		Packets.addPacket(BUILDINGS, PacketBuildingUpdateInventory.class);

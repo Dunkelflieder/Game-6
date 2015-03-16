@@ -14,4 +14,8 @@ public enum Resource {
 		return name;
 	}
 
+	public static Resource getRandom() {
+		return values()[(int) (values().length * Math.random())];
+	}
+
 }

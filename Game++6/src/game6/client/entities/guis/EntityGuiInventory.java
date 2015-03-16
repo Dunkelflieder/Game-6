@@ -1,6 +1,6 @@
-package game6.client.buildings.guis;
+package game6.client.entities.guis;
 
-import game6.client.buildings.Constructionsite;
+import game6.client.entities.ClientEntityInventory;
 import game6.client.gui.Font;
 import game6.client.gui.components.GColorfield;
 import game6.client.gui.components.GLabel;
@@ -8,13 +8,13 @@ import game6.core.util.Resource;
 
 import java.awt.Color;
 
-public class BuildingGuiConstructionsite extends BuildingGui<Constructionsite> {
+public class EntityGuiInventory extends EntityGui<ClientEntityInventory> {
 
 	private GLabel text;
 	private GLabel stuff;
 	private GColorfield background;
 
-	public BuildingGuiConstructionsite(Constructionsite building) {
+	public EntityGuiInventory(ClientEntityInventory building) {
 		super(building);
 	}
 
@@ -22,7 +22,7 @@ public class BuildingGuiConstructionsite extends BuildingGui<Constructionsite> {
 	protected void initComponents() {
 		setSize(300, 100);
 
-		text = new GLabel(building.getName() + " #" + building.getID());
+		text = new GLabel(entity.getName() + " #" + entity.getID());
 		text.setPos(0, 50);
 		text.setAlignment(Font.CENTER);
 		text.setSize(300, 40);
@@ -43,7 +43,7 @@ public class BuildingGuiConstructionsite extends BuildingGui<Constructionsite> {
 
 	@Override
 	protected void updateComponents() {
-		stuff.setText("Stuff needed: " + building.getResource(Resource.WOOD) + ", " + building.getResource(Resource.METAL));
+		stuff.setText(entity.getResource(Resource.WOOD) + ", " + entity.getResource(Resource.METAL) + "/" + entity.getCapacity());
 	}
 
 }

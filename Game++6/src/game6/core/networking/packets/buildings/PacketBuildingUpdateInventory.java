@@ -1,8 +1,9 @@
 package game6.core.networking.packets.buildings;
 
+import game6.core.interfaces.DefaultResourceContainer;
+import game6.core.interfaces.ResourceContainer;
 import game6.core.networking.packets.PacketUniqueID;
 import game6.core.util.Resource;
-import game6.core.util.ResourceContainer;
 
 import java.nio.ByteBuffer;
 
@@ -22,10 +23,10 @@ public class PacketBuildingUpdateInventory extends PacketUniqueID {
 	public void fromByteArray(byte[] data) {
 		ByteBuffer buffer = ByteBuffer.wrap(data);
 		id = buffer.getLong();
-		resources = new ResourceContainer();
+		resources = new DefaultResourceContainer();
 		resources.setCapacity(buffer.getInt());
 		for (Resource resource : Resource.values()) {
-			resources.addResource(resource, buffer.getInt());
+			resources.setResource(resource, buffer.getInt());
 		}
 	}
 
@@ -33,9 +34,9 @@ public class PacketBuildingUpdateInventory extends PacketUniqueID {
 	public byte[] toByteArray() {
 		ByteBuffer buffer = ByteBuffer.allocate(8 + 4 + 4 * Resource.values().length);
 		buffer.putLong(id);
-		buffer.putInt(resources.getTotalCapacity());
+		buffer.putInt(resources.getCapacity());
 		for (Resource resource : Resource.values()) {
-			buffer.putInt(resources.getAmount(resource));
+			buffer.putInt(resources.getResource(resource));
 		}
 		return buffer.array();
 	}

@@ -4,9 +4,9 @@ import game6.client.ObjectRenderer;
 import game6.client.buildings.guis.BuildingGuiConstructionsite;
 import game6.client.world.World;
 import game6.core.buildings.CoreConstructionsite;
+import game6.core.interfaces.ResourceContainer;
 import game6.core.networking.packets.PacketUniqueID;
-import game6.core.networking.packets.buildings.*;
-import game6.core.util.ResourceContainer;
+import game6.core.networking.packets.buildings.PacketBuildingFinishConstruction;
 import de.nerogar.render.*;
 
 /**
@@ -14,10 +14,10 @@ import de.nerogar.render.*;
  * It also does not have the necessary long-only constructor.
  * @author Felk
  */
-public class Constructionsite extends CoreConstructionsite<ClientBuilding> implements ClientBuilding {
+public class Constructionsite extends CoreConstructionsite<ClientBuilding> implements ClientBuilding, ClientBuildingInventory {
 
 	private DefaultClientBuildingBehaviour defaultBehaviour = new DefaultClientBuildingBehaviour();
-	
+
 	private RenderProperties3f renderProperties;
 	private ObjectRenderer renderer;
 
@@ -52,7 +52,7 @@ public class Constructionsite extends CoreConstructionsite<ClientBuilding> imple
 	public BuildingGuiConstructionsite getGui() {
 		return gui;
 	}
-	
+
 	@Override
 	public World getWorld() {
 		return defaultBehaviour.getWorld();
@@ -63,16 +63,13 @@ public class Constructionsite extends CoreConstructionsite<ClientBuilding> imple
 		defaultBehaviour.setWorld(world);
 		getBuilding().setWorld(world);
 	}
-	
+
 	@Override
 	public void process(PacketUniqueID packet) {
-		ClientBuilding.super.process(packet);
-		if (packet instanceof PacketBuildingUpdateInventory) {
-			getCostRemaining().setResources(((PacketBuildingUpdateInventory) packet).resources);
-			getCostRemaining().setCapacity(((PacketBuildingUpdateInventory) packet).resources.getTotalCapacity());
-		} else if (packet instanceof PacketBuildingFinishConstruction) {
+		ClientBuildingInventory.super.process(packet);
+		if (packet instanceof PacketBuildingFinishConstruction) {
 			getWorld().finishConstructionsite(this);
 		}
 	}
-	
+
 }

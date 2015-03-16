@@ -3,6 +3,7 @@ package game6.client.entities;
 import game6.client.effects.Explosion;
 import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.entities.CoreEntity;
+import game6.core.interfaces.ResourceContainer;
 import game6.core.networking.packets.PacketUniqueID;
 import game6.core.networking.packets.entities.*;
 
@@ -30,6 +31,11 @@ public interface ClientEntity extends CoreEntity, ClientEntityBehaviour {
 				getWorld().getEffectContainer().addEffect(new Explosion(getPosition().clone()));
 			}
 			kill();
+		} else if (packet instanceof PacketEntityUpdateInventory) {
+			if (this instanceof ResourceContainer) {
+				((ResourceContainer) this).setResources(((PacketEntityUpdateInventory) packet).resources);
+				((ResourceContainer) this).setCapacity(((PacketEntityUpdateInventory) packet).resources.getCapacity());
+			}
 		}
 	}
 

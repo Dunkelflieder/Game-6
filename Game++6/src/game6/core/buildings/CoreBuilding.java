@@ -1,13 +1,11 @@
 package game6.core.buildings;
 
-import game6.core.faction.Faction;
-import game6.core.interfaces.IHealth;
-import game6.core.interfaces.IProcessPackets;
+import game6.core.interfaces.*;
 import game6.core.world.IDList.UniqueID;
 import game6.core.world.*;
 import de.nerogar.util.Vector3f;
 
-public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable, IProcessPackets {
+public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable, IProcessPackets, IFaction {
 
 	public void init();
 
@@ -68,14 +66,6 @@ public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable, 
 	public int getMaxEnergy();
 
 	public void setMaxEnergy(int maxEnergy);
-
-	/**
-	 * Sets the faction this building belongs to.
-	 * @param faction Faction-enum
-	 */
-	public void setFaction(Faction faction);
-
-	public Faction getFaction();
 
 	/**
 	 * Returns whether the building can receive energy or not.

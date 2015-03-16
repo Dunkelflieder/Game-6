@@ -237,6 +237,7 @@ public class GuiIngame extends Gui {
 		selectionPanel.resize();
 
 		repositionBuildingGui();
+		repositionEntityGui();
 	}
 
 	@Override
@@ -255,6 +256,9 @@ public class GuiIngame extends Gui {
 		super.update();
 		if (controller.getWorld().getSelectedBuilding() != null) {
 			controller.getWorld().getSelectedBuilding().getGui().update();
+		}
+		if (controller.getWorld().getSelectedEntity() != null) {
+			controller.getWorld().getSelectedEntity().getGui().update();
 		}
 	}
 
