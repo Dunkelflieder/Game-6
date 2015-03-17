@@ -14,7 +14,7 @@ public class WorldGenerator {
 
 				double r = SimplexNoise.noise(x / 100f, y / 100f, 100);
 
-				tiles[x][y] = Tile.MARS;
+				tiles[x][y] = Tile.SAND;
 
 				if (r > 0.7) {
 					tiles[x][y] = Tile.ICE;

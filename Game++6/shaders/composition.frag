@@ -46,9 +46,9 @@ void main(){
 	//specular + reflections
 	vec3 viewDirection = normalize(cameraPosition - worldPosition);
 	vec3 sunReflectionDirection = reflect(sunLightDirection, worldNormal);
-	vec3 reflectionDirection = reflect(viewDirection, worldNormal);
+	vec3 viewReflectionDirection = reflect(viewDirection, worldNormal);
 
-	vec4 skyColor = textureCube(tex_cube_sky, reflectionDirection);
+	vec4 skyColor = textureCube(tex_cube_sky, viewReflectionDirection);
 
 	float specularIntensity = max(dot(viewDirection, sunReflectionDirection), 0.0);
 	specularIntensity = pow16(specularIntensity) * worldAmbient.y;
@@ -68,11 +68,11 @@ void main(){
 	vec4 guiColor = texture2D(tex_guiColor, gl_TexCoord[0].st);
 
 	//combine
-	//vec4 finalCombinedColor = mix(worldFinal, effectsColor, effectsColor.a);
-	vec4 finalCombinedColor = worldFinal + effectsColor + (specularIntensity * vec4(sunColor, 1.0));
+	vec4 finalCombinedColor = worldFinal + (specularIntensity * vec4(sunColor, 0.0)) + (worldAmbient.y * skyColor);
 	finalCombinedColor = mix(finalCombinedColor, skyColor, worldAmbient.y);
 
+	finalCombinedColor += effectsColor;
 	gl_FragColor = mix(finalCombinedColor, guiColor, guiColor.a);
-	//gl_FragColor = skyColor;
+	//gl_FragColor = textureCube(tex_cube_sky, viewDirection);
 
 }
