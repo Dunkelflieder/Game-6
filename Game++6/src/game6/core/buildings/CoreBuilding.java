@@ -1,6 +1,7 @@
 package game6.core.buildings;
 
 import game6.core.interfaces.*;
+import game6.core.util.Position;
 import game6.core.world.IDList.UniqueID;
 import game6.core.world.*;
 import de.nerogar.util.Vector3f;
@@ -72,6 +73,30 @@ public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable, 
 	 * @return true, if the building can receive energy and is not full. False otherwise.
 	 */
 	public boolean canReceiveEnergy();
+
+	public Map<? extends CoreBuilding> getMap();
+
+	default public Position getFreeNeighbourPosition() {
+		for (int y = getPosY() - 1; y <= getPosY() + getSizeY(); y += getSizeY() + 1) {
+			for (int x = getPosX() - 1; x <= getPosX() + getSizeX(); x++) {
+				if (getMap().getBuildingAt(x, y) == null) {
+					if (x >= 0 || y >= 0 || x < getMap().getSizeX() || y < getMap().getSizeY()) {
+						return new Position(x, y);
+					}
+				}
+			}
+		}
+		for (int x = getPosX() - 1; x <= getPosX() + getSizeX(); x += getSizeX() + 1) {
+			for (int y = getPosY(); y < getPosY() + getSizeY(); y++) {
+				if (getMap().getBuildingAt(x, y) == null) {
+					if (x >= 0 || y >= 0 || x < getMap().getSizeX() || y < getMap().getSizeY()) {
+						return new Position(x, y);
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 	@Override
 	default void update(float timeDelta) {

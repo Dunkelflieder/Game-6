@@ -2,6 +2,7 @@ package game6.server.entities;
 
 import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.entities.CoreEntity;
+import game6.core.entities.MoveTargetPosition;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketUniqueID;
 import game6.core.networking.packets.entities.*;
@@ -14,9 +15,9 @@ import de.nerogar.util.Vector3f;
 public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 
 	@Override
-	default public void setPath(List<Vector3f> newPath) {
-		getPath().clear();
-		getPath().addAll(newPath);
+	default public void setMovementPath(List<Vector3f> newPath) {
+		getMovementPath().clear();
+		getMovementPath().addAll(newPath);
 		Faction.broadcastAll(new PacketEntityUpdatePath(this));
 	}
 
@@ -27,7 +28,7 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 	@Override
 	default public void process(PacketUniqueID packet) {
 		if (packet instanceof PacketEntityMove) {
-			move(((PacketEntityMove) packet).position);
+			move(new MoveTargetPosition(this, ((PacketEntityMove) packet).position));
 		}
 	}
 

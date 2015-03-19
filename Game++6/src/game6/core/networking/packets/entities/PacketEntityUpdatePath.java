@@ -18,7 +18,7 @@ public class PacketEntityUpdatePath extends PacketUniqueID {
 
 	public PacketEntityUpdatePath(CoreEntity entity) {
 		super(entity.getID());
-		this.path = entity.getPath();
+		this.path = entity.getMovementPath();
 	}
 
 	@Override

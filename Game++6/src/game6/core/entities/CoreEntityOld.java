@@ -1,10 +1,10 @@
 package game6.core.entities;
 
 import game6.client.entities.guis.EntityGui;
-import game6.core.ai.pathfinding.Pathfinder.Position;
 import game6.core.buildings.CoreBuilding;
 import game6.core.combat.FightingObject;
 import game6.core.faction.Faction;
+import game6.core.util.Position;
 import game6.core.world.Map;
 
 import java.util.ArrayList;

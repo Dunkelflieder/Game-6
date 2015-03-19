@@ -1,6 +1,6 @@
 package game6.core.interfaces;
 
-public interface ICombat {
+public interface ICombat extends IPosition {
 
 	public float getReach();
 
@@ -21,6 +21,13 @@ public interface ICombat {
 				setCombatTarget(null);
 			}
 		}
+	}
+
+	default public boolean reachesTarget() {
+		if (!isFighting()) {
+			return false;
+		}
+		return getPosition().subtracted(getCombatTarget().getPosition()).getSquaredValue() <= getReach() * getReach();
 	}
 
 }

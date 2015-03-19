@@ -14,14 +14,14 @@ import de.nerogar.util.Vector3f;
 
 public interface ClientEntity extends CoreEntity, ClientEntityBehaviour {
 
-	default public void setPath(List<Vector3f> newPath) {
-		getPath().clear();
-		getPath().addAll(newPath);
+	default public void setMovementPath(List<Vector3f> newPath) {
+		getMovementPath().clear();
+		getMovementPath().addAll(newPath);
 	}
 
 	default public void process(PacketUniqueID packet) {
 		if (packet instanceof PacketEntityUpdatePath) {
-			setPath(((PacketEntityUpdatePath) packet).path);
+			setMovementPath(((PacketEntityUpdatePath) packet).path);
 		} else if (packet instanceof PacketEntityUpdatePosition) {
 			teleport(((PacketEntityUpdatePosition) packet).position);
 			setRotation(((PacketEntityUpdatePosition) packet).rotation);

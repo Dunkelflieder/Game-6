@@ -1,6 +1,6 @@
 package game6.core.entities;
 
-import game6.core.ai.pathfinding.Pathfinder.Position;
+import game6.core.util.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public interface MovementGround extends Movement {
 	}
 
 	default boolean isPathBlocked() {
-		if (!hasMovementGoal()) {
+		if (!hasMovementTarget()) {
 			return false;
 		}
 		Position currentPosition = new Position((int) Math.floor(getPosition().getX()), (int) Math.floor(getPosition().getZ()));

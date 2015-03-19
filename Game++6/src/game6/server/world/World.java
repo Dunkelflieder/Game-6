@@ -1,8 +1,7 @@
 package game6.server.world;
 
 import game6.core.buildings.BuildingType;
-import game6.core.entities.EntityType;
-import game6.core.entities.MovementAir;
+import game6.core.entities.*;
 import game6.core.faction.Faction;
 import game6.core.faction.Player;
 import game6.core.networking.PacketList;
@@ -27,7 +26,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 	@Override
 	public void update(float timeDelta) {
 		super.update(timeDelta);
-		
+
 		// check for building placement request.
 		// TODO this is sample code btw.
 		for (Faction faction : Faction.values()) {
@@ -37,10 +36,11 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 					ServerEntity entity = pse.entity.getServerEntity();
 					entity.setFaction(faction);
 					if (canAddEntity(pse.position, entity)) {
-						pse.position.setY(entity instanceof MovementAir ? 2 : 0);
+						entity.teleport(pse.position);
+						entity.getPosition().setY(entity instanceof MovementAir ? 2 : 0);
 						addEntity(entity);
 						Faction.broadcastAll(new PacketSpawnEntity(pse.entity, faction, entity.getID(), entity.getPosition()));
-						entity.move(new Vector3f(1, entity.getPosition().getY(), 1));
+						entity.move(new MoveTargetPosition(entity, new Vector3f(1, entity.getPosition().getY(), 1)));
 					}
 				} else if (packet instanceof PacketStartConstruction) {
 					PacketStartConstruction psc = (PacketStartConstruction) packet;

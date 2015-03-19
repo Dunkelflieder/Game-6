@@ -1,7 +1,9 @@
 package game6.core.entities;
 
 import game6.core.ai.pathfinding.Pathfinder;
+import game6.core.interfaces.ICombat;
 import game6.core.interfaces.IPosition;
+import game6.core.util.Position;
 
 import java.util.List;
 
@@ -13,42 +15,61 @@ public interface Movement extends IPosition {
 
 	public Pathfinder getPathfinder();
 
-	public List<Vector3f> getPath();
+	public List<Vector3f> getMovementPath();
 
-	void setPath(List<Vector3f> newPath);
+	void setMovementPath(List<Vector3f> newPath);
 
-	public void setTarget(Vector3f target, float stopDistanceSquared);
+	void setMoveTarget(MoveTarget target);
 
-	default public void move(Vector3f target, float stopDistanceSquared) {
-		setTarget(target, stopDistanceSquared);
-		// TODO stop fight
+	MoveTarget getMoveTarget();
+
+	default public void updatePath() {
+		if (!hasMovementTarget()) {
+			stopMovement();
+			return;
+		}
+		List<Vector3f> path = getPathTo(getMoveTarget().getMovePosition());
+		if (path == null) {
+			stopMovement();
+		} else {
+			setMovementPath(path);
+		}
 	}
 
-	default public void move(Vector3f target) {
-		move(target, 0);
+	default public void move(MoveTarget target) {
+		if (this instanceof ICombat) {
+			((ICombat) this).setCombatTarget(null);
+		}
+		setMoveTarget(target);
+		updatePath();
 	}
 
-	public float getStopDistanceSquared();
+	default public boolean hasMovementTarget() {
+		return getMoveTarget() != null;
+	}
 
-	default public boolean hasMovementGoal() {
-		return !getPath().isEmpty();
+	default public boolean hasMovementPath() {
+		return !getMovementPath().isEmpty();
 	}
 
 	default public Vector3f getNextGoal() {
-		if (getPath().isEmpty()) {
+		if (!hasMovementPath()) {
 			return null;
 		}
-		return getPath().get(0);
+		return getMovementPath().get(0);
 	}
 
 	default public Vector3f getLastGoal() {
-		if (getPath().isEmpty()) {
+		if (!hasMovementPath()) {
 			return null;
 		}
-		return getPath().get(getPath().size() - 1);
+		return getMovementPath().get(getMovementPath().size() - 1);
 	}
 
-	public void stop();
+	default public void stopMovement() {
+		setMoveTarget(null);
+		getMovementPath().clear();
+	}
 
 	public float getSpeed();
 
@@ -82,16 +103,41 @@ public interface Movement extends IPosition {
 	}
 
 	default void advancePathNode() {
-		if (hasMovementGoal()) {
-			getPath().remove(0);
+		if (hasMovementPath()) {
+			getMovementPath().remove(0);
+		} else {
+			if (hasMovementTarget()) {
+				updatePath();
+			} else {
+				stopMovement();
+			}
+		}
+	}
+
+	default void checkPathIsObstructed() {
+		if (getNextGoal() != null) {
+			Position curPos = new Position((int) getPosition().getX(), (int) getPosition().getZ());
+			Position nextPos = new Position((int) getNextGoal().getX(), (int) getNextGoal().getZ());
+			if (getPathfinder().intersectsBuilding(curPos, nextPos)) {
+				System.out.println("Path is obstructed");
+				updatePath();
+			}
 		}
 	}
 
 	default void updateMovement(float timeDelta) {
 
+		// TODO don't check this every tick
+		checkPathIsObstructed();
+
 		float remainingMovement = getSpeed() * timeDelta;
 
-		while (hasMovementGoal() && remainingMovement > 0 && getStopDistanceSquared() < getPosition().subtracted(getLastGoal()).getSquaredValue()) {
+		while (hasMovementPath() && remainingMovement > 0) {
+
+			if (hasMovementTarget() && getMoveTarget().isReached()) {
+				stopMovement();
+				break;
+			}
 
 			Vector3f moveDelta = getNextGoal().subtracted(getPosition());
 

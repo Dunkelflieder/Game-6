@@ -1,9 +1,9 @@
 package game6.core.world;
 
 import game6.core.ai.pathfinding.Pathfinder;
-import game6.core.ai.pathfinding.Pathfinder.Position;
-import game6.core.buildings.CoreConstructionsite;
 import game6.core.buildings.CoreBuilding;
+import game6.core.buildings.CoreConstructionsite;
+import game6.core.util.Position;
 
 import java.util.*;
 

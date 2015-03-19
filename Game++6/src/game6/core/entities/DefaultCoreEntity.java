@@ -13,9 +13,9 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	private BoundingAABB bounding;
 	private Vector3f position;
 	private long id;
-	private List<Vector3f> path;
+	private List<Vector3f> movePath;
+	private MoveTarget moveTarget;
 	private float rotation;
-	private float stopDistanceSquared;
 	private boolean removalMarked = false;
 	private Faction faction;
 	private int health;
@@ -27,7 +27,7 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 		this.bounding = bounding;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
-		path = new ArrayList<>();
+		this.movePath = new ArrayList<>();
 	}
 
 	@Override
@@ -46,24 +46,18 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	}
 
 	@Override
-	public List<Vector3f> getPath() {
-		return path;
+	public List<Vector3f> getMovementPath() {
+		return movePath;
 	}
 
 	@Override
-	public void setTarget(Vector3f target, float stopDistanceSquared) {
-		setPath(getPathTo(target));
-		this.stopDistanceSquared = stopDistanceSquared;
+	public void setMoveTarget(MoveTarget target) {
+		moveTarget = target;
 	}
-
+	
 	@Override
-	public float getStopDistanceSquared() {
-		return stopDistanceSquared;
-	}
-
-	@Override
-	public void stop() {
-		path.clear();
+	public MoveTarget getMoveTarget() {
+		return moveTarget;
 	}
 
 	@Override

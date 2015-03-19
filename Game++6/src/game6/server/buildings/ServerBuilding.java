@@ -4,6 +4,7 @@ import game6.core.buildings.CoreBuilding;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketUniqueID;
 import game6.core.networking.packets.buildings.PacketBuildingRemove;
+import game6.core.world.Map;
 
 public interface ServerBuilding extends CoreBuilding, ServerBuildingBehaviour {
 
@@ -17,4 +18,8 @@ public interface ServerBuilding extends CoreBuilding, ServerBuildingBehaviour {
 		remove();
 	}
 
+	@Override
+	default public Map<? extends CoreBuilding> getMap() {
+		return getWorld().getMap();
+	}
 }

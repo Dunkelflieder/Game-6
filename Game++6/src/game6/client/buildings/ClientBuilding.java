@@ -5,6 +5,7 @@ import game6.core.buildings.CoreBuilding;
 import game6.core.networking.packets.PacketUniqueID;
 import game6.core.networking.packets.buildings.PacketBuildingRemove;
 import game6.core.networking.packets.buildings.PacketBuildingUpdate;
+import game6.core.world.Map;
 import de.nerogar.util.Vector3f;
 
 public interface ClientBuilding extends CoreBuilding, ClientBuildingBehaviour {
@@ -29,4 +30,9 @@ public interface ClientBuilding extends CoreBuilding, ClientBuildingBehaviour {
 		remove();
 	}
 
+	@Override
+	default public Map<? extends CoreBuilding> getMap() {
+		return getWorld().getMap();
+	}
+	
 }
