@@ -114,21 +114,12 @@ public interface Movement extends IPosition {
 		}
 	}
 
-	default void checkPathIsObstructed() {
-		if (getNextGoal() != null) {
-			Position curPos = new Position((int) getPosition().getX(), (int) getPosition().getZ());
-			Position nextPos = new Position((int) getNextGoal().getX(), (int) getNextGoal().getZ());
-			if (getPathfinder().intersectsBuilding(curPos, nextPos)) {
-				System.out.println("Path is obstructed");
-				updatePath();
-			}
-		}
-	}
-
 	default void updateMovement(float timeDelta) {
 
 		// TODO don't check this every tick
-		checkPathIsObstructed();
+		if (isPathBlocked()) {
+			updatePath();
+		}
 
 		float remainingMovement = getSpeed() * timeDelta;
 

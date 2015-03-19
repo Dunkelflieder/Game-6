@@ -9,6 +9,7 @@ import de.nerogar.util.Vector3f;
 
 public interface MovementGround extends Movement {
 
+	@Override
 	default List<Vector3f> getPathTo(Vector3f target) {
 		List<Position> path = getPathfinder().getPath(getPosition().getX(), getPosition().getZ(), target.getX(), target.getZ());
 		if (path == null) {
@@ -27,13 +28,14 @@ public interface MovementGround extends Movement {
 		return null;
 	}
 
+	@Override
 	default boolean isPathBlocked() {
-		if (!hasMovementTarget()) {
-			return false;
+		if (getNextGoal() != null) {
+			Position currentPosition = new Position((int) Math.floor(getPosition().getX()), (int) Math.floor(getPosition().getZ()));
+			Position nextPosition = new Position((int) Math.floor(getNextGoal().getX()), (int) Math.floor(getNextGoal().getZ()));
+			return getPathfinder().intersectsBuilding(currentPosition, nextPosition);
 		}
-		Position currentPosition = new Position((int) Math.floor(getPosition().getX()), (int) Math.floor(getPosition().getZ()));
-		Position nextPosition = new Position((int) Math.floor(getNextGoal().getX()), (int) Math.floor(getNextGoal().getZ()));
-		return getPathfinder().intersectsBuilding(currentPosition, nextPosition);
+		return false;
 	}
 
 }
