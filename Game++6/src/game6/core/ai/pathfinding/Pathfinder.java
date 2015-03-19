@@ -1,9 +1,11 @@
 package game6.core.ai.pathfinding;
 
 import game6.core.buildings.CoreBuilding;
+import game6.core.util.Position;
 import game6.core.world.Map;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pathfinder {
 
@@ -11,16 +13,6 @@ public class Pathfinder {
 	private Node[] nodes;
 
 	private int sizeX, sizeY;
-
-	public static class Position {
-		public int x;
-		public int y;
-
-		public Position(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-	}
 
 	public Pathfinder(Map<? extends CoreBuilding> map) {
 		sizeX = map.getSizeX();
@@ -64,7 +56,7 @@ public class Pathfinder {
 	public List<Position> getPath(float fromX, float fromY, float goalX, float goalY) {
 		return getPath((int) fromX, (int) fromY, (int) goalX, (int) goalY);
 	}
-	
+
 	public List<Position> getPath(int fromX, int fromY, int goalX, int goalY) {
 		List<Position> path = getRawPath(fromX, fromY, goalX, goalY);
 
@@ -272,7 +264,7 @@ public class Pathfinder {
 		int y = p1.y;
 
 		int error = errorSlow / 2;
-		int errorPrev = error;
+		int errorPrev = errorSlow;
 
 		for (int i = 0; i < errorSlow; i++) {
 
@@ -285,11 +277,11 @@ public class Pathfinder {
 				x += signumX;
 				y += signumY;
 
-				if (error + errorPrev < dx) {
+				if (error + errorPrev < errorSlow) {
 					if (!isFree(x, y - signumY)) {
 						return true;
 					}
-				} else if (error + errorPrev > dx) {
+				} else if (error + errorPrev > errorSlow) {
 					if (!isFree(x - signumX, y)) {
 						return true;
 					}
