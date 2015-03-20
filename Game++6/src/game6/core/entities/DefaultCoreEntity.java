@@ -13,6 +13,7 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	private BoundingAABB bounding;
 	private Vector3f position;
 	private long id;
+	private float speed;
 	private List<Vector3f> movePath;
 	private MoveTarget moveTarget;
 	private float rotation;
@@ -21,10 +22,11 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	private int health;
 	private int maxHealth;
 
-	public DefaultCoreEntity(long id, Vector3f position, BoundingAABB bounding, int maxHealth) {
+	public DefaultCoreEntity(long id, Vector3f position, BoundingAABB bounding, float speed, int maxHealth) {
 		this.id = id;
 		this.position = position;
 		this.bounding = bounding;
+		this.speed = speed;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
 		this.movePath = new ArrayList<>();
@@ -88,6 +90,11 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	@Override
 	public Faction getFaction() {
 		return faction;
+	}
+	
+	@Override
+	public float getSpeed() {
+		return speed;
 	}
 
 	@Override

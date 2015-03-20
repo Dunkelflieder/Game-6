@@ -23,10 +23,10 @@ public class BuildingFactory extends CoreBuildingFactory implements ClientBuildi
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/buildings/factory/color.png"),
-				Texture2DLoader.loadTexture("res/buildings/factory/light.png"),
-				Texture2DLoader.loadTexture("res/buildings/factory/faction.png"),
-				WavefrontLoader.loadObject("res/buildings/factory/mesh.obj")
+				Texture2DLoader.loadTexture("res/buildings/#factory/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/#factory/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/#factory/faction.png"),
+				WavefrontLoader.loadObject("res/buildings/#factory/mesh.obj")
 				);
 
 		renderProperties = new RenderProperties3f();

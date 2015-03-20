@@ -7,7 +7,10 @@ import java.lang.reflect.InvocationTargetException;
 
 public enum EntityType {
 	HELICOPTER1(1, game6.client.entities.EntityHelicopter1.class, game6.server.entities.EntityHelicopter1.class),
-	TANK1(2, game6.client.entities.EntityTank1.class, game6.server.entities.EntityTank1.class);
+	TANK1(2, game6.client.entities.EntityTank1.class, game6.server.entities.EntityTank1.class),
+	SCOUT1(3, game6.client.entities.EntityScout1.class, game6.server.entities.EntityScout1.class),
+	TRANSPORT1(4, game6.client.entities.EntityTransport1.class, game6.server.entities.EntityTransport1.class),
+	TRANSPORT2(5, game6.client.entities.EntityTransport2.class, game6.server.entities.EntityTransport2.class);
 
 	private int typeID;
 	private Class<? extends ClientEntity> clientClass;

@@ -3,7 +3,6 @@ package game6.core.entities;
 import game6.core.ai.pathfinding.Pathfinder;
 import game6.core.interfaces.ICombat;
 import game6.core.interfaces.IPosition;
-import game6.core.util.Position;
 
 import java.util.List;
 

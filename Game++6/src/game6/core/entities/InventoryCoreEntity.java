@@ -4,18 +4,13 @@ import game6.core.interfaces.*;
 import game6.core.util.Resource;
 import de.nerogar.util.Vector3f;
 
-public abstract class CoreEntityHelicopter1 extends DefaultCoreEntity implements MovementAir, ResourceContainer {
+public abstract class InventoryCoreEntity extends DefaultCoreEntity implements ResourceContainer {
 
 	private ResourceContainer resourceContainer;
 
-	public CoreEntityHelicopter1(long id, Vector3f position) {
-		super(id, position, new BoundingAABB(-0.3f, 0f, -0.3f, 0.3f, 0.3f, 0.3f), 5, 100);
-		resourceContainer = new DefaultResourceContainer(100);
-	}
-
-	@Override
-	public String getName() {
-		return "Helicopter";
+	public InventoryCoreEntity(long id, Vector3f position, BoundingAABB bounding, float speed, int maxHealth, int inventoryCapacity) {
+		super(id, position, bounding, speed, maxHealth);
+		resourceContainer = new DefaultResourceContainer(inventoryCapacity);
 	}
 
 	@Override

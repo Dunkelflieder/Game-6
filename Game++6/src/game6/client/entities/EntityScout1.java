@@ -1,45 +1,49 @@
 package game6.client.entities;
 
 import game6.client.ObjectRenderer;
-import game6.client.entities.guis.EntityGuiDefault;
+import game6.client.entities.guis.EntityGuiInventory;
 import game6.client.world.World;
-import game6.core.entities.CoreEntityTank1;
+import game6.core.entities.CoreEntityScout1;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
 
-public class EntityTank1 extends CoreEntityTank1 implements ClientEntity {
+public class EntityScout1 extends CoreEntityScout1 implements ClientEntity, ClientEntityInventory {
 
 	private DefaultClientEntityBehaviour defaultBehaviour = new DefaultClientEntityBehaviour();
 
 	private RenderProperties3f renderProperties;
+
 	private ObjectRenderer renderer;
 
-	private EntityGuiDefault gui;
+	private EntityGuiInventory gui;
 
-	public EntityTank1(long id) {
+	public EntityScout1(long id) {
 		super(id, new Vector3f());
 
-		renderer = new ObjectRenderer(Texture2DLoader.loadTexture("res/entities/#tank1/color.png"),
-				Texture2DLoader.loadTexture("res/entities/#tank1/light.png"),
-				Texture2DLoader.loadTexture("res/entities/#tank1/faction.png"),
-				WavefrontLoader.loadObject("res/entities/#tank1/mesh.obj"));
+		renderer = new ObjectRenderer(
+				Texture2DLoader.loadTexture("res/entities/scout1/color.png"),
+				Texture2DLoader.loadTexture("res/entities/scout1/light.png"),
+				Texture2DLoader.loadTexture("res/entities/scout1/faction.png"),
+				WavefrontLoader.loadObject("res/entities/scout1/mesh.obj")
+				);
 
 		renderProperties = new RenderProperties3f();
 
-		gui = new EntityGuiDefault(this);
+		gui = new EntityGuiInventory(this);
 	}
 
 	@Override
 	public void render(Shader shader) {
 		renderProperties.setXYZ(getPosition());
 		renderProperties.setYaw(getVisibleRotation());
-		renderProperties.setScale(2, 2, 2);
+
+		renderProperties.setScale(1, 1, 1);
 
 		renderer.render(shader, renderProperties.getModelMatrix());
 	}
 
 	@Override
-	public EntityGuiDefault getGui() {
+	public EntityGuiInventory getGui() {
 		return gui;
 	}
 

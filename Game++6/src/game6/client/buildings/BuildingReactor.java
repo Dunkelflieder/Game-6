@@ -23,10 +23,10 @@ public class BuildingReactor extends CoreBuildingReactor implements ClientBuildi
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/buildings/reactor/color.png"),
-				Texture2DLoader.loadTexture("res/buildings/reactor/light.png"),
-				Texture2DLoader.loadTexture("res/buildings/reactor/faction.png"),
-				WavefrontLoader.loadObject("res/buildings/reactor/mesh.obj")
+				Texture2DLoader.loadTexture("res/buildings/#reactor/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/#reactor/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/#reactor/faction.png"),
+				WavefrontLoader.loadObject("res/buildings/#reactor/mesh.obj")
 				);
 
 		renderProperties = new RenderProperties3f();

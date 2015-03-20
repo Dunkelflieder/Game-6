@@ -23,10 +23,10 @@ public class BuildingTower extends CoreBuildingTower implements ClientBuilding {
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/buildings/tower/color.png"),
-				Texture2DLoader.loadTexture("res/buildings/tower/light.png"),
-				Texture2DLoader.loadTexture("res/buildings/tower/faction.png"),
-				WavefrontLoader.loadObject("res/buildings/tower/mesh.obj")
+				Texture2DLoader.loadTexture("res/buildings/#tower/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/#tower/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/#tower/faction.png"),
+				WavefrontLoader.loadObject("res/buildings/#tower/mesh.obj")
 				);
 
 		renderProperties = new RenderProperties3f();

@@ -24,18 +24,18 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEn
 		super(id, new Vector3f());
 
 		rendererMain = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/entities/helicopter1/colorMain.png"),
-				Texture2DLoader.loadTexture("res/entities/helicopter1/lightMain.png"),
-				Texture2DLoader.loadTexture("res/entities/helicopter1/factionMain.png"),
-				WavefrontLoader.loadObject("res/entities/helicopter1/mesh.obj")
+				Texture2DLoader.loadTexture("res/entities/#helicopter1/colorMain.png"),
+				Texture2DLoader.loadTexture("res/entities/#helicopter1/lightMain.png"),
+				Texture2DLoader.loadTexture("res/entities/#helicopter1/factionMain.png"),
+				WavefrontLoader.loadObject("res/entities/#helicopter1/mesh.obj")
 				);
 
 		rendererRotor = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/entities/helicopter1/colorRotor.png"),
-				Texture2DLoader.loadTexture("res/entities/helicopter1/lightRotor.png"),
-				Texture2DLoader.loadTexture("res/entities/helicopter1/factionRotor.png"),
-				WavefrontLoader.loadObject("res/entities/helicopter1/meshRotorL.obj"),
-				WavefrontLoader.loadObject("res/entities/helicopter1/meshRotorH.obj")
+				Texture2DLoader.loadTexture("res/entities/#helicopter1/colorRotor.png"),
+				Texture2DLoader.loadTexture("res/entities/#helicopter1/lightRotor.png"),
+				Texture2DLoader.loadTexture("res/entities/#helicopter1/factionRotor.png"),
+				WavefrontLoader.loadObject("res/entities/#helicopter1/meshRotorL.obj"),
+				WavefrontLoader.loadObject("res/entities/#helicopter1/meshRotorH.obj")
 				);
 
 		renderPropertiesMain = new RenderProperties3f();
@@ -48,6 +48,7 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEn
 	@Override
 	public void update(float timeDelta) {
 		super.update(timeDelta);
+		ClientEntityInventory.super.update(timeDelta);
 
 		renderPropertiesRotorL.setYaw((renderPropertiesRotorL.getYaw() + 8f * timeDelta) % 360);
 		renderPropertiesRotorH.setYaw((renderPropertiesRotorH.getYaw() - 8f * timeDelta) % 360);
@@ -58,7 +59,7 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEn
 		renderPropertiesMain.setXYZ(getPosition());
 		renderPropertiesRotorL.setXYZ(getPosition());
 		renderPropertiesRotorH.setXYZ(getPosition());
-		renderPropertiesMain.setYaw(getRotation());
+		renderPropertiesMain.setYaw(getVisibleRotation());
 
 		renderPropertiesMain.setScale(2, 2, 2);
 		renderPropertiesRotorL.setScale(2, 2, 2);

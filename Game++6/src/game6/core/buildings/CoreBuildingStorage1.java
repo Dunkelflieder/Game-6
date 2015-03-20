@@ -9,7 +9,7 @@ public abstract class CoreBuildingStorage1 extends DefaultCoreBuilding implement
 	private ResourceContainer resourceContainer;
 
 	public CoreBuildingStorage1(long id) {
-		super(id, 2, 3, 50, 0, 100);
+		super(id, 2, 2, 50, 0, 100);
 		resourceContainer = new DefaultResourceContainer();
 		resourceContainer.setCapacity(1000);
 	}

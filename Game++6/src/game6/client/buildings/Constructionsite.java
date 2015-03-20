@@ -32,10 +32,10 @@ public class Constructionsite extends CoreConstructionsite<ClientBuilding> imple
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/buildings/research/color.png"),
-				Texture2DLoader.loadTexture("res/buildings/research/light.png"),
-				Texture2DLoader.loadTexture("res/buildings/research/faction.png"),
-				WavefrontLoader.loadObject("res/buildings/research/mesh.obj")
+				Texture2DLoader.loadTexture("res/buildings/#research/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/#research/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/#research/faction.png"),
+				WavefrontLoader.loadObject("res/buildings/#research/mesh.obj")
 				);
 
 		renderProperties = new RenderProperties3f();

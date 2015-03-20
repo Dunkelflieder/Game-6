@@ -23,10 +23,10 @@ public class BuildingRock extends CoreBuildingRock implements ClientBuilding {
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/buildings/rock/color.png"),
-				Texture2DLoader.loadTexture("res/buildings/rock/light.png"),
-				Texture2DLoader.loadTexture("res/buildings/rock/faction.png"),
-				WavefrontLoader.loadObject("res/buildings/rock/mesh.obj")
+				Texture2DLoader.loadTexture("res/buildings/#rock/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/#rock/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/#rock/faction.png"),
+				WavefrontLoader.loadObject("res/buildings/#rock/mesh.obj")
 				);
 
 		renderProperties = new RenderProperties3f();
