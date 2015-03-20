@@ -197,6 +197,10 @@ public class GuiIngame extends Gui {
 	 */
 	public void updateCenterOfRendering() {
 
+		if (!getController().getWorld().isLoaded()) {
+			return;
+		}
+
 		// Decrease the pitch angle for the calculation to get a center point further away.
 		// Because of perspective, the actual center point is not a good center point for rendering.
 		float pitch = controller.getCamera().getPitch();
