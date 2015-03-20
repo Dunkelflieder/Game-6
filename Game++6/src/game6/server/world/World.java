@@ -123,6 +123,7 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 		for (ServerEntity entity : getEntities()) {
 			ServerEntity serverEntity = (ServerEntity) entity;
 			player.getConnection().send(new PacketSpawnEntity(EntityType.fromServerClass(serverEntity.getClass()), serverEntity.getFaction(), serverEntity.getID(), serverEntity.getPosition()));
+			entity.broadcastAll();
 		}
 	}
 

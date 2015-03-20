@@ -18,7 +18,8 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 	default public void setMovementPath(List<Vector3f> newPath) {
 		getMovementPath().clear();
 		getMovementPath().addAll(newPath);
-		Faction.broadcastAll(new PacketEntityUpdatePath(this));
+		broadcastPath();
+		broadcastPosition();
 	}
 
 	public World getWorld();
@@ -41,6 +42,19 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 	default public void kill() {
 		Faction.broadcastAll(new PacketEntityRemove(getID(), true));
 		remove();
+	}
+	
+	default public void broadcastPosition() {
+		Faction.broadcastAll(new PacketEntityUpdatePosition(this));
+	}
+	
+	default public void broadcastPath() {
+		Faction.broadcastAll(new PacketEntityUpdatePath(this));
+	}
+	
+	default public void broadcastAll() {
+		broadcastPath();
+		broadcastPosition();
 	}
 
 }

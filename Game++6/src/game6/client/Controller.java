@@ -2,7 +2,6 @@ package game6.client;
 
 import game6.client.buildings.ClientBuilding;
 import game6.client.buildings.Constructionsite;
-import game6.client.effects.EffectContainer;
 import game6.client.effects.Lightning;
 import game6.client.entities.ClientEntity;
 import game6.client.gui.GuiIngame;
@@ -41,7 +40,7 @@ public class Controller {
 	private World world;
 	private Camera camera;
 
-	public Controller(World world, Camera camera, EffectContainer effects) {
+	public Controller(World world, Camera camera) {
 		this.world = world;
 		this.camera = camera;
 		this.inputHandler = new InputHandler();
@@ -50,6 +49,10 @@ public class Controller {
 
 	public World getWorld() {
 		return world;
+	}
+	
+	public void setWorld(World world) {
+		this.world = world;
 	}
 
 	public Camera getCamera() {
@@ -144,6 +147,10 @@ public class Controller {
 
 	public void update(float timeDelta) {
 
+		if (world != null) {
+			world.update(timeDelta);
+		}
+		
 		// TODO debug/testing code
 		if (isConnected()) {
 			List<Packet> packets = connection.get(PacketList.INIT);
@@ -153,7 +160,7 @@ public class Controller {
 					Faction.own = packetInfo.faction;
 				} else if (packet instanceof PacketMap) {
 					PacketMap packetMap = (PacketMap) packet;
-					world.setMap(packetMap.getClientMap());
+					getWorld().setMap(packetMap.getClientMap());
 				}
 			}
 

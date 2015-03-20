@@ -1,8 +1,7 @@
 package game6.client.world;
 
 import game6.client.buildings.ClientBuilding;
-import game6.client.effects.EffectContainer;
-import game6.client.effects.SelectionMarker;
+import game6.client.effects.*;
 import game6.client.entities.ClientEntity;
 import game6.core.buildings.CoreConstructionsite;
 import game6.core.world.CoreWorld;
@@ -26,6 +25,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	private Shader worldShader;
 
 	private EffectContainer effectContainer;
+	private LightContainer lightContainer;
 
 	private ClientBuilding selectedBuilding;
 	private ClientEntity selectedEntity;
@@ -33,7 +33,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	private SelectionMarker selectionMarker;
 
 	private Minimap minimap;
-	
+
 	public World(EffectContainer effectContainer) {
 		super(null);
 		this.effectContainer = effectContainer;
@@ -46,7 +46,11 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	public EffectContainer getEffectContainer() {
 		return effectContainer;
 	}
-	
+
+	public LightContainer getLightContainer() {
+		return lightContainer;
+	}
+
 	public ClientBuilding getSelectedBuilding() {
 		return selectedBuilding;
 	}
@@ -184,7 +188,6 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 				worldShader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
 				entity.render(worldShader);
 			}
-
 		}
 
 		worldShader.deactivate();
@@ -193,7 +196,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	public boolean isLoaded() {
 		return getMap() != null;
 	}
-	
+
 	@Override
 	public void addEntity(ClientEntity entity) {
 		entity.setWorld(this);

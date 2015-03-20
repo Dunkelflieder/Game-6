@@ -2,7 +2,8 @@ package game6.client;
 
 import game6.client.effects.EffectContainer;
 import game6.client.effects.LightContainer;
-import game6.client.gui.*;
+import game6.client.gui.BuildingIconTextures;
+import game6.client.gui.Guis;
 import game6.client.sound.SoundManager;
 import game6.client.world.World;
 import game6.core.networking.PacketList;
@@ -20,7 +21,6 @@ public class Game extends BaseGame {
 	public static LanguageFile langFile;
 
 	private Controller controller;
-	private World world;
 	private ScreenProperties worldProperties;
 	private ScreenProperties effectProperties;
 	private ScreenProperties lightProperties;
@@ -30,7 +30,9 @@ public class Game extends BaseGame {
 	private EffectContainer effectContainer;
 	private LightContainer lightContainer;
 	private Compositer compositer;
-
+	
+	private World world;
+	
 	@Override
 	public void startup() {
 		PacketList.init();
@@ -47,8 +49,8 @@ public class Game extends BaseGame {
 		BuildingIconTextures.init(display);
 
 		world = new World(effectContainer);
-
-		controller = new Controller(world, camera, effectContainer);
+		
+		controller = new Controller(world, camera);
 
 		Guis.init(controller);
 		// Trigger gui resize event once at startup
@@ -108,7 +110,6 @@ public class Game extends BaseGame {
 	@Override
 	protected void update(float timeDelta) {
 		controller.update(timeDelta);
-		world.update(timeDelta);
 		effectContainer.update(timeDelta);
 		lightContainer.update(timeDelta);
 		Guis.update();

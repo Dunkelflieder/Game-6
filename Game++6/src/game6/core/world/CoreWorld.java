@@ -47,7 +47,7 @@ public abstract class CoreWorld<B extends CoreBuilding, E extends CoreEntity> im
 		}
 
 	}
-	
+
 	public void addEntity(E entity) {
 		entities.add(entity);
 	}

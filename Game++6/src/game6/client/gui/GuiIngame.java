@@ -66,8 +66,6 @@ public class GuiIngame extends Gui {
 			public boolean mouseClicked(GComponent source, int button) {
 				// TODO don't hardcode fov
 				World world = controller.getWorld();
-				if (!world.isLoaded())
-					return false;
 
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
 				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
@@ -128,20 +126,19 @@ public class GuiIngame extends Gui {
 			public boolean mouseMoved(GComponent source, int dx, int dy) {
 
 				World world = controller.getWorld();
-				if (!world.isLoaded()) {
-					return false;
-				}
 
 				// TODO don't hardcode fov
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
 				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
 
-				mapPosition = world.getMap().getIntersection(mouseRay);
+				if (world.isLoaded()) {
+					mapPosition = world.getMap().getIntersection(mouseRay);
 
-				if (selectionPanel.getBuilding() != null) {
-					if (mapPosition != null) {
-						selectionPanel.getPreview().setPosX(MathHelper.clamp((int) mapPosition.getX(), 0, world.getMap().getSizeX() - selectionPanel.getPreview().getSizeX()));
-						selectionPanel.getPreview().setPosY(MathHelper.clamp((int) mapPosition.getY(), 0, world.getMap().getSizeY() - selectionPanel.getPreview().getSizeY()));
+					if (selectionPanel.getBuilding() != null) {
+						if (mapPosition != null) {
+							selectionPanel.getPreview().setPosX(MathHelper.clamp((int) mapPosition.getX(), 0, world.getMap().getSizeX() - selectionPanel.getPreview().getSizeX()));
+							selectionPanel.getPreview().setPosY(MathHelper.clamp((int) mapPosition.getY(), 0, world.getMap().getSizeY() - selectionPanel.getPreview().getSizeY()));
+						}
 					}
 				}
 
@@ -191,10 +188,6 @@ public class GuiIngame extends Gui {
 	 * This position represents the center around which the map should be rendered
 	 */
 	public void updateCenterOfRendering() {
-
-		if (!controller.getWorld().isLoaded()) {
-			return;
-		}
 
 		// Decrease the pitch angle for the calculation to get a center point further away.
 		// Because of perspective, the actual center point is not a good center point for rendering.
