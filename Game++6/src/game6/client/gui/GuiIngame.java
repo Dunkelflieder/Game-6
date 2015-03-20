@@ -67,6 +67,10 @@ public class GuiIngame extends Gui {
 				// TODO don't hardcode fov
 				World world = controller.getWorld();
 
+				if (!world.isLoaded()) {
+					return false;
+				}
+
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
 				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
 				// RayIntersection<Vector3f> intersection = world.getPhysicsSpace().getIntersecting(mouseRay);
@@ -76,10 +80,12 @@ public class GuiIngame extends Gui {
 				ClientBuilding clickedBuilding = null;
 				ClientEntity clickedEntity = null;
 
-				if (mapIntersection != null)
+				if (mapIntersection != null) {
 					clickedBuilding = controller.getWorld().getMap().getBuildingAt((int) mapIntersection.getX(), (int) mapIntersection.getY());
-				if (intersection != null)
+				}
+				if (intersection != null) {
 					clickedEntity = (ClientEntity) intersection.intersectingBody;
+				}
 
 				if (button == 0) {
 
@@ -127,18 +133,20 @@ public class GuiIngame extends Gui {
 
 				World world = controller.getWorld();
 
+				if (!world.isLoaded()) {
+					return false;
+				}
+
 				// TODO don't hardcode fov
 				controller.getInputHandler().updateMousePositions(controller.getCamera(), 90);
 				Ray<Vector3f> mouseRay = controller.getInputHandler().getMouseRay();
 
-				if (world.isLoaded()) {
-					mapPosition = world.getMap().getIntersection(mouseRay);
+				mapPosition = world.getMap().getIntersection(mouseRay);
 
-					if (selectionPanel.getBuilding() != null) {
-						if (mapPosition != null) {
-							selectionPanel.getPreview().setPosX(MathHelper.clamp((int) mapPosition.getX(), 0, world.getMap().getSizeX() - selectionPanel.getPreview().getSizeX()));
-							selectionPanel.getPreview().setPosY(MathHelper.clamp((int) mapPosition.getY(), 0, world.getMap().getSizeY() - selectionPanel.getPreview().getSizeY()));
-						}
+				if (selectionPanel.getBuilding() != null) {
+					if (mapPosition != null) {
+						selectionPanel.getPreview().setPosX(MathHelper.clamp((int) mapPosition.getX(), 0, world.getMap().getSizeX() - selectionPanel.getPreview().getSizeX()));
+						selectionPanel.getPreview().setPosY(MathHelper.clamp((int) mapPosition.getY(), 0, world.getMap().getSizeY() - selectionPanel.getPreview().getSizeY()));
 					}
 				}
 
