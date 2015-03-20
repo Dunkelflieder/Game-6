@@ -81,14 +81,14 @@ public enum Faction {
 	
 	public void flush() {
 		for (Player player : players) {
-			player.getConnection().flush();
+			player.getConnection().flushPackets();
 		}
 	}
 
 	public List<Packet> getPackets(int channelID) {
 		List<Packet> packets = new ArrayList<>();
 		for (Player player : players) {
-			packets.addAll(player.getConnection().get(channelID));
+			packets.addAll(player.getConnection().getPackets(channelID));
 		}
 		return packets;
 	}

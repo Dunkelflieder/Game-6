@@ -150,7 +150,7 @@ public class Controller {
 
 		// TODO debug/testing code
 		if (isConnected()) {
-			List<Packet> packets = connection.get(PacketList.INIT);
+			List<Packet> packets = connection.getPackets(PacketList.INIT);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketPlayerInfo) {
 					PacketPlayerInfo packetInfo = (PacketPlayerInfo) packet;
@@ -184,7 +184,7 @@ public class Controller {
 			HashMap<LightningLine, Integer> lightnings = new HashMap<>();
 
 			// TODO Don't process the packets here
-			packets = connection.get(PacketList.INFO);
+			packets = connection.getPackets(PacketList.INFO);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketEnabledBuildingsList) {
 					PacketEnabledBuildingsList pebl = (PacketEnabledBuildingsList) packet;
@@ -193,7 +193,7 @@ public class Controller {
 				}
 			}
 
-			packets = connection.get(PacketList.WORLD);
+			packets = connection.getPackets(PacketList.WORLD);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketSpawnEntity) {
 
@@ -250,7 +250,7 @@ public class Controller {
 				world.getEffectContainer().addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
 			}
 
-			packets = connection.get(PacketList.ENTITIES);
+			packets = connection.getPackets(PacketList.ENTITIES);
 			for (Packet packet : packets) {
 				PacketUniqueID packetUniqueID = (PacketUniqueID) packet;
 				ClientEntity entity = getWorld().getEntity(packetUniqueID.id);
@@ -261,7 +261,7 @@ public class Controller {
 				}
 			}
 
-			packets = connection.get(PacketList.BUILDINGS);
+			packets = connection.getPackets(PacketList.BUILDINGS);
 			for (Packet packet : packets) {
 				PacketUniqueID packetUniqueID = (PacketUniqueID) packet;
 				ClientBuilding building = getWorld().getBuilding(packetUniqueID.id);
@@ -272,7 +272,7 @@ public class Controller {
 				}
 			}
 
-			connection.flush();
+			connection.flushPackets();
 		}
 
 	}
