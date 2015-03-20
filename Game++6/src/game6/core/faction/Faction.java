@@ -78,6 +78,12 @@ public enum Faction {
 			player.getConnection().send(packet);
 		}
 	}
+	
+	public void flush() {
+		for (Player player : players) {
+			player.getConnection().flush();
+		}
+	}
 
 	public List<Packet> getPackets(int channelID) {
 		List<Packet> packets = new ArrayList<>();
@@ -96,6 +102,7 @@ public enum Faction {
 	public static void updateAll() {
 		for (Faction faction : values()) {
 			faction.update();
+			faction.flush();
 		}
 	}
 

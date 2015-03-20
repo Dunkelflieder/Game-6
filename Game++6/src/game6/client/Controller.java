@@ -20,9 +20,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import de.nerogar.network.Connection;
-import de.nerogar.network.Packets;
 import de.nerogar.network.packets.Packet;
-import de.nerogar.network.packets.PacketConnectionInfo;
 import de.nerogar.render.Camera;
 import de.nerogar.util.InputHandler;
 import de.nerogar.util.Vector3f;
@@ -50,7 +48,7 @@ public class Controller {
 	public World getWorld() {
 		return world;
 	}
-	
+
 	public void setWorld(World world) {
 		this.world = world;
 	}
@@ -78,7 +76,6 @@ public class Controller {
 		}
 		try {
 			connection = new Connection(new Socket(host, port));
-			connection.send(new PacketConnectionInfo(Packets.NETWORKING_VERSION));
 			return true;
 		} catch (IOException e) {
 			System.err.println("Could not establish connection");
@@ -150,7 +147,7 @@ public class Controller {
 		if (world != null) {
 			world.update(timeDelta);
 		}
-		
+
 		// TODO debug/testing code
 		if (isConnected()) {
 			List<Packet> packets = connection.get(PacketList.INIT);
@@ -174,9 +171,7 @@ public class Controller {
 
 				@Override
 				public boolean equals(Object obj) {
-					if (!(obj instanceof LightningLine)) {
-						return false;
-					}
+					if (!(obj instanceof LightningLine)) { return false; }
 					LightningLine l = (LightningLine) obj;
 					return l.a == a && l.b == b || l.a == b && l.b == a;
 				}
@@ -276,6 +271,8 @@ public class Controller {
 					building.process(packetUniqueID);
 				}
 			}
+
+			connection.flush();
 		}
 
 	}
