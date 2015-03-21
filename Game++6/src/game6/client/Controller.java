@@ -150,6 +150,9 @@ public class Controller {
 
 		// TODO debug/testing code
 		if (isConnected()) {
+
+			connection.pollPackets(true);
+
 			List<Packet> packets = connection.getPackets(PacketList.INIT);
 			for (Packet packet : packets) {
 				if (packet instanceof PacketPlayerInfo) {
@@ -171,7 +174,9 @@ public class Controller {
 
 				@Override
 				public boolean equals(Object obj) {
-					if (!(obj instanceof LightningLine)) { return false; }
+					if (!(obj instanceof LightningLine)) {
+						return false;
+					}
 					LightningLine l = (LightningLine) obj;
 					return l.a == a && l.b == b || l.a == b && l.b == a;
 				}
@@ -273,6 +278,7 @@ public class Controller {
 			}
 
 			connection.flushPackets();
+
 		}
 
 	}

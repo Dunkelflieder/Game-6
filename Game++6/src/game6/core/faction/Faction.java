@@ -73,12 +73,18 @@ public enum Faction {
 		return null;
 	}
 
+	public void poll() {
+		for (Player player : players) {
+			player.getConnection().pollPackets(true);
+		}
+	}
+
 	public void broadcast(Packet packet) {
 		for (Player player : players) {
 			player.getConnection().send(packet);
 		}
 	}
-	
+
 	public void flush() {
 		for (Player player : players) {
 			player.getConnection().flushPackets();
@@ -101,6 +107,7 @@ public enum Faction {
 
 	public static void updateAll() {
 		for (Faction faction : values()) {
+			faction.poll();
 			faction.update();
 			faction.flush();
 		}
