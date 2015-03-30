@@ -1,13 +1,13 @@
 package game6.server.buildings;
 
-import game6.core.buildings.CoreBuildingResearch;
+import game6.core.buildings.CoreBuildingResearch2;
 import game6.server.world.World;
 
-public class BuildingResearch extends CoreBuildingResearch implements ServerBuilding {
+public class BuildingResearch2 extends CoreBuildingResearch2 implements ServerBuilding {
 
 	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
-	public BuildingResearch() {
+	public BuildingResearch2() {
 		super(getNextID());
 	}
 

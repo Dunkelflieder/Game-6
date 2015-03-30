@@ -3,10 +3,10 @@ package game6.client.buildings;
 import game6.client.ObjectRenderer;
 import game6.client.buildings.guis.BuildingGuiDefault;
 import game6.client.world.World;
-import game6.core.buildings.CoreBuildingReactor;
+import game6.core.buildings.CoreBuildingWell;
 import de.nerogar.render.*;
 
-public class BuildingReactor extends CoreBuildingReactor implements ClientBuilding {
+public class BuildingWell extends CoreBuildingWell implements ClientBuilding {
 
 	private DefaultClientBuildingBehaviour defaultBehaviour = new DefaultClientBuildingBehaviour();
 
@@ -15,7 +15,7 @@ public class BuildingReactor extends CoreBuildingReactor implements ClientBuildi
 
 	private BuildingGuiDefault gui;
 
-	public BuildingReactor(long id) {
+	public BuildingWell(long id) {
 		super(id);
 		gui = new BuildingGuiDefault(this);
 	}
@@ -23,10 +23,10 @@ public class BuildingReactor extends CoreBuildingReactor implements ClientBuildi
 	@Override
 	public void init() {
 		renderer = new ObjectRenderer(
-				Texture2DLoader.loadTexture("res/buildings/#reactor/color.png"),
-				Texture2DLoader.loadTexture("res/buildings/#reactor/light.png"),
-				Texture2DLoader.loadTexture("res/buildings/#reactor/faction.png"),
-				WavefrontLoader.loadObject("res/buildings/#reactor/mesh.obj")
+				Texture2DLoader.loadTexture("res/buildings/well/color.png"),
+				Texture2DLoader.loadTexture("res/buildings/well/light.png"),
+				Texture2DLoader.loadTexture("res/buildings/well/faction.png"),
+				WavefrontLoader.loadObject("res/buildings/well/mesh.obj")
 				);
 
 		renderProperties = new RenderProperties3f();

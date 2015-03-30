@@ -8,15 +8,16 @@ import game6.server.buildings.ServerBuilding;
 import java.lang.reflect.InvocationTargetException;
 
 public enum BuildingType {
-	REACTOR(1, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingReactor.class, game6.server.buildings.BuildingReactor.class),
-	RESEARCH(2, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingResearch.class, game6.server.buildings.BuildingResearch.class),
+	RESEARCH2(2, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingResearch2.class, game6.server.buildings.BuildingResearch2.class),
 	TOWER(3, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingTower.class, game6.server.buildings.BuildingTower.class),
 	FACTORY(4, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingFactory.class, game6.server.buildings.BuildingFactory.class),
 	STORAGE(5, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingStorage1.class, game6.server.buildings.BuildingStorage1.class),
 	ENERGY1(6, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingEnergy1.class, game6.server.buildings.BuildingEnergy1.class),
-	LIVING1(7, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingLiving1.class, game6.server.buildings.BuildingLiving1.class),
+	ENERGY2(7, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingEnergy2.class, game6.server.buildings.BuildingEnergy2.class),
+	LIVING1(8, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingLiving1.class, game6.server.buildings.BuildingLiving1.class),
 
-	ROCK(100, new DefaultResourceContainer(0, 0), game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class);
+	ROCK(100, new DefaultResourceContainer(0, 0), game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class),
+	WELL(101, new DefaultResourceContainer(0, 0), game6.client.buildings.BuildingWell.class, game6.server.buildings.BuildingWell.class);
 
 	private int typeID;
 	private ResourceContainer buildingCost;

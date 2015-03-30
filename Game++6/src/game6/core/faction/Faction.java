@@ -39,13 +39,15 @@ public enum Faction {
 
 	// TODO don't define here, which buildings are enabled by default
 	private void enableDefaultBuildings() {
-		enableBuilding(BuildingType.REACTOR);
-		enableBuilding(BuildingType.RESEARCH);
+		enableBuilding(BuildingType.RESEARCH2);
 		enableBuilding(BuildingType.FACTORY);
 		enableBuilding(BuildingType.LIVING1);
 		enableBuilding(BuildingType.STORAGE);
 		enableBuilding(BuildingType.TOWER);
 		enableBuilding(BuildingType.ENERGY1);
+		enableBuilding(BuildingType.ENERGY2);
+		
+		enableBuilding(BuildingType.WELL);
 	}
 
 	public void addPlayer(Player player) {
