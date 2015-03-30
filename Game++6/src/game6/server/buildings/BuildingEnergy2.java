@@ -1,7 +1,7 @@
 package game6.server.buildings;
 
 import game6.core.ai.goalfinding.Path;
-import game6.core.buildings.CoreBuildingReactor;
+import game6.core.buildings.CoreBuildingEnergy2;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketPowerSupply;
 import game6.core.networking.packets.buildings.PacketBuildingUpdate;
@@ -10,17 +10,17 @@ import game6.server.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingReactor extends CoreBuildingReactor implements ServerBuilding {
+public class BuildingEnergy2 extends CoreBuildingEnergy2 implements ServerBuilding {
 
 	private DefaultServerBuildingBehaviour defaultBehaviour = new DefaultServerBuildingBehaviour();
 
 	private int tick = 0;
 	// Ticks between each energy pulse
-	private int shockCooldown = 50;
+	private int shockCooldown = 10;
 	// Amount of energy emitted with each pulse
 	private int shockPower = 100;
 
-	public BuildingReactor() {
+	public BuildingEnergy2() {
 		super(getNextID());
 	}
 
@@ -29,8 +29,20 @@ public class BuildingReactor extends CoreBuildingReactor implements ServerBuildi
 	}
 
 	@Override
+	public World getWorld() {
+		return defaultBehaviour.getWorld();
+	}
+
+	@Override
+	public void setWorld(World world) {
+		defaultBehaviour.setWorld(world);
+	}
+
+	@Override
 	public void update(float timeDelta) {
 		super.update(timeDelta);
+		ServerBuilding.super.update(timeDelta);
+
 		tick++;
 
 		// Each cooldown-period start emitting energy
@@ -49,6 +61,7 @@ public class BuildingReactor extends CoreBuildingReactor implements ServerBuildi
 
 			int left = shockPower;
 			for (Path path : candidates) {
+				System.out.println("Candidate: " + path.getGoal().getName());
 				int returned = path.getGoal().addEnergy(left);
 				if (returned < left) {
 					// visible lightnings
@@ -72,16 +85,6 @@ public class BuildingReactor extends CoreBuildingReactor implements ServerBuildi
 
 	public int getShockPower() {
 		return shockPower;
-	}
-
-	@Override
-	public World getWorld() {
-		return defaultBehaviour.getWorld();
-	}
-
-	@Override
-	public void setWorld(World world) {
-		defaultBehaviour.setWorld(world);
 	}
 
 }
