@@ -68,11 +68,11 @@ void main(){
 	vec4 guiColor = texture2D(tex_guiColor, gl_TexCoord[0].st);
 
 	//combine
-	vec4 finalCombinedColor = worldFinal + (specularIntensity * vec4(sunColor, 0.0)) + (worldAmbient.y * skyColor);
+	vec4 finalCombinedColor = worldFinal + (specularIntensity * vec4(sunColor, 0.0));
 	finalCombinedColor = mix(finalCombinedColor, skyColor, worldAmbient.y);
 
 	finalCombinedColor += effectsColor;
 	gl_FragColor = mix(finalCombinedColor, guiColor, guiColor.a);
-	//gl_FragColor = textureCube(tex_cube_sky, viewDirection);
+	//gl_FragColor = vec4(skyColor);
 
 }
