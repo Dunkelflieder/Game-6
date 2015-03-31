@@ -2,6 +2,7 @@ package game6.client;
 
 import game6.client.buildings.ClientBuilding;
 import game6.client.buildings.Constructionsite;
+import game6.client.effects.LaserBullet;
 import game6.client.effects.Lightning;
 import game6.client.entities.ClientEntity;
 import game6.client.gui.GuiIngame;
@@ -12,7 +13,7 @@ import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
 import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
-import game6.core.networking.packets.entities.PacketEntityMove;
+import game6.core.networking.packets.entities.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -129,16 +130,16 @@ public class Controller {
 	}
 
 	// TODO debug method
-	public void setEntityTarget(ClientEntity sourceEntity, ClientEntity targetEntity) {
+	public void setEntityAttack(ClientEntity sourceEntity, ClientEntity target) {
 		if (isConnected()) {
-			connection.send(new PacketCombatTargetSet(PacketCombatTargetSet.ENTITIY, sourceEntity.getID(), PacketCombatTargetSet.ENTITIY, targetEntity.getID()));
+			connection.send(new PacketEntityAttackEntity(sourceEntity, target));
 		}
 	}
 
 	// TODO debug method
-	public void setEntityTarget(ClientEntity sourceEntity, ClientBuilding targetBuilding) {
+	public void setEntityAttack(ClientEntity sourceEntity, ClientBuilding target) {
 		if (isConnected()) {
-			connection.send(new PacketCombatTargetSet(PacketCombatTargetSet.ENTITIY, sourceEntity.getID(), PacketCombatTargetSet.BUILDING, targetBuilding.getID()));
+			connection.send(new PacketEntityAttackBuilding(sourceEntity, target));
 		}
 	}
 
@@ -239,20 +240,18 @@ public class Controller {
 							}
 						}
 					}
+				} else if (packet instanceof PacketAttackAnimation) {
+
+					PacketAttackAnimation packetAA = (PacketAttackAnimation) packet;
+					getWorld().getEffectContainer().addEffect(new LaserBullet(packetAA.source, packetAA.target));
+
 				}
-				// TODO reimplement combat
-				/*else if (packet instanceof PacketAttackEffect) {
-
-					PacketAttackEffect packetEntity = (PacketAttackEffect) packet;
-
-					world.getEffectContainer().addEffect(new LaserBullet(packetEntity.sourcePos, packetEntity.targetPos));
-				}*/
 			}
 
 			for (Entry<LightningLine, Integer> entry : lightnings.entrySet()) {
 				ClientBuilding building1 = getWorld().getBuilding(entry.getKey().a);
 				ClientBuilding building2 = getWorld().getBuilding(entry.getKey().b);
-				world.getEffectContainer().addEffect(new Lightning(building1.getCenter(), building2.getCenter()));
+				world.getEffectContainer().addEffect(new Lightning(building1.getCenterPosition(), building2.getCenterPosition()));
 			}
 
 			packets = connection.getPackets(PacketList.ENTITIES);

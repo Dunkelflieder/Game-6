@@ -1,7 +1,6 @@
-package game6.core.entities;
+package game6.core.combat;
 
-import game6.core.interfaces.ICombat;
-import game6.core.interfaces.ICombatTarget;
+import game6.core.entities.MoveTarget;
 import de.nerogar.util.Vector3f;
 
 public class MoveTargetCombat implements MoveTarget {
@@ -16,7 +15,7 @@ public class MoveTargetCombat implements MoveTarget {
 
 	@Override
 	public boolean isReached() {
-		return attacker.reachesTarget();
+		return attacker.hasApproachDistance();
 	}
 
 	@Override

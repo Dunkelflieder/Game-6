@@ -28,7 +28,6 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 		super.update(timeDelta);
 
 		// check for building placement request.
-		// TODO this is sample code btw.
 		for (Faction faction : Faction.values()) {
 			for (Packet packet : faction.getPackets(PacketList.WORLD)) {
 				if (packet instanceof PacketSpawnEntity) {
@@ -54,18 +53,6 @@ public class World extends CoreWorld<ServerBuilding, ServerEntity> {
 						Faction.broadcastAll(new PacketStartConstruction(psc.building, faction, building.getPosX(), building.getPosY(), building.getID()));
 					}
 				}
-
-				// TODO reimplement combat
-				/* else if (packet instanceof PacketCombatTargetSet) {
-					PacketCombatTargetSet pcts = (PacketCombatTargetSet) packet;
-					ServerEntity sourceEntity = (ServerEntity) getEntity(pcts.sourceID);
-					if (pcts.targetType == PacketCombatTargetSet.ENTITIY) {
-						ServerEntity targetEntity = (ServerEntity) getEntity(pcts.targetID);
-						// TODO reimplement fighting
-						// sourceEntity.attack(targetEntity.getFightingObject());
-					}
-
-				}*/
 			}
 
 			List<Packet> packets = faction.getPackets(PacketList.ENTITIES);

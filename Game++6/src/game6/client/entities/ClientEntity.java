@@ -24,7 +24,8 @@ public interface ClientEntity extends CoreEntity, ClientEntityBehaviour {
 			setMovementPath(((PacketEntityUpdatePath) packet).path);
 		} else if (packet instanceof PacketEntityUpdatePosition) {
 			teleport(((PacketEntityUpdatePosition) packet).position);
-			setRotation(((PacketEntityUpdatePosition) packet).rotation);
+		} else if (packet instanceof PacketEntityUpdateRotation) {
+			setRotation(((PacketEntityUpdateRotation) packet).rotation);
 		} else if (packet instanceof PacketEntityRemove) {
 			PacketEntityRemove packetRemove = (PacketEntityRemove) packet;
 			if (packetRemove.killed) {
@@ -36,6 +37,8 @@ public interface ClientEntity extends CoreEntity, ClientEntityBehaviour {
 				((ResourceContainer) this).setResources(((PacketEntityUpdateInventory) packet).resources);
 				((ResourceContainer) this).setCapacity(((PacketEntityUpdateInventory) packet).resources.getCapacity());
 			}
+		} else if (packet instanceof PacketEntityUpdateHealth) {
+			setHealth(((PacketEntityUpdateHealth) packet).health);
 		}
 	}
 
@@ -50,12 +53,6 @@ public interface ClientEntity extends CoreEntity, ClientEntityBehaviour {
 	@Override
 	default public Pathfinder getPathfinder() {
 		return getWorld().getMap().getPathfinder();
-	}
-
-	@Override
-	default public void update(float timeDelta) {
-		CoreEntity.super.update(timeDelta);
-		updateVisibleRotation(timeDelta);
 	}
 
 	default void updateVisibleRotation(float timeDelta) {
@@ -73,6 +70,10 @@ public interface ClientEntity extends CoreEntity, ClientEntityBehaviour {
 		}
 		float delta = MathHelper.clamp(turngoal, -rotationSpeed * timeDelta, rotationSpeed * timeDelta);
 		setVisibleRotation((float) ((getVisibleRotation() + delta) % (2 * Math.PI)));
+	}
+	
+	default void updateClient(float timeDelta) {
+		updateVisibleRotation(timeDelta);
 	}
 
 }

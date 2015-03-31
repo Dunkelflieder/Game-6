@@ -1,7 +1,6 @@
 package game6.core.entities;
 
 import game6.core.ai.pathfinding.Pathfinder;
-import game6.core.interfaces.ICombat;
 import game6.core.interfaces.IPosition;
 
 import java.util.List;
@@ -36,9 +35,9 @@ public interface Movement extends IPosition {
 	}
 
 	default public void move(MoveTarget target) {
-		if (this instanceof ICombat) {
+		/*if (this instanceof ICombat) {
 			((ICombat) this).setCombatTarget(null);
-		}
+		}*/
 		setMoveTarget(target);
 		updatePath();
 	}
@@ -76,13 +75,10 @@ public interface Movement extends IPosition {
 
 	public void setRotation(float rotation);
 
-	default void updateRotation() {
-		Vector3f goal = getNextGoal();
-		if (goal == null) {
-			return;
-		}
-		Vector3f dir = goal.subtracted(getPosition());
-
+	default void rotationChanged() {
+	}
+	
+	default void setRotation(Vector3f dir) {
 		// If moving on x-axis, set direction manually
 		float rotation;
 		if (Math.abs(dir.getZ()) < 0.001f) {
@@ -99,6 +95,14 @@ public interface Movement extends IPosition {
 			}
 		}
 		setRotation(rotation);
+	}
+
+	default void updateRotation() {
+		Vector3f goal = getNextGoal();
+		if (goal == null) {
+			return;
+		}
+		setRotation(goal.subtracted(getPosition()));
 	}
 
 	default void advancePathNode() {

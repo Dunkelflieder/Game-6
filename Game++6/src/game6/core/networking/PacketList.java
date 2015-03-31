@@ -24,15 +24,20 @@ public class PacketList {
 		Packets.addPacket(WORLD, PacketSpawnEntity.class);
 		Packets.addPacket(WORLD, PacketStartConstruction.class);
 		Packets.addPacket(WORLD, PacketSpawnBuilding.class);
+		Packets.addPacket(WORLD, PacketAttackAnimation.class);
 		// Packets.addPacket(ENTITIES, PacketCombatTargetSet.class);
 		// Packets.addPacket(ENTITIES, PacketAttackEffect.class);
 
 		// the new entity specific packets
 		Packets.addPacket(ENTITIES, PacketEntityUpdatePosition.class);
+		Packets.addPacket(ENTITIES, PacketEntityUpdateRotation.class);
 		Packets.addPacket(ENTITIES, PacketEntityUpdatePath.class);
+		Packets.addPacket(ENTITIES, PacketEntityUpdateInventory.class);
+		Packets.addPacket(ENTITIES, PacketEntityUpdateHealth.class);
 		Packets.addPacket(ENTITIES, PacketEntityMove.class);
 		Packets.addPacket(ENTITIES, PacketEntityRemove.class);
-		Packets.addPacket(ENTITIES, PacketEntityUpdateInventory.class);
+		Packets.addPacket(ENTITIES, PacketEntityAttackEntity.class);
+		Packets.addPacket(ENTITIES, PacketEntityAttackBuilding.class);
 
 		// the new building specific packets
 		Packets.addPacket(BUILDINGS, PacketBuildingUpdateInventory.class);

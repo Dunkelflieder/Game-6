@@ -48,7 +48,7 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEn
 	@Override
 	public void update(float timeDelta) {
 		super.update(timeDelta);
-		ClientEntityInventory.super.update(timeDelta);
+		updateClient(timeDelta);
 
 		renderPropertiesRotorL.setYaw((renderPropertiesRotorL.getYaw() + 8f * timeDelta) % 360);
 		renderPropertiesRotorH.setYaw((renderPropertiesRotorH.getYaw() - 8f * timeDelta) % 360);

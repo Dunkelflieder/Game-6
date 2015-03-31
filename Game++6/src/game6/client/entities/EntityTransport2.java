@@ -43,6 +43,12 @@ public class EntityTransport2 extends CoreEntityTransport2 implements ClientEnti
 	}
 
 	@Override
+	public void update(float timeDelta) {
+		super.update(timeDelta);
+		updateClient(timeDelta);
+	}
+
+	@Override
 	public EntityGuiInventory getGui() {
 		return gui;
 	}

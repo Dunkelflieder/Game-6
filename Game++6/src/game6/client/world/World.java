@@ -62,7 +62,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	public void selectBuilding(ClientBuilding building) {
 		selectionMarker.kill();
 		if (building != null) {
-			selectionMarker = new SelectionMarker(building.getCenter().setY(0.1f), building.getSizeX(), building.getSizeY());
+			selectionMarker = new SelectionMarker(building.getCenterPosition().setY(0.1f), building.getSizeX(), building.getSizeY());
 			effectContainer.addEffect(selectionMarker);
 		}
 

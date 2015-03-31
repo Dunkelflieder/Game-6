@@ -41,6 +41,7 @@ public abstract class CoreWorld<B extends CoreBuilding, E extends CoreEntity> im
 			B building = iter.next();
 			if (building.isRemovalMarked()) {
 				iter.remove();
+				map.removeBuilding(building);
 			} else {
 				building.update(timeDelta);
 			}

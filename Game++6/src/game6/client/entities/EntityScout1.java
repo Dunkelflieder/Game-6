@@ -41,6 +41,12 @@ public class EntityScout1 extends CoreEntityScout1 implements ClientEntity, Clie
 
 		renderer.render(shader, renderProperties.getModelMatrix());
 	}
+	
+	@Override
+	public void update(float timeDelta) {
+		super.update(timeDelta);
+		updateClient(timeDelta);
+	}
 
 	@Override
 	public EntityGuiInventory getGui() {

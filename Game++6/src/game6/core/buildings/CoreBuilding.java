@@ -1,12 +1,13 @@
 package game6.core.buildings;
 
+import game6.core.combat.ICombatTarget;
 import game6.core.interfaces.*;
 import game6.core.util.Position;
 import game6.core.world.IDList.UniqueID;
 import game6.core.world.*;
 import de.nerogar.util.Vector3f;
 
-public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable, IProcessPackets, IFaction {
+public interface CoreBuilding extends UniqueID, IHealth, ICombatTarget, Removable, Updateable, IProcessPackets, IFaction {
 
 	public void init();
 
@@ -18,7 +19,7 @@ public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable, 
 
 	public int getRange();
 
-	public Vector3f getCenter();
+	public Vector3f getCenterPosition();
 
 	/**
 	 * Sets the x-position of this building on the map.
@@ -100,6 +101,11 @@ public interface CoreBuilding extends UniqueID, IHealth, Removable, Updateable, 
 
 	@Override
 	default void update(float timeDelta) {
+	}
+	
+	@Override
+	default Vector3f getPosition() {
+		return getCenterPosition();
 	}
 
 }

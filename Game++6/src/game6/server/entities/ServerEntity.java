@@ -1,6 +1,7 @@
 package game6.server.entities;
 
 import game6.core.ai.pathfinding.Pathfinder;
+import game6.core.combat.ICombat;
 import game6.core.entities.CoreEntity;
 import game6.core.entities.MoveTargetPosition;
 import game6.core.faction.Faction;
@@ -29,6 +30,9 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 	@Override
 	default public void process(PacketUniqueID packet) {
 		if (packet instanceof PacketEntityMove) {
+			if (this instanceof ICombat) {
+				((ICombat) this).setCombatTarget(null);
+			}
 			move(new MoveTargetPosition(this, ((PacketEntityMove) packet).position));
 		}
 	}
@@ -43,18 +47,29 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 		Faction.broadcastAll(new PacketEntityRemove(getID(), true));
 		remove();
 	}
-	
+
 	default public void broadcastPosition() {
 		Faction.broadcastAll(new PacketEntityUpdatePosition(this));
 	}
-	
+
 	default public void broadcastPath() {
 		Faction.broadcastAll(new PacketEntityUpdatePath(this));
 	}
-	
+
 	default public void broadcastAll() {
 		broadcastPath();
 		broadcastPosition();
+	}
+
+	@Override
+	default public void stopMovement() {
+		CoreEntity.super.stopMovement();
+		broadcastAll();
+	}
+
+	@Override
+	default void rotationChanged() {
+		Faction.broadcastAll(new PacketEntityUpdateRotation(this));
 	}
 
 }

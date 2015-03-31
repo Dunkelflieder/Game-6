@@ -41,6 +41,12 @@ public class EntityTransport1 extends CoreEntityTransport1 implements ClientEnti
 
 		renderer.render(shader, renderProperties.getModelMatrix());
 	}
+	
+	@Override
+	public void update(float timeDelta) {
+		super.update(timeDelta);
+		updateClient(timeDelta);
+	}
 
 	@Override
 	public EntityGuiInventory getGui() {

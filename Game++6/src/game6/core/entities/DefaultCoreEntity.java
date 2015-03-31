@@ -70,6 +70,7 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	@Override
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
+		rotationChanged();
 	}
 
 	@Override

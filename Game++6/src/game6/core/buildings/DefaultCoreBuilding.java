@@ -57,7 +57,7 @@ public abstract class DefaultCoreBuilding implements CoreBuilding {
 		return range;
 	}
 
-	public Vector3f getCenter() {
+	public Vector3f getCenterPosition() {
 		return new Vector3f(getPosX() + 0.5f * getSizeX(), 0.5f, getPosY() + 0.5f * getSizeY());
 	}
 

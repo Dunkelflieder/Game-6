@@ -1,6 +1,9 @@
 package game6.core.interfaces;
 
-public interface IHealth {
+import game6.core.world.IDList.UniqueID;
+import game6.core.world.Removable;
+
+public interface IHealth extends UniqueID, Removable {
 
 	public int getHealth();
 
@@ -16,7 +19,7 @@ public interface IHealth {
 			health = 0;
 		}
 		setHealth(health);
-		if (health == 0) {
+		if (isDead()) {
 			kill();
 		}
 	}
@@ -30,7 +33,7 @@ public interface IHealth {
 	}
 
 	default public boolean isDead() {
-		return getHealth() <= 0;
+		return getHealth() <= 0 || isRemovalMarked();
 	}
 
 }

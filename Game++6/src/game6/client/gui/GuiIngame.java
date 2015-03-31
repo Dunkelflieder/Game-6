@@ -117,9 +117,11 @@ public class GuiIngame extends Gui {
 					ClientEntity selectedEntity = controller.getWorld().getSelectedEntity();
 					if (selectedEntity != null) {
 						if (clickedBuilding != null) {
-							controller.setEntityTarget(selectedEntity, clickedBuilding);
+							System.out.println("attacking building");
+							controller.setEntityAttack(selectedEntity, clickedBuilding);
 						} else if (clickedEntity != null) {
-							controller.setEntityTarget(selectedEntity, clickedEntity);
+							System.out.println("attacking entity");
+							controller.setEntityAttack(selectedEntity, clickedEntity);
 						} else {
 							controller.moveEntity(selectedEntity, new Vector3f(mapPosition.getX(), selectedEntity.getPosition().getY(), mapPosition.getY()));
 						}

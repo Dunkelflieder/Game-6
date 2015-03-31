@@ -37,6 +37,12 @@ public class EntityTank1 extends CoreEntityTank1 implements ClientEntity {
 
 		renderer.render(shader, renderProperties.getModelMatrix());
 	}
+	
+	@Override
+	public void update(float timeDelta) {
+		super.update(timeDelta);
+		updateClient(timeDelta);
+	}
 
 	@Override
 	public EntityGuiDefault getGui() {
