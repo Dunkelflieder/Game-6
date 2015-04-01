@@ -1,7 +1,6 @@
 package game6.server.entities;
 
 import game6.core.entities.CoreEntityTransport1;
-import game6.core.util.Resource;
 import game6.server.world.World;
 import de.nerogar.util.Vector3f;
 
@@ -26,7 +25,6 @@ public class EntityTransport1 extends CoreEntityTransport1 implements ServerEnti
 	@Override
 	public void update(float timeDelta) {
 		super.update(timeDelta);
-		addResource(Resource.getRandom(), 1);
 	}
 
 }

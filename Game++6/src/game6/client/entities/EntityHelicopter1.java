@@ -1,13 +1,13 @@
 package game6.client.entities;
 
 import game6.client.ObjectRenderer;
-import game6.client.entities.guis.EntityGuiInventory;
+import game6.client.entities.guis.EntityGuiDefault;
 import game6.client.world.World;
 import game6.core.entities.CoreEntityHelicopter1;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
 
-public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEntity, ClientEntityInventory {
+public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEntity {
 
 	private DefaultClientEntityBehaviour defaultBehaviour = new DefaultClientEntityBehaviour();
 
@@ -18,7 +18,7 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEn
 	private ObjectRenderer rendererMain;
 	private ObjectRenderer rendererRotor;
 
-	private EntityGuiInventory gui;
+	private EntityGuiDefault gui;
 
 	public EntityHelicopter1(long id) {
 		super(id, new Vector3f());
@@ -42,7 +42,7 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEn
 		renderPropertiesRotorL = new RenderProperties3f();
 		renderPropertiesRotorH = new RenderProperties3f();
 
-		gui = new EntityGuiInventory(this);
+		gui = new EntityGuiDefault(this);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEn
 	}
 
 	@Override
-	public EntityGuiInventory getGui() {
+	public EntityGuiDefault getGui() {
 		return gui;
 	}
 

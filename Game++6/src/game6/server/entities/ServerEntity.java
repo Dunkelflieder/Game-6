@@ -31,8 +31,9 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 	default public void process(PacketUniqueID packet) {
 		if (packet instanceof PacketEntityMove) {
 			if (this instanceof ICombat) {
-				((ICombat) this).setCombatTarget(null);
+				((ICombat) this).stopCombat();
 			}
+			stopJob();
 			move(new MoveTargetPosition(this, ((PacketEntityMove) packet).position));
 		} else if (packet instanceof PacketEntityRemove) {
 			kill();

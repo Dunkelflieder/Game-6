@@ -9,7 +9,6 @@ import java.nio.ByteBuffer;
 public class PacketEntityAttackBuilding extends PacketUniqueID {
 
 	public long targetID;
-	public boolean isEntity;
 
 	public PacketEntityAttackBuilding() {
 	}
@@ -24,6 +23,7 @@ public class PacketEntityAttackBuilding extends PacketUniqueID {
 		ByteBuffer buffer = ByteBuffer.wrap(data);
 		id = buffer.getLong();
 		targetID = buffer.getLong();
+		System.out.println("read targetID: " + targetID);
 	}
 
 	@Override

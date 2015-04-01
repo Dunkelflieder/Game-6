@@ -17,6 +17,10 @@ public interface ICombat extends IPosition {
 		setCombatTarget(target);
 	}
 	
+	default public void stopCombat() {
+		setCombatTarget(null);
+	}
+	
 	default public boolean isFighting() {
 		return getCombatTarget() != null;
 	}
@@ -28,8 +32,9 @@ public interface ICombat extends IPosition {
 		getCombatTarget().damage(getDamage());
 		notifyDamage();
 		if (getCombatTarget().isDead()) {
-			setCombatTarget(null);
+			stopCombat();
 			if (this instanceof Movement) {
+				// TODO refactor and dont do this here
 				((Movement) this).stopMovement();
 			}
 		}

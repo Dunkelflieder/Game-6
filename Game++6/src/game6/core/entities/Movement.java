@@ -49,6 +49,10 @@ public interface Movement extends IPosition {
 	default public boolean hasMovementPath() {
 		return !getMovementPath().isEmpty();
 	}
+	
+	default public boolean isMoving() {
+		return hasMovementPath();
+	}
 
 	default public Vector3f getNextGoal() {
 		if (!hasMovementPath()) {

@@ -38,12 +38,14 @@ public class PacketList {
 		Packets.addPacket(ENTITIES, PacketEntityRemove.class);
 		Packets.addPacket(ENTITIES, PacketEntityAttackEntity.class);
 		Packets.addPacket(ENTITIES, PacketEntityAttackBuilding.class);
+		Packets.addPacket(ENTITIES, PacketEntityDeliverJob.class);
 
 		// the new building specific packets
 		Packets.addPacket(BUILDINGS, PacketBuildingUpdateInventory.class);
 		Packets.addPacket(BUILDINGS, PacketBuildingFinishConstruction.class);
 		Packets.addPacket(BUILDINGS, PacketBuildingUpdate.class);
 		Packets.addPacket(BUILDINGS, PacketBuildingRemove.class);
+		Packets.addPacket(BUILDINGS, PacketBuildingUpdateHealth.class);
 	}
 
 }

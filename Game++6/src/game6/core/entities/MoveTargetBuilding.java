@@ -25,6 +25,7 @@ public class MoveTargetBuilding implements MoveTarget {
 				building.getPosY() + building.getSizeY() < mover.getPosition().getY() - MAX_INTERACTION_DISTANCE) {
 			return false;
 		}
+		System.out.println("reached!");
 		return true;
 	}
 

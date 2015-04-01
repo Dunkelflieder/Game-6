@@ -2,6 +2,7 @@ package game6.core.entities;
 
 import game6.core.faction.Faction;
 import game6.core.interfaces.BoundingAABB;
+import game6.server.entities.jobs.Job;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	private Faction faction;
 	private int health;
 	private int maxHealth;
+	private Job job;
 
 	public DefaultCoreEntity(long id, Vector3f position, BoundingAABB bounding, float speed, int maxHealth) {
 		this.id = id;
@@ -111,6 +113,16 @@ public abstract class DefaultCoreEntity implements CoreEntity {
 	@Override
 	public int getMaxHealth() {
 		return maxHealth;
+	}
+	
+	@Override
+	public Job getJob() {
+		return job;
+	}
+
+	@Override
+	public void setJob(Job job) {
+		this.job = job;
 	}
 
 }

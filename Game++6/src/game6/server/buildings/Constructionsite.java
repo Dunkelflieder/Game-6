@@ -4,7 +4,6 @@ import game6.core.buildings.CoreConstructionsite;
 import game6.core.faction.Faction;
 import game6.core.interfaces.ResourceContainer;
 import game6.core.networking.packets.buildings.PacketBuildingFinishConstruction;
-import game6.core.util.Resource;
 import game6.server.world.World;
 
 /**
@@ -33,10 +32,10 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 		}
 
 		// TODO for debugging. remove later
-		if (Math.random() < 0.2f) {
+		/*if (Math.random() < 0.2f) {
 			removeResource(Resource.WOOD, 1);
 			removeResource(Resource.METAL, 1);
-		}
+		}*/
 	}
 
 	@Override

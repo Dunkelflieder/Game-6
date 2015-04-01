@@ -4,11 +4,10 @@ import game6.core.combat.MoveTargetCombat;
 import game6.core.entities.CoreEntityHelicopter1;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketAttackAnimation;
-import game6.core.util.Resource;
 import game6.server.world.World;
 import de.nerogar.util.Vector3f;
 
-public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ServerEntity, ServerEntityInventory, ServerEntityCombat {
+public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ServerEntity, ServerEntityCombat {
 
 	private int shootCooldown = 0;
 	private int maxShootCooldown = 2;
@@ -61,8 +60,6 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ServerEn
 			}
 
 		}
-
-		addResource(Resource.getRandom(), 1);
 
 	}
 

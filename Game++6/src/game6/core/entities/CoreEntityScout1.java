@@ -11,7 +11,7 @@ public abstract class CoreEntityScout1 extends InventoryCoreEntity implements Mo
 
 	@Override
 	public String getName() {
-		return "HMMVW Scout";
+		return "HMMWV Scout";
 	}
 
 }

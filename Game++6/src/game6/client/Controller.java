@@ -144,6 +144,13 @@ public class Controller {
 		}
 	}
 
+	// TODO debug method
+	public void setEntityDeliverJob(ClientEntity sourceEntity, ClientBuilding target) {
+		if (isConnected()) {
+			connection.send(new PacketEntityDeliverJob(sourceEntity, target));
+		}
+	}
+
 	public void update(float timeDelta) {
 
 		if (world != null) {
@@ -286,7 +293,7 @@ public class Controller {
 	public void removeBuilding(ClientBuilding selectedBuilding) {
 		connection.send(new PacketBuildingRemove(selectedBuilding.getID(), true));
 	}
-	
+
 	public void removeEntity(ClientEntity selectedEntity) {
 		connection.send(new PacketEntityRemove(selectedEntity.getID(), true));
 	}

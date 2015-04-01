@@ -9,6 +9,8 @@ import game6.client.gui.listener.MouseAdapter;
 import game6.client.world.World;
 import game6.core.buildings.BuildingType;
 import game6.core.entities.EntityType;
+import game6.core.faction.Faction;
+import game6.core.interfaces.ResourceContainer;
 import game6.core.world.IntersectionHelper;
 import game6.core.world.RayIntersection;
 
@@ -117,11 +119,11 @@ public class GuiIngame extends Gui {
 
 					ClientEntity selectedEntity = controller.getWorld().getSelectedEntity();
 					if (selectedEntity != null) {
-						if (clickedBuilding != null) {
-							System.out.println("attacking building");
+						if (clickedBuilding != null && clickedBuilding.getFaction() != Faction.own) {
 							controller.setEntityAttack(selectedEntity, clickedBuilding);
-						} else if (clickedEntity != null) {
-							System.out.println("attacking entity");
+						} else if (clickedBuilding != null && clickedBuilding instanceof ResourceContainer) {
+							controller.setEntityDeliverJob(selectedEntity, clickedBuilding);
+						} else if (clickedEntity != null && clickedEntity.getFaction() != Faction.own) {
 							controller.setEntityAttack(selectedEntity, clickedEntity);
 						} else {
 							controller.moveEntity(selectedEntity, new Vector3f(mapPosition.getX(), selectedEntity.getPosition().getY(), mapPosition.getY()));

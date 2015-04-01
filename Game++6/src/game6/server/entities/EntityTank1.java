@@ -27,7 +27,7 @@ public class EntityTank1 extends CoreEntityTank1 implements ServerEntity, Server
 	public void setWorld(World world) {
 		defaultBehaviour.setWorld(world);
 	}
-
+	
 	@Override
 	public void update(float timeDelta) {
 		super.update(timeDelta);
