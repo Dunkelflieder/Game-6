@@ -61,7 +61,6 @@ public class BuildingEnergy2 extends CoreBuildingEnergy2 implements ServerBuildi
 
 			int left = shockPower;
 			for (Path path : candidates) {
-				System.out.println("Candidate: " + path.getGoal().getName());
 				int returned = path.getGoal().addEnergy(left);
 				if (returned < left) {
 					// visible lightnings

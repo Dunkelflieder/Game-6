@@ -41,7 +41,7 @@ public class GuiIngame extends Gui {
 		buttonBuilding = new GButton(Game.langFile.getString("gui.ingame.button.spawnBuildingDebug"));
 		buttonBuilding.addClickedListener(source -> {
 			for (int i = 0; i < 100; i++) {
-				controller.placeBuilding(BuildingType.getRandom(), (int) (Math.random() * (controller.getWorld().getMap().getSizeX() - 2)), (int) (Math.random() * (controller.getWorld().getMap().getSizeY() - 2)));
+				controller.placeBuilding(BuildingType.getRandom(), (int) (Math.random() * (controller.getWorld().getMap().getSizeX() - 4)), (int) (Math.random() * (controller.getWorld().getMap().getSizeY() - 4)));
 			}
 		});
 

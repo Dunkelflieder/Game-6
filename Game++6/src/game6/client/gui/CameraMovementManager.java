@@ -32,6 +32,9 @@ public class CameraMovementManager implements MouseListener {
 
 	public CameraMovementManager(Camera camera) {
 		this.camera = camera;
+		camera.setYaw((float) (0.75 * Math.PI));
+		camera.setX(-4);
+		camera.setZ(-4);
 	}
 
 	public void setBounds(int minX, int minZ, int maxX, int maxZ) {

@@ -3,25 +3,25 @@ package game6.core.networking.packets;
 import game6.core.buildings.BuildingType;
 
 import java.nio.ByteBuffer;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import de.nerogar.network.packets.Packet;
 
 public class PacketEnabledBuildingsList extends Packet {
 
-	public HashSet<BuildingType> buildings;
+	public LinkedHashSet<BuildingType> buildings;
 
 	public PacketEnabledBuildingsList() {
 	}
 
-	public PacketEnabledBuildingsList(HashSet<BuildingType> buildings) {
+	public PacketEnabledBuildingsList(LinkedHashSet<BuildingType> buildings) {
 		this.buildings = buildings;
 	}
 
 	@Override
 	public void fromByteArray(byte[] data) {
 		ByteBuffer buffer = ByteBuffer.wrap(data);
-		buildings = new HashSet<BuildingType>();
+		buildings = new LinkedHashSet<BuildingType>();
 		int length = buffer.getInt();
 		while (length > 0) {
 			buildings.add(BuildingType.byTypeID(buffer.getInt()));

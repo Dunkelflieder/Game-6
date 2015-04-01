@@ -15,6 +15,7 @@ public enum BuildingType {
 	ENERGY1(6, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingEnergy1.class, game6.server.buildings.BuildingEnergy1.class),
 	ENERGY2(7, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingEnergy2.class, game6.server.buildings.BuildingEnergy2.class),
 	LIVING1(8, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingLiving1.class, game6.server.buildings.BuildingLiving1.class),
+	FARM1(9, new DefaultResourceContainer(10, 10), game6.client.buildings.BuildingFarm1.class, game6.server.buildings.BuildingFarm1.class),
 
 	ROCK(100, new DefaultResourceContainer(0, 0), game6.client.buildings.BuildingRock.class, game6.server.buildings.BuildingRock.class),
 	WELL(101, new DefaultResourceContainer(0, 0), game6.client.buildings.BuildingWell.class, game6.server.buildings.BuildingWell.class);

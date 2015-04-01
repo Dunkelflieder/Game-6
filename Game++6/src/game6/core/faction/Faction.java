@@ -24,7 +24,7 @@ public enum Faction {
 	// TODO change to private (later)
 	public List<CoreBuilding> ownBuildings;
 	public Color color;
-	private HashSet<BuildingType> buildableBuildings;
+	private LinkedHashSet<BuildingType> buildableBuildings;
 
 	private boolean updateEnabledBuildings;
 
@@ -33,7 +33,7 @@ public enum Faction {
 		this.id = id;
 		this.players = new ArrayList<>();
 		this.color = color;
-		this.buildableBuildings = new HashSet<>();
+		this.buildableBuildings = new LinkedHashSet<>();
 		enableDefaultBuildings();
 	}
 
@@ -46,7 +46,8 @@ public enum Faction {
 		enableBuilding(BuildingType.TOWER);
 		enableBuilding(BuildingType.ENERGY1);
 		enableBuilding(BuildingType.ENERGY2);
-		
+		enableBuilding(BuildingType.FARM1);
+
 		enableBuilding(BuildingType.WELL);
 	}
 
@@ -140,7 +141,7 @@ public enum Faction {
 		return buildableBuildings;
 	}
 
-	public void setBuildableBuildings(HashSet<BuildingType> buildings) {
+	public void setBuildableBuildings(LinkedHashSet<BuildingType> buildings) {
 		this.buildableBuildings = buildings;
 	}
 

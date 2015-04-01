@@ -159,7 +159,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 		GL11.glEnd();
 
 		worldShader.activate();
-		
+
 		// set texture positions
 		worldShader.setUniform1i("colorTex", 0);
 		worldShader.setUniform1i("ambientTex", 1);
@@ -222,6 +222,12 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	public void addEntity(ClientEntity entity) {
 		entity.setWorld(this);
 		super.addEntity(entity);
+	}
+
+	@Override
+	public void removeBuilding(ClientBuilding building) {
+		super.removeBuilding(building);
+		mesh.reload(building.getPosX(), building.getPosY(), building.getSizeX(), building.getPosY());
 	}
 
 }

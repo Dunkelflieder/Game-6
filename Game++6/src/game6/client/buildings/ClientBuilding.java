@@ -6,7 +6,6 @@ import game6.core.networking.packets.PacketUniqueID;
 import game6.core.networking.packets.buildings.PacketBuildingRemove;
 import game6.core.networking.packets.buildings.PacketBuildingUpdate;
 import game6.core.world.Map;
-import de.nerogar.util.Vector3f;
 
 public interface ClientBuilding extends CoreBuilding, ClientBuildingBehaviour {
 
@@ -16,7 +15,7 @@ public interface ClientBuilding extends CoreBuilding, ClientBuildingBehaviour {
 		} else if (packet instanceof PacketBuildingRemove) {
 			PacketBuildingRemove packetRemove = (PacketBuildingRemove) packet;
 			if (packetRemove.killed) {
-				getWorld().getEffectContainer().addEffect(new Explosion(new Vector3f(getPosX(), 0, getPosY())));
+				getWorld().getEffectContainer().addEffect(new Explosion(getCenterPosition()));
 			}
 			kill();
 		}
@@ -24,8 +23,8 @@ public interface ClientBuilding extends CoreBuilding, ClientBuildingBehaviour {
 
 	@Override
 	default public void kill() {
-		if (getWorld().getSelectedEntity() != null && getID() == getWorld().getSelectedEntity().getID()) {
-			getWorld().selectEntity(null);
+		if (getWorld().getSelectedBuilding() != null && getID() == getWorld().getSelectedBuilding().getID()) {
+			getWorld().selectBuilding(null);
 		}
 		remove();
 	}
@@ -34,5 +33,5 @@ public interface ClientBuilding extends CoreBuilding, ClientBuildingBehaviour {
 	default public Map<? extends CoreBuilding> getMap() {
 		return getWorld().getMap();
 	}
-	
+
 }
