@@ -29,6 +29,7 @@ public class GuiIngame extends Gui {
 	private GButton buttonEntity;
 
 	private GPanelBuildingSelection selectionPanel;
+	private CameraMovementManager camManager;
 
 	private GImage minimap;
 
@@ -55,7 +56,7 @@ public class GuiIngame extends Gui {
 			});
 
 		// Add manager for camera movement
-		CameraMovementManager camManager = new CameraMovementManager(controller.getCamera());
+		camManager = new CameraMovementManager(controller.getCamera());
 		camManager.addCameraMovedListener(() -> updateCenterOfRendering());
 		panel.addMouseListener(camManager);
 
@@ -285,6 +286,9 @@ public class GuiIngame extends Gui {
 
 	public void reset() {
 		selectionPanel.reset();
+		if (controller.getWorld().isLoaded()) {
+			camManager.setBounds(-30, -30, controller.getWorld().getMap().getSizeX() + 30, controller.getWorld().getMap().getSizeY() + 30);
+		}
 	}
 
 }

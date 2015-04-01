@@ -3,6 +3,7 @@ package game6.client.world;
 import game6.client.buildings.ClientBuilding;
 import game6.client.effects.*;
 import game6.client.entities.ClientEntity;
+import game6.client.gui.GuiIngame;
 import game6.core.buildings.CoreConstructionsite;
 import game6.core.world.CoreWorld;
 import game6.core.world.Map;
@@ -10,8 +11,7 @@ import game6.core.world.Map;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import de.nerogar.render.RenderProperties3f;
-import de.nerogar.render.Shader;
+import de.nerogar.render.*;
 import de.nerogar.util.Color;
 
 public class World extends CoreWorld<ClientBuilding, ClientEntity> {
@@ -34,6 +34,9 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 
 	private Minimap minimap;
 
+	// TODO testing
+	private Texture2D skyTex;
+
 	public World(EffectContainer effectContainer) {
 		super(null);
 		this.effectContainer = effectContainer;
@@ -41,6 +44,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 		renderProperties = new RenderProperties3f();
 		worldShader = new Shader("shaders/world/world.vert", "shaders/world/world.frag");
 		minimap = new Minimap();
+		skyTex = Texture2DLoader.loadTexture("res/sky.png");
 	}
 
 	public EffectContainer getEffectContainer() {
@@ -131,12 +135,31 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 			mesh = null;
 		} else {
 			mesh = new MapMesh(map);
+			GuiIngame.instance.reset();
 		}
 	}
 
 	public void render(Shader shader) {
-		worldShader.activate();
 
+		if (!isLoaded()) {
+			return;
+		}
+
+		skyTex.bind();
+		GL11.glColor4f(1f, 1f, 1f, 1f);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0, 0);
+		GL11.glVertex3f(-300, -0.1f, -300);
+		GL11.glTexCoord2f(1, 0);
+		GL11.glVertex3f(getMap().getSizeX() + 300, -0.1f, -300);
+		GL11.glTexCoord2f(1, 1);
+		GL11.glVertex3f(getMap().getSizeX() + 300, -0.1f, getMap().getSizeY() + 300);
+		GL11.glTexCoord2f(0, 1);
+		GL11.glVertex3f(-300, -0.1f, getMap().getSizeY() + 300);
+		GL11.glEnd();
+
+		worldShader.activate();
+		
 		// set texture positions
 		worldShader.setUniform1i("colorTex", 0);
 		worldShader.setUniform1i("ambientTex", 1);
@@ -148,46 +171,44 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 			worldShader.reCompile();
 		}
 
-		if (isLoaded()) {
-			// render terrain
+		// render terrain
 
-			worldShader.setUniform1bool("renderFactionObject", false);
-			worldShader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
-			mesh.render(renderCenterX, renderCenterY);
+		worldShader.setUniform1bool("renderFactionObject", false);
+		worldShader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
+		mesh.render(renderCenterX, renderCenterY);
 
-			worldShader.setUniform1bool("renderFactionObject", true);
-			if (preview != null) {
-				if (getMap().canAddBuilding(preview.getPosX(), preview.getPosY(), preview)) {
-					worldShader.setUniform4f("factionColor", 0.0f, 1.0f, 0.0f, 1.0f);
-					GL11.glColor4f(0, 1, 0, 1);
-				} else {
-					worldShader.setUniform4f("factionColor", 1.0f, 0.0f, 0.0f, 1.0f);
-					GL11.glColor4f(1, 0, 0, 1);
-				}
-				preview.render(worldShader);
-				GL11.glColor4f(1, 1, 1, 1);
+		worldShader.setUniform1bool("renderFactionObject", true);
+		if (preview != null) {
+			if (getMap().canAddBuilding(preview.getPosX(), preview.getPosY(), preview)) {
+				worldShader.setUniform4f("factionColor", 0.0f, 1.0f, 0.0f, 1.0f);
+				GL11.glColor4f(0, 1, 0, 1);
+			} else {
+				worldShader.setUniform4f("factionColor", 1.0f, 0.0f, 0.0f, 1.0f);
+				GL11.glColor4f(1, 0, 0, 1);
 			}
+			preview.render(worldShader);
+			GL11.glColor4f(1, 1, 1, 1);
+		}
 
-			// render buildings
+		// render buildings
 
-			// TODO highlight selectedBuilding somehow
-			Color factionColor = new Color(0);
-			for (ClientBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {
+		// TODO highlight selectedBuilding somehow
+		Color factionColor = new Color(0);
+		for (ClientBuilding building : getMap().getBuildingsWithin(renderCenterX, renderCenterY, 160)) {
 
-				if (building.getFaction() != null) {
-					factionColor = building.getFaction().color;
-				}
-				worldShader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
-				building.render(worldShader);
+			if (building.getFaction() != null) {
+				factionColor = building.getFaction().color;
 			}
+			worldShader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
+			building.render(worldShader);
+		}
 
-			for (ClientEntity entity : getEntities()) {
-				if (entity.getFaction() != null) {
-					factionColor = entity.getFaction().color;
-				}
-				worldShader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
-				entity.render(worldShader);
+		for (ClientEntity entity : getEntities()) {
+			if (entity.getFaction() != null) {
+				factionColor = entity.getFaction().color;
 			}
+			worldShader.setUniform4f("factionColor", factionColor.getR(), factionColor.getG(), factionColor.getB(), factionColor.getA());
+			entity.render(worldShader);
 		}
 
 		worldShader.deactivate();

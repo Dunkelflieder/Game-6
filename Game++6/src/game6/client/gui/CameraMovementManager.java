@@ -20,6 +20,8 @@ public class CameraMovementManager implements MouseListener {
 	// 0 = not grabbed, 1 = grabbed for movement, 2 = grabbed for rotation
 	private int grabbedType = 0;
 
+	private int minX, minZ, maxX, maxZ;
+
 	public interface CameraMovedListener {
 		public void cameraMoved();
 	}
@@ -32,6 +34,13 @@ public class CameraMovementManager implements MouseListener {
 		this.camera = camera;
 	}
 
+	public void setBounds(int minX, int minZ, int maxX, int maxZ) {
+		this.minX = minX;
+		this.minZ = minZ;
+		this.maxX = maxX;
+		this.maxZ = maxZ;
+	}
+	
 	@Override
 	public void mouseEntered(GComponent source) {
 	}
@@ -91,6 +100,11 @@ public class CameraMovementManager implements MouseListener {
 			// Magic/Trigonometry. Do the math again if you don't trust this code.
 			camera.setX(camera.getX() - (float) (slow * dx * Math.cos(yaw) + slow * dy * Math.sin(yaw)));
 			camera.setZ(camera.getZ() - (float) (slow * dx * Math.sin(yaw) - slow * dy * Math.cos(yaw)));
+
+			if (camera.getX() < minX) camera.setX(minX);
+			if (camera.getZ() < minZ) camera.setZ(minZ);
+			if (camera.getX() > maxX) camera.setX(maxX);
+			if (camera.getZ() > maxZ) camera.setZ(maxZ);
 
 			notifyCameraMovedListener();
 			return true;

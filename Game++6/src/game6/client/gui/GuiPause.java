@@ -47,7 +47,6 @@ public class GuiPause extends Gui {
 
 		// disconnect and return to title screen
 		exit.addClickedListener(source -> {
-			GuiIngame.instance.reset();
 			controller.disconnect();
 			Guis.select(Guis.TITLESCREEN);
 		});
