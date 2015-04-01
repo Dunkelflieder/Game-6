@@ -1,6 +1,8 @@
 package game6.client;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -12,7 +14,7 @@ public class LanguageFile {
 	}
 
 	public void load(String filename) {
-		try (Scanner scanner = new Scanner(new FileInputStream(filename))) {
+		try (Scanner scanner = new Scanner(new FileInputStream(filename), "UTF-8")) {
 
 			while (scanner.hasNext()) {
 				String line = scanner.nextLine().trim();
