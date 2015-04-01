@@ -44,7 +44,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 		renderProperties = new RenderProperties3f();
 		worldShader = new Shader("shaders/world/world.vert", "shaders/world/world.frag");
 		minimap = new Minimap();
-		skyTex = Texture2DLoader.loadTexture("res/sky.png");
+		skyTex = Texture2DLoader.loadTexture("res/border.png");
 	}
 
 	public EffectContainer getEffectContainer() {
