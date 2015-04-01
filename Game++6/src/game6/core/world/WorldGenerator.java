@@ -1,7 +1,10 @@
 package game6.core.world;
 
+import game6.server.buildings.BuildingRock;
 import game6.server.buildings.ServerBuilding;
 import game6.server.world.World;
+
+import java.util.Random;
 
 public class WorldGenerator {
 
@@ -23,7 +26,15 @@ public class WorldGenerator {
 			}
 		}
 
-		return new World(new Map<ServerBuilding>(tiles));
+		World world = new World(new Map<ServerBuilding>(tiles));
+
+		Random random = new Random();
+
+		for (int i = 0; i < 0.001f * world.getMap().getSizeX() * world.getMap().getSizeY(); i++) {
+			world.addBuilding(random.nextInt(world.getMap().getSizeX()), random.nextInt(world.getMap().getSizeY()), new BuildingRock());
+		}
+
+		return world;
 
 	}
 

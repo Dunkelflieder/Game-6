@@ -13,6 +13,7 @@ import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
 import game6.core.networking.PacketList;
 import game6.core.networking.packets.*;
+import game6.core.networking.packets.buildings.PacketBuildingRemove;
 import game6.core.networking.packets.entities.*;
 
 import java.io.IOException;
@@ -280,5 +281,13 @@ public class Controller {
 
 		}
 
+	}
+
+	public void removeBuilding(ClientBuilding selectedBuilding) {
+		connection.send(new PacketBuildingRemove(selectedBuilding.getID(), true));
+	}
+	
+	public void removeEntity(ClientEntity selectedEntity) {
+		connection.send(new PacketEntityRemove(selectedEntity.getID(), true));
 	}
 }

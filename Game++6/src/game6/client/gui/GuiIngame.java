@@ -164,6 +164,14 @@ public class GuiIngame extends Gui {
 			public boolean keyPressed(GComponent source, int keyCode, char key) {
 				if (keyCode == Keyboard.KEY_ESCAPE) {
 					Guis.select(Guis.PAUSE);
+				} else if (keyCode == Keyboard.KEY_DELETE) {
+					if (controller.getWorld().getSelectedBuilding() != null) {
+						// TODO maybe don't do the network stuff here?
+						controller.removeBuilding(controller.getWorld().getSelectedBuilding());
+					} else if (controller.getWorld().getSelectedEntity() != null) {
+						// TODO maybe don't do the network stuff here?
+						controller.removeEntity(controller.getWorld().getSelectedEntity());
+					}
 				}
 				return false;
 			}

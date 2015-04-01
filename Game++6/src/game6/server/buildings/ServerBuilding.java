@@ -10,6 +10,9 @@ public interface ServerBuilding extends CoreBuilding, ServerBuildingBehaviour {
 
 	@Override
 	default public void process(PacketUniqueID packet) {
+		if (packet instanceof PacketBuildingRemove) {
+			kill();
+		}
 	}
 
 	@Override

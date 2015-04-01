@@ -34,6 +34,8 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 				((ICombat) this).setCombatTarget(null);
 			}
 			move(new MoveTargetPosition(this, ((PacketEntityMove) packet).position));
+		} else if (packet instanceof PacketEntityRemove) {
+			kill();
 		}
 	}
 
