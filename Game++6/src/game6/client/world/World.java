@@ -227,7 +227,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	@Override
 	public void removeBuilding(ClientBuilding building) {
 		super.removeBuilding(building);
-		mesh.reload(building.getPosX(), building.getPosY(), building.getSizeX(), building.getPosY());
+		mesh.reload(building.getPosX(), building.getPosY(), building.getSizeX(), building.getSizeY());
 	}
 
 }

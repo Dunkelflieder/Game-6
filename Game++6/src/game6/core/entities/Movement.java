@@ -26,7 +26,11 @@ public interface Movement extends IPosition {
 			stopMovement();
 			return;
 		}
-		List<Vector3f> path = getPathTo(getMoveTarget().getMovePosition());
+		List<Vector3f> path = null;
+		Vector3f movePosition = getMoveTarget().getMovePosition();
+		if (movePosition != null) {
+			path = getPathTo(movePosition);
+		}
 		if (path == null) {
 			stopMovement();
 		} else {
@@ -49,7 +53,7 @@ public interface Movement extends IPosition {
 	default public boolean hasMovementPath() {
 		return !getMovementPath().isEmpty();
 	}
-	
+
 	default public boolean isMoving() {
 		return hasMovementPath();
 	}
@@ -81,7 +85,7 @@ public interface Movement extends IPosition {
 
 	default void rotationChanged() {
 	}
-	
+
 	default void setRotation(Vector3f dir) {
 		// If moving on x-axis, set direction manually
 		float rotation;
