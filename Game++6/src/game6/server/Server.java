@@ -2,6 +2,7 @@ package game6.server;
 
 import game6.core.faction.Faction;
 import game6.core.faction.Player;
+import game6.core.networking.PacketList;
 import game6.core.world.WorldGenerator;
 import game6.server.world.World;
 
@@ -20,6 +21,7 @@ public class Server {
 	public Server(int port) {
 
 		if (initServer(port)) {
+			System.out.println("Started server at port " + port);
 			start();
 		}
 
@@ -42,6 +44,7 @@ public class Server {
 
 	private void start() {
 
+		PacketList.init();
 		world = WorldGenerator.getWorld(0, 100, 100);
 
 		timer.start();
