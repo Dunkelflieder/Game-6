@@ -310,7 +310,8 @@ public class Pathfinder {
 	}
 
 	private boolean isFree(int x, int y) {
-		return getNodeAt(x, y).isWalkable();
+		Node node = getNodeAt(x, y);
+		return node != null && node.isWalkable();
 	}
 
 }

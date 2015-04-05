@@ -13,8 +13,12 @@ public class PacketList {
 
 	public static final int ENTITIES = 1000;
 	public static final int BUILDINGS = 1100;
+	
+	private static boolean init = false; 
 
 	public static void init() {
+		if (init) return;
+		init = true;
 		Packets.addPacket(INIT, PacketPlayerInfo.class);
 		Packets.addPacket(INIT, PacketMap.class);
 
