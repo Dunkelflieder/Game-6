@@ -141,9 +141,11 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 
 	public void render(Shader shader) {
 
-		if (!isLoaded()) {
-			return;
-		}
+		if (!isLoaded()) { return; }
+
+		worldShader.activate();
+
+		worldShader.setUniform1bool("renderFactionObject", false);
 
 		skyTex.bind();
 		GL11.glColor4f(1f, 1f, 1f, 1f);
@@ -158,8 +160,6 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 		GL11.glVertex3f(-300, -0.1f, getMap().getSizeY() + 300);
 		GL11.glEnd();
 
-		worldShader.activate();
-
 		// set texture positions
 		worldShader.setUniform1i("colorTex", 0);
 		worldShader.setUniform1i("ambientTex", 1);
@@ -173,7 +173,6 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 
 		// render terrain
 
-		worldShader.setUniform1bool("renderFactionObject", false);
 		worldShader.setUniformMat4f("modelMatrix", renderProperties.getModelMatrix().asBuffer());
 		mesh.render(renderCenterX, renderCenterY);
 
@@ -227,7 +226,7 @@ public class World extends CoreWorld<ClientBuilding, ClientEntity> {
 	@Override
 	public void removeBuilding(ClientBuilding building) {
 		super.removeBuilding(building);
-		mesh.reload(building.getPosX(), building.getPosY(), building.getSizeX(), building.getPosY());
+		mesh.reload(building.getPosX(), building.getPosY(), building.getSizeX(), building.getSizeY());
 	}
 
 }
