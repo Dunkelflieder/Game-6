@@ -1,8 +1,6 @@
 package game6.client;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
 import java.util.*;
 import java.util.regex.Matcher;
 
