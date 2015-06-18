@@ -1,18 +1,18 @@
 package game6.server.buildings;
 
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 public class DefaultServerBuildingBehaviour implements ServerBuildingBehaviour {
 
-	private World world;
+	private ServerWorld world;
 
 	@Override
-	public World getWorld() {
+	public ServerWorld getWorld() {
 		return world;
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ServerWorld world) {
 		this.world = world;
 	}
 

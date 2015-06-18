@@ -2,7 +2,7 @@ package game6.server.buildings;
 
 import game6.core.buildings.CoreBuildingFactory;
 import game6.core.networking.packets.buildings.PacketBuildingUpdate;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 public class BuildingFactory extends CoreBuildingFactory implements ServerBuilding {
 
@@ -25,12 +25,12 @@ public class BuildingFactory extends CoreBuildingFactory implements ServerBuildi
 	}
 
 	@Override
-	public World getWorld() {
+	public ServerWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ServerWorld world) {
 		defaultBehaviour.setWorld(world);
 	}
 

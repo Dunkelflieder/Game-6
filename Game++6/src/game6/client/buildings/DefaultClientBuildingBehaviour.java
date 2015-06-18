@@ -1,12 +1,12 @@
 package game6.client.buildings;
 
 import game6.client.buildings.guis.BuildingGui;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import de.nerogar.render.Shader;
 
 public class DefaultClientBuildingBehaviour implements ClientBuildingBehaviour {
 
-	private World world;
+	private ClientWorld world;
 	
 	@Override
 	public void render(Shader shader) {
@@ -20,12 +20,12 @@ public class DefaultClientBuildingBehaviour implements ClientBuildingBehaviour {
 	}
 
 	@Override
-	public World getWorld() {
+	public ClientWorld getWorld() {
 		return world;
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ClientWorld world) {
 		this.world = world;
 	}
 

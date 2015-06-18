@@ -6,7 +6,7 @@ import game6.client.entities.ClientEntity;
 import game6.client.gui.components.*;
 import game6.client.gui.listener.KeyboardAdapter;
 import game6.client.gui.listener.MouseAdapter;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import game6.core.buildings.BuildingType;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
@@ -68,7 +68,7 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseClicked(GComponent source, int button) {
 				// TODO don't hardcode fov
-				World world = controller.getWorld();
+				ClientWorld world = controller.getWorld();
 
 				if (!world.isLoaded()) {
 					return false;
@@ -136,7 +136,7 @@ public class GuiIngame extends Gui {
 			@Override
 			public boolean mouseMoved(GComponent source, int dx, int dy) {
 
-				World world = controller.getWorld();
+				ClientWorld world = controller.getWorld();
 
 				if (!world.isLoaded()) {
 					return false;

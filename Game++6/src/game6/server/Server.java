@@ -4,7 +4,7 @@ import game6.core.faction.Faction;
 import game6.core.faction.Player;
 import game6.core.networking.PacketList;
 import game6.core.world.WorldGenerator;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 import java.net.BindException;
 
@@ -16,7 +16,7 @@ public class Server {
 	private ServerThread serverThread;
 	private TickTimer timer = new TickTimer(10); // Server ticks per second
 
-	private World world;
+	private ServerWorld world;
 
 	public Server(int port) {
 

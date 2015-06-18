@@ -1,7 +1,7 @@
 package game6.client.entities;
 
 import game6.client.entities.guis.EntityGui;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import game6.core.entities.CoreEntity;
 import de.nerogar.render.Shader;
 
@@ -11,9 +11,9 @@ public interface ClientEntityBehaviour {
 
 	public EntityGui<? extends CoreEntity> getGui();
 
-	public World getWorld();
+	public ClientWorld getWorld();
 
-	public void setWorld(World world);
+	public void setWorld(ClientWorld world);
 
 	public float getVisibleRotation();
 

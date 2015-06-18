@@ -4,7 +4,7 @@ import game6.core.combat.MoveTargetCombat;
 import game6.core.entities.CoreEntityTank1;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketAttackAnimation;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 import de.nerogar.util.Vector3f;
 
 public class EntityTank1 extends CoreEntityTank1 implements ServerEntity, ServerEntityCombat {
@@ -19,12 +19,12 @@ public class EntityTank1 extends CoreEntityTank1 implements ServerEntity, Server
 	}
 
 	@Override
-	public World getWorld() {
+	public ServerWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ServerWorld world) {
 		defaultBehaviour.setWorld(world);
 	}
 	

@@ -4,7 +4,7 @@ import game6.core.buildings.CoreConstructionsite;
 import game6.core.faction.Faction;
 import game6.core.interfaces.ResourceContainer;
 import game6.core.networking.packets.buildings.PacketBuildingFinishConstruction;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 /**
  * Don't add this to the building type list. It's a special building representing a construction site.
@@ -39,12 +39,12 @@ public class Constructionsite extends CoreConstructionsite<ServerBuilding> imple
 	}
 
 	@Override
-	public World getWorld() {
+	public ServerWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ServerWorld world) {
 		defaultBehaviour.setWorld(world);
 		getBuilding().setWorld(world);
 	}

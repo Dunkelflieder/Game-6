@@ -2,7 +2,7 @@ package game6.server.buildings;
 
 import game6.core.buildings.CoreBuildingStorage1;
 import game6.core.util.Resource;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuilding, ServerBuildingInventory {
 
@@ -33,12 +33,12 @@ public class BuildingStorage1 extends CoreBuildingStorage1 implements ServerBuil
 	}
 
 	@Override
-	public World getWorld() {
+	public ServerWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ServerWorld world) {
 		defaultBehaviour.setWorld(world);
 	}
 

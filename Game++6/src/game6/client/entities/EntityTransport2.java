@@ -2,7 +2,7 @@ package game6.client.entities;
 
 import game6.client.ObjectRenderer;
 import game6.client.entities.guis.EntityGuiInventory;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import game6.core.entities.CoreEntityTransport2;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
@@ -54,12 +54,12 @@ public class EntityTransport2 extends CoreEntityTransport2 implements ClientEnti
 	}
 
 	@Override
-	public World getWorld() {
+	public ClientWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ClientWorld world) {
 		defaultBehaviour.setWorld(world);
 	}
 

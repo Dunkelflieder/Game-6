@@ -4,7 +4,7 @@ import game6.core.combat.MoveTargetCombat;
 import game6.core.entities.CoreEntityHelicopter1;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketAttackAnimation;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 import de.nerogar.util.Vector3f;
 
 public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ServerEntity, ServerEntityCombat {
@@ -23,12 +23,12 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ServerEn
 	}
 
 	@Override
-	public World getWorld() {
+	public ServerWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ServerWorld world) {
 		defaultBehaviour.setWorld(world);
 	}
 

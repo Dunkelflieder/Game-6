@@ -2,7 +2,7 @@ package game6.client.entities;
 
 import game6.client.ObjectRenderer;
 import game6.client.entities.guis.EntityGuiDefault;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import game6.core.entities.CoreEntityHelicopter1;
 import de.nerogar.render.*;
 import de.nerogar.util.Vector3f;
@@ -75,12 +75,12 @@ public class EntityHelicopter1 extends CoreEntityHelicopter1 implements ClientEn
 	}
 
 	@Override
-	public World getWorld() {
+	public ClientWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ClientWorld world) {
 		defaultBehaviour.setWorld(world);
 	}
 

@@ -5,7 +5,7 @@ import game6.core.buildings.CoreBuildingEnergy2;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketPowerSupply;
 import game6.core.networking.packets.buildings.PacketBuildingUpdate;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +29,12 @@ public class BuildingEnergy2 extends CoreBuildingEnergy2 implements ServerBuildi
 	}
 
 	@Override
-	public World getWorld() {
+	public ServerWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ServerWorld world) {
 		defaultBehaviour.setWorld(world);
 	}
 

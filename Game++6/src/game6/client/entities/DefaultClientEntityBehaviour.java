@@ -1,22 +1,22 @@
 package game6.client.entities;
 
 import game6.client.entities.guis.EntityGuiDefault;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import game6.core.ai.pathfinding.Pathfinder;
 import de.nerogar.render.Shader;
 
 public class DefaultClientEntityBehaviour implements ClientEntityBehaviour {
 
-	private World world;
+	private ClientWorld world;
 	private float visibleRotation;
 
 	@Override
-	public World getWorld() {
+	public ClientWorld getWorld() {
 		return world;
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ClientWorld world) {
 		this.world = world;
 	}
 

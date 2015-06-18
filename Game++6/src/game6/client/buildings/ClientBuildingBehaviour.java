@@ -1,7 +1,7 @@
 package game6.client.buildings;
 
 import game6.client.buildings.guis.BuildingGui;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import de.nerogar.render.Shader;
 
 public interface ClientBuildingBehaviour {
@@ -16,8 +16,8 @@ public interface ClientBuildingBehaviour {
 	 */
 	public BuildingGui<? extends ClientBuilding> getGui();
 
-	public World getWorld();
+	public ClientWorld getWorld();
 	
-	public void setWorld(World world);
+	public void setWorld(ClientWorld world);
 	
 }

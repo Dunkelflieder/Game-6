@@ -7,7 +7,7 @@ import game6.core.entities.MoveTargetPosition;
 import game6.core.faction.Faction;
 import game6.core.networking.packets.PacketUniqueID;
 import game6.core.networking.packets.entities.*;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public interface ServerEntity extends CoreEntity, ServerEntityBehaviour {
 		broadcastPosition();
 	}
 
-	public World getWorld();
+	public ServerWorld getWorld();
 
-	public void setWorld(World world);
+	public void setWorld(ServerWorld world);
 
 	@Override
 	default public void process(PacketUniqueID packet) {

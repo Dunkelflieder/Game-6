@@ -7,7 +7,7 @@ import game6.client.effects.Lightning;
 import game6.client.entities.ClientEntity;
 import game6.client.gui.GuiIngame;
 import game6.client.sound.SoundContext;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import game6.core.buildings.BuildingType;
 import game6.core.entities.EntityType;
 import game6.core.faction.Faction;
@@ -37,21 +37,21 @@ public class Controller {
 	public SoundContext soundMusic;
 	public SoundContext soundEffects;
 
-	private World world;
+	private ClientWorld world;
 	private Camera camera;
 
-	public Controller(World world, Camera camera) {
+	public Controller(ClientWorld world, Camera camera) {
 		this.world = world;
 		this.camera = camera;
 		this.inputHandler = new InputHandler();
 		init();
 	}
 
-	public World getWorld() {
+	public ClientWorld getWorld() {
 		return world;
 	}
 
-	public void setWorld(World world) {
+	public void setWorld(ClientWorld world) {
 		this.world = world;
 	}
 

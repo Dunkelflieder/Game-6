@@ -1,7 +1,7 @@
 package game6.server.entities;
 
 import game6.core.entities.CoreEntityTransport2;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 import de.nerogar.util.Vector3f;
 
 public class EntityTransport2 extends CoreEntityTransport2 implements ServerEntity, ServerEntityInventory {
@@ -13,12 +13,12 @@ public class EntityTransport2 extends CoreEntityTransport2 implements ServerEnti
 	}
 
 	@Override
-	public World getWorld() {
+	public ServerWorld getWorld() {
 		return defaultBehaviour.getWorld();
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public void setWorld(ServerWorld world) {
 		defaultBehaviour.setWorld(world);
 	}
 

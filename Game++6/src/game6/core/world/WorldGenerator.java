@@ -2,13 +2,13 @@ package game6.core.world;
 
 import game6.server.buildings.BuildingRock;
 import game6.server.buildings.ServerBuilding;
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 import java.util.Random;
 
 public class WorldGenerator {
 
-	public static World getWorld(long seed, int sizeX, int sizeY) {
+	public static ServerWorld getWorld(long seed, int sizeX, int sizeY) {
 
 		Tile[][] tiles = new Tile[sizeX][sizeY];
 
@@ -26,7 +26,7 @@ public class WorldGenerator {
 			}
 		}
 
-		World world = new World(new Map<ServerBuilding>(tiles));
+		ServerWorld world = new ServerWorld(new Map<ServerBuilding>(tiles));
 
 		Random random = new Random();
 

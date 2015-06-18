@@ -1,11 +1,11 @@
 package game6.server.buildings;
 
-import game6.server.world.World;
+import game6.server.world.ServerWorld;
 
 public interface ServerBuildingBehaviour {
 
-	public World getWorld();
+	public ServerWorld getWorld();
 	
-	public void setWorld(World world);
+	public void setWorld(ServerWorld world);
 	
 }

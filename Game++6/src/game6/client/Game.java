@@ -5,7 +5,7 @@ import game6.client.effects.LightContainer;
 import game6.client.gui.BuildingIconTextures;
 import game6.client.gui.Guis;
 import game6.client.sound.SoundManager;
-import game6.client.world.World;
+import game6.client.world.ClientWorld;
 import game6.core.networking.PacketList;
 
 import org.lwjgl.input.Keyboard;
@@ -31,7 +31,7 @@ public class Game extends BaseGame {
 	private LightContainer lightContainer;
 	private Compositer compositer;
 	
-	private World world;
+	private ClientWorld world;
 	
 	@Override
 	public void startup() {
@@ -48,7 +48,7 @@ public class Game extends BaseGame {
 
 		BuildingIconTextures.init(display);
 
-		world = new World(effectContainer);
+		world = new ClientWorld(effectContainer);
 		
 		controller = new Controller(world, camera);
 
